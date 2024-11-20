@@ -2,7 +2,12 @@ import type { Config } from "jest";
 
 const config: Config = {
   preset: "ts-jest/presets/default-esm",
-  testEnvironment: "node",
+  testEnvironment: "jsdom",
+  globals: {
+    "ts-jest": {
+      isolatedModules: true,
+    },
+  },
   transform: {
     "^.+\\.tsx?$": [
       "ts-jest",
