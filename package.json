@@ -10,7 +10,6 @@
     "lint-fix": "eslint . --fix",
     "format": "prettier --write ./src",
     "preview": "vite preview",
-    "prepare": "husky install",
     "lint:style": "stylelint \"src/**/*.{css,scss}\"",
     "lint:style:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
     "storybook": "storybook dev -p 6006",
