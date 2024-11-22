@@ -158,6 +158,10 @@ input:focus {
   outline: none;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   display: flex;
