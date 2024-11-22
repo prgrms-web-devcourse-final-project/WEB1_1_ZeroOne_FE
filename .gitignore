@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 *storybook.log
+
+# Lighthouse CI
+.lighthouseci/
+lhci_reports/
+.lhci/
+.lighthouserc.local.json

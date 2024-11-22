@@ -1,0 +1,138 @@
+name: Unit Test & Lighthouse CI
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Install dependencies
+        run: yarn install
+      - name: Run tests
+        run: yarn test
+
+  lighthouse:
+    needs: test
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'lighthouse'))
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build project
+        run: yarn build
+
+      - name: Create lighthouse config
+        run: |
+          cat > lighthouserc.js << EOF
+          module.exports = {
+            ci: {
+              collect: {
+                startServerCommand: 'yarn dev',
+                url: ['http://localhost:4173'],
+                numberOfRuns: 3,
+                settings: {
+                  preset: 'desktop'
+                }
+              },
+              assert: {
+                assertions: {
+                  'categories:performance': ['warn', {minScore: 0.9}],
+                  'categories:accessibility': ['warn', {minScore: 0.9}],
+                  'categories:best-practices': ['warn', {minScore: 0.9}],
+                  'categories:seo': ['warn', {minScore: 0.9}]
+                }
+              },
+              upload: {
+                target: 'temporary-public-storage'
+              }
+            }
+          };
+          EOF
+
+      - name: Run Lighthouse CI
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: |
+          yarn global add @lhci/cli
+          lhci autorun || echo "Fail to Run Lighthouse CI!"
+
+      - name: Format lighthouse score
+        id: format_lighthouse_score
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync("./lhci_reports/manifest.json"));
+            let comments = "";
+
+            results.forEach((result) => {
+              const { summary, url, jsonPath } = result;
+              const details = JSON.parse(fs.readFileSync(jsonPath));
+              const { audits } = details;
+              const formatResult = (res) => Math.round(res * 100);
+              
+              Object.keys(summary).forEach(
+                (key) => (summary[key] = formatResult(summary[key]))
+              );
+              
+              const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+              
+              const comment = [
+                `⚡ Lighthouse report for ${url}`,
+                `| Category | Score |`,
+                `| --- | --- |`,
+                `| ${score(summary.performance)} Performance | ${summary.performance} |`,
+                `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
+                `| ${score(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
+                `| ${score(summary.seo)} SEO | ${summary.seo} |`
+              ].join("\n");
+              
+              const detail = [
+                `\n### Detailed Metrics`,
+                `| Metric | Value |`,
+                `| --- | --- |`,
+                `| ${score(audits["first-contentful-paint"].score * 100)} First Contentful Paint | ${audits["first-contentful-paint"].displayValue} |`,
+                `| ${score(audits["largest-contentful-paint"].score * 100)} Largest Contentful Paint | ${audits["largest-contentful-paint"].displayValue} |`,
+                `| ${score(audits["total-blocking-time"].score * 100)} Total Blocking Time | ${audits["total-blocking-time"].displayValue} |`,
+                `| ${score(audits["cumulative-layout-shift"].score * 100)} Cumulative Layout Shift | ${audits["cumulative-layout-shift"].displayValue} |`,
+                `| ${score(audits["speed-index"].score * 100)} Speed Index | ${audits["speed-index"].displayValue} |`
+              ].join("\n");
+              
+              comments += comment + "\n" + detail + "\n\n---\n\n";
+            });
+
+            core.setOutput('comments', comments)
+
+      - name: Comment PR
+        if: github.event_name == 'pull_request'
+        uses: unsplash/comment-on-pr@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: ${{ steps.format_lighthouse_score.outputs.comments}}
