@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 import { worker } from '../mocks/browser';
 
-import './globals.scss';
+import './styles/globals.scss';
 import App from '@/app/App';
 
 if (process.env.NODE_ENV === 'development') {
