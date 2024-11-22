@@ -1,3 +1,4 @@
+@use './variables';
 @font-face {
   font-family: Pretendard-Regular, sans-serif;
   font-style: normal;
@@ -164,7 +165,6 @@ input:focus {
 
 html,
 body {
-  display: flex;
   min-width: 325px;
   max-width: 100dvw;
   height: 100svh;
@@ -175,18 +175,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-}
-
 main {
   display: flex;
   flex: 1;
   flex-direction: column;
   max-width: 1920px;
+  padding-top: variables.$header-height;
 }
 
 .grid {
