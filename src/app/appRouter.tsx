@@ -1,9 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import { Layout } from '@/widgets';
+
 const AppRouter = () => {
   return createBrowserRouter([
     {
-      element: <>{/** baselayout */}</>,
+      element: <Layout />,
       children: [
         {
           path: '/',

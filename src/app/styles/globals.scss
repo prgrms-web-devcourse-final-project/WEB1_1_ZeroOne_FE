@@ -1,3 +1,11 @@
+@font-face {
+  font-family: Pretendard-Regular, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+}
+
 html,
 body,
 div,
@@ -127,4 +135,58 @@ q::after {
 table {
   border-spacing: 0;
   border-collapse: collapse;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+html,
+body {
+  display: flex;
+  min-width: 325px;
+  max-width: 100dvw;
+  height: 100svh;
+  margin: 0 auto;
+  overflow-x: hidden;
+  font-family: Pretendard-Regular, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-width: 1920px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
+  gap: 1.5625rem;
 }
