@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: grid;
+  gap: 4rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.one {
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.two {
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr;
+}
