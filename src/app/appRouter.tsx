@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-const appRouter = () => {
+const AppRouter = () => {
   return createBrowserRouter([
     {
       element: <>{/** baselayout */}</>,
@@ -30,4 +30,4 @@ const appRouter = () => {
   ]);
 };
 
-export default appRouter;
+export default AppRouter;
