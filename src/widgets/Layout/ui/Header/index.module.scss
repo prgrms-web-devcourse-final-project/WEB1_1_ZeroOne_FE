@@ -1,0 +1,78 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100dvw;
+  height: 80px;
+  padding: 0 4rem;
+
+  /* Logo **/
+  & .logo {
+    position: relative;
+    margin-right: 9rem;
+    font-size: 0.1rem;
+
+    & > span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: transparent;
+    }
+  }
+
+  /* Nav **/
+  & .gnbWrapper {
+    padding: 0 6rem;
+  }
+
+  & .gnb {
+    display: flex;
+    column-gap: 6rem;
+    align-items: center;
+
+    & .navDot {
+      display: block;
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: $primary-color;
+      border-radius: 50%;
+    }
+
+    /* nav-link **/
+    & a {
+      position: relative;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    & a::after {
+      position: absolute;
+      bottom: -0.25rem;
+      display: block;
+      width: 0;
+      height: 0.125rem;
+      color: $secondary-color;
+      content: '';
+      background-color: $primary-color;
+      border-radius: 0.5rem;
+      transition: 0.3s;
+    }
+
+    & a.active::after {
+      width: 100%;
+    }
+  }
+
+  /* User Menu **/
+
+  & .userMenu {
+    display: flex;
+    flex-shrink: 0;
+    flex-basis: 1;
+    column-gap: 3rem;
+    align-items: center;
+  }
+}
