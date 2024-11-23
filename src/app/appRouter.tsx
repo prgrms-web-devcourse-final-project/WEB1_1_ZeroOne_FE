@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import GatheringListPage from '@/pages';
 import { Layout } from '@/widgets';
 
 const AppRouter = () => {
@@ -21,7 +22,7 @@ const AppRouter = () => {
         },
         {
           path: '/gathering',
-          element: <>{/** gatheringPage */}</>,
+          element: <GatheringListPage />,
         },
         {
           path: '/user',
