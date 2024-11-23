@@ -7,6 +7,22 @@ export interface ColorInfo {
   hex: string;
 }
 
+export interface ColorGroup {
+  group: string;
+  colors: Color[];
+}
+
+export const ColorData: ColorGroup[] = [
+  {
+    group: 'one',
+    colors: ['red', 'yellow', 'blue'],
+  },
+  {
+    group: 'two',
+    colors: ['green', 'purple'],
+  },
+];
+
 export const ColorMap: { [key in Color]: ColorInfo } = {
   red: {
     name: '빨강',

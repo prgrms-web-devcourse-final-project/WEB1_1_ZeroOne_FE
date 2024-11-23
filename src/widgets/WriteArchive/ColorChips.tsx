@@ -1,21 +1,34 @@
 import cn from 'classnames';
+import { useState } from 'react';
 
 import styles from './ColorChips.module.scss';
 
-import { ColorChip, ColorMap } from '@/features';
+import type { Color } from '@/features';
+import { ColorChip, ColorMap, ColorData } from '@/features';
 
 export const ColorChips = () => {
+  const [selectedChip, setSelectedChip] = useState<string | null>(null);
+
+  const handleChipClick = (colorName: string) => {
+    setSelectedChip(prev => (prev === colorName ? null : colorName));
+  };
+
   return (
     <>
-      <div className={cn(styles.container, styles.one)}>
-        <ColorChip colors={ColorMap.red} onClick={() => {}} />
-        <ColorChip colors={ColorMap.yellow} onClick={() => {}} />
-        <ColorChip colors={ColorMap.blue} onClick={() => {}} />
-      </div>
-      <div className={cn(styles.container, styles.two)}>
-        <ColorChip colors={ColorMap.green} onClick={() => {}} />
-        <ColorChip colors={ColorMap.purple} onClick={() => {}} />
-      </div>
+      {ColorData.map(({ group, colors }: { group: string; colors: Color[] }) => (
+        <div className={cn(styles.container, styles[group])} key={group}>
+          {colors.map(colorKey => (
+            <ColorChip
+              colors={ColorMap[colorKey]}
+              isSelected={selectedChip === colorKey}
+              key={colorKey}
+              onClick={() => {
+                handleChipClick(colorKey);
+              }}
+            />
+          ))}
+        </div>
+      ))}
     </>
   );
 };

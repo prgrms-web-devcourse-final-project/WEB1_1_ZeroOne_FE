@@ -5,6 +5,11 @@
   gap: 0.625rem;
   align-items: center;
   padding: 1.1875rem;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(0.9);
+  }
 }
 
 .chip {
@@ -22,6 +27,10 @@
   }
 }
 
+.selected {
+  background-color: rgba(216, 216, 216, 50%);
+}
+
 .description {
   display: flex;
   flex-direction: column;
@@ -29,6 +38,7 @@
   width: 100%;
 
   h3 {
+    padding: 0 0.625rem;
     font-size: 1rem;
     font-style: normal;
     font-weight: 500;
