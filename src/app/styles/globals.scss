@@ -1,3 +1,4 @@
+@use './variables';
 @font-face {
   font-family: Pretendard-Regular, sans-serif;
   font-style: normal;
@@ -165,7 +166,6 @@ input:focus {
 
 html,
 body {
-  display: flex;
   min-width: 325px;
   max-width: 100dvw;
   height: 100svh;
@@ -174,13 +174,6 @@ body {
   font-family: Pretendard-Regular, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-#root {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
 }
 
 main {
