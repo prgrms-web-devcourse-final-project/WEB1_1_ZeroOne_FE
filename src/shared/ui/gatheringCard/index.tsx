@@ -35,12 +35,10 @@ export const GatheringCard = ({
     >
       <li>
         <h2 className={cn(styles.card__title)}>{title}</h2>
-        <h3 className={cn(styles.card__name)}>{name}</h3>
+        <h3 className={styles.card__name}>{name}</h3>
         <article className={styles.card__introduction}>{introduction}</article>
-        <ul className={cn(styles.card__tagCon)}>
-          {tag?.map((e, i) => <JobTag job={e} key={i} />)}
-        </ul>
-        <section className={cn(styles.card__deadlineCon)}>
+        <ul className={styles.card__tagCon}>{tag?.map((e, i) => <JobTag job={e} key={i} />)}</ul>
+        <section className={styles.card__deadlineCon}>
           <div>마감일 {deadline}</div>
           <div>
             <img alt='heart icon' />
