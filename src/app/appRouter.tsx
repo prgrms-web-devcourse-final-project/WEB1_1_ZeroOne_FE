@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import GatheringListPage from '@/pages';
+import { GatheringListPage } from '@/pages';
 // import WriteArchivePage from '@/pages';
 import { Layout } from '@/widgets';
 
