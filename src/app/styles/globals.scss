@@ -1,11 +1,5 @@
 @use './variables';
-@font-face {
-  font-family: Pretendard-Regular, sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-    format('woff');
-}
+@import 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css';
 
 html,
 body,
@@ -166,12 +160,13 @@ input:focus {
 
 html,
 body {
+  display: flex;
+  width: 100vw;
   min-width: 325px;
   max-width: 100dvw;
-  height: 100svh;
   margin: 0 auto;
   overflow-x: hidden;
-  font-family: Pretendard-Regular, sans-serif;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
