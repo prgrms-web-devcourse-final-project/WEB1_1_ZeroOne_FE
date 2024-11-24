@@ -14,7 +14,7 @@ export const Header = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
       {/** Logo */}
       <h1 className={styles.logo}>
         <Link to='/'>
@@ -43,6 +43,6 @@ export const Header = () => {
         <Button>로그인</Button>
         <Button>회원가입</Button>
       </div>
-    </div>
+    </header>
   );
 };
