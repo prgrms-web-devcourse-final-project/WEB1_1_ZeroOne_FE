@@ -1,2 +1,3 @@
 export { Button } from './Button/Button';
-export * from './GatheringCard/index';
+export { GatheringCard } from './GatheringCard/GatheringCard';
+export { JobTag } from './GatheringCard/JobTag';

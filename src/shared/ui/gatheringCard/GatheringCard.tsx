@@ -2,8 +2,7 @@ import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
 import styles from './GatheringCard.module.scss';
-
-import { JobTag } from '@/shared/ui/GatheringCard';
+import { JobTag } from './JobTag';
 
 interface GatheringCardProps {
   title: string;
