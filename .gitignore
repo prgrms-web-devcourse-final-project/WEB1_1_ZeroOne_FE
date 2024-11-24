@@ -30,3 +30,5 @@ dist-ssr
 lhci_reports/
 .lhci/
 .lighthouserc.local.json
+
+tsconfig.tsbuildinfo

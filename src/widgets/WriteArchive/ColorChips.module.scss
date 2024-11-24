@@ -1,0 +1,25 @@
+.container {
+  display: grid;
+  gap: 4rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.one {
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  @media (width <= 768px) {
+    grid-template-columns: 1fr;
+    margin-bottom: 4rem;
+  }
+}
+
+.two {
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr;
+
+  @media (width <= 768px) {
+    grid-template-columns: 1fr;
+  }
+}
