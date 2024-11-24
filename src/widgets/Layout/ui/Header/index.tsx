@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import styles from './index.module.scss';
@@ -25,14 +26,14 @@ export const Header = () => {
       <nav className={styles.gnbWrapper}>
         <ul className={styles.gnb}>
           {NAV_LINKS.map((link, idx) => (
-            <>
-              <li key={link.path}>
+            <React.Fragment key={link.path}>
+              <li>
                 <Link className={pathname === link.path ? styles.active : ''} to={link.path}>
                   {link.title}
                 </Link>
               </li>
               {idx < NAV_LINKS.length - 1 && <li className={styles.navDot} />}
-            </>
+            </React.Fragment>
           ))}
         </ul>
       </nav>
