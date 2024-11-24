@@ -181,6 +181,7 @@ main {
   flex: 1;
   flex-direction: column;
   max-width: 1920px;
+  padding-top: variables.$header-height;
 }
 
 .grid {
