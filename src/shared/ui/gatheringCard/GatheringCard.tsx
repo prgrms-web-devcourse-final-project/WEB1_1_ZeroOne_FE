@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './GatheringCard.module.scss';
 
-import { JobTag } from '@/shared';
+import { JobTag } from '@/shared/ui/GatheringCard';
 
 interface GatheringCardProps {
   title: string;

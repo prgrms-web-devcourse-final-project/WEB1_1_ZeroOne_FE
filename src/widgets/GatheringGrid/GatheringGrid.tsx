@@ -1,6 +1,6 @@
 import styles from './GatheringGrid.module.scss';
 
-import { GatheringCard } from '@/shared';
+import { GatheringCard } from '@/shared/ui';
 export const GatheringGrid = () => {
   return (
     <ul className={styles.list}>

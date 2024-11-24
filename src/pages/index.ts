@@ -1,1 +1,1 @@
-export { GatheringListPage as default } from './gatheringListPage/GatheringListPage';
+export { GatheringListPage as default } from './GatheringListPage/GatheringListPage';
