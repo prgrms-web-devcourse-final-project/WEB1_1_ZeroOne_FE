@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes } from 'react';
 import type React from 'react';
 
-import styles from './index.module.scss';
+import styles from './Button.module.scss';
 
 /*
  ** 필요한 버튼 Prop은 추가적으로 작성
