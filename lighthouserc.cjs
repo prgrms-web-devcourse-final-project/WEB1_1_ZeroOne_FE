@@ -10,6 +10,8 @@ module.exports = {
     },
     upload: {
       target: 'temporary-public-storage',
+      // outputDir을 .lighthouseci로 지정
+      outputDir: '.lighthouseci',
     },
     assert: {
       preset: 'lighthouse:recommended',
