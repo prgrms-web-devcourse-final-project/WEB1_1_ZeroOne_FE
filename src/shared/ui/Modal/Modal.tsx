@@ -2,7 +2,7 @@ import cs from 'classnames';
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import styles from './index.module.scss';
+import styles from './Modal.module.scss';
 
 interface Props {
   children: React.ReactNode;
