@@ -1,9 +1,8 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 3.2em;
-  height: 1.8em;
-  font-size: 17px;
+  width: 3.2rem;
+  height: 1.8rem;
 }
 
 .switch input {
@@ -36,7 +35,7 @@
 
 input:checked + .slider::before {
   background-color: $primary-color;
-  transform: translateX(1.5em);
+  transform: translateX(1.5rem);
 }
 
 input:checked + .slider {

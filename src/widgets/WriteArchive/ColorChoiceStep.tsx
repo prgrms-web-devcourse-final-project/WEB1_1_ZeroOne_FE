@@ -1,5 +1,6 @@
 import { ColorChips } from './ColorChips';
 
+import type { Color } from '@/features';
 import { Button } from '@/shared/ui';
 
 export const ColorChoiceStep = ({
@@ -8,8 +9,8 @@ export const ColorChoiceStep = ({
   onSelectColor,
 }: {
   onClick: () => void;
-  selectedColor: string | null;
-  onSelectColor: (color: string | null) => void;
+  selectedColor: Color | null;
+  onSelectColor: (color: Color | null) => void;
 }) => {
   return (
     <>

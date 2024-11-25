@@ -1,6 +1,7 @@
 import { useReducer, useState } from 'react';
 
-import { WriteArchiveContainer, ColorChoiceStep } from '@/widgets';
+import type { Color } from '@/features';
+import { WriteArchiveContainer, ColorChoiceStep, WriteStep } from '@/widgets';
 
 type StepState = 'selectColor' | 'writeForm';
 
@@ -19,7 +20,7 @@ const stepReducer = (state: StepState, action: StepAction): StepState => {
 
 export const WriteArchivePage = () => {
   const [currentStep, dispatch] = useReducer(stepReducer, 'selectColor');
-  const [color, setColor] = useState<string | null>(null);
+  const [color, setColor] = useState<Color | null>(null);
 
   const getGuideAndChildren = () => {
     if (currentStep === 'selectColor') {
@@ -38,8 +39,8 @@ export const WriteArchivePage = () => {
     }
     if (currentStep === 'writeForm') {
       return {
-        guide: '기록해주세요',
-        children: <></>,
+        guide: '스토리를 작성해주세요',
+        children: <WriteStep selectedColor={color || 'red'} />,
       };
     }
     return { guide: '', children: null };

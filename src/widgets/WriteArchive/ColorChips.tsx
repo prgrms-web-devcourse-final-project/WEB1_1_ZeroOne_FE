@@ -9,10 +9,10 @@ export const ColorChips = ({
   selectedColor,
   onSelectColor,
 }: {
-  selectedColor: string | null;
-  onSelectColor: (color: string | null) => void;
+  selectedColor: Color | null;
+  onSelectColor: (color: Color | null) => void;
 }) => {
-  const handleChipClick = (colorName: string) => {
+  const handleChipClick = (colorName: Color) => {
     onSelectColor(colorName);
   };
 
