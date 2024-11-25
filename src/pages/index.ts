@@ -1,1 +1,1 @@
-export { default } from './WriteArchivePage';
+export * from './WriteArchivePage';
