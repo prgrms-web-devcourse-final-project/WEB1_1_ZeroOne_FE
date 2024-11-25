@@ -1,4 +1,4 @@
-import cs from 'classnames';
+import cn from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -25,7 +25,7 @@ export const Modal = ({ isOpen, onClose, children, classNames }: Props) => {
   return createPortal(
     <div className={styles.modalBackdrop}>
       <button className={styles.modalBg} onClick={onClose} />
-      <dialog className={cs(styles.modalDialog, classNames)}>{children}</dialog>
+      <dialog className={cn(styles.modalDialog, classNames)}>{children}</dialog>
     </div>,
     rootModalDiv.current,
   );

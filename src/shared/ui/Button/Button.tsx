@@ -1,4 +1,4 @@
-import cs from 'classnames';
+import cn from 'classnames';
 import type { ButtonHTMLAttributes } from 'react';
 import type React from 'react';
 
@@ -19,7 +19,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = ({ children, skin = 'primary', className, ...restProps }: Props) => {
   return (
-    <button className={cs(styles.btn, styles[skin], className)} {...restProps}>
+    <button className={cn(styles.btn, styles[skin], className)} {...restProps}>
       {children}
     </button>
   );
