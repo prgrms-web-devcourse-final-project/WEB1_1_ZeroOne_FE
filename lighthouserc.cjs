@@ -3,13 +3,15 @@ module.exports = {
     collect: {
       startServerCommand: 'yarn dev',
       numberOfRuns: 3,
-      url: ['http://localhost:4173'],
-      // 서버 시작 대기 설정 추가 (선택사항) 60초 기다림
+      url: ['http://localhost:3000'],
+      // 서버 시작 대기 설정 추가 (선택사항) 20초 기다림
       startServerReadyPattern: 'ready started server on',
-      startServerReadyTimeout: 60000,
+      startServerReadyTimeout: 20000,
     },
     upload: {
       target: 'temporary-public-storage',
+      // outputDir을 .lighthouseci로 지정
+      outputDir: '.lighthouseci',
     },
     assert: {
       preset: 'lighthouse:recommended',
