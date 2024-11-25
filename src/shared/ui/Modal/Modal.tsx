@@ -25,7 +25,7 @@ export const Modal = ({ isOpen, onClose, children, classNames }: Props) => {
   return createPortal(
     <div className={styles.modalBackdrop}>
       <button className={styles.modalBg} onClick={onClose} />
-      <div className={cs(styles.modalDialog, classNames)}>{children}</div>
+      <dialog className={cs(styles.modalDialog, classNames)}>{children}</dialog>
     </div>,
     rootModalDiv.current,
   );
