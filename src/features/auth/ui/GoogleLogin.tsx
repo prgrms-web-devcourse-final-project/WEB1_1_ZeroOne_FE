@@ -1,9 +1,9 @@
-import styles from './LoginButton.module.scss';
+import styles from './GoogleLogin.module.scss';
 
 import GoogleLogo from '@/shared/assets/googleLogo.svg?react';
 import { Button } from '@/shared/ui';
 
-export const LoginButton = () => {
+export const GoogleLogin = () => {
   return (
     <Button className={styles.loginBtn} skin='invert'>
       <div>

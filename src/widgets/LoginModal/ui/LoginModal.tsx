@@ -1,6 +1,6 @@
 import styles from './LoginModal.module.scss';
 
-import { LoginButton } from '@/features/auth';
+import { GoogleLogin } from '@/features/auth';
 import Logo from '@/shared/assets/paletteLogo.svg?react';
 import { Modal } from '@/shared/ui';
 
@@ -23,7 +23,7 @@ export const LoginModal = ({ isOpen, onClose }: Props) => {
             팔레트에서 여러분의 커리어를 공유하고 <br />
             자신만의 특색을 보여주세요
           </p>
-          <LoginButton />
+          <GoogleLogin />
         </div>
         <div className={styles.dialogFooter}>
           <p>
