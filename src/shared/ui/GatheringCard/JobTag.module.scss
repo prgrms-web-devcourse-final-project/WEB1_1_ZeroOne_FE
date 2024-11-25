@@ -1,0 +1,9 @@
+.jobTag {
+  display: flex;
+  padding: 0.3125rem 0.4375rem;
+  font-family: inherit;
+  color: $primary-color;
+  background-color: $secondary-color;
+  border: 1px solid $primary-color;
+  border-radius: 0.1875rem;
+}
