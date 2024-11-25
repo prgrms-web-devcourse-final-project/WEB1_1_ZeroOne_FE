@@ -1,3 +1,5 @@
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
 import styles from './WriteStep.module.scss';
@@ -6,12 +8,21 @@ import type { Color } from '@/features';
 import { ColorMap } from '@/features';
 import { Button, MarkdownEditor, Switch } from '@/shared/ui';
 
-export const WriteStep = ({ selectedColor }: { selectedColor: Color }) => {
+export const WriteStep = ({
+  selectedColor,
+  onClick,
+}: {
+  selectedColor: Color;
+  onClick: () => void;
+}) => {
   const [isPrivate, setIsPrivate] = useState(false);
   return (
     <>
       <div className={styles.setting}>
         <div className={styles.settingWrapper}>
+          <button onClick={onClick}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
           <div
             className={styles.color}
             style={{ backgroundColor: `${ColorMap[selectedColor].hex}` }}

@@ -40,7 +40,14 @@ export const WriteArchivePage = () => {
     if (currentStep === 'writeForm') {
       return {
         guide: '스토리를 작성해주세요',
-        children: <WriteStep selectedColor={color || 'red'} />,
+        children: (
+          <WriteStep
+            onClick={() => {
+              dispatch({ type: 'WRITE_FORM' });
+            }}
+            selectedColor={color || 'red'}
+          />
+        ),
       };
     }
     return { guide: '', children: null };
