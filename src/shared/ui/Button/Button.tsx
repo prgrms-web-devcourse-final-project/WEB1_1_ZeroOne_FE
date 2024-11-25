@@ -13,10 +13,14 @@ type ButtonSkins = 'primary' | 'invert';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  skin: ButtonSkins;
+  skin?: ButtonSkins;
   className?: string;
 }
 
-export const Button = ({ children, skin = 'primary', className }: Props) => {
-  return <button className={cs(styles.btn, styles[skin], className)}>{children}</button>;
+export const Button = ({ children, skin = 'primary', className, ...restProps }: Props) => {
+  return (
+    <button className={cs(styles.btn, styles[skin], className)} {...restProps}>
+      {children}
+    </button>
+  );
 };
