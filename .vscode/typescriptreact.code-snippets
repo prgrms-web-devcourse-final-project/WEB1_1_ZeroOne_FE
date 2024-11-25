@@ -4,7 +4,8 @@
     "prefix": "rfc",
     "body": [
       "",
-      "type ${1:${TM_FILENAME_BASE}}Props = {",
+      "import styles from './${1:${TM_FILENAME_BASE}}.module.css'",
+      "interface ${1:${TM_FILENAME_BASE}}Props = {",
       "  $2",
       "}",
       "",
