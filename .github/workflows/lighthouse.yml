@@ -52,12 +52,14 @@ jobs:
           module.exports = {
             ci: {
               collect: {
-                startServerCommand: 'yarn dev',
-                url: ['http://localhost:4173'],
+                startServerCommand: 'yarn preview --port 3000',
+                url: ['http://localhost:3000'],
                 numberOfRuns: 3,
                 settings: {
                   preset: 'desktop'
-                }
+                },
+                startServerReadyPattern: 'Local:',
+                startServerReadyTimeout: 60000
               },
               assert: {
                 assertions: {
@@ -68,15 +70,14 @@ jobs:
                 }
               },
               upload: {
-                target: 'temporary-public-storage'
+                target: 'temporary-public-storage',
+                outputDir: '.lighthouseci'
               }
             }
           };
           EOF
 
       - name: Run Lighthouse CI
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         run: |
           yarn global add @lhci/cli
           lhci autorun || echo "Fail to Run Lighthouse CI!"
@@ -88,7 +89,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const fs = require('fs');
-            const results = JSON.parse(fs.readFileSync("./lhci_reports/manifest.json"));
+            const results = JSON.parse(fs.readFileSync("./.lighthouseci/manifest.json"));
             let comments = "";
 
             results.forEach((result) => {

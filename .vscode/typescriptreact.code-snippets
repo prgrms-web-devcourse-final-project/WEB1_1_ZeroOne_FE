@@ -1,0 +1,35 @@
+{
+  "Typescript React component with props": {
+    "scope": "typescriptreact",
+    "prefix": "rfc",
+    "body": [
+      "",
+      "type ${1:${TM_FILENAME_BASE}}Props = {",
+      "  $2",
+      "}",
+      "",
+      "export const ${1:${TM_FILENAME_BASE}} = ({ $2 }: ${1:${TM_FILENAME_BASE}}Props ) => {",
+      "  return (",
+      "    <div className=\"\">",
+      "      ${1:${TM_FILENAME_BASE}}",
+      "    </div>",
+      "  )",
+      "}",
+    ],
+    "description": "Creates a React Functional Component",
+  },
+  "Typescript React component with no props": {
+    "scope": "typescriptreact",
+    "prefix": "rfcn",
+    "body": [
+      "export const ${1:${TM_FILENAME_BASE}} = () => {",
+      "  return (",
+      "    <div className=\"\">",
+      "      ${1:${TM_FILENAME_BASE}}",
+      "    </div>",
+      "  )",
+      "}",
+    ],
+    "description": "Creates a React Functional Component",
+  },
+}
