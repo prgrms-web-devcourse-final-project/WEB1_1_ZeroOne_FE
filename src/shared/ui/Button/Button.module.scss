@@ -1,7 +1,15 @@
 .btn {
   padding: 0.625rem;
-  color: white;
   cursor: pointer;
-  background-color: $primary-color;
   border-radius: 0.5rem;
+
+  &.primary {
+    color: $secondary-color;
+    background-color: $primary-color;
+  }
+
+  &.invert {
+    color: $primary-color;
+    background-color: $secondary-color;
+  }
 }
