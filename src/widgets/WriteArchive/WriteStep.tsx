@@ -1,12 +1,12 @@
-import { faChevronLeft, faX } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
 import styles from './WriteStep.module.scss';
 
-import type { Color } from '@/features';
+import type { Color, PostArchiveRequestDTO } from '@/features';
 import { ColorMap, useCreateArchive } from '@/features';
-import { Button, MarkdownEditor, Switch } from '@/shared/ui';
+import { Button, MarkdownEditor, Switch, Tag } from '@/shared/ui';
 
 export const WriteStep = ({
   selectedColor,
@@ -16,7 +16,7 @@ export const WriteStep = ({
   onClick: () => void;
 }) => {
   const [tag, setTag] = useState<string>('');
-  const [archiveData, setArchiveData] = useState({
+  const [archiveData, setArchiveData] = useState<PostArchiveRequestDTO>({
     title: '',
     description: '',
     type: selectedColor,
@@ -25,11 +25,23 @@ export const WriteStep = ({
     imageUrls: [{ url: 'https://source.unsplash.com/random/800x600' }],
   });
 
-  const updateArchiveData = (
-    key: string,
-    value: string | boolean | { content: string }[] | { url: string }[],
+  const updateArchiveData = <T extends keyof PostArchiveRequestDTO>(
+    key: T,
+    value: PostArchiveRequestDTO[T],
   ) => {
     setArchiveData(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleTagAddition = () => {
+    if (tag.trim()) {
+      updateArchiveData('tags', [...archiveData.tags, { content: tag }]);
+      setTag('');
+    }
+  };
+
+  const handleTagRemoval = (tagContent: string) => {
+    const updatedTags = archiveData.tags.filter(t => t.content !== tagContent);
+    updateArchiveData('tags', updatedTags);
   };
 
   const { mutate: createArchive } = useCreateArchive();
@@ -57,6 +69,7 @@ export const WriteStep = ({
           />
         </div>
       </div>
+
       <div className={styles.inputContainer}>
         <label>제목</label>
         <div className={styles.inputBox}>
@@ -70,29 +83,19 @@ export const WriteStep = ({
           />
         </div>
       </div>
+
       <MarkdownEditor
         markdownText={archiveData.description}
         updateArchiveData={(key, value) => {
           updateArchiveData(key, value);
         }}
       />
+
       <div className={styles.inputContainer}>
         <label>태그</label>
         <div className={styles.tags}>
-          {archiveData.tags.map((tag: { content: string }) => (
-            <span className={styles.tag} key={tag.content}>
-              {tag.content}
-              <FontAwesomeIcon
-                icon={faX}
-                onClick={() => {
-                  const updatedTags = archiveData.tags.filter(
-                    (t: { content: string }) => t.content !== tag.content,
-                  );
-                  updateArchiveData('tags', updatedTags);
-                }}
-                size='xs'
-              />
-            </span>
+          {archiveData.tags.map(tag => (
+            <Tag onRemove={handleTagRemoval} tag={tag} />
           ))}
         </div>
         <div className={styles.inputBox}>
@@ -101,10 +104,7 @@ export const WriteStep = ({
               setTag(e.target.value);
             }}
             onKeyDown={e => {
-              if (e.key === 'Enter' && tag.trim()) {
-                updateArchiveData('tags', [...archiveData.tags, { content: tag }]);
-                setTag('');
-              }
+              if (e.key === 'Enter') handleTagAddition();
             }}
             placeholder='태그'
             type='text'
@@ -112,6 +112,7 @@ export const WriteStep = ({
           />
         </div>
       </div>
+
       <Button
         onClick={() => {
           createArchive(archiveData);
