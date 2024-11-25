@@ -73,9 +73,7 @@ export const WriteStep = ({
       <MarkdownEditor
         markdownText={archiveData.description}
         updateArchiveData={(key, value) => {
-          if (value !== archiveData.description) {
-            updateArchiveData(key, value);
-          }
+          updateArchiveData(key, value);
         }}
       />
       <div className={styles.inputContainer}>
@@ -90,9 +88,7 @@ export const WriteStep = ({
                   const updatedTags = archiveData.tags.filter(
                     (t: { content: string }) => t.content !== tag.content,
                   );
-                  if (updatedTags !== archiveData.tags) {
-                    updateArchiveData('tags', updatedTags);
-                  }
+                  updateArchiveData('tags', updatedTags);
                 }}
                 size='xs'
               />

@@ -21,6 +21,7 @@ export const MarkdownEditor = ({
 
   const { syncPreview, insertStartToggle, eventHandler, handleImage } = useMarkdown({
     editorViewRef,
+    markdownText,
     setMarkdownText: newValue => {
       updateArchiveData('description', newValue);
     },
@@ -55,17 +56,13 @@ export const MarkdownEditor = ({
             eventHandler,
           ]}
           onChange={newValue => {
-            if (newValue !== markdownText) {
-              updateArchiveData('description', newValue);
-            }
+            updateArchiveData('description', newValue);
           }}
           onUpdate={update => {
             if (update.view) {
               editorViewRef.current = update.view;
-              syncPreview();
             }
           }}
-          value={markdownText}
         />
       </div>
       <MarkdownPreview markdownText={markdownText} />
