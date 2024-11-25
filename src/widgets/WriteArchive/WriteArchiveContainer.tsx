@@ -1,6 +1,7 @@
 // import { ColorChips } from './ColorChips';
-import { MarkdownEditor } from './MarkdownEditor';
 import styles from './WriteArchiveContainer.module.scss';
+
+import { MarkdownEditor } from '@/shared/ui';
 
 export const WriteArchiveContainer = () => {
   return (
