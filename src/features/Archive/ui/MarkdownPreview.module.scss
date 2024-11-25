@@ -4,7 +4,18 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
+  overflow-y: auto;
   background-color: #f9f9f9;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ededed;
+    border-radius: 12px;
+  }
 
   p {
     margin: 0.5rem 0;

@@ -17,7 +17,7 @@
 
 .two {
   grid-template-rows: auto;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto auto;
 
   @media (width <= 768px) {
     grid-template-columns: 1fr;

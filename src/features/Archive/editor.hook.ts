@@ -6,9 +6,11 @@ import type { EditorViewRef } from './editor.type';
 
 export const useMarkdown = ({
   editorViewRef,
+  markdownText,
   setMarkdownText,
 }: {
   editorViewRef: EditorViewRef;
+  markdownText: string;
   setMarkdownText: (text: string) => void;
 }) => {
   const getEditorContent = useCallback(() => {
@@ -16,7 +18,10 @@ export const useMarkdown = ({
   }, [editorViewRef]);
 
   const syncPreview = useCallback(() => {
-    setMarkdownText(getEditorContent());
+    const content = getEditorContent();
+    if (content === markdownText) return;
+
+    setMarkdownText(content);
   }, [getEditorContent, setMarkdownText]);
 
   const insertStartToggle = useCallback(
@@ -121,5 +126,11 @@ export const useMarkdown = ({
     },
   });
 
-  return { syncPreview, insertStartToggle, insertImageAtCursor, eventHandler, handleImage };
+  return {
+    syncPreview,
+    insertStartToggle,
+    insertImageAtCursor,
+    eventHandler,
+    handleImage,
+  };
 };
