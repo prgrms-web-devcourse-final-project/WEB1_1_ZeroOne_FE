@@ -1,7 +1,5 @@
 import { WriteArchiveContainer } from '@/widgets';
 
-const WriteArchivePage = () => {
+export const WriteArchivePage = () => {
   return <WriteArchiveContainer />;
 };
-
-export default WriteArchivePage;
