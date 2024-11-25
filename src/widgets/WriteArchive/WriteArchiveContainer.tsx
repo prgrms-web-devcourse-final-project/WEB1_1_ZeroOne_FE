@@ -1,4 +1,5 @@
-import { ColorChips } from './ColorChips';
+// import { ColorChips } from './ColorChips';
+import { MarkdownEditor } from './MarkdownEditor';
 import styles from './WriteArchiveContainer.module.scss';
 
 export const WriteArchiveContainer = () => {
@@ -9,7 +10,8 @@ export const WriteArchiveContainer = () => {
         <p>어떤 색상의 아카이브를 작성할지 골라주세요</p>
       </div>
       <div className={styles.contents}>
-        <ColorChips />
+        {/* <ColorChips /> */}
+        <MarkdownEditor />
       </div>
     </section>
   );
