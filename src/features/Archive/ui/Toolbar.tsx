@@ -5,10 +5,16 @@ import styles from './Toolbar.module.scss';
 
 type ToolbarProps = {
   onCommand: (symbol: string, wrap?: boolean) => void;
-  onInsertImage: () => void;
+  onInsertImage: (file: File) => void;
 };
 
 export const Toolbar = ({ onCommand, onInsertImage }: ToolbarProps) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      onInsertImage(event.target.files[0]);
+    }
+  };
+
   return (
     <div className={styles.toolbar}>
       <button
@@ -69,9 +75,15 @@ export const Toolbar = ({ onCommand, onInsertImage }: ToolbarProps) => {
       >
         <FontAwesomeIcon icon={faLink} />
       </button>
-      <button onClick={onInsertImage}>
+      <label className={styles.imageLabel}>
         <FontAwesomeIcon icon={faImage} />
-      </button>
+        <input
+          accept='image/png,image/jpg,image/jpeg,image/gif'
+          className={styles.imageInput}
+          onChange={handleFileChange}
+          type='file'
+        />
+      </label>
     </div>
   );
 };

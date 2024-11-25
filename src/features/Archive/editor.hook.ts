@@ -108,7 +108,18 @@ export const useMarkdown = ({
         }
       }
     },
+    drop(event, view) {
+      if (!event.dataTransfer) return;
+
+      const cursorPos = view.posAtCoords({ x: event.clientX, y: event.clientY });
+
+      if (cursorPos) view.dispatch({ selection: { anchor: cursorPos, head: cursorPos } });
+
+      const { files } = event.dataTransfer;
+
+      for (const file of files) handleImage(file, view);
+    },
   });
 
-  return { syncPreview, insertStartToggle, insertImageAtCursor, eventHandler };
+  return { syncPreview, insertStartToggle, insertImageAtCursor, eventHandler, handleImage };
 };

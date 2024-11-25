@@ -10,29 +10,25 @@ import { MarkdownPreview, Toolbar, useMarkdown } from '@/features';
 export const MarkdownEditor = () => {
   const editorViewRef = useRef<EditorView | null>(null);
   const [markdownText, setMarkdownText] = useState<string>('');
-  const [image, setImage] = useState<{ imagePath: string } | null>(null);
 
-  const { syncPreview, insertStartToggle, eventHandler, insertImageAtCursor } = useMarkdown({
+  const { syncPreview, insertStartToggle, eventHandler, handleImage } = useMarkdown({
     editorViewRef,
     setMarkdownText,
   });
 
   useEffect(() => {
-    if (!editorViewRef.current || !image) return;
-
-    const markdownImage = (path: string) => `![Image](${path})`;
-    const text = markdownImage(image.imagePath);
-
-    insertImageAtCursor(editorViewRef.current, text);
-  }, [image, insertImageAtCursor]);
+    syncPreview();
+  }, [syncPreview]);
 
   return (
     <div className={styles.container}>
       <div className={styles.editor}>
         <Toolbar
           onCommand={insertStartToggle}
-          onInsertImage={() => {
-            setImage({ imagePath: 'https://picsum.photos/200/300' });
+          onInsertImage={file => {
+            if (editorViewRef.current) {
+              handleImage(file, editorViewRef.current);
+            }
           }}
         />
         <CodeMirror
