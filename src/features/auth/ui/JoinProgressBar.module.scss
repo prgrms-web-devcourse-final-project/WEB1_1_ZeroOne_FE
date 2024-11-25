@@ -21,12 +21,12 @@
     border-radius: 50%;
   }
 
-  &.done > i {
+  &.active > i {
     background-color: $active-color;
   }
 
-  &.dirty > i {
-    border: 0.25rem solid $active-color;
+  &.doing > i {
+    background: linear-gradient(180deg, $third-color, $active-color);
   }
 
   & > span {

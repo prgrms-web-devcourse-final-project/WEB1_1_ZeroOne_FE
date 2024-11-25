@@ -1,5 +1,3 @@
-export type StageState = 'new' | 'dirty' | 'done';
-
 export interface JoinProgressStage {
   stage: number;
   name: string;

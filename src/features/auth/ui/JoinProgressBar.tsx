@@ -2,7 +2,7 @@ import cn from 'classnames';
 import React from 'react';
 
 import styles from './JoinProgressBar.module.scss';
-import type { JoinProgressStage, StageState } from '../progress.type';
+import type { JoinProgressStage } from '../progress.type';
 
 interface ProgressBarProps {
   currentStage: number;
@@ -12,15 +12,18 @@ interface ProgressBarProps {
 interface JoinProgressBarProps {
   currentStage: number;
   joinStages: JoinProgressStage[];
-  dirtyStages: StageState[];
 }
 
-const ProgressDot = ({ dirty, stage, name }: JoinProgressStage & { dirty: StageState }) => {
+const ProgressDot = ({
+  currentStage,
+  stage,
+  name,
+}: JoinProgressStage & { currentStage: number }) => {
   return (
     <div
       className={cn(styles.progressDot, {
-        [styles.done]: dirty === 'done',
-        [styles.dirty]: dirty === 'dirty',
+        [styles.active]: currentStage > stage,
+        [styles.doing]: stage === currentStage,
       })}
     >
       <i>{stage}</i>
@@ -39,16 +42,12 @@ const ProgressBar = ({ currentStage, prevStage }: ProgressBarProps) => {
   );
 };
 
-export const JoinProgressbar = ({
-  currentStage,
-  joinStages,
-  dirtyStages,
-}: JoinProgressBarProps) => {
+export const JoinProgressbar = ({ currentStage, joinStages }: JoinProgressBarProps) => {
   return (
     <div className={styles.progressWrapper}>
       {joinStages.map((stage, idx) => (
         <React.Fragment key={stage.name}>
-          <ProgressDot dirty={dirtyStages[idx]} name={stage.name} stage={stage.stage} />
+          <ProgressDot currentStage={currentStage} name={stage.name} stage={stage.stage} />
           {idx !== joinStages.length - 1 && (
             <ProgressBar currentStage={currentStage} prevStage={stage.stage} />
           )}
