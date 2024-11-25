@@ -1,5 +1,3 @@
 export * from './Layout';
-
-export { GatheringGrid } from './GatheringGrid/GatheringGrid';
-
+export * from './GatheringGrid';
 export * from './WriteArchive';
