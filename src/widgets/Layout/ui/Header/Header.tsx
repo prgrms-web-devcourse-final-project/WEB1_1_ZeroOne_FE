@@ -7,11 +7,14 @@ import { NAV_LINKS } from '../../constants';
 //assets
 import Logo from '@/shared/assets/paletteLogo.svg?react';
 import SearchIcon from '@/shared/assets/search.svg?react';
+//model
+import { useModalStore } from '@/shared/model/modalStore';
 //component
 import { Button } from '@/shared/ui';
 
 export const Header = () => {
   const { pathname } = useLocation();
+  const open = useModalStore(state => state.actions.open);
 
   return (
     <header className={styles.header}>
@@ -40,7 +43,13 @@ export const Header = () => {
       {/** UserMenu */}
       <div className={styles.userMenu}>
         <SearchIcon height={31} width={31} />
-        <Button>로그인</Button>
+        <Button
+          onClick={() => {
+            open('login');
+          }}
+        >
+          로그인
+        </Button>
         <Button>회원가입</Button>
       </div>
     </header>

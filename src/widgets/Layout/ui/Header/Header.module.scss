@@ -21,6 +21,10 @@
       left: 0;
       color: transparent;
     }
+
+    & svg {
+      fill: $primary-color;
+    }
   }
 
   /* Nav **/

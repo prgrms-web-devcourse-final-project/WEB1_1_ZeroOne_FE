@@ -1,0 +1,68 @@
+.modalDialogLayout {
+  width: 100%;
+  max-width: 490px;
+  height: 630px;
+  border-radius: 1rem;
+
+  & svg {
+    fill: $secondary-color;
+  }
+}
+
+.dialogWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 3rem;
+  align-items: center;
+  height: 100%;
+  padding: 3rem 3rem 5.5rem;
+  text-align: center;
+}
+
+.dialogHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & > span {
+    margin-top: 0.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 0.2rem;
+  }
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.25rem;
+  align-items: center;
+  font-weight: 400;
+
+  & > h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+
+  & > p {
+    padding: 0 2rem;
+    margin-bottom: 1.25rem;
+    font-weight: 300;
+    line-height: 1.5rem;
+  }
+}
+
+.dialogFooter {
+  & > p {
+    padding: 0 0.2rem;
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 1.2rem;
+
+    & > a {
+      font-weight: 500;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}
