@@ -1,16 +1,19 @@
 import cn from 'classnames';
-import { useState } from 'react';
 
 import styles from './ColorChips.module.scss';
 
 import type { Color } from '@/features';
 import { ColorChip, ColorMap, ColorData } from '@/features';
 
-export const ColorChips = () => {
-  const [selectedChip, setSelectedChip] = useState<string | null>(null);
-
+export const ColorChips = ({
+  selectedColor,
+  onSelectColor,
+}: {
+  selectedColor: string | null;
+  onSelectColor: (color: string | null) => void;
+}) => {
   const handleChipClick = (colorName: string) => {
-    setSelectedChip(prev => (prev === colorName ? null : colorName));
+    onSelectColor(colorName);
   };
 
   return (
@@ -20,7 +23,7 @@ export const ColorChips = () => {
           {colors.map(colorKey => (
             <ColorChip
               colors={ColorMap[colorKey]}
-              isSelected={selectedChip === colorKey}
+              isSelected={selectedColor === colorKey}
               key={colorKey}
               onClick={() => {
                 handleChipClick(colorKey);
