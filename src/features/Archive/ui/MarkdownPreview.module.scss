@@ -1,0 +1,55 @@
+.mirror {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+
+  p {
+    margin: 0.5rem 0;
+    line-height: 1.2;
+  }
+
+  br {
+    line-height: 2rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: 1.17rem;
+    font-weight: 700;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #555;
+    background-color: #f9f9f9;
+    border-left: 4px solid #ccc;
+  }
+
+  pre {
+    max-width: 50vw;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 0.625rem;
+  }
+}
