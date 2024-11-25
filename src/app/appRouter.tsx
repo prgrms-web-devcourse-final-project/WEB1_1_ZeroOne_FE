@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import WriteArchivePage from '@/pages';
+import { WriteArchivePage } from '@/pages';
 import { Layout } from '@/widgets';
 
 const AppRouter = () => {

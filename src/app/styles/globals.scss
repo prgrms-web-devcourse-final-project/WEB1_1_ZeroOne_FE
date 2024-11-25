@@ -178,12 +178,14 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 main {
   display: flex;
   flex: 1;
   flex-direction: column;
+  width: 100%;
   max-width: 1920px;
   padding-top: variables.$header-height;
   padding-bottom: variables.$header-height;

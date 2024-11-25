@@ -1,2 +1,3 @@
 export * from './ColorChip';
-export * from './MarkdownEditor';
+export * from './MarkdownPreview';
+export * from './Toolbar';
