@@ -1,19 +1,29 @@
 import { markdown } from '@codemirror/lang-markdown';
 import { EditorView } from '@codemirror/view';
 import CodeMirror from '@uiw/react-codemirror';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 import styles from './MarkdownEditor.module.scss';
 
 import { MarkdownPreview, Toolbar, useMarkdown } from '@/features';
 
-export const MarkdownEditor = () => {
+export const MarkdownEditor = ({
+  markdownText,
+  updateArchiveData,
+}: {
+  markdownText: string;
+  updateArchiveData: (
+    key: string,
+    value: string | boolean | { content: string }[] | { url: string }[],
+  ) => void;
+}) => {
   const editorViewRef = useRef<EditorView | null>(null);
-  const [markdownText, setMarkdownText] = useState<string>('');
 
   const { syncPreview, insertStartToggle, eventHandler, handleImage } = useMarkdown({
     editorViewRef,
-    setMarkdownText,
+    setMarkdownText: newValue => {
+      updateArchiveData('description', newValue);
+    },
   });
 
   useEffect(() => {
@@ -44,12 +54,18 @@ export const MarkdownEditor = () => {
             }),
             eventHandler,
           ]}
+          onChange={newValue => {
+            if (newValue !== markdownText) {
+              updateArchiveData('description', newValue);
+            }
+          }}
           onUpdate={update => {
             if (update.view) {
               editorViewRef.current = update.view;
               syncPreview();
             }
           }}
+          value={markdownText}
         />
       </div>
       <MarkdownPreview markdownText={markdownText} />

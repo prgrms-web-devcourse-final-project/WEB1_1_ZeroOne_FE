@@ -5,7 +5,7 @@ import { useState } from 'react';
 import styles from './WriteStep.module.scss';
 
 import type { Color } from '@/features';
-import { ColorMap } from '@/features';
+import { ColorMap, useCreateArchive } from '@/features';
 import { Button, MarkdownEditor, Switch } from '@/shared/ui';
 
 export const WriteStep = ({
@@ -15,20 +15,24 @@ export const WriteStep = ({
   selectedColor: Color;
   onClick: () => void;
 }) => {
-  const [allowComments, setAllowComments] = useState(false);
-  const [tags, setTags] = useState<string[]>([]);
   const [tag, setTag] = useState<string>('');
+  const [archiveData, setArchiveData] = useState({
+    title: '',
+    description: '',
+    type: selectedColor,
+    canComment: false,
+    tags: [],
+    imageUrls: [{ url: 'https://source.unsplash.com/random/800x600' }],
+  });
 
-  const addTag = (tag: string) => {
-    if (tags.includes(tag)) return;
-
-    if (tag.trim() === '') return;
-    setTags([...tags, tag]);
+  const updateArchiveData = (
+    key: string,
+    value: string | boolean | { content: string }[] | { url: string }[],
+  ) => {
+    setArchiveData(prev => ({ ...prev, [key]: value }));
   };
 
-  const removeTag = (tag: string) => {
-    setTags(tags.filter(t => t !== tag));
-  };
+  const { mutate: createArchive } = useCreateArchive();
 
   return (
     <>
@@ -45,42 +49,64 @@ export const WriteStep = ({
         </div>
         <div className={styles.settingWrapper}>
           <span>댓글 허용</span>
-          <Switch checked={allowComments} onChange={setAllowComments} />
+          <Switch
+            checked={archiveData.canComment}
+            onChange={value => {
+              updateArchiveData('canComment', value);
+            }}
+          />
         </div>
       </div>
       <div className={styles.inputContainer}>
         <label>제목</label>
         <div className={styles.inputBox}>
-          <input placeholder='스토리를 나타낼 제목을 입력해주세요' type='text' />
+          <input
+            onChange={e => {
+              updateArchiveData('title', e.target.value);
+            }}
+            placeholder='스토리를 나타낼 제목을 입력해주세요'
+            type='text'
+            value={archiveData.title}
+          />
         </div>
       </div>
-      <MarkdownEditor />
+      <MarkdownEditor
+        markdownText={archiveData.description}
+        updateArchiveData={(key, value) => {
+          if (value !== archiveData.description) {
+            updateArchiveData(key, value);
+          }
+        }}
+      />
       <div className={styles.inputContainer}>
         <label>태그</label>
-        {tags && (
-          <div className={styles.tags}>
-            {tags.map(tag => (
-              <span className={styles.tag}>
-                {tag}
-                <FontAwesomeIcon
-                  icon={faX}
-                  onClick={() => {
-                    removeTag(tag);
-                  }}
-                  size='xs'
-                />
-              </span>
-            ))}
-          </div>
-        )}
+        <div className={styles.tags}>
+          {archiveData.tags.map((tag: { content: string }) => (
+            <span className={styles.tag} key={tag.content}>
+              {tag.content}
+              <FontAwesomeIcon
+                icon={faX}
+                onClick={() => {
+                  const updatedTags = archiveData.tags.filter(
+                    (t: { content: string }) => t.content !== tag.content,
+                  );
+                  if (updatedTags !== archiveData.tags) {
+                    updateArchiveData('tags', updatedTags);
+                  }
+                }}
+                size='xs'
+              />
+            </span>
+          ))}
+        </div>
         <div className={styles.inputBox}>
           <input
             onChange={e => {
               setTag(e.target.value);
             }}
             onKeyDown={e => {
-              if (e.key === 'Enter') {
-                addTag(tag);
+              if (e.key === 'Enter' && tag.trim()) {
+                updateArchiveData('tags', [...archiveData.tags, { content: tag }]);
                 setTag('');
               }
             }}
@@ -90,7 +116,13 @@ export const WriteStep = ({
           />
         </div>
       </div>
-      <Button>아카이브 등록</Button>
+      <Button
+        onClick={() => {
+          createArchive(archiveData);
+        }}
+      >
+        아카이브 등록
+      </Button>
     </>
   );
 };
