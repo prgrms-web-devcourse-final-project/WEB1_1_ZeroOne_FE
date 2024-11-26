@@ -4,7 +4,7 @@
     "prefix": "rfc",
     "body": [
       "",
-      "import styles from './${1:${TM_FILENAME_BASE}}.module.css'",
+      "import styles from './${1:${TM_FILENAME_BASE}}.module.scss'",
       "interface ${1:${TM_FILENAME_BASE}}Props = {",
       "  $2",
       "}",
@@ -23,7 +23,7 @@
     "scope": "typescriptreact",
     "prefix": "rfcn",
     "body": [
-      "import styles from './${1:${TM_FILENAME_BASE}}.module.css'",
+      "import styles from './${1:${TM_FILENAME_BASE}}.module.scss'",
       "export const ${1:${TM_FILENAME_BASE}} = () => {",
       "  return (",
       "    <div className={styles.container}>",
