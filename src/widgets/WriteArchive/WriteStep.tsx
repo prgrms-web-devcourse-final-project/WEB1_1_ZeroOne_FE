@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import styles from './WriteStep.module.scss';
 
-import type { Color, PostArchiveRequestDTO } from '@/features';
+import type { Color, BaseArchiveDTO } from '@/features';
 import { ColorMap, useCreateArchive } from '@/features';
 import { Button, MarkdownEditor, Switch, Tag } from '@/shared/ui';
 
@@ -16,7 +16,7 @@ export const WriteStep = ({
   onClick: () => void;
 }) => {
   const [tag, setTag] = useState<string>('');
-  const [archiveData, setArchiveData] = useState<PostArchiveRequestDTO>({
+  const [archiveData, setArchiveData] = useState<BaseArchiveDTO>({
     title: '',
     description: '',
     type: selectedColor,
@@ -25,10 +25,7 @@ export const WriteStep = ({
     imageUrls: [{ url: 'https://source.unsplash.com/random/800x600' }],
   });
 
-  const updateArchiveData = <T extends keyof PostArchiveRequestDTO>(
-    key: T,
-    value: PostArchiveRequestDTO[T],
-  ) => {
+  const updateArchiveData = <T extends keyof BaseArchiveDTO>(key: T, value: BaseArchiveDTO[T]) => {
     setArchiveData(prev => ({ ...prev, [key]: value }));
   };
 

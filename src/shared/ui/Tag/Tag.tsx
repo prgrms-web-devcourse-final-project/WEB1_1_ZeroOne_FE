@@ -9,7 +9,7 @@ export const Tag = ({
   isDeleteable = true,
 }: {
   tag: { content: string };
-  onRemove: (tagContent: string) => void;
+  onRemove?: (tagContent: string) => void;
   isDeleteable?: boolean;
 }) => (
   <span className={styles.tag} key={tag.content}>
@@ -18,7 +18,7 @@ export const Tag = ({
       <FontAwesomeIcon
         icon={faX}
         onClick={() => {
-          onRemove(tag.content);
+          if (onRemove) onRemove(tag.content);
         }}
         size='xs'
       />
