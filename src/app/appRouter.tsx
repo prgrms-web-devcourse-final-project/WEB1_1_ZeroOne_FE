@@ -21,7 +21,7 @@ const AppRouter = () => {
           element: <WriteArchivePage />,
         },
         {
-          path: '/archive/:id',
+          path: '/archive/:archiveId',
           element: <DetailArchivePage />,
         },
         {

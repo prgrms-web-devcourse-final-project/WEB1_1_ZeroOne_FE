@@ -1,42 +1,43 @@
-import styles from './DetailArchivePage.module.scss';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-import { MarkdownPreview, WriteComment, type Archive, CommentItem, type Comment } from '@/features';
+import styles from './DetailArchivePage.module.scss';
+import { worker } from '../../mocks/browser';
+
+import { MarkdownPreview, WriteComment, CommentItem, useArchive, useComment } from '@/features';
 import { DetailHeader } from '@/widgets';
 
-const dummyArchive: Archive = {
-  title: 'title',
-  username: 'username',
-  description:
-    '# h1\n## h2\n### 하이하이\n예제 **만드는** 중\n어떻게 _보일지_\n> 인용\n\n```\ncode\n```\n\n',
-  job: 'job',
-  likeCount: 10,
-  canComment: true,
-  tags: [{ content: 'tag' }, { content: 'df' }, { content: 'dfsafsda' }, { content: 'fasd' }],
-  imageUrls: [{ url: 'url' }],
-  commentCount: 0,
-  hits: 0,
-  type: 'red',
-};
-
-const dummyComment: Comment = {
-  commentId: 1,
-  content: 'content',
-  username: 'username',
-  isMine: true,
-};
-
 export const DetailArchivePage = () => {
+  const { archiveId } = useParams();
+
+  const { data: archive, refetch: fetchArchive } = useArchive(Number(archiveId));
+  const { data: comments, refetch: fetchComments } = useComment(Number(archiveId), !!archive);
+
+  useEffect(() => {
+    worker.start().then(() => {
+      if (archiveId) void fetchArchive();
+      if (archiveId) void fetchComments();
+    });
+
+    return () => {
+      worker.stop();
+    };
+  }, [archiveId]);
+
   return (
     <div className={styles.wrapper}>
-      <DetailHeader archive={dummyArchive} />
-      <div className={styles.markdown}>
-        <MarkdownPreview markdownText={dummyArchive.description} />
-      </div>
+      {archive?.data && (
+        <>
+          <DetailHeader archive={archive.data} />
+          <div className={styles.markdown}>
+            <MarkdownPreview markdownText={archive.data.description} />
+          </div>
+        </>
+      )}
       <div className={styles.comment}>
         <WriteComment />
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CommentItem comment={dummyComment} key={index} />
-        ))}
+        {comments?.data &&
+          comments.data.map(comment => <CommentItem comment={comment} key={comment.commentId} />)}
       </div>
     </div>
   );

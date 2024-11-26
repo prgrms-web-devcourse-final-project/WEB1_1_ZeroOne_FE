@@ -4,19 +4,20 @@ import {
   deleteArchive,
   deleteComment,
   getArchive,
+  getComments,
   postCreateArchive,
   postCreateComment,
   putArchive,
 } from './archive.api';
-import type { PostArchiveApiResponse, BaseArchiveDTO, Comment } from './archive.dto';
+import type { BaseArchiveDTO, Comment } from './archive.dto';
 
 export const useCreateArchive = () =>
-  useMutation<PostArchiveApiResponse, Error, BaseArchiveDTO>({
+  useMutation({
     mutationFn: (data: BaseArchiveDTO) => postCreateArchive(data),
   });
 
 export const useUpdateArchive = (archiveId: number) =>
-  useMutation<PostArchiveApiResponse, Error, BaseArchiveDTO>({
+  useMutation({
     mutationFn: (data: BaseArchiveDTO) => putArchive(archiveId, data),
   });
 
@@ -25,17 +26,16 @@ export const useDeleteArchive = (archiveId: number) =>
     mutationFn: () => deleteArchive(archiveId),
   });
 
-export const useArchive = (archiveId: number, enabled: boolean = false) =>
+export const useArchive = (archiveId: number) =>
   useQuery({
     queryKey: ['/archive', archiveId],
     queryFn: () => getArchive(archiveId),
-    enabled,
   });
 
 export const useComment = (archiveId: number, enabled: boolean = false) =>
   useQuery({
     queryKey: ['/archive', archiveId, 'comment'],
-    queryFn: () => getArchive(archiveId),
+    queryFn: () => getComments(archiveId),
     enabled,
   });
 
