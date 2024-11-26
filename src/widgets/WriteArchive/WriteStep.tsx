@@ -92,7 +92,7 @@ export const WriteStep = ({
         <label>태그</label>
         <div className={styles.tags}>
           {archiveData.tags.map(tag => (
-            <Tag onRemove={handleTagRemoval} tag={tag} />
+            <Tag key={tag.content} onRemove={handleTagRemoval} tag={tag} />
           ))}
         </div>
         <div className={styles.inputBox}>

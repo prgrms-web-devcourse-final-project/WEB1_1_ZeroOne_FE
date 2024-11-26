@@ -5,6 +5,7 @@
   gap: 0.5rem;
   padding: 1rem;
   overflow-y: auto;
+  line-height: 1.5;
   background-color: #f9f9f9;
 
   &::-webkit-scrollbar {
@@ -19,7 +20,6 @@
 
   p {
     margin: 0.5rem 0;
-    line-height: 1.2;
   }
 
   br {
@@ -58,7 +58,7 @@
   }
 
   pre {
-    max-width: 50vw;
+    max-width: 100%;
     padding: 1rem;
     background-color: #fff;
     border-radius: 0.625rem;
