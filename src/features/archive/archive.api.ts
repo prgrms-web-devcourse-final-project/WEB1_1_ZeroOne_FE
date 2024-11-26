@@ -20,7 +20,7 @@ export const putArchive = (archiveId: number, data: Partial<BaseArchiveDTO>) =>
 export const deleteArchive = (archiveId: number) =>
   api.delete<PostArchiveApiResponse>(`/archive/${archiveId}`).then(res => res.data);
 
-export const getComments = (archiveId: number, size = 10, page = 0) =>
+export const getComments = (archiveId: number, size: number = 10, page: number = 0) =>
   api
     .get<GetCommentsApiResponse>(`/archive/${archiveId}/comment`, {
       params: { size, page },
