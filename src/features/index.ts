@@ -1,2 +1,2 @@
 export * from './Archive';
-export * from './Gathering';
+export * from './gathering';
