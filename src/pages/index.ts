@@ -1,2 +1,2 @@
 export * from './GatheringListPage';
-export * from './WriteArchivePage';
+export { WriteArchivePage } from './WriteArchivePage/WriteArchivePage';
