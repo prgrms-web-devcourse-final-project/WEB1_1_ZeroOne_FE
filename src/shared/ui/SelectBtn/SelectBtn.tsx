@@ -5,10 +5,7 @@ import Select from 'react-select';
 
 import styles from './SelectBtn.module.scss';
 
-type Option = {
-  value: string;
-  label: string;
-};
+import type { Option } from '@/shared/model/SelectBtnTypes';
 
 type SelectBtnProps = {
   placeholder?: string;
