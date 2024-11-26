@@ -23,5 +23,13 @@ export interface Archive extends BaseArchiveDTO {
   hits: number;
 }
 
+export interface Comment {
+  commentId: number;
+  content: string;
+  username: string;
+  isMine: boolean;
+}
+
 export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;
 export type GetArchiveApiResponse = ApiResponse<Archive>;
+export type GetCommentsApiResponse = ApiResponse<Comment[]>;

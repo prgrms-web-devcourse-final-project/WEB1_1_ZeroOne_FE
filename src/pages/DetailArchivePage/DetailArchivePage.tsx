@@ -1,6 +1,6 @@
 import styles from './DetailArchivePage.module.scss';
 
-import { MarkdownPreview, type Archive } from '@/features';
+import { MarkdownPreview, WriteComment, type Archive } from '@/features';
 import { DetailHeader } from '@/widgets';
 
 const dummyArchive: Archive = {
@@ -24,6 +24,9 @@ export const DetailArchivePage = () => {
       <DetailHeader archive={dummyArchive} />
       <div className={styles.markdown}>
         <MarkdownPreview markdownText={dummyArchive.description} />
+      </div>
+      <div className={styles.comment}>
+        <WriteComment />
       </div>
     </div>
   );
