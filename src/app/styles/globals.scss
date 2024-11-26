@@ -141,11 +141,13 @@ a {
 button {
   font: inherit;
   cursor: pointer;
+  background-color: transparent;
   border: none;
   outline: none;
 }
 
 input {
+  font: inherit;
   background-color: transparent;
   border: none;
   outline: none;
