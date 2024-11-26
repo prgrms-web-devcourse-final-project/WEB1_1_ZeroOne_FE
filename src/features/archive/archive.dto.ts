@@ -21,6 +21,8 @@ export interface Archive extends BaseArchiveDTO {
   likeCount: number;
   commentCount: number;
   hits: number;
+  isMine: boolean;
+  userProfile: string;
 }
 
 export interface Comment {
@@ -28,8 +30,14 @@ export interface Comment {
   content: string;
   username: string;
   isMine: boolean;
+  userProfile: string;
+}
+
+export interface PostCommentResponseDTO {
+  commentId: number;
 }
 
 export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;
 export type GetArchiveApiResponse = ApiResponse<Archive>;
 export type GetCommentsApiResponse = ApiResponse<Comment[]>;
+export type PostCommentApiResponse = ApiResponse<PostCommentResponseDTO>;
