@@ -1,6 +1,6 @@
 import styles from './DetailArchivePage.module.scss';
 
-import { MarkdownPreview, WriteComment, type Archive } from '@/features';
+import { MarkdownPreview, WriteComment, type Archive, CommentItem, type Comment } from '@/features';
 import { DetailHeader } from '@/widgets';
 
 const dummyArchive: Archive = {
@@ -18,6 +18,13 @@ const dummyArchive: Archive = {
   type: 'red',
 };
 
+const dummyComment: Comment = {
+  commentId: 1,
+  content: 'content',
+  username: 'username',
+  isMine: true,
+};
+
 export const DetailArchivePage = () => {
   return (
     <div className={styles.wrapper}>
@@ -27,6 +34,9 @@ export const DetailArchivePage = () => {
       </div>
       <div className={styles.comment}>
         <WriteComment />
+        {Array.from({ length: 5 }).map((_, index) => (
+          <CommentItem comment={dummyComment} key={index} />
+        ))}
       </div>
     </div>
   );
