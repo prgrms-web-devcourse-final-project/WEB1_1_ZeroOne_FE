@@ -28,7 +28,7 @@ export const DetailArchivePage = () => {
     <div className={styles.wrapper}>
       {archive?.data && (
         <>
-          <DetailHeader archive={archive.data} />
+          <DetailHeader archive={archive.data} archiveId={Number(archiveId)} />
           <div className={styles.markdown}>
             <MarkdownPreview markdownText={archive.data.description} />
           </div>
@@ -37,7 +37,9 @@ export const DetailArchivePage = () => {
       <div className={styles.comment}>
         <WriteComment />
         {comments?.data &&
-          comments.data.map(comment => <CommentItem comment={comment} key={comment.commentId} />)}
+          comments.data.map(comment => (
+            <CommentItem archiveId={Number(archiveId)} comment={comment} key={comment.commentId} />
+          ))}
       </div>
     </div>
   );

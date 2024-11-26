@@ -1,13 +1,19 @@
 import { faChevronRight, faCommentDots, faEye, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './DetailHeader.module.scss';
 
 import type { Archive } from '@/features';
-import { ColorMap } from '@/features';
+import { ColorMap, useDeleteArchive } from '@/features';
 import { Button, Tag } from '@/shared/ui';
 
-export const DetailHeader = ({ archive }: { archive: Archive }) => {
+export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archiveId: number }) => {
+  const { mutate: deleteArchive } = useDeleteArchive();
+  const navigate = useNavigate();
+
+  // TODO 수정 버튼 클릭 시, archiveId를 가지고 수정 페이지로 이동해서 정보 다시 fetch 후 수정
+
   return (
     <div className={styles.container}>
       <div className={styles.row}>
@@ -39,7 +45,20 @@ export const DetailHeader = ({ archive }: { archive: Archive }) => {
         </div>
         <div className={styles.itemWrapper}>
           <Button>수정하기</Button>
-          <Button>삭제하기</Button>
+          <Button
+            onClick={() => {
+              deleteArchive(
+                { archiveId: Number(archiveId) },
+                {
+                  onSuccess: () => {
+                    navigate(-1);
+                  },
+                },
+              );
+            }}
+          >
+            삭제하기
+          </Button>
         </div>
       </div>
       <div className={styles.tags}>

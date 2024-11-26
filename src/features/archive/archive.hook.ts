@@ -21,9 +21,9 @@ export const useUpdateArchive = (archiveId: number) =>
     mutationFn: (data: BaseArchiveDTO) => putArchive(archiveId, data),
   });
 
-export const useDeleteArchive = (archiveId: number) =>
+export const useDeleteArchive = () =>
   useMutation({
-    mutationFn: () => deleteArchive(archiveId),
+    mutationFn: ({ archiveId }: { archiveId: number }) => deleteArchive(archiveId),
   });
 
 export const useArchive = (archiveId: number) =>

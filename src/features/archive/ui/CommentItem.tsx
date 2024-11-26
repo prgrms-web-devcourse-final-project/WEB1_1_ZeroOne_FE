@@ -3,8 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './CommentItem.module.scss';
 import type { Comment } from '../archive.dto';
+import { useDeleteComment } from '../archive.hook';
 
-export const CommentItem = ({ comment }: { comment: Comment }) => {
+export const CommentItem = ({ comment, archiveId }: { comment: Comment; archiveId: number }) => {
+  const { mutate: deleteComment } = useDeleteComment(archiveId);
+
   return (
     <div className={styles.container}>
       <div className={styles.info}>
@@ -12,7 +15,13 @@ export const CommentItem = ({ comment }: { comment: Comment }) => {
         {comment.isMine && (
           <div className={styles.editBtns}>
             <FontAwesomeIcon icon={faEdit} size='xs' />
-            <FontAwesomeIcon icon={faTrash} size='xs' />
+            <FontAwesomeIcon
+              icon={faTrash}
+              onClick={() => {
+                deleteComment({ commentId: comment.commentId });
+              }}
+              size='xs'
+            />
           </div>
         )}
       </div>
