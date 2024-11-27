@@ -17,9 +17,10 @@
 }
 
 .contentContainer {
-  position: relative;
+  position: sticky;
   display: flex; // grid 대신 flex 사용
   gap: 2rem;
+  overflow: auto;
 
   @media screen and (max-width: 1440px) {
     gap: 2rem;
