@@ -131,9 +131,30 @@ export const archiveHandlers = [
       );
     }
   }),
-  http.get('/archive/:archiveId/comment', ({ params }) => {
+  http.get('/archive/:archiveId/comment', ({ params, request }) => {
     try {
       const archiveId = Number(params.archiveId);
+
+      const url = new URL(request.url);
+      const size = Number(url.searchParams.get('size')) || 5;
+      const page = Number(url.searchParams.get('page')) || 0;
+
+      if (size <= 0 || page < 0) {
+        return new Response(
+          JSON.stringify({
+            status: 400,
+            reason: '잘못된 size 또는 page 값입니다.',
+            timeStamp: new Date().toISOString(),
+          }),
+          {
+            status: 400,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+      }
+
       if (Number.isNaN(archiveId)) {
         return new Response(
           JSON.stringify({
@@ -152,8 +173,8 @@ export const archiveHandlers = [
 
       return new Response(
         JSON.stringify({
-          data: Array.from({ length: 5 }).map((_, index) => ({
-            commentId: index,
+          data: Array.from({ length: size }).map((_, index) => ({
+            commentId: page * size + index,
             content: 'content',
             username: 'username',
             isMine: true,

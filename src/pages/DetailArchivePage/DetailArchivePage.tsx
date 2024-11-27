@@ -30,7 +30,7 @@ export const DetailArchivePage = () => {
 
   useEffect(() => {
     if (archive) void fetchNextPage();
-  }, [archive, fetchNextPage]);
+  }, [archive]);
 
   return (
     <div className={styles.wrapper}>
@@ -48,7 +48,7 @@ export const DetailArchivePage = () => {
           items.map(comment => (
             <CommentItem archiveId={Number(archiveId)} comment={comment} key={comment.commentId} />
           ))}
-        <div ref={ref}>{isFetchingNextPage && <p>Loading more comments...</p>}</div>
+        {archive && <div ref={ref}>{isFetchingNextPage && <p>Loading more comments...</p>}</div>}
       </div>
     </div>
   );
