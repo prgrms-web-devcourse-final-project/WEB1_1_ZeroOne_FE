@@ -1,7 +1,7 @@
-.joinForm {
+.profileForm {
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  row-gap: 2rem;
 
   & > div:not(:last-of-type)::after {
     position: absolute;
@@ -29,5 +29,16 @@
     left: 1rem;
     font-size: 1.25rem;
     font-weight: bold;
+  }
+}
+
+.submitBtnWrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 1rem 0;
+
+  & > button {
+    padding: 0.625rem 2rem;
   }
 }
