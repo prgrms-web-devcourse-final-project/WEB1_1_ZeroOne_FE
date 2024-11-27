@@ -12,11 +12,19 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
   const { mutate: deleteArchive } = useDeleteArchive();
   const navigate = useNavigate();
 
-  const { setArchiveData, setArchiveId } = useArchiveStore();
+  const { setArchiveData, setArchiveId, setColor } = useArchiveStore();
 
   const handleEditArchive = () => {
-    setArchiveData(archive);
+    setArchiveData({
+      title: archive.title,
+      description: archive.description,
+      type: archive.type,
+      canComment: archive.canComment,
+      tags: archive.tags,
+      imageUrls: archive.imageUrls,
+    });
     setArchiveId(archiveId);
+    setColor(archive.type);
     navigate(`/archive/write?edit=true`);
   };
 

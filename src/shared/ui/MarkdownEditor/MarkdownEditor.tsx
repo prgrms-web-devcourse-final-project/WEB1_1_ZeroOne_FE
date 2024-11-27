@@ -5,29 +5,26 @@ import { useRef, useEffect } from 'react';
 
 import styles from './MarkdownEditor.module.scss';
 
-import type { BaseArchiveDTO } from '@/features';
-import { MarkdownPreview, Toolbar, useMarkdown } from '@/features';
+import { MarkdownPreview, Toolbar, useArchiveStore, useMarkdown } from '@/features';
 
-export const MarkdownEditor = ({
-  markdownText,
-  updateArchiveData,
-}: {
-  markdownText: string;
-  updateArchiveData: <T extends keyof BaseArchiveDTO>(key: T, value: BaseArchiveDTO[T]) => void;
-}) => {
+export const MarkdownEditor = () => {
   const editorViewRef = useRef<EditorView | null>(null);
+
+  const { archiveData, updateArchiveData } = useArchiveStore();
 
   const { syncPreview, insertStartToggle, eventHandler, handleImage } = useMarkdown({
     editorViewRef,
-    markdownText,
-    setMarkdownText: newValue => {
-      updateArchiveData('description', newValue);
+    markdownText: archiveData.description,
+    setMarkdownText: markdown => {
+      updateArchiveData('description', markdown);
     },
   });
 
   useEffect(() => {
-    syncPreview();
-  }, [syncPreview]);
+    if (editorViewRef.current && archiveData.description) {
+      syncPreview();
+    }
+  }, [syncPreview, archiveData.description]);
 
   return (
     <div className={styles.container}>
@@ -61,10 +58,10 @@ export const MarkdownEditor = ({
               editorViewRef.current = update.view;
             }
           }}
-          value={markdownText}
+          value={archiveData.description}
         />
       </div>
-      <MarkdownPreview markdownText={markdownText} />
+      <MarkdownPreview markdownText={archiveData.description} />
     </div>
   );
 };

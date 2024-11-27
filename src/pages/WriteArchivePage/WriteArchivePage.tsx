@@ -1,7 +1,7 @@
-import { useReducer, useState } from 'react';
+import { useReducer } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { useArchiveStore, type Color } from '@/features';
+import { useArchiveStore } from '@/features';
 import { WriteArchiveContainer, ColorChoiceStep, WriteStep } from '@/widgets';
 
 type StepState = 'selectColor' | 'writeForm' | 'editForm';
@@ -24,13 +24,12 @@ const stepReducer = (state: StepState, action: StepAction, isEdit: boolean): Ste
 export const WriteArchivePage = () => {
   const [searchParams] = useSearchParams();
   const isEdit = searchParams.get('edit') === 'true';
-  const { archiveData } = useArchiveStore();
+  const { color, setColor } = useArchiveStore();
 
   const [currentStep, dispatch] = useReducer(
     (state: StepState, action: StepAction) => stepReducer(state, action, isEdit),
     isEdit ? 'editForm' : 'selectColor',
   );
-  const [color, setColor] = useState<Color | null>(isEdit ? archiveData.type : null);
 
   const getGuideAndChildren = () => {
     if (currentStep === 'selectColor') {
