@@ -1,4 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
 import {
   deleteArchive,
@@ -9,7 +10,14 @@ import {
   postCreateComment,
   putArchive,
 } from './archive.api';
-import type { BaseArchiveDTO, Comment, PostCommentApiResponse } from './archive.dto';
+import type {
+  BaseArchiveDTO,
+  Comment,
+  GetCommentsApiResponse,
+  PostCommentApiResponse,
+} from './archive.dto';
+
+import { useIntersectionObserver } from '@/shared/hook';
 
 export const useCreateArchive = () =>
   useMutation({
@@ -32,12 +40,43 @@ export const useArchive = (archiveId: number) =>
     queryFn: () => getArchive(archiveId),
   });
 
-export const useComment = (archiveId: number, enabled: boolean = false) =>
-  useQuery({
+export const useComments = (archiveId: number, enabled: boolean = false) => {
+  const { data, fetchNextPage, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<
+    GetCommentsApiResponse,
+    Error
+  >({
     queryKey: ['/archive', archiveId, 'comment'],
-    queryFn: () => getComments(archiveId),
+    queryFn: ({ pageParam = 0 }) => getComments(archiveId, 10, pageParam as number),
     enabled,
+    getNextPageParam: (lastPage, allPages) => {
+      if (Array.isArray(lastPage.data)) {
+        const isLastPage = lastPage.data?.length < 10;
+        return isLastPage ? null : allPages.length;
+      }
+      return null;
+    },
+    initialPageParam: 0,
   });
+
+  const items = useMemo(() => {
+    const temp: Comment[] = [];
+    data?.pages.forEach(page => {
+      page.data?.forEach(comment => {
+        temp.push(comment);
+      });
+    });
+    return temp;
+  }, [data]);
+
+  const ref = useIntersectionObserver(
+    () => {
+      void fetchNextPage();
+    },
+    { threshold: 1.0 },
+  );
+
+  return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage };
+};
 
 export const useCreateComment = (archiveId: number) => {
   const queryClient = useQueryClient();

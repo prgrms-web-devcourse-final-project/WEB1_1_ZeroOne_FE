@@ -4,14 +4,14 @@ import { useParams } from 'react-router-dom';
 import styles from './DetailArchivePage.module.scss';
 import { worker } from '../../mocks/browser';
 
-import { MarkdownPreview, WriteComment, CommentItem, useArchive, useComment } from '@/features';
+import { MarkdownPreview, WriteComment, CommentItem, useArchive, useComments } from '@/features';
 import { DetailHeader } from '@/widgets';
 
 export const DetailArchivePage = () => {
   const { archiveId } = useParams();
 
   const { data: archive, refetch: fetchArchive } = useArchive(Number(archiveId));
-  const { data: comments, refetch: fetchComments } = useComment(Number(archiveId), !!archive);
+  const { items, isFetchingNextPage, ref, fetchNextPage } = useComments(Number(archiveId));
 
   useEffect(() => {
     worker
@@ -29,8 +29,8 @@ export const DetailArchivePage = () => {
   }, [archiveId, fetchArchive]);
 
   useEffect(() => {
-    if (archive) void fetchComments();
-  }, [archive, fetchComments]);
+    if (archive) void fetchNextPage();
+  }, [archive, fetchNextPage]);
 
   return (
     <div className={styles.wrapper}>
@@ -44,10 +44,11 @@ export const DetailArchivePage = () => {
       )}
       <div className={styles.comment}>
         <WriteComment />
-        {comments?.data &&
-          comments.data.map(comment => (
+        {items &&
+          items.map(comment => (
             <CommentItem archiveId={Number(archiveId)} comment={comment} key={comment.commentId} />
           ))}
+        <div ref={ref}>{isFetchingNextPage && <p>Loading more comments...</p>}</div>
       </div>
     </div>
   );
