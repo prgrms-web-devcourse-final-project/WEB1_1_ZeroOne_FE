@@ -72,6 +72,7 @@ const DefaultInput: React.FC<InputProps> = ({ name, value, onChange, placeholder
       id={name}
       onChange={onChange}
       placeholder={placeholder}
+      spellCheck='false'
       value={value}
     />
   );
@@ -112,6 +113,7 @@ const TextInput: React.FC<TextAreaProps> = ({ name, value, onChange, maxLength, 
           onChange(e);
         }}
         placeholder={placeholder}
+        spellCheck='false'
         value={value}
       />
       {maxLength && <span>{`${value.length}/${maxLength}`}</span>}
