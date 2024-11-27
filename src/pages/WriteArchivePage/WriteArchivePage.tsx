@@ -1,17 +1,17 @@
 import { useReducer, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import type { Color } from '@/features';
+import { useArchiveStore, type Color } from '@/features';
 import { WriteArchiveContainer, ColorChoiceStep, WriteStep } from '@/widgets';
 
 type StepState = 'selectColor' | 'writeForm' | 'editForm';
 
 type StepAction = { type: 'SELECT_COLOR' } | { type: 'WRITE_FORM' } | { type: 'EDIT_FORM' };
 
-const stepReducer = (state: StepState, action: StepAction): StepState => {
+const stepReducer = (state: StepState, action: StepAction, isEdit: boolean): StepState => {
   switch (action.type) {
     case 'SELECT_COLOR':
-      return 'writeForm';
+      return isEdit ? 'editForm' : 'writeForm';
     case 'WRITE_FORM':
       return 'selectColor';
     case 'EDIT_FORM':
@@ -24,9 +24,13 @@ const stepReducer = (state: StepState, action: StepAction): StepState => {
 export const WriteArchivePage = () => {
   const [searchParams] = useSearchParams();
   const isEdit = searchParams.get('edit') === 'true';
+  const { archiveData } = useArchiveStore();
 
-  const [currentStep, dispatch] = useReducer(stepReducer, isEdit ? 'editForm' : 'selectColor');
-  const [color, setColor] = useState<Color | null>(null);
+  const [currentStep, dispatch] = useReducer(
+    (state: StepState, action: StepAction) => stepReducer(state, action, isEdit),
+    isEdit ? 'editForm' : 'selectColor',
+  );
+  const [color, setColor] = useState<Color | null>(isEdit ? archiveData.type : null);
 
   const getGuideAndChildren = () => {
     if (currentStep === 'selectColor') {
@@ -61,6 +65,7 @@ export const WriteArchivePage = () => {
         guide: '스토리를 수정해주세요',
         children: (
           <WriteStep
+            isEdit
             onClick={() => {
               dispatch({ type: 'EDIT_FORM' });
             }}

@@ -61,6 +61,7 @@ export const MarkdownEditor = ({
               editorViewRef.current = update.view;
             }
           }}
+          value={markdownText}
         />
       </div>
       <MarkdownPreview markdownText={markdownText} />

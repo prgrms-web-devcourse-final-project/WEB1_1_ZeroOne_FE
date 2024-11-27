@@ -1,29 +1,42 @@
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from './WriteStep.module.scss';
 
 import type { Color, BaseArchiveDTO } from '@/features';
-import { ColorMap, useCreateArchive } from '@/features';
+import { ColorMap, useCreateArchive, useArchiveStore } from '@/features';
 import { Button, MarkdownEditor, Switch, Tag } from '@/shared/ui';
 
 export const WriteStep = ({
   selectedColor,
   onClick,
+  isEdit = false,
 }: {
   selectedColor: Color;
   onClick: () => void;
+  isEdit?: boolean;
 }) => {
+  const { archiveData: prevArchiveData } = useArchiveStore();
   const [tag, setTag] = useState<string>('');
-  const [archiveData, setArchiveData] = useState<BaseArchiveDTO>({
-    title: '',
-    description: '',
-    type: selectedColor,
-    canComment: false,
-    tags: [],
-    imageUrls: [{ url: 'https://source.unsplash.com/random/800x600' }],
-  });
+  const [archiveData, setArchiveData] = useState<BaseArchiveDTO>(
+    isEdit
+      ? prevArchiveData
+      : {
+          title: '',
+          description: '',
+          type: selectedColor,
+          canComment: false,
+          tags: [],
+          imageUrls: [{ url: 'https://source.unsplash.com/random/800x600' }],
+        },
+  );
+
+  useEffect(() => {
+    if (isEdit) {
+      setArchiveData(prevArchiveData);
+    }
+  }, [isEdit, prevArchiveData]);
 
   const updateArchiveData = <T extends keyof BaseArchiveDTO>(key: T, value: BaseArchiveDTO[T]) => {
     setArchiveData(prev => ({ ...prev, [key]: value }));
@@ -115,7 +128,7 @@ export const WriteStep = ({
           createArchive(archiveData);
         }}
       >
-        아카이브 등록
+        {isEdit ? '아카이브 수정' : '아카이브 등록'}
       </Button>
     </>
   );
