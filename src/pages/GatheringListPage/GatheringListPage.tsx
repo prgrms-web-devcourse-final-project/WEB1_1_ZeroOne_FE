@@ -2,6 +2,7 @@
 import styles from './GatheringListPage.module.scss';
 import { PROJECT_CATEGORIES } from '../../shared/ui/SidebarFilter/config/constants';
 
+import { JOB_CATEGORIES } from '@/shared/model/jobCategories';
 import { SidebarFilter } from '@/shared/ui';
 import { GatheringSelectCon, GatheringGrid } from '@/widgets';
 
@@ -12,7 +13,8 @@ export const GatheringListPage = () => {
       <div className={styles.contentContainer}>
         <div className={styles.sidebarWrapper}>
           <aside className={styles.sidebarContainer}>
-            <SidebarFilter categories={PROJECT_CATEGORIES} />
+            {/* <SidebarFilter categories={PROJECT_CATEGORIES} /> */}
+            <SidebarFilter categories={JOB_CATEGORIES} />
           </aside>
         </div>
         <div className={styles.mainContent}>

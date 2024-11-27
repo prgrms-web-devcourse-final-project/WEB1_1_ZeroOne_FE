@@ -48,6 +48,8 @@
   flex-direction: column;
   gap: 1.25rem;
   margin-top: 1.25rem;
+  max-height: 20rem;
+  overflow-y: scroll;
 }
 
 .subItem {
