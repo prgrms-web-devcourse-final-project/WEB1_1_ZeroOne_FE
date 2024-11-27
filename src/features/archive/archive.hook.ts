@@ -9,7 +9,7 @@ import {
   postCreateComment,
   putArchive,
 } from './archive.api';
-import type { BaseArchiveDTO, Comment } from './archive.dto';
+import type { BaseArchiveDTO, Comment, PostCommentApiResponse } from './archive.dto';
 
 export const useCreateArchive = () =>
   useMutation({
@@ -78,19 +78,31 @@ export const useDeleteComment = (archiveId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ commentId }: { commentId: number }) => deleteComment(commentId),
+    mutationFn: ({ commentId }: { commentId: number }) => {
+      return deleteComment(commentId);
+    },
     onMutate: async ({ commentId }) => {
       await queryClient.cancelQueries({ queryKey: ['/archive', archiveId, 'comment'] });
 
       const previousComments = queryClient.getQueryData(['/archive', archiveId, 'comment']);
 
-      queryClient.setQueryData(['/archive', commentId, 'comment'], (old: Comment[]) =>
-        old.filter((comment: Comment) => comment.commentId !== commentId),
+      queryClient.setQueryData(
+        ['/archive', archiveId, 'comment'],
+        (old: PostCommentApiResponse) => {
+          if (Array.isArray(old?.data)) {
+            return old.data.filter(
+              (comment: Comment) => comment.commentId !== commentId,
+            ) as Comment[];
+          }
+          console.error('Data is not an array:', old?.data);
+          return old;
+        },
       );
 
       return { previousComments };
     },
     onError: (err, _, context) => {
+      console.log(err);
       if (context) {
         queryClient.setQueryData(['/archive', archiveId, 'comment'], context.previousComments);
       }

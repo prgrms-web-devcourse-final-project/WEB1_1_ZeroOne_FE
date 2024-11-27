@@ -230,4 +230,50 @@ export const archiveHandlers = [
       );
     }
   }),
+  http.delete('/archive/:archiveId', ({ params }) => {
+    try {
+      const archiveId = Number(params.archiveId);
+      if (Number.isNaN(archiveId)) {
+        return new Response(
+          JSON.stringify({
+            status: 400,
+            reason: '잘못된 archiveId입니다.',
+            timeStamp: new Date().toISOString(),
+          }),
+          {
+            status: 400,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+      }
+
+      return new Response(
+        JSON.stringify({
+          timeStamp: new Date().toISOString(),
+        }),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    } catch {
+      return new Response(
+        JSON.stringify({
+          status: 500,
+          reason: '서버 에러가 발생했습니다.',
+          timeStamp: new Date().toISOString(),
+        }),
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    }
+  }),
 ];

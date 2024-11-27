@@ -14,19 +14,27 @@ export const DetailArchivePage = () => {
   const { data: comments, refetch: fetchComments } = useComment(Number(archiveId), !!archive);
 
   useEffect(() => {
-    worker.start().then(() => {
-      if (archiveId) void fetchArchive();
-      if (archiveId) void fetchComments();
-    });
+    worker
+      .start()
+      .then(() => {
+        if (archiveId) void fetchArchive();
+      })
+      .catch(error => {
+        console.error('Failed to start worker:', error);
+      });
 
     return () => {
       worker.stop();
     };
-  }, [archiveId]);
+  }, [archiveId, fetchArchive]);
+
+  useEffect(() => {
+    if (archive) void fetchComments();
+  }, [archive, fetchComments]);
 
   return (
     <div className={styles.wrapper}>
-      {archive?.data && (
+      {archive && archive.data && (
         <>
           <DetailHeader archive={archive.data} archiveId={Number(archiveId)} />
           <div className={styles.markdown}>
