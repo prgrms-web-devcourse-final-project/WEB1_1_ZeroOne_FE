@@ -89,6 +89,67 @@ export const GatheringGrid = () => {
           tag={['tag1', 'tag2']}
           title='title'
         />
+        <GatheringCard
+          deadline='deadline'
+          introduction='introduction'
+          name='name'
+          tag={['tag1', 'tag2']}
+          title='title'
+        />
+        <GatheringCard
+          deadline='deadline'
+          introduction='introduction'
+          name='name'
+          tag={['tag1', 'tag2']}
+          title='title'
+        />
+        <GatheringCard
+          deadline='deadline'
+          introduction='introduction'
+          name='name'
+          tag={['tag1', 'tag2']}
+          title='title'
+        /><GatheringCard
+        deadline='deadline'
+        introduction='introduction'
+        name='name'
+        tag={['tag1', 'tag2']}
+        title='title'
+      />
+      <GatheringCard
+        deadline='deadline'
+        introduction='introduction'
+        name='name'
+        tag={['tag1', 'tag2']}
+        title='title'
+      />
+      <GatheringCard
+        deadline='deadline'
+        introduction='introduction'
+        name='name'
+        tag={['tag1', 'tag2']}
+        title='title'
+      /><GatheringCard
+      deadline='deadline'
+      introduction='introduction'
+      name='name'
+      tag={['tag1', 'tag2']}
+      title='title'
+    />
+    <GatheringCard
+      deadline='deadline'
+      introduction='introduction'
+      name='name'
+      tag={['tag1', 'tag2']}
+      title='title'
+    />
+    <GatheringCard
+      deadline='deadline'
+      introduction='introduction'
+      name='name'
+      tag={['tag1', 'tag2']}
+      title='title'
+    />
       </ul>
     </article>
   );

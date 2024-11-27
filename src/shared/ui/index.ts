@@ -7,4 +7,8 @@ export { MarkdownEditor } from './MarkdownEditor/MarkdownEditor';
 export { Input } from './Input/Input';
 export { Radio } from './Radio/Radio';
 export { Switch } from './Switch/Switch';
+
 export { Tag } from './Tag/Tag';
+export { TripleDot } from './TripleDot/TripleDot';
+export * from './SidebarFilter';
+
