@@ -1,33 +1,27 @@
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './WriteStep.module.scss';
 
-import type { Color, BaseArchiveDTO } from '@/features';
-import { ColorMap, useCreateArchive } from '@/features';
+import type { Color, PostArchiveApiResponse } from '@/features';
+import { ColorMap, useArchiveStore, useCreateArchive, useUpdateArchive } from '@/features';
 import { Button, MarkdownEditor, Switch, Tag } from '@/shared/ui';
 
 export const WriteStep = ({
-  selectedColor,
   onClick,
+  isEdit = false,
 }: {
   selectedColor: Color;
   onClick: () => void;
+  isEdit?: boolean;
 }) => {
-  const [tag, setTag] = useState<string>('');
-  const [archiveData, setArchiveData] = useState<BaseArchiveDTO>({
-    title: '',
-    description: '',
-    type: selectedColor,
-    canComment: false,
-    tags: [],
-    imageUrls: [{ url: 'https://source.unsplash.com/random/800x600' }],
-  });
+  const navigate = useNavigate();
 
-  const updateArchiveData = <T extends keyof BaseArchiveDTO>(key: T, value: BaseArchiveDTO[T]) => {
-    setArchiveData(prev => ({ ...prev, [key]: value }));
-  };
+  const { archiveData, archiveId, resetArchiveData, setArchiveId, updateArchiveData } =
+    useArchiveStore();
+  const [tag, setTag] = useState<string>('');
 
   const handleTagAddition = () => {
     if (tag.trim()) {
@@ -42,6 +36,32 @@ export const WriteStep = ({
   };
 
   const { mutate: createArchive } = useCreateArchive();
+  const { mutate: updateArchive } = useUpdateArchive(archiveId);
+
+  const handleEdit = () => {
+    updateArchive(archiveData, {
+      onSuccess: () => {
+        resetArchiveData();
+        navigate(`/archive/${archiveId}`);
+        setArchiveId(0);
+      },
+      onError: err => {
+        console.error(err);
+      },
+    });
+  };
+
+  const handleCreate = () => {
+    createArchive(archiveData, {
+      onSuccess: (data: PostArchiveApiResponse) => {
+        resetArchiveData();
+        navigate(`/archive/${data.data?.archiveId}`);
+      },
+      onError: err => {
+        console.error(err);
+      },
+    });
+  };
 
   return (
     <>
@@ -52,9 +72,9 @@ export const WriteStep = ({
           </button>
           <div
             className={styles.color}
-            style={{ backgroundColor: `${ColorMap[selectedColor].hex}` }}
+            style={{ backgroundColor: `${ColorMap[archiveData.type].hex}` }}
           />
-          <span>{ColorMap[selectedColor].name}</span>
+          <span>{ColorMap[archiveData.type].name}</span>
         </div>
         <div className={styles.settingWrapper}>
           <span>댓글 허용</span>
@@ -80,14 +100,7 @@ export const WriteStep = ({
           />
         </div>
       </div>
-
-      <MarkdownEditor
-        markdownText={archiveData.description}
-        updateArchiveData={(key, value) => {
-          updateArchiveData(key, value);
-        }}
-      />
-
+      <MarkdownEditor />
       <div className={styles.inputContainer}>
         <label>태그</label>
         <div className={styles.tags}>
@@ -112,10 +125,11 @@ export const WriteStep = ({
 
       <Button
         onClick={() => {
-          createArchive(archiveData);
+          if (isEdit) handleEdit();
+          else handleCreate();
         }}
       >
-        아카이브 등록
+        {isEdit ? '아카이브 수정' : '아카이브 등록'}
       </Button>
     </>
   );

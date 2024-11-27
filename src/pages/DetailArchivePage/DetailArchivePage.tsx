@@ -1,42 +1,54 @@
-import styles from './DetailArchivePage.module.scss';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-import { MarkdownPreview, WriteComment, type Archive, CommentItem, type Comment } from '@/features';
+import styles from './DetailArchivePage.module.scss';
+import { worker } from '../../mocks/browser';
+
+import { MarkdownPreview, WriteComment, CommentItem, useArchive, useComments } from '@/features';
 import { DetailHeader } from '@/widgets';
 
-const dummyArchive: Archive = {
-  title: 'title',
-  username: 'username',
-  description:
-    '# h1\n## h2\n### 하이하이\n예제 **만드는** 중\n어떻게 _보일지_\n> 인용\n\n```\ncode\n```\n\n',
-  job: 'job',
-  likeCount: 10,
-  canComment: true,
-  tags: [{ content: 'tag' }, { content: 'df' }, { content: 'dfsafsda' }, { content: 'fasd' }],
-  imageUrls: [{ url: 'url' }],
-  commentCount: 0,
-  hits: 0,
-  type: 'red',
-};
-
-const dummyComment: Comment = {
-  commentId: 1,
-  content: 'content',
-  username: 'username',
-  isMine: true,
-};
-
 export const DetailArchivePage = () => {
+  const { archiveId } = useParams();
+
+  const { data: archive, refetch: fetchArchive } = useArchive(Number(archiveId));
+  const { items, isFetchingNextPage, ref, fetchNextPage } = useComments(Number(archiveId));
+
+  useEffect(() => {
+    worker
+      .start()
+      .then(() => {
+        if (archiveId) void fetchArchive();
+      })
+      .catch(error => {
+        console.error('Failed to start worker:', error);
+      });
+
+    return () => {
+      worker.stop();
+    };
+  }, [archiveId, fetchArchive]);
+
+  useEffect(() => {
+    if (archive) void fetchNextPage();
+  }, [archive]);
+
   return (
     <div className={styles.wrapper}>
-      <DetailHeader archive={dummyArchive} />
-      <div className={styles.markdown}>
-        <MarkdownPreview markdownText={dummyArchive.description} />
-      </div>
+      {archive && archive.data && (
+        <>
+          <DetailHeader archive={archive.data} archiveId={Number(archiveId)} />
+          <div className={styles.markdown}>
+            <MarkdownPreview markdownText={archive.data.description} />
+          </div>
+        </>
+      )}
       <div className={styles.comment}>
-        <WriteComment />
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CommentItem comment={dummyComment} key={index} />
-        ))}
+        <WriteComment archiveId={Number(archiveId)} />
+        {items &&
+          items.map(comment => (
+            <CommentItem archiveId={Number(archiveId)} comment={comment} key={comment.commentId} />
+          ))}
+        {archive && <div ref={ref}>{isFetchingNextPage && <p>Loading more comments...</p>}</div>}
       </div>
     </div>
   );
