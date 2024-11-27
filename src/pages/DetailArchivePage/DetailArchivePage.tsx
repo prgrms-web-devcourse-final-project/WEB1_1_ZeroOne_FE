@@ -43,7 +43,7 @@ export const DetailArchivePage = () => {
         </>
       )}
       <div className={styles.comment}>
-        <WriteComment />
+        <WriteComment archiveId={Number(archiveId)} />
         {items &&
           items.map(comment => (
             <CommentItem archiveId={Number(archiveId)} comment={comment} key={comment.commentId} />

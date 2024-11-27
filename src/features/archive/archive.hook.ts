@@ -78,40 +78,10 @@ export const useComments = (archiveId: number, enabled: boolean = false) => {
   return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage };
 };
 
-export const useCreateComment = (archiveId: number) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+export const useCreateComment = (archiveId: number) =>
+  useMutation({
     mutationFn: (content: string) => postCreateComment(archiveId, content),
-    onMutate: async newCommentContent => {
-      await queryClient.cancelQueries({ queryKey: ['/archive', archiveId, 'comment'] });
-
-      const previousComments = queryClient.getQueryData(['/archive', archiveId, 'comment']);
-
-      queryClient.setQueryData(['/archive', archiveId, 'comment'], (old: Comment[]) => [
-        ...old,
-        {
-          commentId: Date.now(),
-          content: newCommentContent,
-          archiveId,
-          userProfile: '',
-          username: '',
-          isMine: true,
-        },
-      ]);
-
-      return { previousComments };
-    },
-    onError: (err, _, context) => {
-      if (context) {
-        queryClient.setQueryData(['/archive', archiveId, 'comment'], context.previousComments);
-      }
-    },
-    onSettled: () => {
-      void queryClient.invalidateQueries({ queryKey: ['/archive', archiveId, 'comment'] });
-    },
   });
-};
 
 export const useDeleteComment = (archiveId: number) => {
   const queryClient = useQueryClient();
