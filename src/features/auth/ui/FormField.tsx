@@ -40,10 +40,9 @@ const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restPr
   return (
     <div className={styles.arrayInputWrapper}>
       {fields.map((field, index) => (
-        <div className={styles.inputPart}>
+        <div className={styles.inputPart} key={field.id}>
           <Controller
             control={control}
-            key={field.id}
             name={`${name}.${index}.value`}
             render={({ field }) => <RenderInput field={field} type={type} {...restProps} />}
           />
@@ -75,7 +74,7 @@ export const FormField: React.FC<FormFieldProps> = React.memo(
     return (
       <div className={styles.formInputWrapper}>
         <div className={styles.formInput}>
-          <label htmlFor={name}>{label}</label>
+          <span>{label}</span>
           {name === 'url' ? (
             <ArrayInputField name={name} {...restProps} />
           ) : (
