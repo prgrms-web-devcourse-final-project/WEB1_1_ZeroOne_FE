@@ -25,6 +25,16 @@ export interface Archive extends BaseArchiveDTO {
   userProfile: string;
 }
 
+export interface ArchiveCardDTO {
+  archiveId: number;
+  title: string;
+  type: Color;
+  likeCount: number;
+  usename: string;
+  thumbnail: string;
+  createDate: Date;
+}
+
 export interface Comment {
   commentId: number;
   content: string;

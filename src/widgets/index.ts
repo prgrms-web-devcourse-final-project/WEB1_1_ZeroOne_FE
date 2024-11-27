@@ -5,3 +5,4 @@ export * from './Layout';
 export * from './WriteArchive';
 export * from './WriteGathering/WriteGatheringOpts';
 export * from './WriteGathering/WriteGatheringDetail';
+export * from './ArchiveGrid';
