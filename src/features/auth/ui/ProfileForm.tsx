@@ -24,9 +24,6 @@ export const ProfileForm = () => {
     },
   });
 
-  console.log('Error', method.formState.errors);
-  console.log(method.watch());
-
   const onSubmit = (data: FormValues) => {
     console.log('폼 데이터:', data);
   };

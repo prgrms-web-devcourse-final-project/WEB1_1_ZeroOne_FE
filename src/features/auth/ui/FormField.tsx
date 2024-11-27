@@ -42,7 +42,7 @@ const InputField: React.FC<InputFieldProps> = ({ type = 'default', name, ...rest
 };
 
 const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restProps }) => {
-  const { control, formState } = useFormContext<FormValues>();
+  const { control, formState, setError } = useFormContext<FormValues>();
   const { append, remove, fields } = useFieldArray({ name, control });
 
   const inputError = formState.errors[name];
@@ -74,8 +74,10 @@ const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restPr
         className={styles.addBtn}
         onClick={() => {
           if (fields.length === 5) {
+            setError('url', { message: 'URL은 최대 5개 까지 입력가능합니다.' });
             return;
           }
+
           append({ value: '' });
         }}
         type='button'
@@ -92,7 +94,6 @@ export const FormField: React.FC<FormFieldProps> = React.memo(
     const { formState } = useFormContext<FormValues>();
     const errorMessage = formState.errors[name]?.message;
 
-    console.log(errorMessage, name);
     return (
       <div className={styles.formInputWrapper}>
         <div className={styles.formInput}>
