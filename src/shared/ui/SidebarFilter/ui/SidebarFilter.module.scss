@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.categoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.categoryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.categoryButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $primary-color;
+  text-align: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &.selected {
+    color: $third-color;
+  }
+}
+
+.count {
+  font-size: 1rem;
+  color: inherit;
+}
+
+.subList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  max-height: 20rem;
+  overflow-y: scroll;
+}
+
+.subItem {
+  width: 100%;
+}
+
+.subItemButton {
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $primary-color;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &.selected {
+    color: $third-color;
+  }
+}

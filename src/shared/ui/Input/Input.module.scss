@@ -1,0 +1,16 @@
+.inputWrapper {
+  display: inline-block;
+  width: 100%;
+  border: 1px solid $primary-color;
+  border-radius: 1rem;
+
+  & > input {
+    width: 100%;
+    padding: 0.625rem 1rem;
+  }
+
+  &:focus-within {
+    border-color: $active-color;
+    box-shadow: 0 0 0 1px $active-color;
+  }
+}
