@@ -14,36 +14,24 @@ import type { FormValues, InputFieldProps, Option } from '../form.types';
 //components
 import { Input, Radio, TextArea } from '@/shared/ui';
 
-interface InputProps {
-  value: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface InputProps<T = string, Element = HTMLInputElement> {
+  value: T;
+  onChange: (e: React.ChangeEvent<Element>) => void;
   name: string;
   placeholder?: string;
-}
-
-interface RadioGroupProps {
-  options: Option[];
-  value: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  name: string;
-}
-
-interface TextAreaProps {
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   maxLength?: number;
-  placeholder?: string;
 }
 
-interface SelectInputProps {
-  value: Option;
+interface RadioGroupProps extends InputProps {
+  options: Option[];
+}
+
+interface SelectInputProps extends Omit<InputProps<Option>, 'onChange'> {
   options: Option[];
   onChange: (
     newValue: MultiValue<Option> | SingleValue<Option>,
     actionMeta: ActionMeta<Option>,
   ) => void;
-  placeholder?: string;
 }
 
 const RadioGroup: React.FC<RadioGroupProps> = ({ name, value, onChange, options }) => {
@@ -78,10 +66,17 @@ const DefaultInput: React.FC<InputProps> = ({ name, value, onChange, placeholder
   );
 };
 
-const SelectInput: React.FC<SelectInputProps> = ({ options, value, onChange, placeholder }) => {
+const SelectInput: React.FC<SelectInputProps> = ({
+  name,
+  options,
+  value,
+  onChange,
+  placeholder,
+}) => {
   return (
     <Select
       className={styles.input}
+      name={name}
       onChange={onChange}
       options={options}
       placeholder={placeholder}
@@ -90,7 +85,13 @@ const SelectInput: React.FC<SelectInputProps> = ({ options, value, onChange, pla
   );
 };
 
-const TextInput: React.FC<TextAreaProps> = ({ name, value, onChange, maxLength, placeholder }) => {
+const TextInput: React.FC<InputProps<string, HTMLTextAreaElement>> = ({
+  name,
+  value,
+  onChange,
+  maxLength,
+  placeholder,
+}) => {
   const resizeAreaSize = (target: EventTarget & HTMLTextAreaElement) => {
     target.style.height = 'auto';
     target.style.height = `${target.scrollHeight}px`;
@@ -181,6 +182,7 @@ export const RenderInput = ({
     case 'select':
       return (
         <SelectInput
+          name={field.name}
           onChange={field.onChange}
           options={restProps.options ?? []}
           value={field.value as Option}
