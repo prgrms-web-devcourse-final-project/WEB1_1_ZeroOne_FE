@@ -1,0 +1,86 @@
+.formInputWrapper {
+  & > .formInput {
+    position: relative;
+    display: flex;
+    column-gap: 0.5rem;
+    max-width: 560px;
+
+    & > label {
+      width: 100px;
+      padding-top: 0.5rem;
+      font-weight: 500;
+    }
+
+    & > svg {
+      position: absolute;
+      top: 50%;
+      right: -2rem;
+      color: $active-color;
+      transform: translateY(-50%);
+    }
+  }
+
+  & .errorMessage {
+    display: flex;
+    column-gap: 0.25rem;
+    align-items: center;
+    padding: 0.25rem 0 0 calc(100px + 0.5rem);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $red;
+
+    & svg {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.arrayInputWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  align-items: flex-end;
+  width: 100%;
+
+  & .iconBtn {
+    font-size: 1.5rem;
+    color: $primary-color;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  & .btn {
+    display: flex;
+    column-gap: 0.5rem;
+    align-items: center;
+    padding: 0;
+    cursor: pointer;
+    background-color: transparent;
+
+    & > span {
+      line-height: 1.25rem;
+    }
+
+    & .iconBtn {
+      font-size: 1.25rem;
+    }
+
+    &:hover > .iconBtn {
+      color: $active-color;
+    }
+  }
+
+  & .inputPart {
+    display: flex;
+    flex: 1;
+    column-gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+
+    & > .iconBtn {
+      &:hover {
+        color: $red;
+      }
+    }
+  }
+}
