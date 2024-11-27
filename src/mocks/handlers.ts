@@ -1,6 +1,6 @@
 import { http } from 'msw';
 
-import type { PostArchiveRequestDTO } from '@/features';
+import type { BaseArchiveDTO } from '@/features';
 
 export const handlers = [
   http.post('/archive', async ({ request }) => {
@@ -21,7 +21,7 @@ export const handlers = [
           },
         );
       }
-      const { title, description, type, tags, imageUrls } = body as PostArchiveRequestDTO;
+      const { title, description, type, tags, imageUrls } = body as BaseArchiveDTO;
 
       if (!title || !description || !type || tags.length === 0 || imageUrls.length === 0) {
         return new Response(
