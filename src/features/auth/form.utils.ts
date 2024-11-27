@@ -12,7 +12,7 @@ export const formValidation = yup.object({
       value: yup.string().defined(),
       label: yup.string().defined(),
     })
-    .required('분야를 선택해주세요.'),
+    .required('직군을 선택해주세요.'),
   minorJobGroup: yup
     .object()
     .shape({
@@ -20,14 +20,18 @@ export const formValidation = yup.object({
       label: yup.string().defined(),
     })
     .defined()
-    .required('분야를 선택해주세요.'),
+    .required('직무를 선택해주세요.'),
   jobTitle: yup.string().defined(),
   division: yup.string().default('student'),
   url: yup
     .array()
     .of(
       yup.object().shape({
-        value: yup.string().defined().url('URL 형식에 맞게 입력해주세요.'),
+        value: yup
+          .string()
+          .defined()
+          .required('URL을 입력해주세요.')
+          .url('URL 형식에 맞게 입력해주세요.'),
       }),
     )
     .max(5, 'URL은 최대 5개 까지 작성 가능합니다.')
