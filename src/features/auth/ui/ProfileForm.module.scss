@@ -1,0 +1,44 @@
+.profileForm {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+
+  & > div:not(:last-of-type)::after {
+    position: absolute;
+    bottom: -0.5rem;
+    display: block;
+    width: 100%;
+    height: 1px;
+    content: '';
+    background-color: $form-gray-color;
+  }
+}
+
+.formSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 3rem 1rem;
+  border-radius: 1rem;
+  box-shadow: $form-section-shadow;
+
+  & legend {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+}
+
+.submitBtnWrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 1rem 0;
+
+  & > button {
+    padding: 0.625rem 2rem;
+  }
+}
