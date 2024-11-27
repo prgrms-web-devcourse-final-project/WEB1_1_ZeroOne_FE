@@ -10,7 +10,7 @@ interface useProfileFormProps {
 }
 
 export const useProfileForm = ({ formConfig }: useProfileFormProps) => {
-  const [formStructure, setFormStructure] = useState(formConfig.structure);
+  const [formStructure, setFormStructure] = useState([...formConfig.structure]);
   const method = useForm<FormValues>({
     resolver: yupResolver(formConfig.validation),
     mode: 'onChange',
