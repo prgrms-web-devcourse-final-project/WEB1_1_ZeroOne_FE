@@ -3,9 +3,10 @@ import { FormProvider } from 'react-hook-form';
 import { FormField } from './FormField';
 import styles from './ProfileForm.module.scss';
 import { useProfileForm } from '../form.hook';
+import { formConfig } from '../form.utils';
 
 export const ProfileForm = () => {
-  const { method, formStructure, onSubmit } = useProfileForm();
+  const { method, formStructure, onSubmit } = useProfileForm({ formConfig });
 
   return (
     <FormProvider {...method}>

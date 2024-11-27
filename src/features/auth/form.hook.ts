@@ -2,10 +2,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import type { FormConfigType } from './form.types';
 import { JOB_CATEGORIES, type FormValues } from './form.types';
-import { formConfig } from './form.utils';
 
-export const useProfileForm = () => {
+interface useProfileFormProps {
+  formConfig: FormConfigType;
+}
+
+export const useProfileForm = ({ formConfig }: useProfileFormProps) => {
   const [formStructure, setFormStructure] = useState(formConfig.structure);
   const method = useForm<FormValues>({
     resolver: yupResolver(formConfig.validation),
@@ -26,7 +30,7 @@ export const useProfileForm = () => {
   /**
    * 직군 선택 시 직무 불러오기
    * majorJobGroup = Option ({value, label}), 직군
-   * formConfig의 minorJobGroup input option에 직무 그룹 추가
+   * formConfig의 minorJobGroup input option에 직무 그룹
    */
   useEffect(() => {
     if (!majorJobGroup) return;
