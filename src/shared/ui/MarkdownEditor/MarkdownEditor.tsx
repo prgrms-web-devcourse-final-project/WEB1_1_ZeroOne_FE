@@ -5,7 +5,7 @@ import { useRef, useEffect } from 'react';
 
 import styles from './MarkdownEditor.module.scss';
 
-import type { PostArchiveRequestDTO } from '@/features';
+import type { BaseArchiveDTO } from '@/features';
 import { MarkdownPreview, Toolbar, useMarkdown } from '@/features';
 
 export const MarkdownEditor = ({
@@ -13,10 +13,7 @@ export const MarkdownEditor = ({
   updateArchiveData,
 }: {
   markdownText: string;
-  updateArchiveData: <T extends keyof PostArchiveRequestDTO>(
-    key: T,
-    value: PostArchiveRequestDTO[T],
-  ) => void;
+  updateArchiveData: <T extends keyof BaseArchiveDTO>(key: T, value: BaseArchiveDTO[T]) => void;
 }) => {
   const editorViewRef = useRef<EditorView | null>(null);
 

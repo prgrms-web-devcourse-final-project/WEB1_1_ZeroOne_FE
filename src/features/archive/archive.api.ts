@@ -1,4 +1,4 @@
-import type { PostArchiveApiResponse, PostArchiveRequestDTO } from './archive.dto';
+import type { PostArchiveApiResponse, BaseArchiveDTO } from './archive.dto';
 
 import api from '@/shared/api/baseApi';
 
@@ -9,7 +9,7 @@ export const postCreateArchive = ({
   canComment,
   tags,
   imageUrls,
-}: PostArchiveRequestDTO) =>
+}: BaseArchiveDTO) =>
   api
     .post<PostArchiveApiResponse>('/archive', {
       title,
