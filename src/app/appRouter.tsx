@@ -18,6 +18,10 @@ const AppRouter = () => {
         },
         {
           path: '/archive',
+          element: <>{/** archiveListPage */}</>,
+        },
+        {
+          path: '/archive/write',
           element: <WriteArchivePage />,
         },
         {
