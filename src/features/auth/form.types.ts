@@ -16,14 +16,13 @@ export interface FormValues {
   imageUrl: string;
 }
 
-export type FormInputType = 'default' | 'radio' | 'select' | 'image' | 'textarea';
-export type FormArrayInputType = 'array';
+export type FormInputType = 'default' | 'radio' | 'select' | 'image' | 'textarea' | 'array';
+
 export type FormValuesName = keyof FormValues;
-export type FormArrayInputKey = 'url';
 
 export interface InputFieldProps {
-  name: keyof FormValues;
-  type?: FormInputType | FormArrayInputType;
+  name: FormValuesName;
+  type?: FormInputType;
   placeholder?: string;
   options?: Option[];
   maxLength?: number;
