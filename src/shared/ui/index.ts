@@ -11,4 +11,4 @@ export { Switch } from './Switch/Switch';
 export { Tag } from './Tag/Tag';
 export { TripleDot } from './TripleDot/TripleDot';
 export * from './SidebarFilter';
-
+export * from './SweetAlert/alerts';
