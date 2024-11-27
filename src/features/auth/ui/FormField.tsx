@@ -21,6 +21,14 @@ interface FormFieldProps extends InputFieldProps {
   required?: boolean;
 }
 
+interface ErrorMessageProps {
+  message: string;
+}
+
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
+  return <span className={styles.errorMessage}>{message}</span>;
+};
+
 const InputField: React.FC<InputFieldProps> = ({ type = 'default', name, ...restProps }) => {
   const { control } = useFormContext<FormValues>();
 
@@ -34,30 +42,40 @@ const InputField: React.FC<InputFieldProps> = ({ type = 'default', name, ...rest
 };
 
 const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restProps }) => {
-  const { control } = useFormContext<FormValues>();
+  const { control, formState } = useFormContext<FormValues>();
   const { append, remove, fields } = useFieldArray({ name, control });
+
+  const inputError = formState.errors[name];
 
   return (
     <div className={styles.arrayInputWrapper}>
       {fields.map((field, index) => (
-        <div className={styles.inputPart} key={field.id}>
-          <Controller
-            control={control}
-            name={`${name}.${index}.value`}
-            render={({ field }) => <RenderInput field={field} type={type} {...restProps} />}
-          />
-          <FontAwesomeIcon
-            className={styles.iconBtn}
-            icon={faCircleMinus}
-            onClick={() => {
-              remove(index);
-            }}
-          />
+        <div className={styles.urlInputWrapper} key={field.id}>
+          <div className={styles.urlInput}>
+            <Controller
+              control={control}
+              name={`${name}.${index}.value`}
+              render={({ field }) => <RenderInput field={field} type={type} {...restProps} />}
+            />
+            <FontAwesomeIcon
+              className={styles.iconBtn}
+              icon={faCircleMinus}
+              onClick={() => {
+                remove(index);
+              }}
+            />
+          </div>
+          {inputError && inputError[index]?.value?.message && (
+            <ErrorMessage message={inputError[index]?.value?.message ?? ''} />
+          )}
         </div>
       ))}
       <button
-        className={styles.btn}
+        className={styles.addBtn}
         onClick={() => {
+          if (fields.length === 5) {
+            return;
+          }
           append({ value: '' });
         }}
         type='button'
@@ -71,6 +89,10 @@ const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restPr
 
 export const FormField: React.FC<FormFieldProps> = React.memo(
   ({ name, label, required, type = 'default', ...restProps }) => {
+    const { formState } = useFormContext<FormValues>();
+    const errorMessage = formState.errors[name]?.message;
+
+    console.log(errorMessage, name);
     return (
       <div className={styles.formInputWrapper}>
         <div className={styles.formInput}>
@@ -82,10 +104,7 @@ export const FormField: React.FC<FormFieldProps> = React.memo(
           )}
           {required && <FontAwesomeIcon icon={faCircleExclamation} />}
         </div>
-        {/* <span className={styles.errorMessage}>
-          <FontAwesomeIcon icon={faX} />
-          비밀번호를 다시 입력해주세요.
-        </span> */}
+        {errorMessage && <ErrorMessage message={errorMessage} />}
       </div>
     );
   },
