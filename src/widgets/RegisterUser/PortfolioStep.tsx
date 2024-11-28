@@ -2,8 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './PortfolioStep.module.scss';
 
-import { usePortfolioInput } from '@/features/auth/form.hook';
-import { PortfolioInput } from '@/features/auth/ui/PortfolioInput';
+import { PortfolioInput, usePortfolioInput } from '@/features/auth';
 import { Button } from '@/shared/ui';
 
 interface PortfolioStepProps {

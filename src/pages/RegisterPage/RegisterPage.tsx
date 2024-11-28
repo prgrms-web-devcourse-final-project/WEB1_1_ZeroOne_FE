@@ -2,10 +2,8 @@ import { useState } from 'react';
 
 import styles from './RegisterPage.module.scss';
 
-import { JOIN_STAGES } from '@/features/auth/progress.type';
-import { RegisterProgress } from '@/features/auth/ui/RegisterProgress';
-import { PortfolioStep } from '@/widgets/RegisterUser/PortfolioStep';
-import { ProfileStep } from '@/widgets/RegisterUser/ProfileStep';
+import { RegisterProgress, JOIN_STAGES } from '@/features/auth';
+import { ProfileStep, PortfolioStep } from '@/widgets/RegisterUser';
 
 const StepComponentList = [ProfileStep, PortfolioStep];
 

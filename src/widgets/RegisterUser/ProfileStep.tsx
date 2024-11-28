@@ -2,8 +2,7 @@ import type React from 'react';
 
 import styles from './ProfileStep.module.scss';
 
-import { formConfig } from '@/features/auth/form.utils';
-import { ProfileForm } from '@/features/auth/ui/ProfileForm';
+import { ProfileForm, formConfig } from '@/features/auth';
 import { Button } from '@/shared/ui';
 
 interface ProfileStepProps {
