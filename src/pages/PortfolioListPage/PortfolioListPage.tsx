@@ -6,7 +6,7 @@ import { SidebarFilter } from '@/shared/ui';
 export const PortfolioListPage = () => {
   return (
     <div className={styles.pageWrapper}>
-      <h1 className={styles.h1}>프로젝트</h1>
+      <h1 className={styles.h1}>포트폴리오</h1>
       <div className={styles.contentContainer}>
         <div className={styles.sidebarWrapper}>
           <aside className={styles.sidebarContainer}>
