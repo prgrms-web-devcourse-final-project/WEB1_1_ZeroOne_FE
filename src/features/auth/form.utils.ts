@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import type { FormConfigType } from './form.types';
+import type { FormConfigType, FormValues } from './form.types';
 import { JOB_CATEGORIES, JOB_DIVISION } from './form.types';
 
 export const formValidation = yup.object({
@@ -36,10 +36,10 @@ export const formValidation = yup.object({
     )
     .max(5, 'URL은 최대 5개 까지 작성 가능합니다.')
     .defined(),
-  imageUrl: yup.string().required('프로필 이미지를 등록해주세요.'),
+  imageUrl: yup.string().defined(), //.required('프로필 이미지를 등록해주세요.'),
 });
 
-export const formConfig: FormConfigType = {
+export const formConfig: FormConfigType<FormValues> = {
   structure: [
     {
       title: '기본 정보',
