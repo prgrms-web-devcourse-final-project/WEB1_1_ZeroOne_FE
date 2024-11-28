@@ -48,7 +48,8 @@ jobs:
           temporaryPublicStorage: true
 
       - name: Format lighthouse score
-        uses: actions/github-script@v3
+        if: success() # Lighthouse CI가 성공했을 때만 실행
+        uses: actions/github-script@v6 # v3에서 v6로 업그레이드
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -105,30 +106,24 @@ jobs:
                 comments += comment + "\n" + detail + "\n\n---\n\n";
               });
 
-              try {
-                // PR 여부 확인 (github.context 대신 process.env 사용)
-                if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
-                  await github.rest.issues.createComment({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: context.payload.pull_request.number,
-                    body: comments
-                  });
-                } else if (process.env.GITHUB_EVENT_NAME === 'push') {
-                  await github.rest.repos.createCommitComment({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    commit_sha: process.env.GITHUB_SHA,
-                    body: comments
-                  });
-                }
-                
-                core.setOutput('comments', comments);
-              } catch (error) {
-                console.error('Failed to create comment:', error);
-                core.setFailed(`Failed to create comment: ${error.message}`);
-                return;
+              // Comment to PR or commit
+              const isPR = !!context.payload.pull_request;
+              
+              if (isPR) {
+                await github.rest.issues.createComment({
+                  ...context.repo,
+                  issue_number: context.payload.pull_request.number,
+                  body: comments
+                });
+              } else {
+                await github.rest.repos.createCommitComment({
+                  ...context.repo,s
+                  commit_sha: context.sha,
+                  body: comments
+                });
               }
+
+              core.setOutput('comments', comments);
               
             } catch (error) {
               core.setFailed(`Error: ${error.message}`);
