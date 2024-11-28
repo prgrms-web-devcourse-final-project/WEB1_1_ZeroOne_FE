@@ -62,3 +62,29 @@ export const useProfileForm = ({ formConfig }: useProfileFormProps) => {
     method,
   };
 };
+
+export const usePortfolioInput = () => {
+  const [portfolioUrl, setPortfolioUrl] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPortfolioUrl(e.target.value);
+    validate(e.target.value);
+  };
+
+  const validate = (value: string) => {
+    if (value.trim() === '') {
+      setError('포트폴리오 URL을 입력해주세요.');
+      return false;
+    }
+
+    if (!(value.startsWith('https://') || value.startsWith('http://'))) {
+      setError('URL 형식이 잘못됬습니다.');
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+  return { portfolioUrl, error, handleInputChange, validate };
+};
