@@ -6,8 +6,8 @@ export { SelectBtn } from './SelectBtn/SelectBtn';
 export { MarkdownEditor } from './MarkdownEditor/MarkdownEditor';
 export { Input } from './Input/Input';
 export { Radio } from './Radio/Radio';
+export { TextArea } from './TextArea/TextArea';
 export { Switch } from './Switch/Switch';
-
 export { Tag } from './Tag/Tag';
 export { TripleDot } from './TripleDot/TripleDot';
 export * from './SidebarFilter';
