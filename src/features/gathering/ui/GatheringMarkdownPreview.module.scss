@@ -1,0 +1,83 @@
+.mirror {
+  h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
+
+  h3 {
+    font-size: 1.17em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
+
+  p {
+    margin-bottom: 1em;
+    line-height: 1.6;
+  }
+
+  code {
+    padding: 0.2em 0.4em;
+    background-color: #f3f4f6;
+    border-radius: 0.25rem;
+    font-family: monospace;
+  }
+
+  pre {
+    margin-bottom: 1em;
+    padding: 1em;
+    background-color: #f3f4f6;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+
+    code {
+      padding: 0;
+      background-color: transparent;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1em 0;
+  }
+
+  ul,
+  ol {
+    margin-bottom: 1em;
+    padding-left: 2em;
+
+    li {
+      margin-bottom: 0.5em;
+    }
+  }
+
+  a {
+    color: #3b82f6;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  blockquote {
+    border-left: 4px solid #e5e7eb;
+    padding-left: 1em;
+    margin: 1em 0;
+    color: #4b5563;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid #e5e7eb;
+    margin: 2em 0;
+  }
+}
