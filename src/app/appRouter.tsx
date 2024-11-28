@@ -24,10 +24,14 @@ const AppRouter = () => {
         },
         {
           path: '/archive',
+          element: <>{/** archiveListPage */}</>,
+        },
+        {
+          path: '/archive/write',
           element: <WriteArchivePage />,
         },
         {
-          path: '/archive/:id',
+          path: '/archive/:archiveId',
           element: <DetailArchivePage />,
         },
         {
