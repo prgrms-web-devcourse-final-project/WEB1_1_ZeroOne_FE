@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styles from './GatheringCard.module.scss';
 import { JobTag } from './JobTag';
 
-interface GatheringCardProps {
+export interface GatheringCardProps {
   title: string;
   className?: string; // 외부에서 추가 클래스 전달 가능
   name?: string;

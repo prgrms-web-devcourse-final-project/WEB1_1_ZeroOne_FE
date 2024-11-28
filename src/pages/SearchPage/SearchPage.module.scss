@@ -5,4 +5,8 @@
   gap: 2rem;
   align-items: center;
   padding: 4rem 8rem;
+
+  @media (width <= 768px) {
+    padding: 4rem;
+  }
 }
