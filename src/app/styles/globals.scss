@@ -1,6 +1,117 @@
 @use './variables';
 @import 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css';
 
+// Sweetalert2 폰트 & 스타일링
+.swal2-popup {
+  background-color: variables.$secondary-color !important;
+  border-radius: 1rem !important;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+}
+
+.swal2-title,
+.swal2-content,
+.swal2-html-container {
+  color: variables.$primary-color !important;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+}
+
+.swal2-confirm {
+  background-color: variables.$deep-black !important;
+  color: variables.$secondary-color !important;
+  border-radius: 0.5rem !important;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(variables.$deep-black, 0.3) !important;
+  }
+}
+
+.swal2-cancel {
+  background-color: variables.$third-color !important;
+  color: variables.$secondary-color !important;
+  border-radius: 0.5rem !important;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(variables.$third-color, 0.3) !important;
+  }
+}
+
+.swal2-input,
+.swal2-textarea {
+  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+  border-color: rgba(variables.$primary-color, 0.2) !important;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(variables.$deep-black, 0.1) !important;
+    border-color: rgba(variables.$deep-black, 0.4) !important;
+  }
+}
+
+// 토스트 메시지 스타일링
+.swal2-toast {
+  background-color: rgba(variables.$secondary-color, 0.95) !important;
+  box-shadow: 0 0 1rem rgba(variables.$primary-color, 0.1) !important;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+}
+
+// 아이콘 색상 커스텀
+.swal2-icon {
+  &.swal2-success {
+    border-color: variables.$green !important;
+    color: variables.$green !important;
+
+    .swal2-success-line-tip,
+    .swal2-success-line-long {
+      background-color: variables.$green !important;
+    }
+
+    .swal2-success-ring {
+      border-color: rgba(variables.$green, 0.3) !important;
+    }
+  }
+
+  &.swal2-error {
+    border-color: variables.$red !important;
+    color: variables.$red !important;
+
+    .swal2-x-mark-line-left,
+    .swal2-x-mark-line-right {
+      background-color: variables.$red !important;
+    }
+  }
+
+  &.swal2-warning {
+    border-color: variables.$yellow !important;
+    color: variables.$yellow !important;
+  }
+
+  &.swal2-info {
+    border-color: variables.$blue !important;
+    color: variables.$blue !important;
+  }
+
+  &.swal2-question {
+    border-color: variables.$purple !important;
+    color: variables.$purple !important;
+  }
+}
+
+// 오버레이 배경 커스텀
+.swal2-container.swal2-backdrop-show {
+  background-color: variables.$modal-bg !important;
+}
+
+// 프로그레스 바 커스텀 (토스트용)
+.swal2-timer-progress-bar {
+  background-color: rgba(variables.$primary-color, 0.2) !important;
+}
+
+.custom-swal-font {
+  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+  font-weight: 700;
+}
+
 html,
 body,
 div,

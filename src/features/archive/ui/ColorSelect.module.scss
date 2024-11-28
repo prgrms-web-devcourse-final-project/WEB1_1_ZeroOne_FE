@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem;
+}
+
+.color {
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: 0.3s ease;
+
+  &:hover {
+    transform: scale(1.3);
+  }
+}
+
+.red {
+  background-color: $red;
+}
+
+.yellow {
+  background-color: $yellow;
+}
+
+.blue {
+  background-color: $blue;
+}
+
+.green {
+  background-color: $green;
+}
+
+.purple {
+  background-color: $purple;
+}
+
+.default {
+  background-color: $primary-color;
+}
+
+.selected {
+  transform: scale(1.3);
+}

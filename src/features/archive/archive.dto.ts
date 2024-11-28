@@ -11,10 +11,6 @@ export interface BaseArchiveDTO {
   imageUrls: { url: string }[];
 }
 
-export interface PostArchiveResponseDTO {
-  archiveId: number;
-}
-
 export interface Archive extends BaseArchiveDTO {
   username: string;
   job: string;
@@ -23,6 +19,18 @@ export interface Archive extends BaseArchiveDTO {
   hits: number;
   isMine: boolean;
   userProfile: string;
+}
+
+export interface ArchiveCardDTO {
+  archiveId: number;
+  title: string;
+  introduction: string;
+  type: Color;
+  likeCount: number;
+  username: string;
+  thumbnail: string;
+  createDate: Date;
+  isLiked: boolean;
 }
 
 export interface Comment {
@@ -37,7 +45,12 @@ export interface PostCommentResponseDTO {
   commentId: number;
 }
 
+export interface PostArchiveResponseDTO {
+  archiveId: number;
+}
+
 export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;
 export type GetArchiveApiResponse = ApiResponse<Archive>;
 export type GetCommentsApiResponse = ApiResponse<Comment[]>;
 export type PostCommentApiResponse = ApiResponse<PostCommentResponseDTO>;
+export type GetArchiveListApiResponse = ApiResponse<ArchiveCardDTO[]>;

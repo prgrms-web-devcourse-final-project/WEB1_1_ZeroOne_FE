@@ -1,10 +1,11 @@
 import type { PostCommentApiResponse } from './archive.dto';
+import type { GetArchiveApiResponse, GetCommentsApiResponse } from './archive.dto';
 import type {
   PostArchiveApiResponse,
   BaseArchiveDTO,
-  GetArchiveApiResponse,
-  GetCommentsApiResponse,
+  GetArchiveListApiResponse,
 } from './archive.dto';
+import type { Color } from './colors.type';
 
 import api from '@/shared/api/baseApi';
 
@@ -34,3 +35,26 @@ export const postCreateComment = (archiveId: number, content: string) =>
 
 export const deleteComment = (commentId: number) =>
   api.delete<PostCommentApiResponse>(`/archive/comment/${commentId}`).then(res => res.data);
+
+export const getPopularlityArchiveList = () =>
+  api
+    .get<GetArchiveListApiResponse>('/archive', {
+      params: {
+        sort: 'popularlity',
+        page: 0,
+        size: 5,
+      },
+    })
+    .then(res => res.data);
+
+export const getArchiveList = (sort: string, page: number, color?: Color | null) =>
+  api
+    .get<GetArchiveListApiResponse>('/archive', {
+      params: {
+        sort,
+        page,
+        size: 9,
+        color,
+      },
+    })
+    .then(res => res.data);
