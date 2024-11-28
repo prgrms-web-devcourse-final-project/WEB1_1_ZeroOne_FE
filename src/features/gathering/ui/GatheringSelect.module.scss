@@ -1,0 +1,27 @@
+.select {
+  :global {
+    .select__control {
+      border-color: #e2e8f0;
+      box-shadow: none;
+
+      &:hover {
+        border-color: #cbd5e1;
+      }
+
+      &--error {
+        border-color: red;
+      }
+    }
+  }
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.2rem;
+}
+.label {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: $primary-color;
+}

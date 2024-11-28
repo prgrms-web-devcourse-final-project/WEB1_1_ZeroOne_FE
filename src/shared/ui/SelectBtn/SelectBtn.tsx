@@ -40,14 +40,18 @@ export const SelectBtn = ({
   noOptionsMessage = '옵션이 없습니다',
 }: SelectBtnProps) => {
   const [selectedValue, setSelectedValue] = useState<SingleValue<Option> | MultiValue<Option>>(
-    isMulti ? [] : null,
+    value ?? (isMulti ? [] : null),
   );
 
   const handleChange = (
     newValue: MultiValue<Option> | SingleValue<Option>,
     actionMeta: ActionMeta<Option>,
   ) => {
-    setSelectedValue(newValue);
+    if (isMulti) {
+      setSelectedValue(newValue as MultiValue<Option>);
+    } else {
+      setSelectedValue(newValue as SingleValue<Option>);
+    }
     onChange?.(newValue, actionMeta);
   };
 
@@ -71,7 +75,7 @@ export const SelectBtn = ({
       onChange={handleChange}
       options={options}
       placeholder={placeholder}
-      value={value ?? selectedValue}
+      value={selectedValue}
     />
   );
 };
