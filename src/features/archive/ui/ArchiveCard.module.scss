@@ -152,4 +152,9 @@
   color: rgb(255, 136, 130);
   text-shadow: '0 0 2px black';
   cursor: pointer;
+  transition: 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 }

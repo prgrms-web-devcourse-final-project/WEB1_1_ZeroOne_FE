@@ -24,6 +24,13 @@
 
 .orderWrapper {
   display: flex;
+  flex-direction: column;
   justify-content: end;
+  width: 100%;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
 }
