@@ -3,14 +3,14 @@ import { FormProvider } from 'react-hook-form';
 import { FormField } from './FormField';
 import styles from './ProfileForm.module.scss';
 import { useProfileForm } from '../form.hook';
-import type { FormValues } from '../form.types';
-import { formConfig } from '../form.utils';
+import type { FormConfigType, FormValues } from '../form.types';
 
 interface ProfileFormProps {
+  formConfig: FormConfigType<FormValues>;
   onSubmit: (data: FormValues) => void;
 }
 
-export const ProfileForm = ({ onSubmit }: ProfileFormProps) => {
+export const ProfileForm = ({ onSubmit, formConfig }: ProfileFormProps) => {
   const { method, formStructure } = useProfileForm({ formConfig });
 
   return (
