@@ -40,25 +40,20 @@ export const useGatheringMarkdown = ({ editorViewRef }: UseGatheringMarkdownProp
     });
   }, []);
 
-  const handleImage = useCallback(async (file: File, view: EditorView) => {
-    try {
-      const imageUrl = await uploadImage(file); // 'await' 추가
-      const { from } = view.state.selection.main;
-      const text = `![${file.name}](${imageUrl})`;
-
-      view.dispatch({
-        changes: { from, insert: text },
-        selection: { anchor: from + text.length },
-      });
-    } catch (error) {
-      console.error('이미지 업로드 실패:', error);
-    }
-  }, []);
-
-  // const uploadImage = async (file: File): Promise<string> => {
-  //   // TODO: 실제 이미지 업로드 로직 구현
-  //   return URL.createObjectURL(file);
-  // };
+  const handleImage = useCallback(
+    (
+      file: File,
+      // ,view: EditorView
+    ) => {
+      try {
+        // TODO: 이미지 업로드 로직 구현 필요
+        console.log('이미지 업로드 기능 준비중', { file });
+      } catch (error) {
+        console.error('이미지 업로드 실패:', error);
+      }
+    },
+    [],
+  );
 
   return {
     insertStartToggle,
