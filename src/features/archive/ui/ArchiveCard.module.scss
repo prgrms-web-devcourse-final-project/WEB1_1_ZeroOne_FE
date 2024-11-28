@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -11,6 +13,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  width: 100%;
   font-size: 1rem;
   font-style: normal;
   font-weight: 600;
@@ -26,7 +29,12 @@
   }
 
   span {
+    width: 100%;
+    overflow: hidden;
     line-height: 1.875rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -webkit-box-orient: vertical;
   }
 }
 
@@ -39,7 +47,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 20;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -47,7 +55,18 @@
   height: 100%;
   padding: 1.6rem;
   color: $secondary-color;
-  transition: 0.3s linear ease-in-out;
+  transition: 0.1s ease-in;
+}
+
+.color {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: 0.1s ease-in;
 }
 
 .card {
@@ -95,6 +114,42 @@
       filter: brightness(0.3);
     }
 
+    .color {
+      visibility: visible;
+      opacity: 1;
+    }
+
     cursor: pointer;
   }
+}
+
+.red {
+  background-color: rgba(color.mix($red, #fff, 60%), 0.4);
+}
+
+.yellow {
+  background-color: rgba(color.mix($yellow, #fff, 60%), 0.4);
+}
+
+.blue {
+  background-color: rgba(color.mix($blue, #fff, 60%), 0.4);
+}
+
+.green {
+  background-color: rgba(color.mix($green, #fff, 60%), 0.4);
+}
+
+.purple {
+  background-color: rgba(color.mix($purple, #fff, 60%), 0.4);
+}
+
+.heart {
+  position: absolute;
+  right: 1.6rem;
+  bottom: 1.6rem;
+  z-index: 30;
+  font-size: 1.6rem;
+  color: rgb(255, 136, 130);
+  text-shadow: '0 0 2px black';
+  cursor: pointer;
 }

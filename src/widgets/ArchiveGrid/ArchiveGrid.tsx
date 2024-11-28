@@ -7,10 +7,13 @@ const dummyArchive: ArchiveCardDTO = {
   archiveId: 1,
   title: '아카이브 제목',
   type: 'red',
+  isLiked: false,
   likeCount: 10,
-  usename: '홍길동',
+  username: '홍길동',
   thumbnail: 'https://picsum.photos/300/200',
   createDate: new Date(),
+  introduction:
+    '아카이브 한 줄 소개 ~~~~아카이브 한 줄 소개 ~~~~아카이브 한 줄 소개 ~~~~아카이브 한 줄 소개 ~~~~아카이브 한 줄 소개 ~~~~',
 };
 
 export const ArchiveGrid = () => {
