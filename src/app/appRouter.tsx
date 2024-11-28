@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { GatheringListPage, WriteArchivePage, DetailArchivePage } from '@/pages';
+import { RegisterPage } from '@/pages/RegisterPage/RegisterPage';
 import { Layout } from '@/widgets';
 
 const AppRouter = () => {
@@ -35,6 +36,10 @@ const AppRouter = () => {
         {
           path: '/user',
           element: <>{/** userPage */}</>,
+        },
+        {
+          path: '/register',
+          element: <RegisterPage />,
         },
       ],
     },
