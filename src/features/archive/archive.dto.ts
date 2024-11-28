@@ -53,3 +53,4 @@ export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;
 export type GetArchiveApiResponse = ApiResponse<Archive>;
 export type GetCommentsApiResponse = ApiResponse<Comment[]>;
 export type PostCommentApiResponse = ApiResponse<PostCommentResponseDTO>;
+export type GetArchiveListApiResponse = ApiResponse<ArchiveCardDTO[]>;

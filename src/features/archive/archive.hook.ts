@@ -9,12 +9,16 @@ import {
   postCreateArchive,
   postCreateComment,
   putArchive,
+  getArchiveList,
+  getPopularlityArchiveList,
 } from './archive.api';
 import type {
   BaseArchiveDTO,
   Comment,
   GetCommentsApiResponse,
   PostCommentApiResponse,
+  GetArchiveListApiResponse,
+  ArchiveCardDTO,
 } from './archive.dto';
 
 import { useIntersectionObserver } from '@/shared/hook';
@@ -120,4 +124,47 @@ export const useDeleteComment = (archiveId: number) => {
       void queryClient.invalidateQueries({ queryKey: ['/archive', archiveId, 'comment'] });
     },
   });
+};
+
+export const usePopularArchiveList = () =>
+  useQuery({
+    queryKey: ['/archive', 'popularlity'],
+    queryFn: () => getPopularlityArchiveList(),
+  });
+
+export const useArchiveList = (sort: string, color?: string) => {
+  const { data, fetchNextPage, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<
+    GetArchiveListApiResponse,
+    Error
+  >({
+    queryKey: ['/archive', sort, color],
+    queryFn: ({ pageParam = 0 }) => getArchiveList(sort, pageParam as number, color),
+    getNextPageParam: (lastPage, allPages) => {
+      if (Array.isArray(lastPage.data)) {
+        const isLastPage = lastPage.data?.length < 9;
+        return isLastPage ? null : allPages.length;
+      }
+      return null;
+    },
+    initialPageParam: 0,
+  });
+
+  const items = useMemo(() => {
+    const temp: ArchiveCardDTO[] = [];
+    data?.pages.forEach(page => {
+      page.data?.forEach(archive => {
+        temp.push(archive);
+      });
+    });
+    return temp;
+  }, [data]);
+
+  const ref = useIntersectionObserver(
+    () => {
+      void fetchNextPage();
+    },
+    { threshold: 1.0 },
+  );
+
+  return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage };
 };
