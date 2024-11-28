@@ -23,6 +23,7 @@ export const ArchiveListPage = () => {
           <ColorSelect color={color} setColor={setColor} />
           <div className={styles.buttonWrapper}>
             <SelectBtn
+              isClearable={false}
               onChange={newValue => {
                 setSort(newValue as { label: string; value: string });
               }}

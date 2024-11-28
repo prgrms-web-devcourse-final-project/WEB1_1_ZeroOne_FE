@@ -1,6 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { GatheringListPage, DetailArchivePage, ArchiveListPage, WriteGatheringPage } from '@/pages';
+import {
+  GatheringListPage,
+  DetailArchivePage,
+  ArchiveListPage,
+  WriteGatheringPage,
+  WriteArchivePage,
+} from '@/pages';
 import { Layout } from '@/widgets';
 
 const AppRouter = () => {
@@ -18,7 +24,7 @@ const AppRouter = () => {
         },
         {
           path: '/archive',
-          element: <>{/** archiveListPage */}</>,
+          element: <ArchiveListPage />,
         },
         {
           path: '/archive/write',
