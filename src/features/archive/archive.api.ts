@@ -5,6 +5,7 @@ import type {
   BaseArchiveDTO,
   GetArchiveListApiResponse,
 } from './archive.dto';
+import type { Color } from './colors.type';
 
 import api from '@/shared/api/baseApi';
 
@@ -46,7 +47,7 @@ export const getPopularlityArchiveList = () =>
     })
     .then(res => res.data);
 
-export const getArchiveList = (sort: string, page: number, color?: string) =>
+export const getArchiveList = (sort: string, page: number, color?: Color | null) =>
   api
     .get<GetArchiveListApiResponse>('/archive', {
       params: {

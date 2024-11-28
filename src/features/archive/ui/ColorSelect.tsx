@@ -1,15 +1,30 @@
 import cn from 'classnames';
 
 import styles from './ColorSelect.module.scss';
+import type { Color } from '../colors.type';
 
-export const ColorSelect = () => {
+export const ColorSelect = ({
+  color,
+  setColor,
+}: {
+  color: Color | 'default';
+  setColor: (color: Color | 'default') => void;
+}) => {
+  const colors: (Color | 'default')[] = ['default', 'red', 'yellow', 'blue', 'green', 'purple'];
+
   return (
     <div className={styles.container}>
-      <div className={cn(styles.color, styles.red)} />
-      <div className={cn(styles.color, styles.yellow)} />
-      <div className={cn(styles.color, styles.blue)} />
-      <div className={cn(styles.color, styles.green)} />
-      <div className={cn(styles.color, styles.purple)} />
+      {colors.map(c => (
+        <div
+          className={cn(styles.color, styles[c], {
+            [styles.selected]: color === c || (color === null && c === 'default'),
+          })}
+          key={c}
+          onClick={() => {
+            setColor(c);
+          }}
+        />
+      ))}
     </div>
   );
 };

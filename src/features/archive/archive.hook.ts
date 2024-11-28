@@ -20,6 +20,7 @@ import type {
   GetArchiveListApiResponse,
   ArchiveCardDTO,
 } from './archive.dto';
+import type { Color } from './colors.type';
 
 import { useIntersectionObserver } from '@/shared/hook';
 
@@ -132,13 +133,14 @@ export const usePopularArchiveList = () =>
     queryFn: () => getPopularlityArchiveList(),
   });
 
-export const useArchiveList = (sort: string, color?: string) => {
+export const useArchiveList = (sort: string, color?: Color | 'default') => {
   const { data, fetchNextPage, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<
     GetArchiveListApiResponse,
     Error
   >({
     queryKey: ['/archive', sort, color],
-    queryFn: ({ pageParam = 0 }) => getArchiveList(sort, pageParam as number, color),
+    queryFn: ({ pageParam = 0 }) =>
+      getArchiveList(sort, pageParam as number, color === 'default' ? null : color),
     getNextPageParam: (lastPage, allPages) => {
       if (Array.isArray(lastPage.data)) {
         const isLastPage = lastPage.data?.length < 9;
