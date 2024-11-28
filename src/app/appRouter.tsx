@@ -2,10 +2,11 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import {
   GatheringListPage,
-  WriteArchivePage,
   DetailArchivePage,
+  ArchiveListPage,
   WriteGatheringPage,
   PortfolioListPage,
+  WriteArchivePage,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -24,7 +25,7 @@ const AppRouter = () => {
         },
         {
           path: '/archive',
-          element: <>{/** archiveListPage */}</>,
+          element: <ArchiveListPage />,
         },
         {
           path: '/archive/write',

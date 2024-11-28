@@ -19,7 +19,7 @@ export const GatheringMarkdownEditor = ({
   label,
   isRequired = false,
 }: GatheringMarkdownEditorProps) => {
-  const editorViewRef = useRef<EditorView>(null);
+  const editorViewRef = useRef<EditorView | null>(null);
   const { control } = useFormContext<GatheringFormData>();
   const { insertStartToggle, handleImage } = useGatheringMarkdown({
     editorViewRef,
@@ -92,7 +92,11 @@ export const GatheringMarkdownEditor = ({
                       onChange={e => {
                         const file = e.target.files?.[0];
                         if (file && editorViewRef.current) {
-                          return handleImage(file, editorViewRef.current);
+                          handleImage(
+                            file,
+                            // ,editorViewRef.current
+                          );
+                          return;
                         }
                       }}
                       type='file'
@@ -125,7 +129,7 @@ export const GatheringMarkdownEditor = ({
                     onChange={onChange}
                     onUpdate={update => {
                       if (update.view) {
-                        editorViewRef.current = update.view as EditorView;
+                        editorViewRef.current = update.view;
                       }
                     }}
                     value={value}
