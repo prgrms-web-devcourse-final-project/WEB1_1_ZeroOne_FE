@@ -7,10 +7,9 @@ import { JOB_CATEGORIES, type FormValues } from './form.types';
 
 interface useProfileFormProps {
   formConfig: FormConfigType<FormValues>;
-  submitAction?: () => void;
 }
 
-export const useProfileForm = ({ formConfig, submitAction }: useProfileFormProps) => {
+export const useProfileForm = ({ formConfig }: useProfileFormProps) => {
   const [formStructure, setFormStructure] = useState([...formConfig.structure]);
   const method = useForm<FormValues>({
     resolver: yupResolver(formConfig.validation),
@@ -58,16 +57,8 @@ export const useProfileForm = ({ formConfig, submitAction }: useProfileFormProps
     method.setValue('minorJobGroup', null, { shouldValidate: true });
   }, [majorJobGroup, method]);
 
-  const onSubmit = (data: FormValues) => {
-    console.log('폼 데이터:', data);
-    if (submitAction) {
-      submitAction();
-    }
-  };
-
   return {
     formStructure,
     method,
-    onSubmit,
   };
 };
