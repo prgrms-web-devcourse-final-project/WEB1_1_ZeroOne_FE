@@ -1,24 +1,14 @@
 .container {
+  display: flex;
+  justify-content: center;
   width: 100%;
+  padding: 0 1.25rem;
   margin-bottom: 3rem;
 }
 
 .list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   gap: 1.25rem;
-
-  @media screen and (max-width: 1440px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media screen and (max-width: 1200px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-
-  @media screen and (max-width: 830px) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
+  width: 100%;
 }

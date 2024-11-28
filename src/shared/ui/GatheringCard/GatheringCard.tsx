@@ -1,3 +1,5 @@
+import { faHeart, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
@@ -39,9 +41,9 @@ export const GatheringCard = ({
         <ul className={styles.card__tagCon}>{tag?.map((e, i) => <JobTag job={e} key={i} />)}</ul>
         <section className={styles.card__deadlineCon}>
           <div>마감일 {deadline}</div>
-          <div>
-            <img alt='heart icon' />
-            <img alt='contact icon' />
+          <div className={styles.buttons}>
+            <FontAwesomeIcon icon={faHeart} />
+            <FontAwesomeIcon icon={faPhone} />
           </div>
         </section>
       </li>
