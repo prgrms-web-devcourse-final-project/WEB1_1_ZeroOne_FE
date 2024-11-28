@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { GatheringListPage, WriteArchivePage, DetailArchivePage } from '@/pages';
-import { RegisterPage } from '@/pages/RegisterPage/RegisterPage';
+import { GatheringListPage, WriteArchivePage, DetailArchivePage, RegisterPage } from '@/pages';
 import { Layout } from '@/widgets';
 
 const AppRouter = () => {
