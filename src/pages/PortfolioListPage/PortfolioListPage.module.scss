@@ -1,19 +1,19 @@
 .pageWrapper {
+  position: relative;
   width: 100%;
   max-width: 1640px;
-  margin: 0 auto;
-  padding: 0 1rem;
   min-height: 100vh;
-  position: relative;
+  padding: 0 1rem;
+  margin: 0 auto;
 }
 
 .h1 {
-  color: $primary-color;
-  text-align: center;
-  font-size: 1.875rem;
-  font-weight: 700;
   margin-top: 4rem;
   margin-bottom: 2.5rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: $primary-color;
+  text-align: center;
 }
 
 .contentContainer {
@@ -22,29 +22,29 @@
   gap: 2rem;
   overflow: auto;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (width <= 1440px) {
     gap: 2rem;
   }
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (width <= 1200px) {
     gap: 1.5rem;
   }
 
-  @media screen and (max-width: 830px) {
+  @media screen and (width <= 830px) {
     flex-direction: column;
     gap: 1.5rem;
   }
 }
 
 .sidebarWrapper {
-  width: 250px;
   flex-shrink: 0; // 사이드바 너비 고정
+  width: 250px;
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (width <= 1200px) {
     width: 220px;
   }
 
-  @media screen and (max-width: 830px) {
+  @media screen and (width <= 830px) {
     width: 100%;
   }
 }
@@ -56,7 +56,7 @@
   max-height: calc(100vh - 14.5rem);
   overflow-y: auto;
 
-  @media screen and (max-width: 830px) {
+  @media screen and (width <= 830px) {
     position: relative;
     top: 0;
     width: 100%;
