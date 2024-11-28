@@ -105,24 +105,20 @@ jobs:
                 comments += comment + "\n" + detail + "\n\n---\n\n";
               });
 
-              // GitHub 컨텍스트에서 이벤트 타입 확인
-              const context = github.context;
-              
               try {
-                if (context.eventName === 'pull_request') {
-                  // PR에 코멘트 추가
+                // PR 여부 확인 (github.context 대신 process.env 사용)
+                if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
                   await github.rest.issues.createComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: context.payload.pull_request.number,
                     body: comments
                   });
-                } else if (context.eventName === 'push') {
-                  // 커밋에 코멘트 추가
+                } else if (process.env.GITHUB_EVENT_NAME === 'push') {
                   await github.rest.repos.createCommitComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    commit_sha: context.sha,
+                    commit_sha: process.env.GITHUB_SHA,
                     body: comments
                   });
                 }
