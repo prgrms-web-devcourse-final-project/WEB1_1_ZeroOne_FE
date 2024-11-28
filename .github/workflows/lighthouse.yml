@@ -1,4 +1,5 @@
 name: Lighthouse CI
+
 on:
   push:
     branches: [main, dev]
@@ -48,8 +49,8 @@ jobs:
           temporaryPublicStorage: true
 
       - name: Format lighthouse score
-        if: success() # Lighthouse CI가 성공했을 때만 실행
-        uses: actions/github-script@v6 # v3에서 v6로 업그레이드
+        if: success()
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -57,30 +58,78 @@ jobs:
 
             try {
               if (!fs.existsSync('.lighthouseci/manifest.json')) {
+                console.error('Manifest file not found');
                 core.setFailed('manifest.json not found');
                 return;
               }
               
-              const rawData = fs.readFileSync('.lighthouseci/manifest.json', 'utf8');
-              if (!rawData) {
+              let rawData;
+              try {
+                rawData = fs.readFileSync('.lighthouseci/manifest.json', 'utf8');
+              } catch (readError) {
+                console.error('Error reading manifest:', readError);
+                core.setFailed('Failed to read manifest.json');
+                return;
+              }
+
+              if (!rawData || rawData.trim() === '') {
+                console.error('Manifest is empty');
                 core.setFailed('manifest.json is empty');
                 return;
               }
               
-              const results = JSON.parse(rawData);
+              let results;
+              try {
+                results = JSON.parse(rawData);
+              } catch (parseError) {
+                console.error('Error parsing manifest:', parseError);
+                core.setFailed('Failed to parse manifest.json');
+                return;
+              }
+
+              if (!Array.isArray(results)) {
+                console.error('Results is not an array');
+                core.setFailed('Invalid manifest format');
+                return;
+              }
+
               let comments = "";
 
               results.forEach((result) => {
-                const { summary, url, jsonPath } = result;
-                const details = JSON.parse(fs.readFileSync(jsonPath));
+                if (!result.summary || !result.url || !result.jsonPath) {
+                  console.warn('Missing required properties in result');
+                  return;
+                }
+
+                let details;
+                try {
+                  details = JSON.parse(fs.readFileSync(result.jsonPath, 'utf8'));
+                } catch (error) {
+                  console.warn(`Failed to read or parse ${result.jsonPath}`, error);
+                  return;
+                }
+
+                if (!details.audits) {
+                  console.warn('No audits found in details');
+                  return;
+                }
+
+                const { summary, url } = result;
                 const { audits } = details;
-                const formatResult = (res) => Math.round(res * 100);
+                
+                const formatResult = (res) => {
+                  if (typeof res !== 'number') return 0;
+                  return Math.round(Math.max(0, Math.min(100, res * 100)));
+                };
 
                 Object.keys(summary).forEach(
                   (key) => (summary[key] = formatResult(summary[key]))
                 );
 
-                const score = (res) => (res >= 90 ? "🟢" : res >= 50 ? "🟠" : "🔴");
+                const score = (res) => {
+                  const numRes = Number(res);
+                  return isNaN(numRes) ? "🔴" : (numRes >= 90 ? "🟢" : numRes >= 50 ? "🟠" : "🔴");
+                };
 
                 const comment = [
                   `⚡ Lighthouse report for ${url}`,
@@ -95,37 +144,72 @@ jobs:
                 const detail = [
                   `\n### Detailed Metrics`,
                   `| Metric | Value |`,
-                  `| --- | --- |`,
-                  `| ${score(audits["first-contentful-paint"].score * 100)} First Contentful Paint | ${audits["first-contentful-paint"].displayValue} |`,
-                  `| ${score(audits["largest-contentful-paint"].score * 100)} Largest Contentful Paint | ${audits["largest-contentful-paint"].displayValue} |`,
-                  `| ${score(audits["total-blocking-time"].score * 100)} Total Blocking Time | ${audits["total-blocking-time"].displayValue} |`,
-                  `| ${score(audits["cumulative-layout-shift"].score * 100)} Cumulative Layout Shift | ${audits["cumulative-layout-shift"].displayValue} |`,
-                  `| ${score(audits["speed-index"].score * 100)} Speed Index | ${audits["speed-index"].displayValue} |`
-                ].join("\n");
+                  `| --- | --- |`
+                ];
 
-                comments += comment + "\n" + detail + "\n\n---\n\n";
+                const metrics = [
+                  ["first-contentful-paint", "First Contentful Paint"],
+                  ["largest-contentful-paint", "Largest Contentful Paint"],
+                  ["total-blocking-time", "Total Blocking Time"],
+                  ["cumulative-layout-shift", "Cumulative Layout Shift"],
+                  ["speed-index", "Speed Index"]
+                ];
+
+                metrics.forEach(([key, label]) => {
+                  if (audits[key] && typeof audits[key].score === 'number') {
+                    detail.push(
+                      `| ${score(audits[key].score * 100)} ${label} | ${audits[key].displayValue || 'N/A'} |`
+                    );
+                  }
+                });
+
+                comments += comment + "\n" + detail.join("\n") + "\n\n---\n\n";
               });
 
-              // Comment to PR or commit
-              const isPR = !!context.payload.pull_request;
-              
-              if (isPR) {
-                await github.rest.issues.createComment({
-                  ...context.repo,
-                  issue_number: context.payload.pull_request.number,
-                  body: comments
-                });
-              } else {
-                await github.rest.repos.createCommitComment({
-                  ...context.repo,s
-                  commit_sha: context.sha,
-                  body: comments
-                });
+              const owner = context.repo.owner;
+              const repo = context.repo.repo;
+
+              if (!owner || !repo) {
+                core.setFailed('Missing repository information');
+                return;
               }
 
-              core.setOutput('comments', comments);
+              try {
+                if (context.payload.pull_request) {
+                  const prNumber = context.payload.pull_request.number;
+                  if (!prNumber) {
+                    throw new Error('Missing pull request number');
+                  }
+
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: prNumber,
+                    body: comments
+                  });
+                } else {
+                  const sha = context.sha;
+                  if (!sha) {
+                    throw new Error('Missing commit SHA');
+                  }
+
+                  await github.rest.repos.createCommitComment({
+                    owner,
+                    repo,
+                    commit_sha: sha,
+                    body: comments
+                  });
+                }
+
+                core.setOutput('comments', comments);
+              } catch (apiError) {
+                console.error('API call failed:', apiError);
+                core.setFailed(`Failed to create comment: ${apiError.message}`);
+                return;
+              }
               
             } catch (error) {
-              core.setFailed(`Error: ${error.message}`);
+              console.error('Unexpected error:', error);
+              core.setFailed(`Unexpected error: ${error.message}`);
               return;
             }
