@@ -1,14 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import {
-  GatheringListPage,
-  DetailArchivePage,
   ArchiveListPage,
-  WriteGatheringPage,
+  DetailArchivePage,
+  GatheringDetailPage,
+  GatheringListPage,
   PortfolioListPage,
-  WriteArchivePage,
   RegisterPage,
   SearchPage,
+  WriteArchivePage,
+  WriteGatheringPage,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -44,6 +45,10 @@ const AppRouter = () => {
         {
           path: '/gathering/write',
           element: <WriteGatheringPage />,
+        },
+        {
+          path: '/gathering/:gatheringId',
+          element: <GatheringDetailPage />,
         },
         {
           path: '/search',
