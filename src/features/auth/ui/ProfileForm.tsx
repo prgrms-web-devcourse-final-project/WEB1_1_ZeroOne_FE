@@ -3,16 +3,23 @@ import { FormProvider } from 'react-hook-form';
 import { FormField } from './FormField';
 import styles from './ProfileForm.module.scss';
 import { useProfileForm } from '../form.hook';
-import { formConfig } from '../form.utils';
+import type { FormConfigType, FormValues } from '../form.types';
 
-import { Button } from '@/shared/ui';
+interface ProfileFormProps {
+  formConfig: FormConfigType<FormValues>;
+  onSubmit: (data: FormValues) => void;
+}
 
-export const ProfileForm = () => {
-  const { method, formStructure, onSubmit } = useProfileForm({ formConfig });
+export const ProfileForm = ({ onSubmit, formConfig }: ProfileFormProps) => {
+  const { method, formStructure } = useProfileForm({ formConfig });
 
   return (
     <FormProvider {...method}>
-      <form className={styles.profileForm} onSubmit={method.handleSubmit(onSubmit)}>
+      <form
+        className={styles.profileForm}
+        id='profile-form'
+        onSubmit={method.handleSubmit(onSubmit)}
+      >
         {formStructure.map(section => (
           <fieldset className={styles.formSection} key={section.title}>
             <legend>{section.title}</legend>
@@ -21,9 +28,6 @@ export const ProfileForm = () => {
             })}
           </fieldset>
         ))}
-        <div className={styles.submitBtnWrapper}>
-          <Button type='submit'>다음</Button>
-        </div>
       </form>
     </FormProvider>
   );

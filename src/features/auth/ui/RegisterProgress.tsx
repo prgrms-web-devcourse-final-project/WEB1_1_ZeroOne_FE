@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import React from 'react';
 
-import styles from './JoinProgressBar.module.scss';
+import styles from './RegisterProgress.module.scss';
 import type { JoinProgressStage } from '../progress.type';
 
 interface ProgressBarProps {
@@ -14,14 +14,14 @@ interface JoinProgressBarProps {
   joinStages: JoinProgressStage[];
 }
 
-const ProgressDot = ({
+const ProgressStep = ({
   currentStage,
   stage,
   name,
 }: JoinProgressStage & { currentStage: number }) => {
   return (
     <div
-      className={cn(styles.progressDot, {
+      className={cn(styles.progressStep, {
         [styles.active]: currentStage > stage,
         [styles.doing]: stage === currentStage,
       })}
@@ -42,12 +42,12 @@ const ProgressBar = ({ currentStage, prevStage }: ProgressBarProps) => {
   );
 };
 
-export const JoinProgressbar = ({ currentStage, joinStages }: JoinProgressBarProps) => {
+export const RegisterProgress = ({ currentStage, joinStages }: JoinProgressBarProps) => {
   return (
     <div className={styles.progressWrapper}>
       {joinStages.map((stage, idx) => (
         <React.Fragment key={stage.name}>
-          <ProgressDot currentStage={currentStage} name={stage.name} stage={stage.stage} />
+          <ProgressStep currentStage={currentStage} name={stage.name} stage={stage.stage} />
           {idx !== joinStages.length - 1 && (
             <ProgressBar currentStage={currentStage} prevStage={stage.stage} />
           )}

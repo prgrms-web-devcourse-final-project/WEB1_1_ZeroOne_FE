@@ -38,9 +38,9 @@ interface FieldSetInfo {
   inputs: InputInfo[];
 }
 
-export interface FormConfigType {
+export interface FormConfigType<T extends object> {
   structure: FieldSetInfo[];
-  validation: ObjectSchema<FormValues>;
+  validation: ObjectSchema<T>;
 }
 
 export const JOB_CATEGORIES = [

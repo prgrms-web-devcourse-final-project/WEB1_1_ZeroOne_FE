@@ -6,7 +6,7 @@ import type { FormConfigType } from './form.types';
 import { JOB_CATEGORIES, type FormValues } from './form.types';
 
 interface useProfileFormProps {
-  formConfig: FormConfigType;
+  formConfig: FormConfigType<FormValues>;
 }
 
 export const useProfileForm = ({ formConfig }: useProfileFormProps) => {
@@ -21,7 +21,7 @@ export const useProfileForm = ({ formConfig }: useProfileFormProps) => {
       minorJobGroup: null,
       jobTitle: '',
       division: 'student',
-      url: [{ value: '' }],
+      url: [],
       imageUrl: '',
     },
   });
@@ -57,13 +57,34 @@ export const useProfileForm = ({ formConfig }: useProfileFormProps) => {
     method.setValue('minorJobGroup', null, { shouldValidate: true });
   }, [majorJobGroup, method]);
 
-  const onSubmit = (data: FormValues) => {
-    console.log('폼 데이터:', data);
-  };
-
   return {
     formStructure,
     method,
-    onSubmit,
   };
+};
+
+export const usePortfolioInput = () => {
+  const [portfolioUrl, setPortfolioUrl] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPortfolioUrl(e.target.value);
+    validate(e.target.value);
+  };
+
+  const validate = (value: string) => {
+    if (value.trim() === '') {
+      setError('포트폴리오 URL을 입력해주세요.');
+      return false;
+    }
+
+    if (!(value.startsWith('https://') || value.startsWith('http://'))) {
+      setError('URL 형식이 잘못됬습니다.');
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
+  return { portfolioUrl, error, handleInputChange, validate };
 };
