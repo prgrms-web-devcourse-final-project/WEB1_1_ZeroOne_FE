@@ -1,17 +1,53 @@
+import { Link } from 'react-router-dom';
+
 import styles from './PortfolioCard.module.scss';
-export const PortfolioCard = () => {
+
+import profileImg from '@/shared/assets/paletteLogo.svg';
+
+interface PortfolioCardProps {
+  portFolioId: number;
+  portFolioUrl: string;
+  username: string;
+  introduction: string;
+  majorJobGroup: string;
+  minorJobGroup: string;
+  memberImageUrl: string;
+}
+
+export const PortfolioCard = ({
+  // portFolioId,
+  portFolioUrl,
+  username,
+  introduction,
+  majorJobGroup,
+  minorJobGroup,
+  memberImageUrl,
+}: PortfolioCardProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <a className={styles.cardImg}>
-            <img alt='profileImg' />
-          </a>
-          <div className={styles.cardFooter}>
-            <div>name</div>
-            <div>직업</div>
-            <div>한 줄 소개</div>
+          <Link className={styles.cardImg} to={portFolioUrl}>
+            <img
+              alt={`${username}의 프로필 이미지`}
+              src={memberImageUrl || profileImg} // 이미지가 없을 경우 기본 이미지 사용
+            />
+          </Link>
+          <button className={styles.contactBtn}>연락하기</button>
+        </div>
+        <div className={styles.cardFooter}>
+          <div className={styles.firstInfo}>
+            <span className={styles.name}>{username}</span>
+            <span className={styles.heart}>♥</span>
           </div>
+          <div className={styles.job}>
+            <div>
+              <span>{minorJobGroup}</span>
+              <span>@{majorJobGroup}</span>
+            </div>
+            <div>대표 색</div>
+          </div>
+          <div className={styles.introduction}>{introduction}</div>
         </div>
       </div>
     </div>
