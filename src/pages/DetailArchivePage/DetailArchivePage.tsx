@@ -5,6 +5,7 @@ import styles from './DetailArchivePage.module.scss';
 import { worker } from '../../mocks/browser';
 
 import { MarkdownPreview, WriteComment, CommentItem, useArchive, useComments } from '@/features';
+import { TripleDot } from '@/shared/ui';
 import { DetailHeader } from '@/widgets';
 
 export const DetailArchivePage = () => {
@@ -48,7 +49,7 @@ export const DetailArchivePage = () => {
           items.map(comment => (
             <CommentItem archiveId={Number(archiveId)} comment={comment} key={comment.commentId} />
           ))}
-        {archive && <div ref={ref}>{isFetchingNextPage && <p>Loading more comments...</p>}</div>}
+        {archive && <div ref={ref}>{isFetchingNextPage && <TripleDot />}</div>}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import styles from './ArchiveListPage.module.scss';
 
 import type { Color } from '@/features';
 import { ColorSelect, useArchiveList } from '@/features';
-import { Button, SelectBtn } from '@/shared/ui';
+import { Button, SelectBtn, TripleDot } from '@/shared/ui';
 import { ArchiveGrid } from '@/widgets';
 
 export const ArchiveListPage = () => {
@@ -45,7 +45,7 @@ export const ArchiveListPage = () => {
       </div>
       <ArchiveGrid archives={archives} />
       <div className={styles.loading} ref={ref}>
-        {isFetchingNextPage && '로딩중...'}
+        {isFetchingNextPage && <TripleDot />}
       </div>
     </div>
   );

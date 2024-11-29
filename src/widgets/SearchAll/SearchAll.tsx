@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import styles from './SearchAll.module.scss';
 
 import type { ArchiveCardDTO } from '@/features';
@@ -14,6 +16,7 @@ export const SearchAll = ({
   gatherings: GatheringCardProps[];
   setActiveTab: (t: string) => void;
 }) => {
+  const navigate = useNavigate();
   return (
     <div className={styles.wrapper}>
       <div className={styles.listWrapper}>
@@ -29,7 +32,13 @@ export const SearchAll = ({
         </div>
         <ul className={styles.list}>
           {archives.map(archive => (
-            <ArchiveCard archive={archive} key={archive.archiveId} />
+            <div
+              onClick={() => {
+                navigate(`/archive/${archive.archiveId}`);
+              }}
+            >
+              <ArchiveCard archive={archive} key={archive.archiveId} />
+            </div>
           ))}
         </ul>
       </div>
@@ -46,7 +55,13 @@ export const SearchAll = ({
         </div>
         <ul className={styles.list}>
           {gatherings.map(gathering => (
-            <GatheringCard title={gathering.title} />
+            <div
+              onClick={() => {
+                navigate(`/gathering/1`);
+              }}
+            >
+              <GatheringCard title={gathering.title} />
+            </div>
           ))}
         </ul>
       </div>

@@ -18,7 +18,7 @@ const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   createDate: new Date(),
 }));
 
-const dummyGaatherings: GatheringCardProps[] = Array.from({ length: 9 }, () => ({
+const dummyGatherings: GatheringCardProps[] = Array.from({ length: 9 }, () => ({
   title: `Sample Gathering`,
   name: `Sample Name`,
   introduction: `Description for sample gathering`,
@@ -31,7 +31,7 @@ const renderingSearchTap = (activeTab: string, setActiveTab: (t: string) => void
     return (
       <SearchAll
         archives={dummyArchives.slice(0, 4)}
-        gatherings={dummyGaatherings.slice(0, 4)}
+        gatherings={dummyGatherings.slice(0, 4)}
         setActiveTab={setActiveTab}
       />
     );
