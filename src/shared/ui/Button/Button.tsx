@@ -15,11 +15,18 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   skin?: ButtonSkins;
   className?: string;
+  type?: 'submit' | 'reset' | 'button';
 }
 
-export const Button = ({ children, skin = 'primary', className, ...restProps }: Props) => {
+export const Button = ({
+  children,
+  type = 'button',
+  skin = 'primary',
+  className,
+  ...restProps
+}: Props) => {
   return (
-    <button className={cn(styles.btn, styles[skin], className)} {...restProps}>
+    <button className={cn(styles.btn, styles[skin], className)} type={type} {...restProps}>
       {children}
     </button>
   );

@@ -1,0 +1,14 @@
+.portfolioInput {
+  width: 100%;
+  max-width: 446px;
+
+  & > .errorMessage {
+    display: inline-block;
+    width: 100%;
+    padding-top: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $red;
+    text-align: center;
+  }
+}

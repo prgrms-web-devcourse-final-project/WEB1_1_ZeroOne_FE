@@ -7,6 +7,7 @@ import {
   WriteGatheringPage,
   PortfolioListPage,
   WriteArchivePage,
+  RegisterPage,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -46,6 +47,10 @@ const AppRouter = () => {
         {
           path: '/user',
           element: <>{/** userPage */}</>,
+        },
+        {
+          path: '/register',
+          element: <RegisterPage />,
         },
       ],
     },

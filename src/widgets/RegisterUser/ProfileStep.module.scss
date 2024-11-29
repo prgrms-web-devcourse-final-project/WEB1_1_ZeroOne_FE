@@ -1,0 +1,22 @@
+.sectionTitle {
+  font-size: 1.375rem;
+  font-weight: 600;
+}
+
+.profileContainer {
+  & > .sectionTitle {
+    padding: 1rem 0;
+  }
+}
+
+.btnsWrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 0;
+
+  & > button {
+    min-width: 100px;
+  }
+}
