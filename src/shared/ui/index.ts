@@ -1,7 +1,7 @@
 export { Button } from './Button/Button';
 export { Modal } from './Modal/Modal';
-export { GatheringCard } from './GatheringCard/GatheringCard';
-export { JobTag } from './GatheringCard/JobTag';
+export { GatheringCard } from '../../features/gathering/ui/GatheringCard/GatheringCard';
+export { JobTag } from '../../features/gathering/ui/GatheringCard/JobTag';
 export { SelectBtn } from './SelectBtn/SelectBtn';
 export { MarkdownEditor } from './MarkdownEditor/MarkdownEditor';
 export { Input } from './Input/Input';

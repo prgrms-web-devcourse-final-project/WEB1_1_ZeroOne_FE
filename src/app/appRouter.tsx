@@ -5,6 +5,7 @@ import {
   DetailArchivePage,
   ArchiveListPage,
   WriteGatheringPage,
+  PortfolioListPage,
   WriteArchivePage,
   RegisterPage,
   SearchPage,
@@ -22,7 +23,7 @@ const AppRouter = () => {
         },
         {
           path: '/portfolio',
-          element: <>{/** portfolioPage */}</>,
+          element: <PortfolioListPage />,
         },
         {
           path: '/archive',

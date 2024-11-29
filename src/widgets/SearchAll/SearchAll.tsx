@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './SearchAll.module.scss';
 
-import type { ArchiveCardDTO } from '@/features';
 import { ArchiveCard } from '@/features';
+import type { ArchiveCardDTO } from '@/features';
+import type { GatheringCardProps } from '@/features/gathering/ui/GatheringCard/GatheringCard';
 import { Button, GatheringCard } from '@/shared/ui';
-import type { GatheringCardProps } from '@/shared/ui/GatheringCard';
 
 export const SearchAll = ({
   archives,
