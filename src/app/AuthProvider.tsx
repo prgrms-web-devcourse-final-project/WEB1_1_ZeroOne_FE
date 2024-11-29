@@ -2,6 +2,8 @@ import axios from 'axios';
 import type { ReactNode } from 'react';
 import { createContext, useContext, useRef, useState } from 'react';
 
+import { customConfirm } from '@/shared/ui';
+
 interface AuthContextType {
   accessToken: string | null;
   setAccessToken: (token: string | null) => void;
@@ -12,7 +14,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(
     localStorage.getItem('accessToken'),
   );
@@ -46,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const removeToken = () => {
     setAccessToken(null);
     localStorage.removeItem('accessToken');
-    // TODO 로그인 팝업 알림
+    customConfirm({ title: '로그인', text: '로그인 페이지로 이동합니다.', icon: 'info' });
   };
 
   const logout = () => {
@@ -71,3 +73,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export default AuthProvider;
