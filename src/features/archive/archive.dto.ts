@@ -5,6 +5,7 @@ import type { ApiResponse } from '@/shared/api';
 export interface BaseArchiveDTO {
   title: string;
   description: string;
+  introduction: string;
   type: Color;
   canComment: boolean;
   tags: { content: string }[];

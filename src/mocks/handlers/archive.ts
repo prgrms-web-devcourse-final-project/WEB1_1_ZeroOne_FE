@@ -94,6 +94,7 @@ export const archiveHandlers = [
             title: '제목',
             description:
               '# h1\n## h2\n### 하이하이\n예제 **만드는** 중\n어떻게 _보일지_\n> 인용\n\n```\ncode\n```\n\n',
+            introduction: '소개',
             type: 'red',
             canComment: true,
             tags: [{ content: '태그' }, { content: '태그2' }, { content: '태그3' }],
