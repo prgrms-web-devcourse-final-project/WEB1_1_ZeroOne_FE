@@ -37,7 +37,7 @@ const renderingSearchTap = (activeTab: string, setActiveTab: (t: string) => void
     );
   } else if (activeTab === '아카이브') {
     return <ArchiveGrid archives={dummyArchives} />;
-  } else if (activeTab === '소모임') {
+  } else if (activeTab === '게더링') {
     return <GatheringGrid />;
   }
 };
@@ -49,7 +49,7 @@ export const SearchTap = ({
   activeTab: string;
   setActiveTab: (t: string) => void;
 }) => {
-  const tabs = ['전체', '아카이브', '소모임'];
+  const tabs = ['전체', '아카이브', '게더링'];
 
   return (
     <div className={styles.wrapper}>
