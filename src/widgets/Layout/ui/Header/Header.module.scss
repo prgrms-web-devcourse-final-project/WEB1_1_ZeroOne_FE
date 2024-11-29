@@ -73,10 +73,22 @@
   /* User Menu **/
 
   & .userMenu {
+    position: relative;
     display: flex;
     flex-shrink: 0;
     flex-basis: 1;
     column-gap: 3rem;
     align-items: center;
+  }
+}
+
+.button {
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.heart {
+  &:hover {
+    color: $red;
   }
 }

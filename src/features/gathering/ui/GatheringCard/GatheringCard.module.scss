@@ -1,12 +1,10 @@
 .card {
   position: relative;
   display: flex;
-  flex-shrink: 0;
   flex-direction: column;
   justify-content: center;
-  width: 21.875rem;
-  height: 18.75rem;
-  padding: 20px 25px 0;
+  aspect-ratio: 1 / 0.8;
+  padding: 0.5rem;
   font-family: inherit;
   color: $secondary-color;
   cursor: pointer;
@@ -25,7 +23,7 @@
     font-size: 1.25rem;
     font-weight: 600;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: wrap;
   }
 
   &__name {
@@ -58,7 +56,13 @@
 
   &__deadlineCon {
     display: flex;
+    flex: 1;
     justify-content: space-between;
-    width: 100%;
+    font-size: 0.875rem;
   }
+}
+
+.buttons {
+  display: flex;
+  gap: 0.625rem;
 }
