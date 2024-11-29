@@ -58,3 +58,14 @@ export const getArchiveList = (sort: string, page: number, color?: Color | null)
       },
     })
     .then(res => res.data);
+
+export const getSearchArchive = (searchKeyword: string, page: number) =>
+  api
+    .get<GetArchiveListApiResponse>('/archive/search', {
+      params: {
+        searchKeyword,
+        page,
+        size: 9,
+      },
+    })
+    .then(res => res.data);

@@ -1,12 +1,14 @@
+import { faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import cn from 'classnames';
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './Header.module.scss';
 import { NAV_LINKS } from '../../constants';
 
 //assets
 import Logo from '@/shared/assets/paletteLogo.svg?react';
-import SearchIcon from '@/shared/assets/search.svg?react';
 //model
 import { useModalStore } from '@/shared/model/modalStore';
 //component
@@ -14,6 +16,7 @@ import { Button } from '@/shared/ui';
 
 export const Header = () => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const open = useModalStore(state => state.actions.open);
 
   return (
@@ -42,7 +45,14 @@ export const Header = () => {
       </nav>
       {/** UserMenu */}
       <div className={styles.userMenu}>
-        <SearchIcon height={31} width={31} />
+        <FontAwesomeIcon
+          className={cn(styles.button, styles.search)}
+          icon={faSearch}
+          onClick={() => {
+            navigate('/search');
+          }}
+        />
+        <FontAwesomeIcon className={cn(styles.button, styles.heart)} icon={faHeart} />
         <Button
           onClick={() => {
             open('login');
@@ -50,7 +60,6 @@ export const Header = () => {
         >
           로그인
         </Button>
-        <Button>회원가입</Button>
       </div>
     </header>
   );

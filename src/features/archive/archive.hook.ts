@@ -1,5 +1,4 @@
-import { useMutation, useQuery, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
   deleteArchive,
@@ -22,7 +21,7 @@ import type {
 } from './archive.dto';
 import type { Color } from './colors.type';
 
-import { useIntersectionObserver } from '@/shared/hook';
+import { useCustomInfiniteQuery } from '@/shared/hook';
 
 export const useCreateArchive = () =>
   useMutation({
@@ -45,42 +44,12 @@ export const useArchive = (archiveId: number) =>
     queryFn: () => getArchive(archiveId),
   });
 
-export const useComments = (archiveId: number, enabled: boolean = false) => {
-  const { data, fetchNextPage, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<
-    GetCommentsApiResponse,
-    Error
-  >({
-    queryKey: ['/archive', archiveId, 'comment'],
-    queryFn: ({ pageParam = 0 }) => getComments(archiveId, 10, pageParam as number),
-    enabled,
-    getNextPageParam: (lastPage, allPages) => {
-      if (Array.isArray(lastPage.data)) {
-        const isLastPage = lastPage.data?.length < 10;
-        return isLastPage ? null : allPages.length;
-      }
-      return null;
-    },
-    initialPageParam: 0,
-  });
-
-  const items = useMemo(() => {
-    const temp: Comment[] = [];
-    data?.pages.forEach(page => {
-      page.data?.forEach(comment => {
-        temp.push(comment);
-      });
-    });
-    return temp;
-  }, [data]);
-
-  const ref = useIntersectionObserver(
-    () => {
-      void fetchNextPage();
-    },
-    { threshold: 1.0 },
+export const useComments = (archiveId: number) => {
+  return useCustomInfiniteQuery<GetCommentsApiResponse, Comment, Error>(
+    ['/archive', archiveId, 'comment'],
+    ({ pageParam }) => getComments(archiveId, 10, pageParam),
+    10,
   );
-
-  return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage };
 };
 
 export const useCreateComment = (archiveId: number) =>
@@ -133,40 +102,18 @@ export const usePopularArchiveList = () =>
     queryFn: () => getPopularlityArchiveList(),
   });
 
-export const useArchiveList = (sort: string, color?: Color | 'default') => {
-  const { data, fetchNextPage, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<
-    GetArchiveListApiResponse,
-    Error
-  >({
-    queryKey: ['/archive', sort, color],
-    queryFn: ({ pageParam = 0 }) =>
-      getArchiveList(sort, pageParam as number, color === 'default' ? null : color),
-    getNextPageParam: (lastPage, allPages) => {
-      if (Array.isArray(lastPage.data)) {
-        const isLastPage = lastPage.data?.length < 9;
-        return isLastPage ? null : allPages.length;
-      }
-      return null;
-    },
-    initialPageParam: 0,
-  });
-
-  const items = useMemo(() => {
-    const temp: ArchiveCardDTO[] = [];
-    data?.pages.forEach(page => {
-      page.data?.forEach(archive => {
-        temp.push(archive);
-      });
-    });
-    return temp;
-  }, [data]);
-
-  const ref = useIntersectionObserver(
-    () => {
-      void fetchNextPage();
-    },
-    { threshold: 1.0 },
+export const useArchiveList = (sort: string, color: Color | 'default') => {
+  return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
+    ['/archive', sort, color],
+    ({ pageParam }) => getArchiveList(sort, pageParam, color === 'default' ? null : color),
+    9,
   );
+};
 
-  return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage };
+export const useSearchArchive = (searchKeyword: string) => {
+  return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
+    ['/archive/search', searchKeyword],
+    ({ pageParam }) => getArchiveList(searchKeyword, pageParam),
+    9,
+  );
 };

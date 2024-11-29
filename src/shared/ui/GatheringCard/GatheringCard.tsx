@@ -1,10 +1,12 @@
+import { faHeart, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
 import styles from './GatheringCard.module.scss';
 import { JobTag } from './JobTag';
 
-interface GatheringCardProps {
+export interface GatheringCardProps {
   title: string;
   className?: string; // 외부에서 추가 클래스 전달 가능
   name?: string;
@@ -39,9 +41,9 @@ export const GatheringCard = ({
         <ul className={styles.card__tagCon}>{tag?.map((e, i) => <JobTag job={e} key={i} />)}</ul>
         <section className={styles.card__deadlineCon}>
           <div>마감일 {deadline}</div>
-          <div>
-            <img alt='heart icon' />
-            <img alt='contact icon' />
+          <div className={styles.buttons}>
+            <FontAwesomeIcon icon={faHeart} />
+            <FontAwesomeIcon icon={faPhone} />
           </div>
         </section>
       </li>

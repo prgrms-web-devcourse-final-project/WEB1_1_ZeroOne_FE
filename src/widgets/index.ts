@@ -6,3 +6,5 @@ export * from './WriteArchive';
 export * from './WriteGathering/WriteGatheringOpts';
 export * from './WriteGathering/WriteGatheringDetail';
 export * from './ArchiveGrid';
+export * from './SearchTap/SearchTap';
+export * from './SearchAll/SearchAll';

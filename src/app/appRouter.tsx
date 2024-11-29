@@ -7,6 +7,7 @@ import {
   WriteGatheringPage,
   WriteArchivePage,
   RegisterPage,
+  SearchPage,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -42,6 +43,10 @@ const AppRouter = () => {
         {
           path: '/gathering/write',
           element: <WriteGatheringPage />,
+        },
+        {
+          path: '/search',
+          element: <SearchPage />,
         },
         {
           path: '/user',
