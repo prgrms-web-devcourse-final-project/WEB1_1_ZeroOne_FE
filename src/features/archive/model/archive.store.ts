@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 import type { BaseArchiveDTO } from '../archive.dto';
 import type { Color } from '../colors.type';
@@ -13,6 +14,7 @@ interface ArchiveStore {
   resetArchiveData: () => void;
   color: Color | null;
   setColor: (color: Color) => void;
+  clearStorage: () => void;
 }
 
 export const initialArchiveState: BaseArchiveDTO = {
@@ -24,44 +26,61 @@ export const initialArchiveState: BaseArchiveDTO = {
   imageUrls: [{ url: 'https://source.unsplash.com/random/800x600' }],
 };
 
-export const useArchiveStore = create<ArchiveStore>(set => ({
-  archiveId: 0,
-  setArchiveId: id => {
-    set(() => ({
-      archiveId: id,
-    }));
-  },
+export const useArchiveStore = create(
+  persist<ArchiveStore>(
+    set => ({
+      archiveId: 0,
+      setArchiveId: id => {
+        set(() => ({
+          archiveId: id,
+        }));
+      },
 
-  archiveData: initialArchiveState,
-  setArchiveData: newData => {
-    set(() => ({
-      archiveData: newData,
-    }));
-  },
-
-  updateArchiveData: (key, value) => {
-    set(
-      produce((state: ArchiveStore) => {
-        state.archiveData[key] = value;
-      }),
-    );
-  },
-
-  resetArchiveData: () => {
-    set(() => ({
       archiveData: initialArchiveState,
-    }));
-  },
+      setArchiveData: newData => {
+        set(() => ({
+          archiveData: newData,
+        }));
+      },
 
-  color: null,
-  setColor: color => {
-    set(
-      produce((state: ArchiveStore) => {
-        state.archiveData.type = color;
-      }),
-    );
-    set(() => ({
-      color,
-    }));
-  },
-}));
+      updateArchiveData: (key, value) => {
+        set(
+          produce((state: ArchiveStore) => {
+            state.archiveData[key] = value;
+          }),
+        );
+      },
+
+      resetArchiveData: () => {
+        set(() => ({
+          archiveData: initialArchiveState,
+        }));
+      },
+
+      color: null,
+      setColor: color => {
+        set(
+          produce((state: ArchiveStore) => {
+            state.archiveData.type = color;
+          }),
+        );
+        set(() => ({
+          color,
+        }));
+      },
+
+      clearStorage: () => {
+        set(() => ({
+          archiveId: 0,
+          archiveData: initialArchiveState,
+          color: null,
+        }));
+        useArchiveStore.persist.clearStorage();
+      },
+    }),
+    {
+      name: 'archive-storage',
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+);
