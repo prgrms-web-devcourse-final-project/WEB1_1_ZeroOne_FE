@@ -1,0 +1,73 @@
+import axios from 'axios';
+import type { ReactNode } from 'react';
+import { createContext, useContext, useRef, useState } from 'react';
+
+interface AuthContextType {
+  accessToken: string | null;
+  setAccessToken: (token: string | null) => void;
+  reissueToken: () => Promise<void>;
+  logout: () => void;
+  removeToken: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem('accessToken'),
+  );
+  const isRefreshing = useRef(false);
+
+  const reissueToken = async () => {
+    if (isRefreshing.current) return;
+
+    isRefreshing.current = true;
+
+    try {
+      const response = await axios.post('/token/reissue', {}, { withCredentials: true });
+
+      const newAccessToken = (response.headers['authorization'] as string)?.split(' ')[1];
+
+      if (newAccessToken) {
+        setAccessToken(newAccessToken);
+        localStorage.setItem('accessToken', newAccessToken);
+      } else {
+        throw new Error('accessToken이 헤더에 포함되어 있지 않습니다.');
+      }
+    } catch (error) {
+      console.error('토큰 재발급 실패:', error);
+      removeToken();
+    } finally {
+      // eslint-disable-next-line require-atomic-updates
+      isRefreshing.current = false;
+    }
+  };
+
+  const removeToken = () => {
+    setAccessToken(null);
+    localStorage.removeItem('accessToken');
+    // TODO 로그인 팝업 알림
+  };
+
+  const logout = () => {
+    // TODO 로그아웃 요청
+    setAccessToken(null);
+    localStorage.removeItem('accessToken');
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{ accessToken, setAccessToken, reissueToken, logout, removeToken }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('AuthProvider Error');
+  }
+  return context;
+};
