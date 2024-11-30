@@ -5,14 +5,16 @@ import styles from './ProfileForm.module.scss';
 import { useProfileForm } from '../form.hook';
 import type { FormConfigType, FormValues } from '../form.types';
 
-interface ProfileFormProps {
-  formConfig: FormConfigType<FormValues>;
-  onSubmit: (data: FormValues) => void;
+interface ProfileFormProps<T extends FormValues> {
+  formConfig: FormConfigType<T>;
+  onSubmit: (data: T) => void;
 }
 
-export const ProfileForm = ({ onSubmit, formConfig }: ProfileFormProps) => {
+export const ProfileForm = <T extends FormValues>({
+  onSubmit,
+  formConfig,
+}: ProfileFormProps<T>) => {
   const { method, formStructure } = useProfileForm({ formConfig });
-
   return (
     <FormProvider {...method}>
       <form
