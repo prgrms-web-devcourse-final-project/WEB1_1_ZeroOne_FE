@@ -1,4 +1,4 @@
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 
@@ -12,6 +12,7 @@ export const LikeListPage = () => {
   return (
     <div className={styles.wrapper}>
       <span className={styles.path}>
+        <FontAwesomeIcon icon={faHome} size='xs' />
         <FontAwesomeIcon icon={faChevronRight} size='xs' />
         Likes
       </span>
