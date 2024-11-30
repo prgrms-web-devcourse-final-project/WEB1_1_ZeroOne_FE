@@ -1,0 +1,16 @@
+.contentsTab {
+  display: flex;
+  column-gap: 5rem;
+  padding: 2rem 0;
+  font-size: 1.125rem;
+  color: $primary-color;
+
+  & button.activeTab {
+    font-weight: 600;
+  }
+
+  & button {
+    padding: 0;
+    margin-bottom: 0.375rem;
+  }
+}

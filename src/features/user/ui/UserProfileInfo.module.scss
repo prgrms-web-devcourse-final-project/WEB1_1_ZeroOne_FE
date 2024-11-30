@@ -1,0 +1,92 @@
+.userProfileWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: center;
+  width: 100%;
+  padding: 0 2rem;
+  color: $primary-color;
+  border-radius: 1rem;
+
+  & .profileImage {
+    width: 16rem;
+    height: 16rem;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 0 4px 1px rgba(54, 54, 54, 10%);
+
+    & > img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  & .userInfo {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.25rem;
+    width: 100%;
+
+    & .infoHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      & > strong {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+    }
+
+    & .portfolioLink {
+      color: $third-color;
+      text-decoration: underline;
+      word-break: break-all;
+
+      &:hover {
+        color: $active-color;
+        cursor: pointer;
+      }
+    }
+
+    & .jobInfos {
+      display: flex;
+      column-gap: 0.5rem;
+      font-weight: 500;
+
+      & > span:last-of-type {
+        font-weight: 600;
+      }
+    }
+
+    & .introInfoWrapper {
+      padding-top: 1rem;
+
+      & > .infoTitle {
+        font-weight: 600;
+      }
+    }
+
+    & .userLinks {
+      display: flex;
+      column-gap: 0.5rem;
+      align-items: center;
+      width: 100%;
+      padding-top: 1rem;
+
+      & .userLink {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.875rem;
+        color: $secondary-color;
+        cursor: pointer;
+        background-color: $primary-color;
+        border-radius: 0.5rem;
+      }
+    }
+  }
+}

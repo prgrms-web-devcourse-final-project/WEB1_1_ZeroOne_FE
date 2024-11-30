@@ -6,4 +6,4 @@ export { RegisterPage } from './RegisterPage/RegisterPage';
 export { SearchPage } from './SearchPage/SearchPage';
 export { WriteArchivePage } from './WriteArchivePage/WriteArchivePage';
 export { WriteGatheringPage } from './WriteGatheringPage/WriteGatheringPage';
-
+export { UserPage } from './UserPage/UserPage';
