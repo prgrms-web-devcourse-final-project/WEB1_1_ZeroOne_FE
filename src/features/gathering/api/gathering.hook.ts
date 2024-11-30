@@ -1,4 +1,8 @@
+import { useQuery } from '@tanstack/react-query';
+
 import { getGatheringList } from '../api/gathering.api';
+import { gatheringDetailApi } from '../api/gathering.api';
+import type { GatheringDetailResponse } from '../model/gathering.dto';
 import type {
   GatheringItemDto,
   // GatheringResponseDto,
@@ -39,4 +43,20 @@ export const useGatheringList = (
     9,
     true,
   );
+};
+
+export const useGatheringDetail = (gatheringId: string) => {
+  const { data, isLoading, isError, error } = useQuery<GatheringDetailResponse, Error>({
+    queryKey: ['gathering', 'detail', gatheringId],
+    queryFn: () => gatheringDetailApi.getGatheringById(gatheringId),
+    enabled: !!gatheringId,
+    staleTime: 1000 * 60 * 5, // 5분 동안 캐시 유지
+  });
+
+  return {
+    gathering: data?.data,
+    isLoading,
+    isError,
+    error,
+  };
 };

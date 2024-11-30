@@ -1,4 +1,4 @@
-// import type { GatheringResponseDto } from '../model/gathering.dto';
+import type { GatheringDetailResponse } from '../model/gathering.dto';
 import type {
   GatheringItemDto,
   GatheringSortType,
@@ -16,12 +16,6 @@ interface GetGatheringsParams {
   size?: number;
   gatheringId?: number;
 }
-// export const getGatheringList = {
-//   async getGatherings(params: GetGatheringsParams) {
-//     const { data } = await api.get<GatheringResponseDto>('/gathering', { params });
-//     return data;
-//   },
-// };
 
 interface GetGatheringsParams {
   sort?: GatheringSortType;
@@ -44,6 +38,16 @@ interface GatheringListResponse {
 export const getGatheringList = {
   getGatherings: async (params: GetGatheringsParams): Promise<GatheringListResponse> => {
     const { data } = await api.get<GatheringListResponse>('/gathering', { params });
+    return data;
+  },
+};
+interface GatheringDetailApi {
+  getGatheringById: (id: string) => Promise<GatheringDetailResponse>;
+}
+
+export const gatheringDetailApi: GatheringDetailApi = {
+  getGatheringById: async (id: string) => {
+    const { data } = await api.get<GatheringDetailResponse>(`/gathering/${id}`);
     return data;
   },
 };

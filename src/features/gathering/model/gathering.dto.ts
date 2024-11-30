@@ -60,3 +60,21 @@ export interface GatheringDetailResponseDto<T extends GatheringSortType = Gather
   };
   timeStamp: string;
 }
+export interface GatheringDetailResponse {
+  data: {
+    sort: GatheringSortType;
+    username: string;
+    createTime: string;
+    subject: string;
+    contact: GatheringContactType;
+    personnel: number;
+    period: GatheringPeriod;
+    deadLine: string;
+    position: string;
+    gatheringTag: string[];
+    contactUrl: string;
+    title: string;
+    content: string;
+  };
+  timeStamp: string;
+}
