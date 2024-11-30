@@ -6,6 +6,7 @@ import {
   ArchiveListPage,
   WriteGatheringPage,
   WriteArchivePage,
+  UserPage,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -44,7 +45,7 @@ const AppRouter = () => {
         },
         {
           path: '/user',
-          element: <>{/** userPage */}</>,
+          element: <UserPage />,
         },
       ],
     },

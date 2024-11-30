@@ -1,0 +1,44 @@
+$colors: (
+  'red': $red,
+  'yellow': $yellow,
+  'green': $green,
+  'blue': $blue,
+  'purple': $purple,
+  'default': $third-color,
+);
+
+@each $name, $value in $colors {
+  .#{$name} {
+    background-color: $value;
+  }
+}
+
+.container {
+  width: 100%;
+}
+
+.userBanner {
+  width: 100%;
+  height: 20rem;
+}
+
+.userProfileContainer {
+  position: relative;
+  width: 20rem;
+  min-width: 20rem;
+
+  & > div {
+    position: absolute;
+    top: 0;
+    transform: translateY(-8rem);
+  }
+}
+
+.userSectionWrapper {
+  display: flex;
+  column-gap: 4rem;
+  width: 100%;
+  padding: 0 4rem;
+
+  //  border: 1px solid blue;
+}
