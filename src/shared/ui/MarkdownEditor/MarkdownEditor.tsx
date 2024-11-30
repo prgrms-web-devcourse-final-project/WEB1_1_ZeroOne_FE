@@ -5,26 +5,37 @@ import { useRef, useEffect } from 'react';
 
 import styles from './MarkdownEditor.module.scss';
 
-import { MarkdownPreview, Toolbar, useArchiveStore, useMarkdown } from '@/features';
+import { MarkdownPreview, Toolbar, useMarkdown } from '@/features';
 
-export const MarkdownEditor = () => {
+export interface MarkdownEditorProps<T> {
+  data: T;
+  updateKey: keyof T;
+  onUpdate: <K extends keyof T>(key: K, value: T[K]) => void;
+  preview?: boolean;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const MarkdownEditor = <T extends { [key: string]: any }>({
+  data,
+  updateKey,
+  onUpdate,
+  preview = true,
+}: MarkdownEditorProps<T>) => {
   const editorViewRef = useRef<EditorView | null>(null);
-
-  const { archiveData, updateArchiveData } = useArchiveStore();
 
   const { syncPreview, insertStartToggle, eventHandler, handleImage } = useMarkdown({
     editorViewRef,
-    markdownText: archiveData.description,
+    markdownText: data[updateKey] as string,
     setMarkdownText: markdown => {
-      updateArchiveData('description', markdown);
+      onUpdate(updateKey, markdown as T[typeof updateKey]);
     },
   });
 
   useEffect(() => {
-    if (editorViewRef.current && archiveData.description) {
+    if (editorViewRef.current && data[updateKey]) {
       syncPreview();
     }
-  }, [syncPreview, archiveData.description]);
+  }, [syncPreview, data, updateKey]);
 
   return (
     <div className={styles.container}>
@@ -51,17 +62,17 @@ export const MarkdownEditor = () => {
             eventHandler,
           ]}
           onChange={newValue => {
-            updateArchiveData('description', newValue);
+            onUpdate(updateKey, newValue as T[typeof updateKey]);
           }}
           onUpdate={update => {
             if (update.view) {
               editorViewRef.current = update.view;
             }
           }}
-          value={archiveData.description}
+          value={data[updateKey] as string}
         />
       </div>
-      <MarkdownPreview markdownText={archiveData.description} />
+      {preview && <MarkdownPreview markdownText={data[updateKey] as string} />}
     </div>
   );
 };
