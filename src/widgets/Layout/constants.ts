@@ -12,3 +12,5 @@ export const NAV_LINKS = [
     title: '게더링',
   },
 ];
+
+export const NO_PAD_ROUTES: readonly string[] = ['/user'];

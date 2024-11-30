@@ -20,6 +20,7 @@ interface ArchiveStore {
 export const initialArchiveState: BaseArchiveDTO = {
   title: '',
   description: '',
+  introduction: '',
   type: 'red',
   canComment: false,
   tags: [],
