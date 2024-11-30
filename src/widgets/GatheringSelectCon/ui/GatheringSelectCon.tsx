@@ -1,12 +1,11 @@
-// SelectBtn.tsx는 그대로 유지하고, GatheringSelectCon을 수정합니다
+import { useNavigate } from 'react-router-dom';
 
 import styles from './GatheringSelectCon.module.scss';
 
 import { gatheringFilterOptions } from '@/features';
 import type { Option } from '@/shared/model/SelectBtnTypes';
-import { SelectBtn } from '@/shared/ui';
+import { Button, SelectBtn } from '@/shared/ui';
 
-// subject를 제외한 키만 허용하도록 타입 수정
 type GatheringFilterKey = Exclude<keyof typeof gatheringFilterOptions, 'subject'>;
 
 interface SelectConfig {
@@ -16,6 +15,7 @@ interface SelectConfig {
 }
 
 export const GatheringSelectCon = () => {
+  const navigate = useNavigate();
   const selectConfigs: SelectConfig[] = [
     {
       key: 'contact',
@@ -42,7 +42,6 @@ export const GatheringSelectCon = () => {
   return (
     <div className={styles.container}>
       {selectConfigs.map(config => {
-        // options가 Option[] 타입임을 보장
         const options = gatheringFilterOptions[config.key] as Option[];
 
         return (
@@ -55,6 +54,13 @@ export const GatheringSelectCon = () => {
           />
         );
       })}
+      <Button
+        onClick={() => {
+          navigate('/');
+        }}
+      >
+        게더링 등록하기
+      </Button>
     </div>
   );
 };

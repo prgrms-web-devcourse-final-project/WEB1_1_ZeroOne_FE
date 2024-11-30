@@ -1,0 +1,78 @@
+.pageWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1640px;
+  min-height: 100vh;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+.h1 {
+  margin-top: 4rem;
+  margin-bottom: 2.5rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: $primary-color;
+  text-align: center;
+}
+
+.contentContainer {
+  position: sticky;
+  display: flex; // grid 대신 flex 사용
+  gap: 2rem;
+  overflow: auto;
+
+  @media screen and (width <= 1440px) {
+    gap: 2rem;
+  }
+
+  @media screen and (width <= 1200px) {
+    gap: 1.5rem;
+  }
+
+  @media screen and (width <= 830px) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+.sidebarWrapper {
+  flex-shrink: 0;
+  width: 250px;
+
+  @media screen and (width <= 1200px) {
+    width: 220px;
+  }
+
+  @media screen and (width <= 830px) {
+    width: 100%;
+  }
+}
+
+.sidebarContainer {
+  position: fixed;
+  top: 16.5rem;
+  width: inherit;
+  max-height: calc(100vh - 14.5rem);
+  overflow-y: auto;
+
+  @media screen and (width <= 830px) {
+    position: relative;
+    top: 0;
+    width: 100%;
+    max-height: none;
+  }
+}
+
+.mainContent {
+  flex: 1;
+  min-width: 0; // flex item 오버플로우 방지
+}
+
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1340px;
+  margin: 0 auto;
+}

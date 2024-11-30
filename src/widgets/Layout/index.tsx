@@ -9,9 +9,20 @@ import styles from './Layout.module.scss';
 import { Footer } from './ui/Footer/Footer';
 import { Header } from './ui/Header/Header';
 
+import { useArchiveStore } from '@/features';
+import { usePageLifecycle } from '@/shared/hook';
+
 export const Layout = () => {
   const { pathname } = useLocation();
   const isNoPadHeader = NO_PAD_ROUTES.includes(pathname);
+  const { resetArchiveData, clearStorage } = useArchiveStore();
+
+  usePageLifecycle({
+    onNavigate: () => {
+      resetArchiveData();
+      clearStorage();
+    },
+  });
 
   return (
     <>

@@ -5,8 +5,11 @@ import {
   DetailArchivePage,
   ArchiveListPage,
   WriteGatheringPage,
+  PortfolioListPage,
   WriteArchivePage,
   UserPage,
+  RegisterPage,
+  SearchPage,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -21,7 +24,7 @@ const AppRouter = () => {
         },
         {
           path: '/portfolio',
-          element: <>{/** portfolioPage */}</>,
+          element: <PortfolioListPage />,
         },
         {
           path: '/archive',
@@ -44,8 +47,16 @@ const AppRouter = () => {
           element: <WriteGatheringPage />,
         },
         {
+          path: '/search',
+          element: <SearchPage />,
+        },
+        {
           path: '/user',
           element: <UserPage />,
+        },
+        {
+          path: '/register',
+          element: <RegisterPage />,
         },
       ],
     },
