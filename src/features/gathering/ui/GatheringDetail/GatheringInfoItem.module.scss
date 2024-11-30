@@ -1,0 +1,16 @@
+.infoItem {
+  display: flex;
+  gap: 1.5625rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+
+  .label {
+    font-weight: 600;
+    color: $third-color;
+  }
+
+  .value {
+    font-weight: 600;
+    color: $primary-color;
+  }
+}
