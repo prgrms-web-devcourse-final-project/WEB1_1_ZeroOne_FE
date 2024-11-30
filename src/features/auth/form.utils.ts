@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import type { FormConfigType, FormValues } from './form.types';
+import type { FormConfigType, FormValues, PortfolioFormValues } from './form.types';
 import { JOB_CATEGORIES, JOB_DIVISION } from './form.types';
 
 export const formValidation = yup.object({
@@ -111,4 +111,53 @@ export const formConfig: FormConfigType<FormValues> = {
     },
   ],
   validation: formValidation,
+  defaultValues: {
+    name: '',
+    briefIntro: '',
+    majorJobGroup: null,
+    minorJobGroup: null,
+    jobTitle: '',
+    division: 'student',
+    url: [],
+    imageUrl: '',
+  },
+};
+
+export const profileFormValidation = formValidation.shape({
+  portfolioUrl: yup.string().defined().url('URL 형식이 아닙니다.'),
+});
+
+export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
+  structure: [
+    ...formConfig.structure.slice(0, 2),
+    {
+      title: 'URL',
+      inputs: [
+        {
+          label: 'URL',
+          type: 'array',
+          name: 'url',
+          placeholder: 'https://',
+        },
+        {
+          label: '포트폴리오 URL',
+          type: 'default',
+          name: 'portfolioUrl',
+          placeholder: 'https://',
+        },
+      ],
+    },
+  ],
+  validation: profileFormValidation,
+  defaultValues: {
+    name: '',
+    briefIntro: '',
+    majorJobGroup: null,
+    minorJobGroup: null,
+    jobTitle: '',
+    division: 'student',
+    url: [],
+    imageUrl: '',
+    portfolioUrl: '',
+  },
 };

@@ -5,25 +5,16 @@ import { useForm } from 'react-hook-form';
 import type { FormConfigType } from './form.types';
 import { JOB_CATEGORIES, type FormValues } from './form.types';
 
-interface useProfileFormProps {
-  formConfig: FormConfigType<FormValues>;
+interface useProfileFormProps<T extends FormValues> {
+  formConfig: FormConfigType<T>;
 }
 
-export const useProfileForm = ({ formConfig }: useProfileFormProps) => {
+export const useProfileForm = <T extends FormValues>({ formConfig }: useProfileFormProps<T>) => {
   const [formStructure, setFormStructure] = useState([...formConfig.structure]);
-  const method = useForm<FormValues>({
+  const method = useForm({
     resolver: yupResolver(formConfig.validation),
     mode: 'onChange',
-    defaultValues: {
-      name: '',
-      briefIntro: '',
-      majorJobGroup: null,
-      minorJobGroup: null,
-      jobTitle: '',
-      division: 'student',
-      url: [],
-      imageUrl: '',
-    },
+    defaultValues: formConfig.defaultValues,
   });
   const majorJobGroup = method.watch('majorJobGroup');
 
@@ -54,7 +45,9 @@ export const useProfileForm = ({ formConfig }: useProfileFormProps) => {
       return updatedStructure;
     });
 
-    method.setValue('minorJobGroup', null, { shouldValidate: true });
+    method.setValue('minorJobGroup', null, {
+      shouldValidate: true,
+    });
   }, [majorJobGroup, method]);
 
   return {

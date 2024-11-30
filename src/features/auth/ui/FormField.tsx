@@ -8,7 +8,12 @@ import React from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import styles from './FormField.module.scss';
-import type { FormInputType, FormValues, FormValuesName, InputFieldProps } from '../form.types';
+import type {
+  FormInputType,
+  FormValuesName,
+  InputFieldProps,
+  PortfolioFormValues,
+} from '../form.types';
 import { RenderInput } from './FormInputs';
 
 interface ArrayInputFieldProps extends InputFieldProps {
@@ -31,7 +36,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
 
 //InpuField - 기본 input 필드 (radio, text ...)
 const InputField: React.FC<InputFieldProps> = ({ type = 'default', name, ...restProps }) => {
-  const { control } = useFormContext<FormValues>();
+  const { control } = useFormContext<PortfolioFormValues>();
 
   return (
     <Controller
@@ -44,7 +49,7 @@ const InputField: React.FC<InputFieldProps> = ({ type = 'default', name, ...rest
 
 //ArrayInputField - URL Input ( 여러 input 받는 필드 )
 const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restProps }) => {
-  const { control, formState, setError } = useFormContext<FormValues>();
+  const { control, formState, setError } = useFormContext<PortfolioFormValues>();
   const { append, remove, fields } = useFieldArray({ name, control });
 
   const inputError = formState.errors[name];
@@ -91,7 +96,7 @@ const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restPr
 
 export const FormField: React.FC<FormFieldProps> = React.memo(
   ({ name, label, required, type = 'default', ...restProps }) => {
-    const { formState } = useFormContext<FormValues>();
+    const { formState } = useFormContext<PortfolioFormValues>();
     const errorMessage = formState.errors[name]?.message;
 
     return (

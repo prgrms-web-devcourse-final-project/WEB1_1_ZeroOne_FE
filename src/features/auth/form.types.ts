@@ -1,3 +1,4 @@
+import type { DefaultValues } from 'react-hook-form';
 import type { ObjectSchema } from 'yup';
 
 export type Option = {
@@ -16,12 +17,17 @@ export interface FormValues {
   imageUrl: string;
 }
 
+export interface PortfolioFormValues extends FormValues {
+  portfolioUrl: string;
+}
+
 export type FormInputType = 'default' | 'radio' | 'select' | 'image' | 'textarea' | 'array';
 
 export type FormValuesName = keyof FormValues;
+export type PortfolioFormValuesName = keyof PortfolioFormValues;
 
 export interface InputFieldProps {
-  name: FormValuesName;
+  name: FormValuesName | PortfolioFormValuesName;
   type?: FormInputType;
   placeholder?: string;
   options?: Option[];
@@ -38,9 +44,10 @@ interface FieldSetInfo {
   inputs: InputInfo[];
 }
 
-export interface FormConfigType<T extends object> {
+export interface FormConfigType<T extends FormValues> {
   structure: FieldSetInfo[];
   validation: ObjectSchema<T>;
+  defaultValues: DefaultValues<T>;
 }
 
 export const JOB_CATEGORIES = [
