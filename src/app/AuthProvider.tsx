@@ -2,13 +2,14 @@ import axios from 'axios';
 import type { ReactNode } from 'react';
 import { createContext, useContext, useRef, useState } from 'react';
 
+import api from '@/shared/api/baseApi';
 import { customConfirm } from '@/shared/ui';
 
 interface AuthContextType {
   accessToken: string | null;
   setAccessToken: (token: string | null) => void;
   reissueToken: () => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   removeToken: () => void;
 }
 
@@ -51,10 +52,15 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     customConfirm({ title: '로그인', text: '로그인 페이지로 이동합니다.', icon: 'info' });
   };
 
-  const logout = () => {
-    // TODO 로그아웃 요청
-    setAccessToken(null);
-    localStorage.removeItem('accessToken');
+  const logout = async () => {
+    try {
+      await api.post('/user/logout');
+
+      setAccessToken(null);
+      localStorage.removeItem('accessToken');
+    } catch (error) {
+      console.error('로그아웃 실패:', error);
+    }
   };
 
   return (
