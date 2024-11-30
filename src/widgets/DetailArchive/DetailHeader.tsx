@@ -1,4 +1,10 @@
-import { faChevronRight, faCommentDots, faEye, faHeart } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronRight,
+  faCommentDots,
+  faEye,
+  faFeather,
+  faHeart,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,6 +24,7 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
     setArchiveData({
       title: archive.title,
       description: archive.description,
+      introduction: archive.introduction,
       type: archive.type,
       canComment: archive.canComment,
       tags: archive.tags,
@@ -79,6 +86,10 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
         {archive.tags.map(tag => (
           <Tag isDeleteable={false} key={tag.content} tag={tag} />
         ))}
+      </div>
+      <div className={styles.intro}>
+        <FontAwesomeIcon icon={faFeather} />
+        {archive.introduction}
       </div>
     </div>
   );

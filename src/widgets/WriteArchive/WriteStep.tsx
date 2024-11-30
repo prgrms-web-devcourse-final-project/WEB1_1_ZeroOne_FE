@@ -100,6 +100,19 @@ export const WriteStep = ({
           />
         </div>
       </div>
+      <div className={styles.inputContainer}>
+        <label>한 줄 소개</label>
+        <div className={styles.inputBox}>
+          <input
+            onChange={e => {
+              updateArchiveData('introduction', e.target.value);
+            }}
+            placeholder='스토리를 나타낼 간단한 소개 글을 적어주세요'
+            type='text'
+            value={archiveData.introduction}
+          />
+        </div>
+      </div>
       <MarkdownEditor />
       <div className={styles.inputContainer}>
         <label>태그</label>
