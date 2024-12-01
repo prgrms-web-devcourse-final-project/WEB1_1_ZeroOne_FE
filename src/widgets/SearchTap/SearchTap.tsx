@@ -4,7 +4,8 @@ import styles from './SearchTap.module.scss';
 import { SearchAll } from '../SearchAll/SearchAll';
 
 import type { ArchiveCardDTO, Color } from '@/features';
-import type { GatheringCardProps } from '@/features/gathering/ui/GatheringCard/GatheringCard';
+// import type { GatheringCardProps } from '@/features/gathering/ui/GatheringCard/GatheringCard';
+import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
 
 const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   archiveId: i,
@@ -18,12 +19,19 @@ const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   createDate: new Date(),
 }));
 
-const dummyGatherings: GatheringCardProps[] = Array.from({ length: 9 }, () => ({
-  title: `Sample Gathering`,
-  name: `Sample Name`,
-  introduction: `Description for sample gathering`,
-  tag: ['tag1', 'tag2', 'tag3'],
-  deadline: '2024-11-28',
+const dummyGatherings: GatheringItemDto<'프로젝트'>[] = Array.from({ length: 9 }, (_, i) => ({
+  gatheringId: i.toString(),
+  title: `Sample Gathering ${i + 1}`,
+  userId: `user_${i}`,
+  username: '홍길동',
+  sort: '프로젝트',
+  subject: '개발', // ProjectSubjectType만 허용
+  tags: ['React', 'TypeScript', 'Next.js'],
+  deadLine: '2024-11-28',
+  position: ['개발자', '디자이너'], // 여러 포지션 가능
+  contactType: '온라인',
+  period: '3개월',
+  personnel: '3',
 }));
 
 const renderingSearchTap = (activeTab: string, setActiveTab: (t: string) => void) => {
@@ -38,7 +46,7 @@ const renderingSearchTap = (activeTab: string, setActiveTab: (t: string) => void
   } else if (activeTab === '아카이브') {
     return <ArchiveGrid archives={dummyArchives} />;
   } else if (activeTab === '게더링') {
-    return <GatheringGrid />;
+    return <GatheringGrid items={dummyGatherings} />;
   }
 };
 

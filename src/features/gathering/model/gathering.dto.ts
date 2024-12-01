@@ -29,7 +29,7 @@ export interface GatheringResponseDto {
 // 폼데이터 이거로 바꿀 것입니다.
 export interface GatheringItemDto<T extends GatheringSortType = GatheringSortType> {
   gatheringId: string;
-  userId: number;
+  userId: string;
   contactType: GatheringContactType;
   sort: T;
   subject: GatheringSubjectMap[T];
