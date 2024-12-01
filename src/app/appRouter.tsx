@@ -10,6 +10,7 @@ import {
   UserPage,
   RegisterPage,
   SearchPage,
+  MyPage,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -57,6 +58,10 @@ const AppRouter = () => {
         {
           path: '/register',
           element: <RegisterPage />,
+        },
+        {
+          path: '/my/*',
+          element: <MyPage />,
         },
       ],
     },
