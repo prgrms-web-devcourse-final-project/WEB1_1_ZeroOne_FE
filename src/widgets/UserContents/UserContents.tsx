@@ -5,6 +5,7 @@ import { ContentsTab } from './ContentsTab';
 import { useUserTab } from './hook/useUserTab';
 
 import type { ArchiveCardDTO, Color } from '@/features';
+import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
 import { PieChart } from '@/shared/ui/Chart/PieChart';
 
 //더미 데이터
@@ -66,7 +67,21 @@ const ArchiveContent = () => (
   </div>
 );
 
-const GatheringContent = () => <GatheringGrid />;
+const dummyGatherings: GatheringItemDto<'프로젝트'>[] = Array.from({ length: 9 }, (_, i) => ({
+  gatheringId: i.toString(),
+  title: `Sample Gathering ${i + 1}`,
+  userId: `user_${i}`,
+  username: '홍길동',
+  sort: '프로젝트',
+  subject: '개발', // ProjectSubjectType만 허용
+  tags: ['React', 'TypeScript', 'Next.js'],
+  deadLine: '2024-11-28',
+  position: ['개발자', '디자이너'], // 여러 포지션 가능
+  contactType: '온라인',
+  period: '3개월',
+  personnel: '3',
+}));
+const GatheringContent = () => <GatheringGrid items={dummyGatherings} />;
 
 const ContentComponents = {
   gathering: GatheringContent,

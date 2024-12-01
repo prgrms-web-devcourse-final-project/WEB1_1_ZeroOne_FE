@@ -1,0 +1,19 @@
+.author {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  .profileImg {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+  }
+
+  .name {
+    font-weight: bold;
+  }
+
+  .position {
+    color: #666;
+  }
+}
