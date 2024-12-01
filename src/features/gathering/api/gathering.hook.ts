@@ -24,7 +24,7 @@ export const useGatheringList = (
   position?: GatheringPosition,
 ) => {
   return useCustomInfiniteQuery<TransformedGatheringResponse, GatheringItemDto, Error>(
-    ['gatherings', sort ?? '', period ?? '', position ?? '', status],
+    ['/gathering/list', sort ?? '', period ?? '', position ?? '', status],
     async ({ pageParam }) => {
       const response = await getGatheringList.getGatherings({
         sort,
@@ -47,7 +47,7 @@ export const useGatheringList = (
 
 export const useGatheringDetail = (gatheringId: string) => {
   const { data, isLoading, isError, error } = useQuery<GatheringDetailResponse, Error>({
-    queryKey: ['gathering', 'detail', gatheringId],
+    queryKey: ['/gathering', 'detail', gatheringId],
     queryFn: () => gatheringDetailApi.getGatheringById(gatheringId),
     enabled: !!gatheringId,
     staleTime: 1000 * 60 * 5, // 5분 동안 캐시 유지
