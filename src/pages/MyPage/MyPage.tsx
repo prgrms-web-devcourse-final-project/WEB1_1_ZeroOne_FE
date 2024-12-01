@@ -1,8 +1,6 @@
 import styles from './MyPage.module.scss';
 
-import { ContentLayout } from '@/widgets/SettingUser/ContentLayout';
-import { useMyTab } from '@/widgets/SettingUser/hooks/useMyTab';
-import { SideTab } from '@/widgets/SettingUser/SideTab';
+import { ContentLayout, SideTab, useMyTab } from '@/widgets';
 
 export const MyPage = () => {
   const { activeTabItem, isActivePath } = useMyTab();
