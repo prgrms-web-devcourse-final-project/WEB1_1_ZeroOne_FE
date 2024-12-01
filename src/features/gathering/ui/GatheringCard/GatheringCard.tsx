@@ -13,6 +13,7 @@ export interface GatheringCardProps {
   introduction?: string;
   tag?: string[];
   deadline?: string;
+  gatheringId?: string;
 }
 
 export const GatheringCard = ({
@@ -22,6 +23,7 @@ export const GatheringCard = ({
   introduction,
   tag,
   deadline,
+  gatheringId,
 }: GatheringCardProps) => {
   return (
     <Link
@@ -32,7 +34,7 @@ export const GatheringCard = ({
         },
         className, // 외부 클래스 추가
       )}
-      to='/gathering'
+      to={`/gathering/${gatheringId}`}
     >
       <li>
         <h2 className={cn(styles.card__title)}>{title}</h2>

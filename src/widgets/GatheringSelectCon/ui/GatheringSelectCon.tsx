@@ -56,7 +56,7 @@ export const GatheringSelectCon = () => {
       })}
       <Button
         onClick={() => {
-          navigate('/');
+          navigate('/gathering/write');
         }}
       >
         게더링 등록하기
