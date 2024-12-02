@@ -34,7 +34,7 @@ export const PortfolioCard = ({
               src={memberImageUrl || profileImg} // 이미지가 없을 경우 기본 이미지 사용
             />
           </Link>
-          <ContactBtn />
+          <ContactBtn userName = {username}/>
         </div>
         <div className={styles.cardFooter}>
           <div className={styles.firstInfo}>
