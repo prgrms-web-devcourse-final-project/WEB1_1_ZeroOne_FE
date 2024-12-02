@@ -66,6 +66,7 @@ export const GatheringListPage = () => {
                 {isCategoryOpen && (
                   <MobileSidebarFilter
                     content={<SidebarFilter categories={PROJECT_CATEGORIES} />}
+                    isOpen={isCategoryOpen}
                     onClose={() => {
                       setIsCategoryOpen(false);
                     }}

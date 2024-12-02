@@ -50,6 +50,7 @@ export const PortfolioListPage = () => {
                 {isCategoryOpen && (
                   <MobileSidebarFilter
                     content={<SidebarFilter categories={JOB_CATEGORIES} />}
+                    isOpen={isCategoryOpen}
                     onClose={() => {
                       setIsCategoryOpen(false);
                     }}
