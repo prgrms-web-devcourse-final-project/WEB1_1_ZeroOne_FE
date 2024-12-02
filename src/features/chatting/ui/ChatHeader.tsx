@@ -1,14 +1,31 @@
+import { faX } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import styles from './ChatHeader.module.scss';
+
+import { useModalStore } from '@/shared/model/modalStore';
 
 interface HomeHeaderProps {
   title: string;
 }
 
-export const HomeHeader = ({ title }: HomeHeaderProps) => (
-  <header className={styles.homeHeader}>
-    <h2 className={styles.title}>{title}</h2>
-  </header>
-);
+export const HomeHeader = ({ title }: HomeHeaderProps) => {
+  const close = useModalStore(state => state.actions.close);
+
+  return (
+    <header className={styles.homeHeader}>
+      <h2 className={styles.title}>{title}</h2>
+      <FontAwesomeIcon
+        className={styles.closeBtn}
+        icon={faX}
+        onClick={() => {
+          close();
+        }}
+        size='xs'
+      />
+    </header>
+  );
+};
 
 interface ChatHeaderProps {
   title: string | undefined;

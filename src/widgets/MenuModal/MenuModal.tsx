@@ -2,6 +2,7 @@ import { faHeart, faHome, faSearch, faX } from '@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -11,10 +12,28 @@ import { NAV_LINKS } from '../Layout/constants';
 import { useModalStore } from '@/shared/model/modalStore';
 import { Button } from '@/shared/ui';
 
-export const MenuModal = ({ onClose }: { onClose: (f: boolean) => void }) => {
+export const MenuModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: (f: boolean) => void;
+}) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const open = useModalStore(state => state.actions.open);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isOpen]);
 
   return (
     <div className={styles.container}>

@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from 'react';
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { useModalStore } from '@/shared/model/modalStore';
@@ -33,6 +34,18 @@ const ModalProvider = ({ children }: PropsWithChildren) => {
     // 다른 모달의 경우 기존대로 렌더링
     return <ModalComponent isOpen={isOpen} onClose={close} />;
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isOpen]);
 
   return (
     <>

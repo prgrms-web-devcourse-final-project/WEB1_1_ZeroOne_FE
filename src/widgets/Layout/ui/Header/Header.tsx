@@ -53,7 +53,7 @@ export const Header = () => {
             }}
             size='lg'
           />
-          {menuOpen && <MenuModal onClose={setMenuOpen} />}{' '}
+          {menuOpen && <MenuModal isOpen={menuOpen} onClose={setMenuOpen} />}{' '}
         </>
       ) : (
         <>
