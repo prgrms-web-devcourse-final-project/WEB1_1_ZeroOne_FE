@@ -8,17 +8,11 @@ import React from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import styles from './FormField.module.scss';
-import type {
-  FormInputType,
-  FormValuesName,
-  InputFieldProps,
-  PortfolioFormValues,
-} from '../form.types';
+import type { InputFieldProps } from '../form.types';
 import { RenderInput } from './FormInputs';
 
 interface ArrayInputFieldProps extends InputFieldProps {
-  name: Extract<FormValuesName, 'url'>;
-  type: Extract<FormInputType, 'array'>;
+  name: 'url';
 }
 
 interface FormFieldProps extends InputFieldProps {
@@ -35,28 +29,35 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => {
 };
 
 //InpuField - 기본 input 필드 (radio, text ...)
-const InputField: React.FC<InputFieldProps> = ({ type = 'default', name, ...restProps }) => {
-  const { control } = useFormContext<PortfolioFormValues>();
+export const InputField: React.FC<InputFieldProps> = ({ type = 'default', name, ...restProps }) => {
+  const { control } = useFormContext();
 
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field }) => <RenderInput field={field} type={type} {...restProps} />}
+      render={({ field, fieldState: { error } }) => (
+        <div className={styles.formInputWrapper}>
+          <RenderInput field={field} type={type} {...restProps} />
+          {error?.message && <ErrorMessage message={error.message} />}
+        </div>
+      )}
     />
   );
 };
 
 //ArrayInputField - URL Input ( 여러 input 받는 필드 )
-const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restProps }) => {
-  const { control, formState, setError } = useFormContext<PortfolioFormValues>();
+export const UrlInputField: React.FC<ArrayInputFieldProps> = ({ name, ...restProps }) => {
+  const {
+    control,
+    setError,
+    formState: { errors },
+  } = useFormContext();
   const { append, remove, fields } = useFieldArray({ name, control });
-
-  const inputError = formState.errors[name];
 
   const appendUrlInput = () => {
     if (fields.length === 5) {
-      setError('url', { message: 'URL은 최대 5개 까지 입력가능합니다.' });
+      setError(name, { message: 'URL은 최대 5개 까지 입력가능합니다.' });
       return;
     }
 
@@ -66,12 +67,17 @@ const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restPr
   return (
     <div className={styles.arrayInputWrapper}>
       {fields.map((field, index) => (
-        <div className={styles.urlInputWrapper} key={field.id}>
-          <div className={styles.urlInput}>
+        <div className={styles.urlInputContainer} key={field.id}>
+          <div className={styles.urlInputWrapper}>
             <Controller
               control={control}
               name={`${name}.${index}.value`}
-              render={({ field }) => <RenderInput field={field} type={type} {...restProps} />}
+              render={({ field, fieldState: { error } }) => (
+                <div>
+                  <RenderInput field={field} type='default' {...restProps} />
+                  {error?.message && <ErrorMessage message={error.message} />}
+                </div>
+              )}
             />
             <FontAwesomeIcon
               className={styles.iconBtn}
@@ -81,9 +87,7 @@ const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restPr
               }}
             />
           </div>
-          {inputError && inputError[index]?.value?.message && (
-            <ErrorMessage message={inputError[index]?.value?.message ?? ''} />
-          )}
+          {errors[name]?.message && <ErrorMessage message={errors[name].message as string} />}
         </div>
       ))}
       <button className={styles.addBtn} onClick={appendUrlInput} type='button'>
@@ -95,22 +99,18 @@ const ArrayInputField: React.FC<ArrayInputFieldProps> = ({ name, type, ...restPr
 };
 
 export const FormField: React.FC<FormFieldProps> = React.memo(
-  ({ name, label, required, type = 'default', ...restProps }) => {
-    const { formState } = useFormContext<PortfolioFormValues>();
-    const errorMessage = formState.errors[name]?.message;
-
+  ({ label, required, ...restProps }) => {
     return (
-      <div className={styles.formInputWrapper}>
+      <div className={styles.formFieldWrapper}>
         <div className={styles.formInput}>
           <span>{label}</span>
-          {type === 'array' && name === 'url' ? (
-            <ArrayInputField name={name} type={type} />
+          {restProps.name === 'url' ? (
+            <UrlInputField name={restProps.name} />
           ) : (
-            <InputField name={name} type={type} {...restProps} />
+            <InputField {...restProps} />
           )}
           {required && <FontAwesomeIcon icon={faCircleExclamation} />}
         </div>
-        {errorMessage && <ErrorMessage message={errorMessage} />}
       </div>
     );
   },

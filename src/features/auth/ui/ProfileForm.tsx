@@ -15,6 +15,7 @@ export const ProfileForm = <T extends FormValues>({
   formConfig,
 }: ProfileFormProps<T>) => {
   const { method, formStructure } = useProfileForm({ formConfig });
+
   return (
     <FormProvider {...method}>
       <form

@@ -1,5 +1,5 @@
 import type { DefaultValues } from 'react-hook-form';
-import type { ObjectSchema } from 'yup';
+import type { AnyObjectSchema } from 'yup';
 
 export type Option = {
   value: string;
@@ -21,7 +21,7 @@ export interface PortfolioFormValues extends FormValues {
   portfolioUrl: string;
 }
 
-export type FormInputType = 'default' | 'radio' | 'select' | 'image' | 'textarea' | 'array';
+export type FormInputType = 'default' | 'radio' | 'select' | 'image' | 'textarea';
 
 export type FormValuesName = keyof FormValues;
 export type PortfolioFormValuesName = keyof PortfolioFormValues;
@@ -46,7 +46,7 @@ interface FieldSetInfo {
 
 export interface FormConfigType<T extends FormValues> {
   structure: FieldSetInfo[];
-  validation: ObjectSchema<T>;
+  validation: AnyObjectSchema;
   defaultValues: DefaultValues<T>;
 }
 

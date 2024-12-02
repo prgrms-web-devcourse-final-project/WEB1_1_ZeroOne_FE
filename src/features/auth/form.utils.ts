@@ -103,7 +103,6 @@ export const formConfig: FormConfigType<FormValues> = {
       inputs: [
         {
           label: 'URL',
-          type: 'array',
           name: 'url',
           placeholder: 'https://',
         },
@@ -135,7 +134,6 @@ export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
       inputs: [
         {
           label: 'URL',
-          type: 'array',
           name: 'url',
           placeholder: 'https://',
         },
