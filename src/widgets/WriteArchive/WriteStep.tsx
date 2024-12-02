@@ -113,7 +113,7 @@ export const WriteStep = ({
           />
         </div>
       </div>
-      <MarkdownEditor />
+      <MarkdownEditor data={archiveData} onUpdate={updateArchiveData} updateKey='description' />
       <div className={styles.inputContainer}>
         <label>태그</label>
         <div className={styles.tags}>

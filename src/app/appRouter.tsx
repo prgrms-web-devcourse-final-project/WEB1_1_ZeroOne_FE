@@ -11,6 +11,7 @@ import {
   UserPage,
   WriteArchivePage,
   WriteGatheringPage,
+  LikeListPage,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -62,6 +63,10 @@ const AppRouter = () => {
         {
           path: '/register',
           element: <RegisterPage />,
+        },
+        {
+          path: '/like',
+          element: <LikeListPage />,
         },
       ],
     },

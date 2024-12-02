@@ -52,7 +52,13 @@ export const Header = () => {
             navigate('/search');
           }}
         />
-        <FontAwesomeIcon className={cn(styles.button, styles.heart)} icon={faHeart} />
+        <FontAwesomeIcon
+          className={cn(styles.button, styles.heart)}
+          icon={faHeart}
+          onClick={() => {
+            navigate('/like');
+          }}
+        />
         <Button
           onClick={() => {
             open('login');

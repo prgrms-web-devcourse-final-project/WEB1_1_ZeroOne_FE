@@ -9,3 +9,4 @@ export { UserPage } from './UserPage/UserPage';
 export { WriteArchivePage } from './WriteArchivePage/WriteArchivePage';
 export { WriteGatheringPage } from './WriteGatheringPage/WriteGatheringPage';
 
+export { LikeListPage } from './LikeListPage/LikeListPage';
