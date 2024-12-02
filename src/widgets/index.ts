@@ -1,5 +1,5 @@
 export * from './ArchiveGrid';
-export * from './ChattingModal/ChattingModal';
+export * from './ChattingModal/ui/ChattingModal';
 export * from './DetailArchive';
 export * from './GatheringGrid';
 export * from './GatheringSelectCon/index';
@@ -14,4 +14,4 @@ export * from './WriteGathering/WriteGatheringDetail';
 export * from './WriteGathering/WriteGatheringOpts';
 export * from './UserContents/UserContents';
 export * from './GatheringDetail/index';
-
+export * from './ContactModal/index';
