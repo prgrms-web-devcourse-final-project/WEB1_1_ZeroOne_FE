@@ -4,6 +4,7 @@ import { GatheringGrid } from '../GatheringGrid';
 import { PortFolioGrid } from '../PortfolioGrid/PortFolioGrid';
 
 import type { ArchiveCardDTO, Color } from '@/features';
+import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
 
 const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   archiveId: i,
@@ -17,13 +18,28 @@ const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   createDate: new Date(),
 }));
 
+const dummyGatherings: GatheringItemDto[] = Array.from({ length: 9 }, (_, i) => ({
+  gatheringId: i.toString(),
+  userId: i.toString(),
+  contactType: '온라인',
+  sort: '스터디',
+  subject: '개발',
+  period: '1개월',
+  personnel: '1',
+  position: ['개발자'],
+  title: `Sample Gathering`,
+  deadLine: '2022-12-31',
+  username: '홍길동',
+  tags: ['tag1', 'tag2'],
+}));
+
 const renderingLikeTap = (activeTab: string) => {
   if (activeTab === '포트폴리오') {
     return <PortFolioGrid />;
   } else if (activeTab === '아카이브') {
     return <ArchiveGrid archives={dummyArchives} />;
   } else if (activeTab === '게더링') {
-    return <GatheringGrid />;
+    return <GatheringGrid items={dummyGatherings} />;
   }
 };
 
