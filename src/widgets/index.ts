@@ -1,5 +1,5 @@
 export * from './ArchiveGrid';
-export * from './ChattingModal/ui/ChattingModal';
+export * from './ChattingModal';
 export * from './ContactModal/index';
 export * from './DetailArchive';
 export * from './GatheringDetail/index';
