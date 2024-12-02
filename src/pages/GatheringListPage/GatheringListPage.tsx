@@ -1,9 +1,13 @@
 // GatheringListPage.tsx
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useState } from 'react';
+
 import styles from './GatheringListPage.module.scss';
 
 import { useGatheringList } from '@/features/gathering/api/gathering.hook';
 // import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
-import { SidebarFilter, PROJECT_CATEGORIES } from '@/shared/ui';
+import { SidebarFilter, PROJECT_CATEGORIES, MobileSidebarFilter } from '@/shared/ui';
 import { GatheringSelectCon, GatheringGrid } from '@/widgets';
 
 // const dummyGatherings: GatheringItemDto[] = Array.from({ length: 9 }, (_, i) => ({
@@ -23,6 +27,21 @@ import { GatheringSelectCon, GatheringGrid } from '@/widgets';
 
 export const GatheringListPage = () => {
   const { items, isLoading, isError, ref, isFetchingNextPage } = useGatheringList('모집중');
+  const [isMobile, setIsMobile] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading gatherings</div>;
@@ -33,7 +52,29 @@ export const GatheringListPage = () => {
       <div className={styles.contentContainer}>
         <div className={styles.sidebarWrapper}>
           <aside className={styles.sidebarContainer}>
-            <SidebarFilter categories={PROJECT_CATEGORIES} />
+            {isMobile ? (
+              <>
+                <div
+                  className={styles.categoryOpenBtn}
+                  onClick={() => {
+                    setIsCategoryOpen(true);
+                  }}
+                >
+                  <span>전체</span>
+                  <FontAwesomeIcon icon={faChevronDown} size='xs' />
+                </div>
+                {isCategoryOpen && (
+                  <MobileSidebarFilter
+                    content={<SidebarFilter categories={PROJECT_CATEGORIES} />}
+                    onClose={() => {
+                      setIsCategoryOpen(false);
+                    }}
+                  />
+                )}
+              </>
+            ) : (
+              <SidebarFilter categories={PROJECT_CATEGORIES} />
+            )}
           </aside>
         </div>
         <div className={styles.mainContent}>

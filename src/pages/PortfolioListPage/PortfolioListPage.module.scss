@@ -81,3 +81,14 @@
   max-width: 1340px;
   margin: 0 auto;
 }
+
+.categoryOpenBtn {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  color: $primary-color;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
