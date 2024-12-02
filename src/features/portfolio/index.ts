@@ -1,2 +1,3 @@
-export { PortfolioCard } from './ui/PortfolioCard';
-export type { Portfolio } from './model/types';
+export * from './ui/index';
+export * from './model/index';
+export * from './api/index';
