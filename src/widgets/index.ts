@@ -15,3 +15,4 @@ export * from './WriteGathering/WriteGatheringOpts';
 export * from './UserContents/UserContents';
 export * from './GatheringDetail/index';
 
+export * from './LikeTab/LikeTab';

@@ -69,3 +69,8 @@ export const getSearchArchive = (searchKeyword: string, page: number) =>
       },
     })
     .then(res => res.data);
+
+export const postLikeArchive = (archiveId: number) => api.post(`/archive/${archiveId}`);
+
+export const getLikeArchiveList = () =>
+  api.get<GetArchiveListApiResponse>('/archive/me/like').then(res => res.data);
