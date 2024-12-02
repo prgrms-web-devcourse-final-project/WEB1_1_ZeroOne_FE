@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1440px;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+.detailSection {
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+
+  h3 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: $primary-color;
+  }
+
+  .content {
+    margin-top: 1rem;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  width: 100%;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+
+  .stats {
+    display: flex;
+    gap: 2rem;
+    color: #666;
+  }
+}

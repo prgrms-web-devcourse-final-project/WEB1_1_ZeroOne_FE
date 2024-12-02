@@ -24,7 +24,7 @@ export const WriteComment = ({ archiveId }: { archiveId: number }) => {
         <Button
           className={styles.absolute}
           onClick={() => {
-            createComment(content);
+            createComment({ content: content, username: '', userProfile: '' });
             setContent('');
           }}
         >

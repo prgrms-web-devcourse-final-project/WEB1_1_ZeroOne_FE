@@ -6,6 +6,7 @@ import { NO_PAD_ROUTES } from './constants';
 //style
 import styles from './Layout.module.scss';
 //component
+import { ChattingBtn } from './ui/ChattingBtn/ChattingBtn';
 import { Footer } from './ui/Footer/Footer';
 import { Header } from './ui/Header/Header';
 
@@ -29,6 +30,7 @@ export const Layout = () => {
       <Header />
       <main className={cn({ [styles.noPadding]: isNoPadHeader })}>
         <Outlet />
+        <ChattingBtn />
       </main>
       <Footer />
     </>
