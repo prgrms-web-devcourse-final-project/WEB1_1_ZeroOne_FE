@@ -9,6 +9,7 @@
   background-color: #f9f9f9;
 
   @media (width <= 768px) {
+    font-size: 0.875rem;
     line-height: 1;
   }
 
@@ -33,16 +34,28 @@
   h1 {
     font-size: 2rem;
     font-weight: 700;
+
+    @media (width <= 768px) {
+      font-size: 1.5rem;
+    }
   }
 
   h2 {
     font-size: 1.5rem;
     font-weight: 700;
+
+    @media (width <= 768px) {
+      font-size: 1.25rem;
+    }
   }
 
   h3 {
     font-size: 1.17rem;
     font-weight: 700;
+
+    @media (width <= 768px) {
+      font-size: 1rem;
+    }
   }
 
   strong {

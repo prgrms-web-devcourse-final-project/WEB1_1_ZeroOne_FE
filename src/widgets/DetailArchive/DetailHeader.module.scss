@@ -17,6 +17,10 @@
     font-weight: 700;
     line-height: 131%;
     color: $deep-black;
+
+    @media (width <= 768px) {
+      font-size: 1.5rem;
+    }
   }
 }
 
@@ -34,6 +38,10 @@
     line-height: normal;
     color: #848484;
     border-radius: 4px;
+
+    @media (width <= 768px) {
+      font-size: 0.875rem;
+    }
   }
 
   span {
@@ -43,6 +51,10 @@
     color: $primary-color;
     text-align: center;
     letter-spacing: -0.04rem;
+
+    @media (width <= 768px) {
+      font-size: 0.875rem;
+    }
   }
 
   p {
@@ -51,6 +63,10 @@
     font-weight: 500;
     line-height: 131%;
     color: $primary-color;
+
+    @media (width <= 768px) {
+      font-size: 1rem;
+    }
   }
 }
 
@@ -72,4 +88,8 @@
   white-space: wrap;
   border: 1px solid #e9e9e9;
   border-radius: 8px;
+
+  @media (width <= 768px) {
+    font-size: 0.875rem;
+  }
 }

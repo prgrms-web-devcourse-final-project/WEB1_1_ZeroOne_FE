@@ -4,6 +4,10 @@
   gap: 2rem;
   align-items: center;
   padding: 4rem 8rem;
+
+  @media (width <= 768px) {
+    padding: 2rem;
+  }
 }
 
 .markdown {
@@ -18,4 +22,8 @@
   align-items: center;
   width: 100%;
   padding: 0 2rem;
+
+  @media (width <= 768px) {
+    padding: 0;
+  }
 }
