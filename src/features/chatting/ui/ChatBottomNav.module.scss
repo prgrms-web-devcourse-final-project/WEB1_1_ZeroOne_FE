@@ -1,0 +1,38 @@
+.bottomNav {
+  padding: 0.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 10%);
+
+  .navList {
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .navItem {
+    position: relative;
+    padding: 0.5rem 1rem;
+    color: $secondary-color;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 10%);
+      border-radius: 4px;
+    }
+
+    &.active {
+      color: $secondary-color;
+
+      &::after {
+        position: absolute;
+        bottom: -0.5rem;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        content: '';
+        background-color: $secondary-color;
+      }
+    }
+  }
+}

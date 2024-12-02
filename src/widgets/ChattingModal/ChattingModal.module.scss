@@ -1,9 +1,9 @@
 .modalDialogLayout {
   width: 100%;
   max-width: 500px;
-  height: 100vh;
-  margin: 0 auto;
-  background-color: #2d2d2d;
+  height: 700px;
+  background-color: $primary-color;
+  border-radius: 2rem;
 }
 
 .container {
@@ -12,43 +12,13 @@
   height: 100%;
 }
 
-.header {
-  padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 10%);
-
-  .title {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: white;
-  }
+.chatList {
+  flex: 1;
+  overflow-y: auto;
 }
 
 .chatContent {
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
-}
-
-.bottomNav {
-  padding: 0.5rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 10%);
-
-  .navList {
-    display: flex;
-    justify-content: space-around;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .navItem {
-    padding: 0.5rem 1rem;
-    color: white;
-    cursor: pointer;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 10%);
-      border-radius: 4px;
-    }
-  }
 }
