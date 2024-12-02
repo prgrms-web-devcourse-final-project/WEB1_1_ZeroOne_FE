@@ -1,47 +1,52 @@
 import styles from './ContactModal.module.scss';
 
+import Logo from '@/shared/assets/paletteLogo.svg?react';
 import { Modal } from '@/shared/ui';
 
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
+  username?: string;
 }
 
-interface Message {
+interface ChatOption {
   id: number;
   content: string;
-  isMe: boolean;
 }
 
-export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
-  // 샘플 메시지 데이터
-  const messages: Message[] = [
-    { id: 1, content: '포트폴리오 첨삭 받고 싶어요', isMe: false },
-    { id: 2, content: '피드백 드리고 싶어요', isMe: true },
-    { id: 3, content: '프로젝트 같이 하고 싶어요', isMe: true },
-    { id: 4, content: '카피챗', isMe: true },
+export const ContactModal = ({ isOpen, onClose, username }: ContactModalProps) => {
+  const chatOptions: ChatOption[] = [
+    { id: 1, content: '포트폴리오 첨삭 받고 싶어요' },
+    { id: 2, content: '피드백 드리고 싶어요' },
+    { id: 3, content: '프로젝트 같이 하고 싶어요' },
+    { id: 4, content: '커피챗' },
   ];
+
+  const handleChatOptionClick = (content: string) => {
+    console.log(`Selected option: ${content}`);
+    // 채팅 시작 로직 구현
+  };
 
   return (
     <Modal classNames={styles.modalDialogLayout} isOpen={isOpen} onClose={onClose}>
       <div className={styles.container}>
         <div className={styles.profileSection}>
-          <div className={styles.profileImage}>
-            {/* 임시 이미지로 대체 */}
-            <img alt='프로필' src='/api/placeholder/100/100' />
+          <div className={styles.logoWrapper}>
+            <Logo className={styles.logo} />
           </div>
-          <h2 className={styles.profileName}>홍길동 님에게</h2>
+          <h2 className={styles.profileName}>{username} 님에게 연락하기</h2>
         </div>
         <div className={styles.messageContainer}>
-          {messages.map(message => (
-            <div
-              className={`${styles.messageWrapper} ${
-                message.isMe ? styles.myMessage : styles.otherMessage
-              }`}
-              key={message.id}
+          {chatOptions.map(option => (
+            <button
+              className={styles.messageButton}
+              key={option.id}
+              onClick={() => {
+                handleChatOptionClick(option.content);
+              }}
             >
-              <div className={styles.messageContent}>{message.content}</div>
-            </div>
+              {option.content}
+            </button>
           ))}
         </div>
       </div>
