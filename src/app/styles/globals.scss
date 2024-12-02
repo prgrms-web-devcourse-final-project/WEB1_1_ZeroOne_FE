@@ -316,3 +316,7 @@ main {
   grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
   gap: 1.5625rem;
 }
+
+#modal {
+  z-index: 9999;
+}
