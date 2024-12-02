@@ -51,6 +51,7 @@ export const Header = () => {
             onClick={() => {
               setMenuOpen(true);
             }}
+            size='lg'
           />
           {menuOpen && <MenuModal onClose={setMenuOpen} />}{' '}
         </>

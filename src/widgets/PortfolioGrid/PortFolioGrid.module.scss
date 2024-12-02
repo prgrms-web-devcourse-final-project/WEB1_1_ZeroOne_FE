@@ -5,15 +5,15 @@
   max-width: 1920px;
   padding: 1.25rem;
   margin: 0 auto;
+
+  @media (width <= 768px) {
+    padding: 0;
+  }
 }
 
 .list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-  gap: 1.25rem 1rem;
+  gap: 1.25rem;
   width: 100%;
-
-  @media screen and (width <= 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  }
 }
