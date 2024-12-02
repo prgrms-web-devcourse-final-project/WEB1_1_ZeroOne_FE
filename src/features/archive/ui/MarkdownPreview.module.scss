@@ -8,6 +8,10 @@
   line-height: 1.5;
   background-color: #f9f9f9;
 
+  @media (width <= 768px) {
+    line-height: 1;
+  }
+
   &::-webkit-scrollbar {
     width: 5px;
     height: 10px;
