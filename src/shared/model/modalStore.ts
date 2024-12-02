@@ -1,15 +1,16 @@
 import { create } from 'zustand';
 
-type ModalType = 'login' | 'chatting' | null;
+type ModalType = 'login' | 'chatting' | 'contact' | null;
 
 interface ModalState {
   isOpen: boolean;
   modalKey: ModalType;
+  selectedUser?: string; // optional chaining을 사용하기 위해 optional로 설정
 }
 
 interface ModalAction {
   actions: {
-    open: (modalKey: ModalType) => void;
+    open: (modalKey: ModalType, username?: string) => void;
     close: () => void;
   };
 }
@@ -22,11 +23,11 @@ const initialState: ModalState = {
 export const useModalStore = create<ModalState & ModalAction>(set => ({
   ...initialState,
   actions: {
-    open: (modalKey: ModalType) => {
-      set({ modalKey, isOpen: true });
+    open: (modalKey: ModalType, username?: string) => {
+      set({ modalKey, isOpen: true, selectedUser: username });
     },
     close: () => {
-      set({ isOpen: false });
+      set({ isOpen: false, modalKey: null }); // selectedUser는 undefined로 자동 초기화
     },
   },
 }));
