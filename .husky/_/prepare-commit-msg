@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+
+# 커밋 메시지의 첫 번째 줄 추출
+commit_msg=$(head -n 1 "$1")
+
+# 허용된 commit-tag
+valid_tags="feat|design|fix|docs|style|refactor|test|chore|etc|rename|remove"
+
+ex_tags=$(echo $valid_tags | sed 's/|/: ,/g'):;
+
+# 커밋 메시지의 앞부분에서 commit-tag만 검사
+if [[ ! $commit_msg =~ ^($valid_tags):\ .+ ]]; then
+  echo "🚨 [ERROR] Commit message does not follow commit convention"
+  echo ""
+  echo "Allowed prefixes: $ex_tags"
+  echo ""
+  echo "Example: \"feat: add login feature\""
+  echo ""
+  exit 1
+fi
+
+echo "✅ [SUCCESS] Thank you for follow commit convention"

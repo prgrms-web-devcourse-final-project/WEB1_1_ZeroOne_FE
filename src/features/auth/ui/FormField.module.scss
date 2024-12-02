@@ -1,4 +1,4 @@
-.formInputWrapper {
+.formFieldWrapper {
   & > .formInput {
     position: relative;
     display: flex;
@@ -6,29 +6,20 @@
     max-width: 580px;
 
     & > span {
-      width: 100px;
+      width: 120px;
       padding-top: 0.5rem;
       font-weight: 500;
     }
 
-    & > div {
+    & > .formInputWrapper {
+      width: 100%;
       max-width: 426px;
     }
 
     & > svg {
-      align-self: center;
+      padding-top: 0.75rem;
       color: $active-color;
     }
-  }
-
-  & .errorMessage {
-    display: flex;
-    column-gap: 0.25rem;
-    align-items: center;
-    padding: 0.25rem 0 0 calc(100px + 1rem);
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: $red;
   }
 }
 
@@ -38,6 +29,7 @@
   row-gap: 0.5rem;
   align-items: flex-end;
   width: 100%;
+  max-width: 426px;
 
   & .iconBtn {
     font-size: 1.5rem;
@@ -45,45 +37,60 @@
     cursor: pointer;
     transition: 0.3s;
   }
+}
 
-  & .addBtn {
-    display: flex;
-    column-gap: 0.5rem;
-    align-items: center;
-    padding: 0;
-    cursor: pointer;
-    background-color: transparent;
+.addBtn {
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent;
 
-    & > span {
-      line-height: 1.25rem;
-    }
+  & > span:first-child {
+    line-height: 1.25rem;
+  }
 
-    & .iconBtn {
-      font-size: 1.25rem;
-    }
+  & .iconBtn {
+    font-size: 1.25rem;
+  }
 
-    &:hover > .iconBtn {
-      color: $active-color;
-    }
+  &:hover > .iconBtn {
+    color: $active-color;
   }
 }
 
-.urlInputWrapper {
+.urlInputContainer {
   width: 100%;
 
-  & .urlInput {
+  & .urlInputWrapper {
     position: relative;
     display: flex;
     flex: 1;
     column-gap: 0.5rem;
-    align-items: center;
 
-    & .iconBtn:hover {
-      color: $red;
+    & > div {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    & .iconBtn {
+      padding-top: 0.625rem;
+
+      &:hover {
+        color: $red;
+      }
     }
   }
+}
 
-  & .errorMessage {
-    padding: 0.25rem 0 0 0.5rem;
-  }
+.errorMessage {
+  display: flex;
+  column-gap: 0.25rem;
+  align-items: flex-start;
+  padding: 0.25rem 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $red;
 }

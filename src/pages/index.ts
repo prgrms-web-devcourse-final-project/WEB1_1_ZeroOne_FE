@@ -8,5 +8,5 @@ export { SearchPage } from './SearchPage/SearchPage';
 export { UserPage } from './UserPage/UserPage';
 export { WriteArchivePage } from './WriteArchivePage/WriteArchivePage';
 export { WriteGatheringPage } from './WriteGatheringPage/WriteGatheringPage';
-
+export { MyPage } from './MyPage/MyPage';
 export { LikeListPage } from './LikeListPage/LikeListPage';

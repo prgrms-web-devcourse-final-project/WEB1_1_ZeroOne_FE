@@ -1,0 +1,10 @@
+.editProfileWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: flex-end;
+
+  & > div:first-of-type {
+    flex: 1;
+  }
+}

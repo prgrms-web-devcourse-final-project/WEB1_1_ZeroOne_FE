@@ -1,7 +1,8 @@
 .inputWrapper {
   display: inline-block;
   width: 100%;
-  border: 1px solid $primary-color;
+  overflow: hidden;
+  border: 1px solid $form-input-color;
   border-radius: 1rem;
 
   & > input {

@@ -15,4 +15,5 @@ export * from './UserContents/UserContents';
 export * from './WriteArchive';
 export * from './WriteGathering/WriteGatheringDetail';
 export * from './WriteGathering/WriteGatheringOpts';
+export * from './SettingUser';
 
