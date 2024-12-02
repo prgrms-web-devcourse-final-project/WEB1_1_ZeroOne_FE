@@ -9,10 +9,13 @@
   height: $header-height;
   padding: 0 4rem;
 
+  @media (width <= 768px) {
+    padding: 0 2rem;
+  }
+
   /* Logo **/
   & .logo {
     position: relative;
-    margin-right: 9rem;
     font-size: 0.1rem;
 
     & > span {
@@ -29,13 +32,18 @@
 
   /* Nav **/
   & .gnbWrapper {
-    padding: 0 6rem;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    max-width: 50%;
   }
 
   & .gnb {
     display: flex;
-    column-gap: 6rem;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
 
     & .navDot {
       display: block;
@@ -50,6 +58,10 @@
       position: relative;
       font-size: 1.25rem;
       font-weight: bold;
+
+      @media (width <= 768px) {
+        font-size: 1rem;
+      }
     }
 
     & a::after {
