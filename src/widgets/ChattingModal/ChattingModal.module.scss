@@ -1,0 +1,24 @@
+.modalDialogLayout {
+  width: 100%;
+  max-width: 500px;
+  height: 700px;
+  background-color: $primary-color;
+  border-radius: 2rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chatList {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chatContent {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
