@@ -1,9 +1,9 @@
-// WriteGatheringPage.tsx
 import { FormProvider, useForm } from 'react-hook-form';
 
 import styles from './WriteGatheringPage.module.scss';
 
 import type { GatheringFormData } from '@/features/gathering/model/types';
+import { Button } from '@/shared/ui';
 import { WriteGatheringOpts, WriteGatheringDetail } from '@/widgets';
 
 export const WriteGatheringPage = () => {
@@ -40,9 +40,10 @@ export const WriteGatheringPage = () => {
             <h2 className={styles.h2}>2. 게시글에 대해서 더 자세히 설명해주세요</h2>
             <WriteGatheringDetail control={methods.control} />
           </section>
-          <button className={styles.submitButton} type='submit'>
-            등록하기
-          </button>
+          <section className={styles.btnCon}>
+            <Button type='reset'>초기화하기</Button>
+            <Button type='submit'>등록하기</Button>
+          </section>
         </form>
       </div>
     </FormProvider>
