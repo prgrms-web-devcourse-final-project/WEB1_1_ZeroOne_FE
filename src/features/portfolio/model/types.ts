@@ -7,3 +7,5 @@ export type Portfolio = {
   minorJobGroup: string;
   memberImageUrl: string;
 };
+
+
