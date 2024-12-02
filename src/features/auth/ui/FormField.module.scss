@@ -3,7 +3,13 @@
     position: relative;
     display: flex;
     column-gap: 0.5rem;
-    max-width: 580px;
+    width: 100%;
+
+    @media (width <= 768px) {
+      flex-direction: column;
+      row-gap: 0.5rem;
+      font-size: 0.875rem;
+    }
 
     & > span {
       width: 120px;
@@ -11,9 +17,8 @@
       font-weight: 500;
     }
 
-    & > .formInputWrapper {
+    & > div {
       width: 100%;
-      max-width: 426px;
     }
 
     & > svg {
@@ -93,4 +98,10 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: $red;
+}
+
+.require {
+  @media (width <= 768px) {
+    display: none;
+  }
 }
