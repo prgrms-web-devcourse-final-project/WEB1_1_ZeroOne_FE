@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.labelWrapper {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.required {
+  margin-left: 2px;
+  color: #ff4d4f;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.datePicker {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+
+  &:hover {
+    border-color: #40a9ff;
+  }
+
+  &:focus {
+    border-color: #40a9ff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 20%);
+  }
+}
+
+.error {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #ff4d4f;
+}
+
+// 데이트피커 글로벌 스타일 커스텀
+:global {
+  .reactDatepicker {
+    &Header {
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    &Navigation {
+      top: 8px;
+
+      &Icon {
+        &::before {
+          border-color: #666;
+        }
+      }
+    }
+
+    &Day {
+      &:hover {
+        background-color: #e6f7ff;
+      }
+
+      &Selected {
+        color: white;
+        background-color: #1890ff;
+
+        &:hover {
+          background-color: #40a9ff;
+        }
+      }
+
+      &Today {
+        font-weight: bold;
+        color: #1890ff;
+      }
+    }
+  }
+}

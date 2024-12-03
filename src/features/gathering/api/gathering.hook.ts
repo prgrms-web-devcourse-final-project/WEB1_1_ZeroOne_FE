@@ -50,7 +50,6 @@ export const useGatheringDetail = (gatheringId: string) => {
     queryKey: ['/gathering', 'detail', gatheringId],
     queryFn: () => gatheringDetailApi.getGatheringById(gatheringId),
     enabled: !!gatheringId,
-    staleTime: 1000 * 60 * 5, // 5분 동안 캐시 유지
   });
 
   return {
