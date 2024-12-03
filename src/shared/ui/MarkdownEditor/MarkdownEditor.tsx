@@ -57,7 +57,7 @@ export const MarkdownEditor = <T extends { [key: string]: any }>({
         onCommand={insertStartToggle}
         onInsertImage={file => {
           if (editorViewRef.current) {
-            handleImage(file, editorViewRef.current);
+            handleImage(file, editorViewRef.current).catch(console.error);
           }
         }}
       />

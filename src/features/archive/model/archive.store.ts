@@ -24,7 +24,7 @@ export const initialArchiveState: BaseArchiveDTO = {
   type: 'DEFAULT',
   canComment: false,
   tags: [],
-  imageUrls: [{ url: 'https://source.unsplash.com/random/800x600' }],
+  imageUrls: [{ url: '' }],
 };
 
 export const useArchiveStore = create(
