@@ -4,7 +4,7 @@ import styles from './SearchTap.module.scss';
 import { SearchAll } from '../SearchAll/SearchAll';
 
 import type { ArchiveCardDTO, Color } from '@/features';
-import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
+import type { GatheringItem } from '@/features/gathering/model/dto/gathering.dto';
 
 const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   archiveId: i,
@@ -18,10 +18,10 @@ const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   createDate: new Date(),
 }));
 
-const dummyGatherings: GatheringItemDto<'프로젝트'>[] = Array.from({ length: 9 }, (_, i) => ({
-  gatheringId: i.toString(),
+const dummyGatherings: GatheringItem[] = Array.from({ length: 9 }, (_, i) => ({
+  gatheringId: i,
   title: `Sample Gathering ${i + 1}`,
-  userId: `user_${i}`,
+  userId: i,
   username: '홍길동',
   sort: '프로젝트',
   subject: '개발', // ProjectSubjectType만 허용

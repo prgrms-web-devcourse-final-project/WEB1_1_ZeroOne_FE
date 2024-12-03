@@ -4,7 +4,7 @@ import { GatheringGrid } from '../GatheringGrid';
 import { PortFolioGrid } from '../PortfolioGrid/PortFolioGrid';
 
 import type { ArchiveCardDTO, Color } from '@/features';
-import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
+import type { GatheringItem } from '@/features/gathering/model/dto/gathering.dto';
 
 const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   archiveId: i,
@@ -18,9 +18,9 @@ const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   createDate: new Date(),
 }));
 
-const dummyGatherings: GatheringItemDto[] = Array.from({ length: 9 }, (_, i) => ({
-  gatheringId: i.toString(),
-  userId: i.toString(),
+const dummyGatherings: GatheringItem[] = Array.from({ length: 9 }, (_, i) => ({
+  gatheringId: i,
+  userId: i,
   contactType: '온라인',
   sort: '스터디',
   subject: '개발',
