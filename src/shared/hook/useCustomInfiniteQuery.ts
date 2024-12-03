@@ -12,7 +12,7 @@ export const useCustomInfiniteQuery = <
 >(
   queryKey: (string | number)[],
   queryFn: (context: { pageParam: number }) => Promise<TData>,
-  pageSize = 9,
+  pageSize: number,
   dataKey: string,
   enabled: boolean = false,
 ) => {
@@ -23,8 +23,8 @@ export const useCustomInfiniteQuery = <
     queryKey,
     queryFn: ({ pageParam = 0 }) => queryFn({ pageParam: pageParam as number }),
     getNextPageParam: (lastPage, allPages) => {
-      if (Array.isArray(lastPage[dataKey])) {
-        const isLastPage = lastPage[dataKey]?.length < pageSize;
+      if (Array.isArray(lastPage.data[dataKey])) {
+        const isLastPage = lastPage.data[dataKey]?.length < pageSize;
         return isLastPage ? null : allPages.length;
       }
       return null;
@@ -36,7 +36,7 @@ export const useCustomInfiniteQuery = <
   const items = useMemo(() => {
     const temp: TItem[] = [];
     data?.pages.forEach(page => {
-      page[dataKey]?.forEach((item: TItem) => {
+      page.data[dataKey]?.forEach((item: TItem) => {
         temp.push(item);
       });
     });

@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import styles from './DetailArchivePage.module.scss';
-import { worker } from '../../mocks/browser';
 
 import { MarkdownPreview, WriteComment, CommentItem, useArchive, useComments } from '@/features';
 import { TripleDot } from '@/shared/ui';
@@ -15,23 +14,11 @@ export const DetailArchivePage = () => {
   const { items, isFetchingNextPage, ref, fetchNextPage } = useComments(Number(archiveId));
 
   useEffect(() => {
-    worker
-      .start()
-      .then(() => {
-        if (archiveId) void fetchArchive();
-      })
-      .catch(error => {
-        console.error('Failed to start worker:', error);
-      });
-
-    return () => {
-      worker.stop();
-    };
-  }, [archiveId, fetchArchive]);
-
-  useEffect(() => {
-    if (archive) void fetchNextPage();
-  }, [archive]);
+    if (archiveId) {
+      fetchArchive().catch(console.error);
+      fetchNextPage().catch(console.error);
+    }
+  });
 
   return (
     <div className={styles.wrapper}>

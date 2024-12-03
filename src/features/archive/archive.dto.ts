@@ -30,7 +30,7 @@ export interface ArchiveCardDTO {
   likeCount: number;
   username: string;
   thumbnail: string;
-  createDate: Date;
+  createDate: string;
   isLiked: boolean;
 }
 

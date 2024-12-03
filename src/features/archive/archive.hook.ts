@@ -188,7 +188,7 @@ export const useLikeArchive = (archiveId: number) => {
         queryClient.setQueryData(query.queryKey, (oldData: GetArchiveListApiResponse) => {
           if (!oldData.data) return oldData;
 
-          return oldData.data.map((archive: ArchiveCardDTO) =>
+          return oldData.data.archives.map((archive: ArchiveCardDTO) =>
             archive.archiveId === archiveId
               ? {
                   ...archive,

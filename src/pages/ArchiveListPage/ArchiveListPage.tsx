@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './ArchiveListPage.module.scss';
@@ -13,7 +13,11 @@ export const ArchiveListPage = () => {
   const [sort, setSort] = useState({ label: '최신순', value: 'latest' });
   const [color, setColor] = useState<Color>('DEFAULT');
 
-  const { items: archives, isFetchingNextPage, ref } = useArchiveList(sort.value, color);
+  const { items: archives, isFetchingNextPage, ref } = useArchiveList(sort.value, 'RED');
+
+  useEffect(() => {
+    console.log(archives);
+  }, [archives]);
 
   return (
     <div className={styles.wrapper}>

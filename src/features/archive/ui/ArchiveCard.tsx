@@ -23,7 +23,7 @@ export const ArchiveCard = ({ archive }: { archive: ArchiveCardDTO }) => {
             <p>{archive.username}</p>
             <span>{archive.introduction}</span>
           </div>
-          <p className={styles.date}>{archive.createDate.toISOString().slice(0, 10)}</p>
+          <p className={styles.date}>{archive.createDate}</p>
           <img
             alt='isLiked-icon'
             className={styles.heart}
