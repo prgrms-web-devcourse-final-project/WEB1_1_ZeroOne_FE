@@ -54,4 +54,7 @@ export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;
 export type GetArchiveApiResponse = ApiResponse<Archive>;
 export type GetCommentsApiResponse = ApiResponse<Comment[]>;
 export type PostCommentApiResponse = ApiResponse<PostCommentResponseDTO>;
-export type GetArchiveListApiResponse = ApiResponse<ArchiveCardDTO[]>;
+export type GetArchiveListApiResponse = ApiResponse<{
+  archives: ArchiveCardDTO[];
+  slice: { currentPage: number; size: number; hasNext: boolean };
+}>;

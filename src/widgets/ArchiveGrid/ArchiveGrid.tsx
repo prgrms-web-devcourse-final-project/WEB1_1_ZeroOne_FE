@@ -4,9 +4,15 @@ import styles from './ArchiveGrid.module.scss';
 
 import type { ArchiveCardDTO } from '@/features';
 import { ArchiveCard } from '@/features';
+import { NoResult } from '@/shared/ui';
 
 export const ArchiveGrid = ({ archives }: { archives: ArchiveCardDTO[] }) => {
   const navigate = useNavigate();
+
+  if (archives.length === 0 || !archives) {
+    return <NoResult />;
+  }
+
   return (
     <div className={styles.wrapper}>
       {archives.map(archive => (

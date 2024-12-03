@@ -51,6 +51,7 @@ export const useComments = (archiveId: number) => {
     ['/archive', archiveId, 'comment'],
     ({ pageParam }) => getComments(archiveId, 10, pageParam),
     10,
+    'comments',
   );
 };
 
@@ -142,17 +143,18 @@ export const useDeleteComment = (archiveId: number) => {
   });
 };
 
-export const usePopularArchiveList = () =>
+export const usePopularArchiveList = (size: number) =>
   useQuery({
     queryKey: ['/archive', 'popularlity'],
-    queryFn: () => getPopularlityArchiveList(),
+    queryFn: () => getPopularlityArchiveList(size),
   });
 
 export const useArchiveList = (sort: string, color: Color) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/archive', sort, color],
-    ({ pageParam }) => getArchiveList(sort, pageParam, color === 'DEFAULT' ? null : color),
+    ({ pageParam }) => getArchiveList(sort, pageParam, color),
     9,
+    'archives',
   );
 };
 
@@ -161,6 +163,7 @@ export const useSearchArchive = (searchKeyword: string, enabled: boolean = false
     ['/archive', 'search', searchKeyword],
     ({ pageParam }) => getSearchArchive(searchKeyword, pageParam),
     9,
+    'archives',
     enabled,
   );
 };

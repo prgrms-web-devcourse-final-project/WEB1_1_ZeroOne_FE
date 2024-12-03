@@ -36,13 +36,14 @@ export const postCreateComment = (archiveId: number, content: string) =>
 export const deleteComment = (commentId: number) =>
   api.delete<PostCommentApiResponse>(`/archive/comment/${commentId}`).then(res => res.data);
 
-export const getPopularlityArchiveList = () =>
+export const getPopularlityArchiveList = (size: number) =>
   api
     .get<GetArchiveListApiResponse>('/archive', {
       params: {
         sort: 'popularlity',
         page: 0,
-        size: 5,
+        size,
+        color: 'DEFAULT',
       },
     })
     .then(res => res.data);

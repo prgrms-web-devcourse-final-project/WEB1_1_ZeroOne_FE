@@ -1,7 +1,7 @@
 import cn from 'classnames';
 
 import styles from './ColorSelect.module.scss';
-import type { Color } from '../colors.type';
+import { ColorMap, type Color } from '../colors.type';
 
 export const ColorSelect = ({
   color,
@@ -16,7 +16,7 @@ export const ColorSelect = ({
     <div className={styles.container}>
       {colors.map(c => (
         <div
-          className={cn(styles.color, styles[c], {
+          className={cn(styles.color, styles[ColorMap[c].label], {
             [styles.selected]: color === c,
           })}
           key={c}

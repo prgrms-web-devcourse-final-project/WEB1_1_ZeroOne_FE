@@ -4,10 +4,16 @@ import { useMemo, useEffect } from 'react';
 
 import { useIntersectionObserver } from './useIntersectionObserver';
 
-export const useCustomInfiniteQuery = <TData extends { data?: TItem[] }, TItem, TError>(
+export const useCustomInfiniteQuery = <
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TData extends { [key: string]: any },
+  TItem,
+  TError,
+>(
   queryKey: (string | number)[],
   queryFn: (context: { pageParam: number }) => Promise<TData>,
   pageSize = 9,
+  dataKey: string,
   enabled: boolean = false,
 ) => {
   const { data, fetchNextPage, isLoading, isError, isFetchingNextPage, refetch } = useInfiniteQuery<
@@ -17,8 +23,8 @@ export const useCustomInfiniteQuery = <TData extends { data?: TItem[] }, TItem, 
     queryKey,
     queryFn: ({ pageParam = 0 }) => queryFn({ pageParam: pageParam as number }),
     getNextPageParam: (lastPage, allPages) => {
-      if (Array.isArray(lastPage.data)) {
-        const isLastPage = lastPage.data?.length < pageSize;
+      if (Array.isArray(lastPage[dataKey])) {
+        const isLastPage = lastPage[dataKey]?.length < pageSize;
         return isLastPage ? null : allPages.length;
       }
       return null;
@@ -30,12 +36,12 @@ export const useCustomInfiniteQuery = <TData extends { data?: TItem[] }, TItem, 
   const items = useMemo(() => {
     const temp: TItem[] = [];
     data?.pages.forEach(page => {
-      page.data?.forEach(item => {
+      page[dataKey]?.forEach((item: TItem) => {
         temp.push(item);
       });
     });
     return temp;
-  }, [data]);
+  }, [data, dataKey]);
 
   const throttledFetchNextPage = useMemo(
     () => throttle(() => fetchNextPage(), 500),
