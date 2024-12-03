@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import throttle from 'lodash-es/throttle';
+import { useMemo, useEffect } from 'react';
 
 import { useIntersectionObserver } from './useIntersectionObserver';
 
@@ -36,9 +37,22 @@ export const useCustomInfiniteQuery = <TData extends { data?: TItem[] }, TItem, 
     return temp;
   }, [data]);
 
+  const throttledFetchNextPage = useMemo(
+    () => throttle(() => fetchNextPage(), 500),
+    [fetchNextPage],
+  );
+
+  useEffect(() => {
+    return () => {
+      throttledFetchNextPage.cancel();
+    };
+  }, [throttledFetchNextPage]);
+
   const ref = useIntersectionObserver(
     () => {
-      void fetchNextPage();
+      throttledFetchNextPage().catch(() => {
+        console.error('Failed to fetch next page');
+      });
     },
     { threshold: 1.0 },
   );

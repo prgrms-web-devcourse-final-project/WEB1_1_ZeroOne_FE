@@ -11,7 +11,7 @@ import { ArchiveGrid } from '@/widgets';
 export const ArchiveListPage = () => {
   const navigate = useNavigate();
   const [sort, setSort] = useState({ label: '최신순', value: 'latest' });
-  const [color, setColor] = useState<Color | 'default'>('default');
+  const [color, setColor] = useState<Color>('DEFAULT');
 
   const { items: archives, isFetchingNextPage, ref } = useArchiveList(sort.value, color);
 

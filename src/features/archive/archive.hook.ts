@@ -147,10 +147,10 @@ export const usePopularArchiveList = () =>
     queryFn: () => getPopularlityArchiveList(),
   });
 
-export const useArchiveList = (sort: string, color: Color | 'default') => {
+export const useArchiveList = (sort: string, color: Color) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/archive', sort, color],
-    ({ pageParam }) => getArchiveList(sort, pageParam, color === 'default' ? null : color),
+    ({ pageParam }) => getArchiveList(sort, pageParam, color),
     9,
   );
 };
@@ -165,7 +165,7 @@ export const useSearchArchive = (searchKeyword: string) => {
 
 export const useLikeArchiveList = () =>
   useQuery({
-    queryKey: ['/archive/me/like'],
+    queryKey: ['/archive', 'me', 'like'],
     queryFn: getLikeArchiveList,
   });
 
