@@ -1,15 +1,19 @@
 .container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(288px, 1fr)); // 18rem = 288px
-  gap: 36px 24px; // row-gap: 36px, column-gap: 24px
+  display: flex;
+  justify-content: center;
   width: 100%;
   max-width: 1920px;
-  padding: 24px;
+  padding: 1.25rem;
   margin: 0 auto;
 
-  @media screen and (width <= 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 24px 16px;
-    padding: 16px;
+  @media (width <= 768px) {
+    padding: 0;
   }
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 1.25rem;
+  width: 100%;
 }

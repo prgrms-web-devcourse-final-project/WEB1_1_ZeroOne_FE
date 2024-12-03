@@ -4,6 +4,10 @@
   min-height: 100vh;
   padding: 0 1rem;
   margin: 0 auto;
+
+  form {
+    width: 100%;
+  }
 }
 
 .h1 {
@@ -13,6 +17,12 @@
   font-weight: 700;
   color: $primary-color;
   text-align: center;
+
+  @media (width <= 768px) {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
 }
 
 .h2 {
@@ -30,4 +40,13 @@
   justify-content: center;
   margin-top: 2rem;
   margin-bottom: 2rem;
+  font-weight: 500;
+  color: $primary-color;
+  text-align: center;
+
+  @media (width <= 768px) {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 1.25rem;
+  }
 }

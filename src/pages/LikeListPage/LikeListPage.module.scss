@@ -3,6 +3,10 @@
   flex-direction: column;
   gap: 2rem;
   padding: 4rem 8rem;
+
+  @media (width <= 768px) {
+    padding: 2rem;
+  }
 }
 
 .path {

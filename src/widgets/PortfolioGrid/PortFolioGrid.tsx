@@ -72,9 +72,11 @@ export const PortFolioGrid = () => {
 
   return (
     <div className={styles.container}>
-      {portfolios.map(portfolio => (
-        <PortfolioCard key={portfolio.portFolioId} {...portfolio} />
-      ))}
+      <div className={styles.list}>
+        {portfolios.map(portfolio => (
+          <PortfolioCard key={portfolio.portFolioId} {...portfolio} />
+        ))}
+      </div>
     </div>
   );
 };

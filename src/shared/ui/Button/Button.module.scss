@@ -12,4 +12,8 @@
     color: $primary-color;
     background-color: $secondary-color;
   }
+
+  @media (width <= 768px) {
+    font-size: 0.875rem;
+  }
 }

@@ -2,6 +2,7 @@
   width: 100%;
   max-width: 490px;
   height: 630px;
+  max-height: 100svh;
   border-radius: 1rem;
 
   & svg {
@@ -65,4 +66,11 @@
       cursor: pointer;
     }
   }
+}
+
+.closeIcon {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  cursor: pointer;
 }

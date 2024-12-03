@@ -1,3 +1,6 @@
+import { faX } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import styles from './LoginModal.module.scss';
 
 import { GoogleLogin } from '@/features/auth';
@@ -12,6 +15,7 @@ interface Props {
 export const LoginModal = ({ isOpen, onClose }: Props) => {
   return (
     <Modal classNames={styles.modalDialogLayout} isOpen={isOpen} onClose={onClose}>
+      <FontAwesomeIcon className={styles.closeIcon} icon={faX} onClick={onClose} />
       <div className={styles.dialogWrapper}>
         <div className={styles.dialogHeader}>
           <Logo height={130} width={112} />

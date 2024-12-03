@@ -109,7 +109,7 @@ export const FormField: React.FC<FormFieldProps> = React.memo(
           ) : (
             <InputField {...restProps} />
           )}
-          {required && <FontAwesomeIcon icon={faCircleExclamation} />}
+          {required && <FontAwesomeIcon className={styles.require} icon={faCircleExclamation} />}
         </div>
       </div>
     );

@@ -7,7 +7,7 @@ import styles from './WriteStep.module.scss';
 
 import type { Color, PostArchiveApiResponse } from '@/features';
 import { ColorMap, useArchiveStore, useCreateArchive, useUpdateArchive } from '@/features';
-import { Button, MarkdownEditor, Switch, Tag } from '@/shared/ui';
+import { Button, MarkdownEditor, ScrollToTop, Switch, Tag } from '@/shared/ui';
 
 export const WriteStep = ({
   onClick,
@@ -65,11 +65,10 @@ export const WriteStep = ({
 
   return (
     <>
+      <ScrollToTop />
       <div className={styles.setting}>
         <div className={styles.settingWrapper}>
-          <button onClick={onClick}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
+          <FontAwesomeIcon icon={faChevronLeft} onClick={onClick} />
           <div
             className={styles.color}
             style={{ backgroundColor: `${ColorMap[archiveData.type].hex}` }}

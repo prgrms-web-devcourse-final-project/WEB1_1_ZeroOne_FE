@@ -16,4 +16,4 @@ export * from './WriteArchive';
 export * from './WriteGathering/WriteGatheringDetail';
 export * from './WriteGathering/WriteGatheringOpts';
 export * from './SettingUser';
-
+export * from './MenuModal/MenuModal';

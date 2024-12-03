@@ -2,6 +2,10 @@
   z-index: 1000;
   min-width: 3rem;
 
+  @media (width <= 768px) {
+    font-size: 0.875rem;
+  }
+
   &.isMulti {
     min-width: 12rem;
   }
