@@ -152,7 +152,7 @@ export const usePopularArchiveList = (size: number) =>
 export const useArchiveList = (sort: string, color: Color) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/archive', sort, color],
-    ({ pageParam }) => getArchiveList(sort, pageParam, color),
+    ({ pageParam }) => getArchiveList(sort, pageParam, color === 'DEFAULT' ? null : color),
     9,
     'archives',
   );

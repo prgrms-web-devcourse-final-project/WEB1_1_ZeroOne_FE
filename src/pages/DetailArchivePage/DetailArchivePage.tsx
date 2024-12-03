@@ -18,7 +18,7 @@ export const DetailArchivePage = () => {
       fetchArchive().catch(console.error);
       fetchNextPage().catch(console.error);
     }
-  });
+  }, [archiveId]);
 
   return (
     <div className={styles.wrapper}>

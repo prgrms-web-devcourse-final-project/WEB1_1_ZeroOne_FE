@@ -13,7 +13,7 @@ export const ArchiveListPage = () => {
   const [sort, setSort] = useState({ label: '최신순', value: 'latest' });
   const [color, setColor] = useState<Color>('DEFAULT');
 
-  const { items: archives, isFetchingNextPage, ref } = useArchiveList(sort.value, 'RED');
+  const { items: archives, isFetchingNextPage, ref } = useArchiveList(sort.value, color);
 
   useEffect(() => {
     console.log(archives);

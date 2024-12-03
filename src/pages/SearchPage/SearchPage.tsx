@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import styles from './SearchPage.module.scss';
 
-import { SearchBar, usePopularArchiveList, useSearchArchive } from '@/features';
+import { SearchBar, useSearchArchive } from '@/features';
 import { TripleDot } from '@/shared/ui';
 import { ArchiveGrid } from '@/widgets';
 
@@ -14,7 +14,6 @@ export const SearchPage = () => {
   const [isSearching, setIsSearching] = useState(false);
 
   const { items: archives, ref, isFetchingNextPage, refetch } = useSearchArchive(searchText);
-  const { data: defaultArchives } = usePopularArchiveList(9);
 
   const handleSearch = async () => {
     setSearchText(text);
@@ -25,6 +24,7 @@ export const SearchPage = () => {
       console.error('Failed to fetch data');
     } finally {
       setIsSearching(false);
+      setText('');
     }
   };
 
@@ -47,14 +47,16 @@ export const SearchPage = () => {
         <FontAwesomeIcon icon={faChevronRight} size='xs' />
         Search
       </span>
-      {searchText !== '' && isSearching ? (
-        <>
-          <ArchiveGrid archives={archives} />
-          <div ref={ref}>{isFetchingNextPage && <TripleDot />}</div>
-        </>
-      ) : (
-        <ArchiveGrid archives={defaultArchives?.data?.archives ?? []} />
-      )}
+      {searchText !== '' ? (
+        isSearching ? (
+          <div className={styles.loading}>Searching...</div>
+        ) : (
+          <>
+            <ArchiveGrid archives={archives} />
+            <div ref={ref}>{isFetchingNextPage && <TripleDot />}</div>
+          </>
+        )
+      ) : null}
     </div>
   );
 };

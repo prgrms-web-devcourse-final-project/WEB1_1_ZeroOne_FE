@@ -9,8 +9,6 @@ export * from './Layout';
 export * from './LikeTab/LikeTab';
 export * from './LoginModal/ui/LoginModal';
 export * from './PortfolioGrid/PortFolioGrid';
-export * from './SearchAll/SearchAll';
-export * from './SearchTap/SearchTap';
 export * from './UserContents/UserContents';
 export * from './WriteArchive';
 export * from './WriteGathering/WriteGatheringDetail';
