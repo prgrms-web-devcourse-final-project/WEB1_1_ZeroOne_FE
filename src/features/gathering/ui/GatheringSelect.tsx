@@ -4,13 +4,14 @@ import type { Props as SelectProps } from 'react-select';
 import Select from 'react-select';
 
 import styles from './GatheringSelect.module.scss';
-import type { GatheringFormData, SelectOption } from '../model/types';
+import type { CreateGatheringRequest } from '../model/dto/request.dto';
+import type { SelectOption } from '../model/types';
 
 export type GatheringSelectProps = {
-  name: keyof GatheringFormData;
+  name: keyof CreateGatheringRequest;
   label: string;
   options: SelectOption[];
-  control: Control<GatheringFormData>;
+  control: Control<CreateGatheringRequest>;
   isMulti?: boolean;
   placeholder?: string;
   isRequired?: boolean;
@@ -42,7 +43,7 @@ export const GatheringSelect = ({
             <Select<SelectOption, boolean>
               {...field}
               {...selectProps}
-              className={`react-select-container `}
+              className='react-select-container'
               classNamePrefix='react-select'
               isDisabled={isDisabled}
               isMulti={isMulti}
@@ -63,9 +64,10 @@ export const GatheringSelect = ({
                   : options.find(option => option.value === field.value)
               }
             />
+            {error && <p className={styles.error}>{error.message}</p>}
           </div>
         )}
-        rules={{ required: isRequired }}
+        rules={{ required: isRequired && '필수 항목입니다' }}
       />
     </div>
   );

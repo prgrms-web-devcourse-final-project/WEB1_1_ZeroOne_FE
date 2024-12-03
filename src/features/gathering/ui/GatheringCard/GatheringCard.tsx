@@ -13,7 +13,7 @@ export interface GatheringCardProps {
   introduction?: string;
   tag?: string[];
   deadline?: string;
-  gatheringId?: string;
+  gatheringId: number;
 }
 
 export const GatheringCard = ({

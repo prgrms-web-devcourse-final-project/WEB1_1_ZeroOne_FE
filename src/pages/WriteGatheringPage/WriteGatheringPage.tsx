@@ -1,30 +1,33 @@
-// WriteGatheringPage.tsx
 import { FormProvider, useForm } from 'react-hook-form';
 
 import styles from './WriteGatheringPage.module.scss';
 
-import type { GatheringFormData } from '@/features/gathering/model/types';
+import type { CreateGatheringRequest } from '@/features';
+import { useCreateGathering } from '@/features/gathering/lib/hooks';
 import { WriteGatheringOpts, WriteGatheringDetail } from '@/widgets';
 
 export const WriteGatheringPage = () => {
-  const methods = useForm<GatheringFormData>({
+  const methods = useForm<CreateGatheringRequest>({
     defaultValues: {
-      contact: '',
       sort: '',
       subject: '',
-      period: '',
+      contact: '',
       personnel: '',
+      period: '',
       position: [],
-      gatheringTag: [],
       title: '',
-      url: '',
-      content: '', // 마크다운 에디터 내용
       deadLine: '',
+      gatheringTag: [],
+      url: '',
+      content: '',
+      gatheringImages: [],
     },
   });
 
-  const onSubmit = (data: GatheringFormData) => {
-    console.log('제출된 데이터:', data);
+  const { mutate: createGathering, isPending } = useCreateGathering();
+
+  const onSubmit = (data: CreateGatheringRequest) => {
+    createGathering(data);
   };
 
   return (
@@ -40,8 +43,8 @@ export const WriteGatheringPage = () => {
             <h2 className={styles.h2}>2. 게시글에 대해서 더 자세히 설명해주세요</h2>
             <WriteGatheringDetail control={methods.control} />
           </section>
-          <button className={styles.submitButton} type='submit'>
-            등록하기
+          <button className={styles.submitButton} disabled={isPending} type='submit'>
+            {isPending ? '등록 중...' : '등록하기'}
           </button>
         </form>
       </div>

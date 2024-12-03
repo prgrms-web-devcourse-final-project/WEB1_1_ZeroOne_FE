@@ -3,10 +3,10 @@ import { Controller } from 'react-hook-form';
 import type { Control } from 'react-hook-form';
 
 import styles from './GatheringTitleInput.module.scss';
-import type { GatheringFormData } from '../model/types';
+import type { CreateGatheringRequest } from '../model/dto/request.dto';
 
 export interface GatheringTitleInputProps {
-  control: Control<GatheringFormData>;
+  control: Control<CreateGatheringRequest>;
   name: 'title';
   label: string;
   isRequired?: boolean;

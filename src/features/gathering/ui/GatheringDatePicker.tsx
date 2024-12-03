@@ -4,12 +4,12 @@ import { Controller } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
 import type { Control } from 'react-hook-form';
 
-import type { GatheringFormData } from '../model/types';
+import type { CreateGatheringRequest } from '../model/dto/request.dto';
 
 export interface GatheringDatePickerProps {
-  name: keyof GatheringFormData;
+  name: keyof CreateGatheringRequest;
   label: string;
-  control: Control<GatheringFormData>;
+  control: Control<CreateGatheringRequest>;
   isRequired?: boolean;
   placeholder?: string;
 }

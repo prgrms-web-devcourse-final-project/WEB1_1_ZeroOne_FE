@@ -5,31 +5,17 @@ import { useEffect, useState } from 'react';
 
 import styles from './GatheringListPage.module.scss';
 
-import { useGatheringList } from '@/features/gathering/api/gathering.hook';
-// import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
+import { useGatheringList } from '@/features/gathering/lib/hooks/useGatheringList';
 import { SidebarFilter, PROJECT_CATEGORIES, MobileSidebarFilter } from '@/shared/ui';
 import { GatheringSelectCon, GatheringGrid } from '@/widgets';
 
-// const dummyGatherings: GatheringItemDto[] = Array.from({ length: 9 }, (_, i) => ({
-//   gatheringId: i.toString(),
-//   userId: i.toString(),
-//   contactType: '온라인',
-//   sort: '스터디',
-//   subject: '개발',
-//   period: '1개월',
-//   personnel: '1',
-//   position: ['개발자'],
-//   title: `Sample Gathering`,
-//   deadLine: '2022-12-31',
-//   username: '홍길동',
-//   tags: ['tag1', 'tag2'],
-// }));
-
 export const GatheringListPage = () => {
+  // 현재는 '모집중' 상태만 가져오도록 구현
   const { items, isLoading, isError, ref, isFetchingNextPage } = useGatheringList('모집중');
   const [isMobile, setIsMobile] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
+  // 모바일 반응형 처리를 위한 useEffect
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -43,6 +29,7 @@ export const GatheringListPage = () => {
     };
   }, []);
 
+  // 로딩 및 에러 상태 처리
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading gatherings</div>;
 
@@ -53,6 +40,7 @@ export const GatheringListPage = () => {
         <div className={styles.sidebarWrapper}>
           <aside className={styles.sidebarContainer}>
             {isMobile ? (
+              // 모바일용 사이드바
               <>
                 <div
                   className={styles.categoryOpenBtn}
@@ -74,6 +62,7 @@ export const GatheringListPage = () => {
                 )}
               </>
             ) : (
+              // 데스크톱용 사이드바
               <SidebarFilter categories={PROJECT_CATEGORIES} />
             )}
           </aside>
@@ -81,6 +70,7 @@ export const GatheringListPage = () => {
         <div className={styles.mainContent}>
           <GatheringSelectCon />
           <GatheringGrid items={items} />
+          {/* 무한 스크롤을 위한 관찰 대상 div */}
           <div className={styles.loading} ref={ref}>
             {isFetchingNextPage && <div>Loading more...</div>}
           </div>
@@ -89,3 +79,5 @@ export const GatheringListPage = () => {
     </div>
   );
 };
+
+export default GatheringListPage;
