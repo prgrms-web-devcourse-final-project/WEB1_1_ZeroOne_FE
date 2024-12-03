@@ -33,22 +33,6 @@ const dummyGatherings: GatheringItemDto<'프로젝트'>[] = Array.from({ length:
   personnel: '3',
 }));
 
-const renderingSearchTap = (activeTab: string, setActiveTab: (t: string) => void) => {
-  if (activeTab === '전체') {
-    return (
-      <SearchAll
-        archives={dummyArchives.slice(0, 4)}
-        gatherings={dummyGatherings.slice(0, 4)}
-        setActiveTab={setActiveTab}
-      />
-    );
-  } else if (activeTab === '아카이브') {
-    return <ArchiveGrid archives={dummyArchives} />;
-  } else if (activeTab === '게더링') {
-    return <GatheringGrid items={dummyGatherings} />;
-  }
-};
-
 export const SearchTap = ({
   activeTab,
   setActiveTab,
@@ -57,6 +41,22 @@ export const SearchTap = ({
   setActiveTab: (t: string) => void;
 }) => {
   const tabs = ['전체', '아카이브', '게더링'];
+
+  const renderingSearchTap = (activeTab: string, setActiveTab: (t: string) => void) => {
+    if (activeTab === '전체') {
+      return (
+        <SearchAll
+          archives={dummyArchives.slice(0, 4)}
+          gatherings={dummyGatherings.slice(0, 4)}
+          setActiveTab={setActiveTab}
+        />
+      );
+    } else if (activeTab === '아카이브') {
+      return <ArchiveGrid archives={dummyArchives} />;
+    } else if (activeTab === '게더링') {
+      return <GatheringGrid items={dummyGatherings} />;
+    }
+  };
 
   return (
     <div className={styles.wrapper}>

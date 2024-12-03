@@ -12,6 +12,7 @@ import {
   getPopularlityArchiveList,
   postLikeArchive,
   getLikeArchiveList,
+  getSearchArchive,
 } from './archive.api';
 import type {
   BaseArchiveDTO,
@@ -150,16 +151,17 @@ export const usePopularArchiveList = () =>
 export const useArchiveList = (sort: string, color: Color) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/archive', sort, color],
-    ({ pageParam }) => getArchiveList(sort, pageParam, color),
+    ({ pageParam }) => getArchiveList(sort, pageParam, color === 'DEFAULT' ? null : color),
     9,
   );
 };
 
-export const useSearchArchive = (searchKeyword: string) => {
+export const useSearchArchive = (searchKeyword: string, enabled: boolean = false) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/archive', 'search', searchKeyword],
-    ({ pageParam }) => getArchiveList(searchKeyword, pageParam),
+    ({ pageParam }) => getSearchArchive(searchKeyword, pageParam),
     9,
+    enabled,
   );
 };
 

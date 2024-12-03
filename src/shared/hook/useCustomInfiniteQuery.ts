@@ -10,7 +10,7 @@ export const useCustomInfiniteQuery = <TData extends { data?: TItem[] }, TItem, 
   pageSize = 9,
   enabled: boolean = false,
 ) => {
-  const { data, fetchNextPage, isLoading, isError, isFetchingNextPage } = useInfiniteQuery<
+  const { data, fetchNextPage, isLoading, isError, isFetchingNextPage, refetch } = useInfiniteQuery<
     TData,
     TError
   >({
@@ -57,5 +57,5 @@ export const useCustomInfiniteQuery = <TData extends { data?: TItem[] }, TItem, 
     { threshold: 1.0 },
   );
 
-  return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage };
+  return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage, refetch };
 };

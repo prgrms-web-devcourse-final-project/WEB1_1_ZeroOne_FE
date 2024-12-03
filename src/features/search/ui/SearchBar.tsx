@@ -6,9 +6,13 @@ import styles from './SearchBar.module.scss';
 export const SearchBar = ({
   searchText,
   setSearchText,
+  onSearch,
+  onKeyDown,
 }: {
   searchText: string;
   setSearchText: (t: string) => void;
+  onSearch: () => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }) => {
   return (
     <div className={styles.container}>
@@ -16,11 +20,12 @@ export const SearchBar = ({
         onChange={e => {
           setSearchText(e.target.value);
         }}
-        placeholder='검색어를 입력해주세요'
+        onKeyDown={onKeyDown}
+        placeholder='다양한 스토리의 아카이브를 검색해보세요!'
         type='text'
         value={searchText}
       />
-      <FontAwesomeIcon className={styles.icon} icon={faSearch} />
+      <FontAwesomeIcon className={styles.icon} icon={faSearch} onClick={onSearch} />
     </div>
   );
 };
