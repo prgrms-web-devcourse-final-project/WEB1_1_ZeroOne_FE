@@ -9,7 +9,7 @@ import Heart from '@/shared/assets/heart.svg';
 
 export const ArchiveCard = ({ archive }: { archive: ArchiveCardDTO }) => {
   return (
-    <div className={styles.container}>
+    <div>
       <article className={styles.card}>
         <img
           alt='archive-thumbnail'

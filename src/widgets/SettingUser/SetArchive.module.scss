@@ -1,0 +1,21 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.item {
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+
+.item:active {
+  cursor: grabbing;
+}
+
+.item.dragging {
+  opacity: 0.5;
+  transform: scale(1.1);
+}

@@ -15,7 +15,7 @@ const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   likeCount: Math.floor(Math.random() * 100),
   isLiked: Math.random() > 0.5,
   thumbnail: 'https://picsum.photos/300/200',
-  createDate: new Date(),
+  createDate: '2024-12-03',
 }));
 
 const dummyGatherings: GatheringItemDto[] = Array.from({ length: 9 }, (_, i) => ({

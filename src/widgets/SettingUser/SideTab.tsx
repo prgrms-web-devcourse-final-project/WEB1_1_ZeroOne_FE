@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { MYPAGE_TAB } from './hooks/useMyTab';
@@ -11,6 +12,21 @@ interface SideTapProps {
 }
 
 export const SideTab = ({ isActivePath }: SideTapProps) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
       {MYPAGE_TAB.map(tab => (
@@ -18,7 +34,7 @@ export const SideTab = ({ isActivePath }: SideTapProps) => {
           <li>
             <div>
               <span>{tab.title}</span>
-              <TripleDot className={styles.divider} />
+              {!isMobile && <TripleDot className={styles.divider} />}
             </div>
           </li>
           {tab.tabList.map(subTab => (

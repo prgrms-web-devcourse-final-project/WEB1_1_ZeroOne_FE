@@ -5,6 +5,12 @@
   align-items: center;
   font-weight: 500;
 
+  @media (width <= 768px) {
+    flex-direction: row;
+    gap: 2rem;
+    width: 100%;
+  }
+
   & > li:first-of-type {
     font-size: 1.5rem;
     font-weight: 600;
