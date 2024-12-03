@@ -1,31 +1,47 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import cn from 'classnames';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './SearchBar.module.scss';
 
 export const SearchBar = ({
-  searchText,
-  setSearchText,
-  onSearch,
-  onKeyDown,
+  isSearch,
+  setIsSearch,
 }: {
-  searchText: string;
-  setSearchText: (t: string) => void;
-  onSearch: () => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  isSearch: boolean;
+  setIsSearch: (s: boolean) => void;
 }) => {
+  const [searchText, setSearchText] = useState('');
+  const navigate = useNavigate();
+
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      navigate(`/search?searchText=${searchText}`);
+      setIsSearch(false);
+    }
+  };
+
   return (
-    <div className={styles.container}>
+    <div className={cn(styles.container, { [styles.visible]: isSearch })}>
       <input
         onChange={e => {
           setSearchText(e.target.value);
         }}
-        onKeyDown={onKeyDown}
+        onKeyDown={handleEnter}
         placeholder='다양한 스토리의 아카이브를 검색해보세요!'
         type='text'
         value={searchText}
       />
-      <FontAwesomeIcon className={styles.icon} icon={faSearch} onClick={onSearch} />
+      <FontAwesomeIcon
+        className={styles.icon}
+        icon={faSearch}
+        onClick={() => {
+          navigate(`/search?searchText=${searchText}`);
+          setIsSearch(false);
+        }}
+      />
     </div>
   );
 };

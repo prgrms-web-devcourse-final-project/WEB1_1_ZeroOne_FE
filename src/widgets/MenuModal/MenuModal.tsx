@@ -1,4 +1,4 @@
-import { faHeart, faHome, faSearch, faX } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHome, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 import React from 'react';
@@ -70,14 +70,6 @@ export const MenuModal = ({
         </ul>
       </nav>
       <div className={styles.userMenu}>
-        <FontAwesomeIcon
-          className={cn(styles.button, styles.search)}
-          icon={faSearch}
-          onClick={() => {
-            navigate('/search');
-            onClose(false);
-          }}
-        />
         <FontAwesomeIcon
           className={cn(styles.button, styles.heart)}
           icon={faHeart}

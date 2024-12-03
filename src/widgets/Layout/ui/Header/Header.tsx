@@ -12,6 +12,7 @@ import { NAV_LINKS } from '../../constants';
 //assets
 import { logout } from '@/features/auth/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
+import { SearchBar } from '@/features';
 import Logo from '@/shared/assets/paletteLogo.svg?react';
 //model
 import { useModalStore } from '@/shared/model/modalStore';
@@ -43,6 +44,7 @@ export const Header = () => {
       showCancelButton: false,
     });
   };
+  const [isSearch, setIsSearch] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -67,13 +69,23 @@ export const Header = () => {
       </h1>
       {isMobile ? (
         <>
-          <FontAwesomeIcon
-            icon={faBars}
-            onClick={() => {
-              setMenuOpen(true);
-            }}
-            size='lg'
-          />
+          <div className={styles.mobileBtns}>
+            <FontAwesomeIcon
+              className={cn(styles.button, styles.search)}
+              icon={faSearch}
+              onClick={() => {
+                setIsSearch(!isSearch);
+              }}
+            />
+            <FontAwesomeIcon
+              icon={faBars}
+              onClick={() => {
+                setMenuOpen(true);
+              }}
+              size='lg'
+            />
+          </div>
+          {isSearch && <SearchBar isSearch setIsSearch={setIsSearch} />}
           {menuOpen && <MenuModal isOpen={menuOpen} onClose={setMenuOpen} />}{' '}
         </>
       ) : (
@@ -97,7 +109,7 @@ export const Header = () => {
               className={cn(styles.button, styles.search)}
               icon={faSearch}
               onClick={() => {
-                navigate('/search');
+                setIsSearch(!isSearch);
               }}
             />
             <FontAwesomeIcon
@@ -107,24 +119,25 @@ export const Header = () => {
                 navigate('/like');
               }}
             />
-        {userData ? (
-          <Button
-            onClick={() => {
-              void logoutHandler();
-            }}
-          >
-            로그아웃
-          </Button>
-        ) : (
-          <Button
-            onClick={() => {
-              open('login');
-            }}
-          >
-            로그인
-          </Button>
-        )}
+            {userData ? (
+              <Button
+                onClick={() => {
+                  void logoutHandler();
+                }}
+              >
+                로그아웃
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  open('login');
+                }}
+              >
+                로그인
+              </Button>
+            )}
           </div>{' '}
+          {isSearch && <SearchBar isSearch setIsSearch={setIsSearch} />}
         </>
       )}
     </header>

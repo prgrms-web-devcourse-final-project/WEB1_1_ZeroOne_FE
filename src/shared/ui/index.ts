@@ -15,4 +15,3 @@ export { TextArea } from './TextArea/TextArea';
 export { TripleDot } from './TripleDot/TripleDot';
 export { ScrollToTop } from './ScrollToTop/ScrollToTop';
 export { NoResult } from './NoResult/NoResult';
-export { Randing } from './Randing/Randing';

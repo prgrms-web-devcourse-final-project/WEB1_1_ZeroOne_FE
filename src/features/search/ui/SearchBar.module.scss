@@ -1,17 +1,28 @@
 .container {
+  position: absolute;
+  top: $header-height;
+  right: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 40%;
+  width: 30%;
   min-width: 300px;
   padding: 0.8rem 1.3rem;
   color: $secondary-color;
+  visibility: hidden;
   background-color: $primary-color;
   border-radius: 20px;
+  opacity: 0;
+  transition: 0.8s ease;
 
   input {
     width: 100%;
     padding: 0.5rem;
     color: $secondary-color;
   }
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
 }

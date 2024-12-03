@@ -97,10 +97,20 @@
 .button {
   cursor: pointer;
   transition: 0.3s ease;
+
+  &:hover {
+    transform: scale(0.8);
+  }
 }
 
 .heart {
   &:hover {
     color: $red;
   }
+}
+
+.mobileBtns {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
