@@ -2,6 +2,8 @@ import { faChevronRight, faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
 
+import styles from './Breadcrumb.module.scss';
+
 interface PathNameMapping {
   [key: string]: string;
 }
@@ -37,7 +39,7 @@ export const Breadcrumb = () => {
   if (!breadcrumbs.length) return null;
 
   return (
-    <div>
+    <div className={styles.container}>
       <nav>
         <Link to='/'>
           <FontAwesomeIcon icon={faHome} />

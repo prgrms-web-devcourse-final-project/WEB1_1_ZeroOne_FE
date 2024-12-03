@@ -12,4 +12,9 @@
   cursor: pointer;
   background: #ededed;
   border-radius: 8px;
+
+  @media (width <= 768px) {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
 }

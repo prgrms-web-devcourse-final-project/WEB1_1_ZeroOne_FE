@@ -22,6 +22,10 @@
     color: $primary-color;
     text-align: center;
     letter-spacing: -0.075rem;
+
+    @media (width <= 768px) {
+      font-size: 1.25rem;
+    }
   }
 
   p {
@@ -32,6 +36,10 @@
     color: #6d6d6d;
     text-align: center;
     letter-spacing: -0.04rem;
+
+    @media (width <= 768px) {
+      font-size: 0.875rem;
+    }
   }
 }
 
@@ -44,4 +52,8 @@
   justify-content: center;
   width: 100%;
   padding: 4rem 8rem;
+
+  @media (width <= 768px) {
+    padding: 2rem;
+  }
 }

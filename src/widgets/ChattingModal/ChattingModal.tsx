@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import styles from './ChattingModal.module.scss';
 
-import { ChatInput, ChatRoomItem, ChatBottomNav, HomeHeader, ChatHeader } from '@/features';
+import { ChatInput, ChatRoomItem, HomeHeader, ChatHeader } from '@/features';
 import { chatListDummyData } from '@/features/chatting/model/mock';
 import { Modal } from '@/shared/ui';
 
@@ -88,10 +88,7 @@ export const ChattingModal = ({ isOpen, onClose }: ChattingModalProps) => {
 
   return (
     <Modal classNames={styles.modalDialogLayout} isOpen={isOpen} onClose={onClose}>
-      <div className={styles.container}>
-        {currentView === 'home' ? <HomeView /> : <ChatView />}
-        <ChatBottomNav currentView={currentView} onChangeView={setCurrentView} />
-      </div>
+      <div className={styles.container}>{currentView === 'home' ? <HomeView /> : <ChatView />}</div>
     </Modal>
   );
 };

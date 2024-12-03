@@ -9,13 +9,13 @@ const api = axios.create({
   withCredentials: true,
 });
 
-api.interceptors.request.use(config => {
-  const { accessToken } = useAuth();
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
-  return config;
-});
+// api.interceptors.request.use(config => {
+//   const { accessToken } = useAuth();
+//   if (accessToken) {
+//     config.headers.Authorization = `Bearer ${accessToken}`;
+//   }
+//   return config;
+// });
 
 api.interceptors.response.use(
   response => response,

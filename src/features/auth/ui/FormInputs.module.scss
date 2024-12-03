@@ -24,8 +24,9 @@
 
 .imageInputWrapper {
   position: relative;
-  width: 10rem;
-  height: 10rem;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1/1;
   overflow: hidden;
   border-radius: 1rem;
 
