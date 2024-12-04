@@ -6,9 +6,11 @@ import { Link } from 'react-router-dom';
 import styles from './GatheringCard.module.scss';
 import { JobTag } from './JobTag';
 
+import { ContactBtn } from '@/features/portfolio/ui/ContactBtn';
+
 export interface GatheringCardProps {
   title: string;
-  className?: string; // 외부에서 추가 클래스 전달 가능
+  className?: string;
   name?: string;
   introduction?: string;
   tag?: string[];
@@ -25,6 +27,12 @@ export const GatheringCard = ({
   deadline,
   gatheringId,
 }: GatheringCardProps) => {
+  
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.preventDefault(); 
+    e.stopPropagation(); 
+  };
+
   return (
     <Link
       className={cn(
@@ -32,7 +40,7 @@ export const GatheringCard = ({
         {
           //조건부 클래스 추가
         },
-        className, // 외부 클래스 추가
+        className,
       )}
       to={`/gathering/${gatheringId}`}
     >
@@ -44,8 +52,21 @@ export const GatheringCard = ({
         <section className={styles.card__deadlineCon}>
           <div>마감일 {deadline}</div>
           <div className={styles.buttons}>
-            <FontAwesomeIcon icon={faHeart} />
-            <FontAwesomeIcon icon={faPhone} />
+            <button 
+              className={styles.actionBtn} 
+              onClick={handleButtonClick}
+            >
+              <FontAwesomeIcon icon={faHeart} />
+            </button>
+            <button 
+              className={styles.actionBtn}
+              onClick={handleButtonClick}
+            >
+              <FontAwesomeIcon icon={faPhone} />
+            </button>
+            <div onClick={handleButtonClick}>
+              <ContactBtn userName='' />
+            </div>
           </div>
         </section>
       </li>

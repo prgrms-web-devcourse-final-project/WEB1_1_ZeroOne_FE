@@ -62,6 +62,10 @@
   }
 }
 
+.actionBtn {
+  z-index: 999;
+}
+
 .buttons {
   display: flex;
   gap: 0.625rem;
