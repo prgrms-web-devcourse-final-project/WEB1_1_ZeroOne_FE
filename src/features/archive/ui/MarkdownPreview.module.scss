@@ -80,4 +80,11 @@
     background-color: #fff;
     border-radius: 0.625rem;
   }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: content;
+    border-radius: 8px;
+  }
 }

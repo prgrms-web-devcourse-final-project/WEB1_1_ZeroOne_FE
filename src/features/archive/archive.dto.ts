@@ -6,7 +6,7 @@ export interface BaseArchiveDTO {
   title: string;
   description: string;
   introduction: string;
-  type: Color;
+  colorType: Color;
   canComment: boolean;
   tags: { tag: string }[];
   imageUrls: { url: string }[];
@@ -20,6 +20,7 @@ export interface Archive extends BaseArchiveDTO {
   hits: number;
   isMine: boolean;
   userProfile: string;
+  type: Color;
 }
 
 export interface ArchiveCardDTO {

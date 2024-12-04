@@ -21,10 +21,10 @@ export const initialArchiveState: BaseArchiveDTO = {
   title: '',
   description: '',
   introduction: '',
-  type: 'DEFAULT',
+  colorType: 'DEFAULT',
   canComment: false,
   tags: [],
-  imageUrls: [{ url: '' }],
+  imageUrls: [],
 };
 
 export const useArchiveStore = create(
@@ -62,7 +62,7 @@ export const useArchiveStore = create(
       setColor: color => {
         set(
           produce((state: ArchiveStore) => {
-            state.archiveData.type = color;
+            state.archiveData.colorType = color;
           }),
         );
         set(() => ({

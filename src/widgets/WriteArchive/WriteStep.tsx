@@ -65,9 +65,9 @@ export const WriteStep = ({
           <FontAwesomeIcon icon={faChevronLeft} onClick={onClick} />
           <div
             className={styles.color}
-            style={{ backgroundColor: `${ColorMap[archiveData.type].hex}` }}
+            style={{ backgroundColor: `${ColorMap[archiveData.colorType].hex}` }}
           />
-          <span>{ColorMap[archiveData.type].name}</span>
+          <span>{ColorMap[archiveData.colorType].name}</span>
         </div>
         <div className={styles.settingWrapper}>
           <span>댓글 허용</span>

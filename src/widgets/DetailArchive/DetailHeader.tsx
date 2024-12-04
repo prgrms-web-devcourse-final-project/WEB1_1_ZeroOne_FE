@@ -26,7 +26,7 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
       title: archive.title,
       description: archive.description,
       introduction: archive.introduction,
-      type: archive.type,
+      colorType: archive.type,
       canComment: archive.canComment,
       tags: archive.tags,
       imageUrls: archive.imageUrls,

@@ -90,7 +90,8 @@ export const useMarkdown = ({
       if (!/image\/(png|jpg|jpeg|gif)/.test(imageFile.type)) return;
 
       const formData = new FormData();
-      formData.append(imageFile.name, imageFile);
+      formData.append('files', imageFile);
+      const { archiveData, updateArchiveData } = useArchiveStore.getState();
 
       try {
         const imageUrls = await api
@@ -99,17 +100,15 @@ export const useMarkdown = ({
               'Content-Type': 'multipart/form-data',
             },
           })
-          .then(res => res.data.data?.imgUrls);
-
-        if (!imageUrls?.length) {
-          const archiveData = useArchiveStore.getState().archiveData;
-          useArchiveStore
-            .getState()
-            .updateArchiveData('imageUrls', [
+          .then(res => {
+            updateArchiveData('imageUrls', [
               ...archiveData.imageUrls,
-              { url: imageUrls?.[0].imgUrl ?? '' },
+              { url: res.data.data?.imgUrls[0].imgUrl ?? '' },
             ]);
-        }
+            console.log(archiveData);
+
+            return res.data.data?.imgUrls;
+          });
 
         insertImageAtCursor(view, `![Image](${imageUrls?.[0].imgUrl})`);
       } catch {

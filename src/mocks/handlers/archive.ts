@@ -21,9 +21,9 @@ export const archiveHandlers = [
           },
         );
       }
-      const { title, description, type, tags, imageUrls } = body as BaseArchiveDTO;
+      const { title, description, colorType, tags, imageUrls } = body as BaseArchiveDTO;
 
-      if (!title || !description || !type || tags.length === 0 || imageUrls.length === 0) {
+      if (!title || !description || !colorType || tags.length === 0 || imageUrls.length === 0) {
         return new Response(
           JSON.stringify({
             status: 400,
@@ -334,9 +334,9 @@ export const archiveHandlers = [
         );
       }
 
-      const { title, description, type, tags, imageUrls } = body as BaseArchiveDTO;
+      const { title, description, colorType, tags, imageUrls } = body as BaseArchiveDTO;
 
-      if (!title || !description || !type || tags.length === 0 || imageUrls.length === 0) {
+      if (!title || !description || !colorType || tags.length === 0 || imageUrls.length === 0) {
         return new Response(
           JSON.stringify({
             status: 400,
