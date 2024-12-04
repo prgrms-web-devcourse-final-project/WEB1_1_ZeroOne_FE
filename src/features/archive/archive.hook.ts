@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { AxiosError } from 'axios';
 
 import {
   deleteArchive,
@@ -36,8 +37,9 @@ export const useCreateArchive = () =>
     onSuccess: async () => {
       await customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
     },
-    onError: async () => {
-      await customToast({ text: '아카이브 작성에 실패하였습니다.', timer: 3000, icon: 'error' });
+    onError: async (err: AxiosError<{ status: number; reason: string; timeStamp: string }>) => {
+      const message = err.response?.data?.reason || '아카이브 작성에 실패하였습니다.';
+      await customToast({ text: message, timer: 3000, icon: 'error' });
     },
   });
 

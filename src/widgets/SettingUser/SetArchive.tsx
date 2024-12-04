@@ -1,28 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import styles from './SetArchive.module.scss';
 
-import { ArchiveCard, type ArchiveCardDTO, type Color } from '@/features';
-import { Button } from '@/shared/ui';
-
-const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => {
-  const randomWidth = Math.floor(Math.random() * 100) + 200;
-  const randomHeight = Math.floor(Math.random() * 100) + 200;
-  return {
-    archiveId: i,
-    title: 'Sample Archive',
-    introduction: 'Description for sample archive',
-    type: ['RED', 'BLUE', 'GREEN', 'YELLOW', 'PURPLE'][Math.floor(Math.random() * 4)] as Color,
-    username: '홍길동',
-    likeCount: Math.floor(Math.random() * 100),
-    isLiked: Math.random() > 0.5,
-    imageUrl: `https://picsum.photos/${randomWidth}/${randomHeight}`,
-    createDate: '2024-12-03',
-  };
-});
+import { ArchiveCard, useMyArchiveList, type ArchiveCardDTO } from '@/features';
+import { Button, Loader } from '@/shared/ui';
 
 export const SetArchive = () => {
-  const [archives, setArchives] = useState<ArchiveCardDTO[]>(dummyArchives);
+  const { data: myArchives, isLoading } = useMyArchiveList();
+
+  const [archives, setArchives] = useState<ArchiveCardDTO[]>([]);
+
+  useEffect(() => {
+    if (myArchives?.data) {
+      setArchives(myArchives.data.archives);
+    }
+  }, [myArchives]);
 
   const [draggedItemId, setDraggedItemId] = useState<number | null>(null);
 
@@ -48,6 +40,10 @@ export const SetArchive = () => {
   const handleDragEnd = () => {
     setDraggedItemId(null);
   };
+
+  if (!myArchives?.data || isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>

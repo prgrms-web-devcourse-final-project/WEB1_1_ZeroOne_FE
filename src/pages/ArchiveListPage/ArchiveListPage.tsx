@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './ArchiveListPage.module.scss';
@@ -14,10 +14,6 @@ export const ArchiveListPage = () => {
   const [color, setColor] = useState<Color>('DEFAULT');
 
   const { items: archives, isFetchingNextPage, ref, isLoading } = useArchiveList(sort.value, color);
-
-  useEffect(() => {
-    console.log(archives);
-  }, [archives]);
 
   if (isLoading) return <Loader />;
 

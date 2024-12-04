@@ -45,9 +45,6 @@ export const WriteStep = ({
         navigate(`/archive/${archiveId}`);
         setArchiveId(0);
       },
-      onError: err => {
-        console.error(err);
-      },
     });
   };
 
@@ -56,9 +53,6 @@ export const WriteStep = ({
       onSuccess: (data: PostArchiveApiResponse) => {
         resetArchiveData();
         navigate(`/archive/${data.data?.archiveId}`);
-      },
-      onError: err => {
-        console.error(err);
       },
     });
   };

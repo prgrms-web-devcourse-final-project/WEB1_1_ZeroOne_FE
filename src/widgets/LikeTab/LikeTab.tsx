@@ -3,21 +3,9 @@ import { ArchiveGrid } from '../ArchiveGrid';
 import { GatheringGrid } from '../GatheringGrid';
 import { PortFolioGrid } from '../PortfolioGrid/PortFolioGrid';
 
-import { useLikeArchiveList, type ArchiveCardDTO, type Color } from '@/features';
+import { useLikeArchiveList } from '@/features';
 import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
 import { Loader } from '@/shared/ui';
-
-const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
-  archiveId: i,
-  title: `Sample Archive`,
-  introduction: `Description for sample archive`,
-  type: ['RED', 'BLUE', 'GREEN', 'YELLOW', 'PURPLE'][Math.floor(Math.random() * 4)] as Color,
-  username: '홍길동',
-  likeCount: Math.floor(Math.random() * 100),
-  isLiked: Math.random() > 0.5,
-  imageUrl: 'https://picsum.photos/300/200',
-  createDate: '2024-12-03',
-}));
 
 const dummyGatherings: GatheringItemDto[] = Array.from({ length: 9 }, (_, i) => ({
   gatheringId: i.toString(),
