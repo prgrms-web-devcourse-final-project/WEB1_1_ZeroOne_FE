@@ -1,53 +1,29 @@
-import type { GatheringDetailResponse } from '../model/gathering.dto';
+import type { GatheringPageResponse } from '../model/dto/gathering.dto';
 import type {
-  GatheringItemDto,
-  GatheringSortType,
-  GatheringPeriod,
-  GatheringPosition,
-} from '../model/gathering.dto';
+  // GetGatheringsParams,
+  // GatheringListResponse,
+  GatheringDetailResponse,
+  CreateGatheringRequest,
+  CreateGatheringResponse,
+  GatheringListParams,
+} from '../model/dto/request.dto';
+//게더링 관련 모든 API 호출을 담당하는 파일
 
 import api from '@/shared/api/baseApi';
 
-interface GetGatheringsParams {
-  sort?: GatheringSortType;
-  period?: GatheringPeriod;
-  position?: GatheringPosition;
-  status?: '모집중' | '모집완료';
-  size?: number;
-  gatheringId?: number;
-}
-
-interface GetGatheringsParams {
-  sort?: GatheringSortType;
-  period?: GatheringPeriod;
-  position?: GatheringPosition;
-  status?: '모집중' | '모집완료';
-  size?: number;
-  nextLikeId?: number;
-}
-
-interface GatheringListResponse {
-  data: {
-    content: GatheringItemDto[];
-    hasNext: boolean;
-    nextLikeId: number;
-  };
-  timeStamp: string;
-}
-
-export const getGatheringList = {
-  getGatherings: async (params: GetGatheringsParams): Promise<GatheringListResponse> => {
-    const { data } = await api.get<GatheringListResponse>('/gathering', { params });
+export const gatheringApi = {
+  getGatherings: async (params: GatheringListParams): Promise<GatheringPageResponse> => {
+    const { data } = await api.get<GatheringPageResponse>('/gathering', { params });
     return data;
   },
-};
-interface GatheringDetailApi {
-  getGatheringById: (id: string) => Promise<GatheringDetailResponse>;
-}
 
-export const gatheringDetailApi: GatheringDetailApi = {
-  getGatheringById: async (id: string) => {
+  getGatheringById: async (id: string): Promise<GatheringDetailResponse> => {
     const { data } = await api.get<GatheringDetailResponse>(`/gathering/${id}`);
     return data;
+  },
+
+  create: async (data: CreateGatheringRequest): Promise<CreateGatheringResponse> => {
+    const { data: response } = await api.post<CreateGatheringResponse>('/gathering', data);
+    return response;
   },
 };
