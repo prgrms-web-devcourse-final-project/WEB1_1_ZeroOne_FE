@@ -25,6 +25,7 @@ import type {
   GetArchiveListApiResponse,
   ArchiveCardDTO,
   PatchArchiveOrderDTO,
+  CommentsPageDTO,
 } from './archive.dto';
 import type { Color } from './colors.type';
 
@@ -98,14 +99,27 @@ export const useCreateComment = (archiveId: number) => {
         userProfile: userProfile,
       };
 
-      queryClient.setQueryData(
-        ['/archive', archiveId, 'comment'],
-        (old: GetCommentsApiResponse) => {
-          if (!old.data) return old;
+      queryClient.setQueryData(['/archive', archiveId, 'comment'], (old: CommentsPageDTO) => {
+        if (!old) return old;
 
-          return [...old.data, optimisticComment];
-        },
-      );
+        const updatedPages = old.pages.map((page, index) => {
+          if (index === 0) {
+            return {
+              ...page,
+              data: {
+                ...page.data,
+                comments: [optimisticComment, ...page.data.comments],
+              },
+            };
+          }
+          return page;
+        });
+
+        return {
+          ...old,
+          pages: updatedPages,
+        };
+      });
 
       return { previousComments };
     },
@@ -130,25 +144,30 @@ export const useUpdateComment = (archiveId: number, commentId: number, content: 
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ content }: { content: string }) => putComment(archiveId, content),
+    mutationFn: ({ content }: { content: string }) => putComment(commentId, content),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['/archive', archiveId, 'comment'] });
 
       const previousComments = queryClient.getQueryData(['/archive', archiveId, 'comment']);
 
-      queryClient.setQueryData(
-        ['/archive', archiveId, 'comment'],
-        (old: GetCommentsApiResponse) => {
-          if (!old.data) return old;
+      queryClient.setQueryData(['/archive', archiveId, 'comment'], (old: CommentsPageDTO) => {
+        if (!old) return old;
 
-          return {
-            ...old,
-            data: old.data.map(comment =>
-              comment.commentId === commentId ? { ...comment, content: content } : comment,
+        const updatedPages = old.pages.map(page => ({
+          ...page,
+          data: {
+            ...page.data,
+            comments: page.data.comments.map((comment: Comment) =>
+              comment.commentId === commentId ? { ...comment, content } : comment,
             ),
-          };
-        },
-      );
+          },
+        }));
+
+        return {
+          ...old,
+          pages: updatedPages,
+        };
+      });
 
       return { previousComments };
     },
@@ -180,14 +199,24 @@ export const useDeleteComment = (archiveId: number) => {
 
       const previousComments = queryClient.getQueryData(['/archive', archiveId, 'comment']);
 
-      queryClient.setQueryData(
-        ['/archive', archiveId, 'comment'],
-        (old: GetCommentsApiResponse) => {
-          if (!old.data) return old;
+      queryClient.setQueryData(['/archive', archiveId, 'comment'], (old: CommentsPageDTO) => {
+        if (!old) return old;
 
-          return old.data.filter((comment: Comment) => comment.commentId !== commentId);
-        },
-      );
+        const updatedPages = old.pages.map(page => ({
+          ...page,
+          data: {
+            ...page.data,
+            comments: page.data.comments.filter(
+              (comment: Comment) => comment.commentId !== commentId,
+            ),
+          },
+        }));
+
+        return {
+          ...old,
+          pages: updatedPages,
+        };
+      });
 
       return { previousComments };
     },

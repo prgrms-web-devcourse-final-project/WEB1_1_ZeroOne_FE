@@ -29,14 +29,20 @@ export const DetailArchivePage = () => {
           </div>
         </>
       )}
-      <div className={styles.comment}>
-        <WriteComment archiveId={Number(archiveId)} />
-        {items &&
-          items.map(comment => (
-            <CommentItem archiveId={Number(archiveId)} comment={comment} key={comment.commentId} />
-          ))}
-        {archive && <div ref={ref}>{isFetchingNextPage && <TripleDot />}</div>}
-      </div>
+      {archive?.data?.canComment && (
+        <div className={styles.comment}>
+          <WriteComment archiveId={Number(archiveId)} />
+          {items &&
+            items.map(comment => (
+              <CommentItem
+                archiveId={Number(archiveId)}
+                comment={comment}
+                key={comment.commentId}
+              />
+            ))}
+          {archive && <div ref={ref}>{isFetchingNextPage && <TripleDot />}</div>}
+        </div>
+      )}
     </div>
   );
 };

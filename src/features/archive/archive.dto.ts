@@ -55,6 +55,27 @@ export interface PatchArchiveOrderDTO {
   orderRequest: Record<number, number>;
 }
 
+export type Meta = {
+  currentPage: number;
+  size: number;
+  hasNext: boolean;
+};
+
+export type PageData = {
+  comments: Comment[];
+  meta: Meta;
+};
+
+export type Page = {
+  data: PageData;
+  timeStamp: string;
+};
+
+export type CommentsPageDTO = {
+  pages: Page[];
+  pageParams: number[];
+};
+
 export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;
 export type GetArchiveApiResponse = ApiResponse<Archive>;
 export type GetCommentsApiResponse = ApiResponse<Comment[]>;
