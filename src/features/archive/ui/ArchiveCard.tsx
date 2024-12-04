@@ -7,7 +7,7 @@ import ColorChipLogo from '@/shared/assets/color-chip-logo.svg';
 import EmptyHeart from '@/shared/assets/empty-heart.svg';
 import Heart from '@/shared/assets/heart.svg';
 
-export const ArchiveCard = ({ archive }: { archive: ArchiveCardDTO }) => {
+export const ArchiveCard = ({ archive, isMine }: { archive: ArchiveCardDTO; isMine?: boolean }) => {
   return (
     <div>
       <article className={styles.card}>
@@ -24,11 +24,13 @@ export const ArchiveCard = ({ archive }: { archive: ArchiveCardDTO }) => {
             <span>{archive.introduction}</span>
           </div>
           <p className={styles.date}>{archive.createDate}</p>
-          <img
-            alt='isLiked-icon'
-            className={styles.heart}
-            src={archive.isLiked ? Heart : EmptyHeart}
-          />
+          {!isMine && (
+            <img
+              alt='isLiked-icon'
+              className={styles.heart}
+              src={archive.isLiked ? Heart : EmptyHeart}
+            />
+          )}
         </div>
       </article>
     </div>

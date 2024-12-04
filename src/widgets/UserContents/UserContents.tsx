@@ -57,7 +57,7 @@ const ArchiveContent = () => {
           <PieChart data={ARCHIVE_COLOR_DATA} />
         </div>
       </div>
-      <ArchiveGrid archives={myArchives.data?.archives} />
+      <ArchiveGrid archives={myArchives.data?.archives} isMine />
     </div>
   );
 };

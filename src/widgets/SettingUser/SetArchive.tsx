@@ -81,7 +81,7 @@ export const SetArchive = () => {
               handleDragStart(archive.archiveId);
             }}
           >
-            <ArchiveCard archive={archive} />
+            <ArchiveCard archive={archive} isMine />
           </div>
         ))}
       </div>

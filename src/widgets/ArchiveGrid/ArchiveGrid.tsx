@@ -6,7 +6,13 @@ import type { ArchiveCardDTO } from '@/features';
 import { ArchiveCard } from '@/features';
 import { NoResult } from '@/shared/ui';
 
-export const ArchiveGrid = ({ archives }: { archives: ArchiveCardDTO[] }) => {
+export const ArchiveGrid = ({
+  archives,
+  isMine,
+}: {
+  archives: ArchiveCardDTO[];
+  isMine?: boolean;
+}) => {
   const navigate = useNavigate();
 
   if (archives.length === 0 || !archives) {
@@ -23,7 +29,7 @@ export const ArchiveGrid = ({ archives }: { archives: ArchiveCardDTO[] }) => {
             navigate(`/archive/${archive.archiveId}`);
           }}
         >
-          <ArchiveCard archive={archive} />
+          <ArchiveCard archive={archive} isMine={isMine} />
         </div>
       ))}
     </div>
