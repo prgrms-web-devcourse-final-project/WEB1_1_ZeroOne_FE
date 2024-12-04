@@ -123,12 +123,43 @@ export const formConfig: FormConfigType<FormValues> = {
 };
 
 export const profileFormValidation = formValidation.shape({
-  portfolioUrl: yup.string().defined().url('URL 형식이 아닙니다.'),
+  email: yup.string().defined(),
+  portfolioLink: yup.string().defined().url('URL 형식이 아닙니다.'),
 });
 
 export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
   structure: [
-    ...formConfig.structure.slice(0, 2),
+    {
+      title: '기본 정보',
+      inputs: [
+        {
+          label: '프로필 사진',
+          type: 'image',
+          name: 'imageUrl',
+        },
+        {
+          label: '이메일',
+          type: 'default',
+          name: 'email',
+          disabled: true,
+        },
+        {
+          label: '이름',
+          type: 'default',
+          name: 'name',
+          required: true,
+          placeholder: '이름을 입력해주세요.',
+        },
+        {
+          label: '한 줄 소개',
+          type: 'textarea',
+          name: 'briefIntro',
+          maxLength: 100,
+          placeholder: '한 줄 소개를 입력해주세요.',
+        },
+      ],
+    },
+    ...formConfig.structure.slice(1, 2),
     {
       title: 'URL',
       inputs: [
@@ -140,7 +171,7 @@ export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
         {
           label: '포트폴리오 URL',
           type: 'default',
-          name: 'portfolioUrl',
+          name: 'portfolioLink',
           placeholder: 'https://',
         },
       ],
@@ -156,6 +187,7 @@ export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
     division: 'student',
     url: [],
     imageUrl: '',
-    portfolioUrl: '',
+    portfolioLink: '',
+    email: 'csk9908@naver.com',
   },
 };

@@ -18,7 +18,8 @@ export interface FormValues {
 }
 
 export interface PortfolioFormValues extends FormValues {
-  portfolioUrl: string;
+  portfolioLink: string;
+  email: string;
 }
 
 export type FormInputType = 'default' | 'radio' | 'select' | 'image' | 'textarea';
@@ -26,12 +27,16 @@ export type FormInputType = 'default' | 'radio' | 'select' | 'image' | 'textarea
 export type FormValuesName = keyof FormValues;
 export type PortfolioFormValuesName = keyof PortfolioFormValues;
 
-export interface InputFieldProps {
+export interface CommonInputAttribute {
+  maxLength?: number;
+  disabled?: boolean;
+  placeholder?: string;
+}
+
+export interface InputFieldProps extends CommonInputAttribute {
   name: FormValuesName | PortfolioFormValuesName;
   type?: FormInputType;
-  placeholder?: string;
   options?: Option[];
-  maxLength?: number;
 }
 
 interface InputInfo extends InputFieldProps {
@@ -128,6 +133,8 @@ export const JOB_CATEGORIES = [
     ],
   },
 ];
+
+export const JOB_SUB_CATEGORY = JOB_CATEGORIES.map(major => major.children).flat();
 
 export const JOB_DIVISION: Option[] = [
   { value: 'student', label: '학생' },

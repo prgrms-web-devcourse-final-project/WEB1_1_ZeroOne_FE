@@ -9,17 +9,15 @@ import type { ActionMeta, MultiValue, SingleValue } from 'react-select';
 //styles
 import styles from './FormInputs.module.scss';
 //types
-import type { InputFieldProps, Option } from '../form.types';
+import type { CommonInputAttribute, InputFieldProps, Option } from '../form.types';
 
 //components
 import { Input, Radio, TextArea } from '@/shared/ui';
 
-interface InputProps<T = string, Element = HTMLInputElement> {
+interface InputProps<T = string, Element = HTMLInputElement> extends CommonInputAttribute {
   value: T;
   onChange: (e: React.ChangeEvent<Element>) => void;
   name: string;
-  placeholder?: string;
-  maxLength?: number;
 }
 
 interface RadioGroupProps extends InputProps {
@@ -53,15 +51,15 @@ const RadioGroup: React.FC<RadioGroupProps> = ({ name, value, onChange, options 
   );
 };
 
-const DefaultInput: React.FC<InputProps> = ({ name, value, onChange, placeholder }) => {
+const DefaultInput: React.FC<InputProps> = ({ name, value, onChange, ...restProps }) => {
   return (
     <Input
       className={styles.input}
       id={name}
       onChange={onChange}
-      placeholder={placeholder}
       spellCheck='false'
       value={value}
+      {...restProps}
     />
   );
 };
