@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  max-width: 1640px;
+  max-width: 1340px;
   min-height: 100vh;
   padding: 0 1rem;
   margin: 0 auto;
@@ -38,4 +38,16 @@
     margin-bottom: 2rem;
     font-size: 1.25rem;
   }
+}
+
+.section {
+  padding: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.btnCon {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
 }
