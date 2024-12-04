@@ -33,6 +33,7 @@ export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const logoutHandler = async () => {
+    navigate('/');
     await logout();
     actions.setUserData(null);
     await customConfirm({
