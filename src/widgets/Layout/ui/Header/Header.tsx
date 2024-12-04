@@ -16,7 +16,6 @@ import Logo from '@/shared/assets/paletteLogo.svg?react';
 //model
 import { useModalStore } from '@/shared/model/modalStore';
 //component
-
 import { Button, customConfirm } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
 
@@ -107,23 +106,23 @@ export const Header = () => {
                 navigate('/like');
               }}
             />
-        {userData ? (
-          <Button
-            onClick={() => {
-              void logoutHandler();
-            }}
-          >
-            로그아웃
-          </Button>
-        ) : (
-          <Button
-            onClick={() => {
-              open('login');
-            }}
-          >
-            로그인
-          </Button>
-        )}
+            {userData ? (
+              <Button
+                onClick={() => {
+                  void logoutHandler();
+                }}
+              >
+                로그아웃
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  open('login');
+                }}
+              >
+                로그인
+              </Button>
+            )}
           </div>{' '}
         </>
       )}
