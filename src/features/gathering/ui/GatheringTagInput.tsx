@@ -31,7 +31,7 @@ export const GatheringTagInput = ({
     onChange: HandleChangeFunction,
     currentValue: string[],
   ) => {
-    if (e.key === 'Enter' && inputValue.trim()) {
+    if ((e.key === 'Enter' || (e.metaKey && e.key === 'Enter')) && inputValue.trim()) {
       e.preventDefault();
       if (currentValue.length >= 3) {
         return;
@@ -55,7 +55,7 @@ export const GatheringTagInput = ({
     <div className={styles.container}>
       <label className={styles.label}>
         {label}
-        {isRequired && <span className={styles.required}>*</span>}
+        {isRequired && <span> *</span>}
       </label>
       <Controller
         control={control}
@@ -68,6 +68,7 @@ export const GatheringTagInput = ({
                   <span className={styles.tag} key={tag}>
                     {tag}
                     <button
+                      aria-label={`Remove ${tag} tag`}
                       className={styles.removeButton}
                       onClick={() => {
                         removeTag(tag, onChange, value);
@@ -94,8 +95,10 @@ export const GatheringTagInput = ({
               type='text'
               value={inputValue}
             />
-            <p className={styles.hint}>{`태그 ${value.length}/3`}</p>
-            {error && <p className={styles.errorMessage}>{error.message}</p>}
+            <div className={styles.bottom}>
+              <p className={styles.hint}>{`태그 ${value.length}/3`}</p>
+              {error && <p className={styles.errorMessage}>{error.message}</p>}
+            </div>
           </div>
         )}
         rules={{ required: isRequired && '태그를 입력해주세요' }}

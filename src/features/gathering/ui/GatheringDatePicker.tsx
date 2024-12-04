@@ -1,9 +1,11 @@
+import cn from 'classnames';
 import { ko } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 import { Controller } from 'react-hook-form';
-import 'react-datepicker/dist/react-datepicker.css';
 import type { Control } from 'react-hook-form';
 
+import 'react-datepicker/dist/react-datepicker.css';
+import styles from './GatheringDatePicker.module.scss';
 import type { CreateGatheringRequest } from '../model/dto/request.dto';
 
 export interface GatheringDatePickerProps {
@@ -22,10 +24,10 @@ export const GatheringDatePicker = ({
   placeholder = '날짜를 선택해주세요',
 }: GatheringDatePickerProps) => {
   return (
-    <div className='flex flex-col gap-2'>
-      <label className='text-sm font-medium'>
+    <div className={styles.container}>
+      <label className={styles.label}>
         {label}
-        {isRequired && <span className='text-red-500 ml-1'>*</span>}
+        {isRequired && <span> *</span>}
       </label>
       <Controller
         control={control}
@@ -42,22 +44,24 @@ export const GatheringDatePicker = ({
 
           return (
             <div>
-              <DatePicker
-                autoComplete='off'
-                className={`w-full px-3 py-2 border rounded-md ${
-                  error ? 'border-red-500' : 'border-gray-300'
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                dateFormat='yyyy-MM-dd'
-                isClearable
-                locale={ko}
-                minDate={new Date()}
-                onChange={handleDateChange}
-                placeholderText={placeholder}
-                selected={value && typeof value === 'string' ? new Date(value) : null}
-                showPopperArrow={false}
-                wrapperClassName='w-full'
-              />
-              {error && <p className='text-red-500 text-sm mt-1'>{error.message}</p>}
+              <div className={styles.datePickerWrapper}>
+                <DatePicker
+                  autoComplete='off'
+                  className={cn(styles.datePicker, {
+                    [styles.error]: error,
+                  })}
+                  dateFormat='yyyy-MM-dd'
+                  isClearable
+                  locale={ko}
+                  minDate={new Date()}
+                  onChange={handleDateChange}
+                  placeholderText={placeholder}
+                  selected={value && typeof value === 'string' ? new Date(value) : null}
+                  showPopperArrow={false}
+                  wrapperClassName={styles.innerWrapper}
+                />
+              </div>
+              {error && <p className={styles.errorMessage}>{error.message}</p>}
             </div>
           );
         }}

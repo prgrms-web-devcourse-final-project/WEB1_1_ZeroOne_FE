@@ -34,7 +34,7 @@ export const GatheringLinkInput = ({
     <div className={styles.container}>
       <label className={styles.label}>
         {label}
-        {isRequired && <span className={styles.required}>*</span>}
+        {isRequired && <span> *</span>}
       </label>
       <Controller
         control={control}

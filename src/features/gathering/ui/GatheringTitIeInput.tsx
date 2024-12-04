@@ -20,7 +20,7 @@ export const GatheringTitleInput = ({
   label,
   isRequired = false,
   placeholder = '제목을 입력해주세요',
-  maxLength = 50,
+  maxLength = 150,
 }: GatheringTitleInputProps) => {
   return (
     <div className={styles.container}>
