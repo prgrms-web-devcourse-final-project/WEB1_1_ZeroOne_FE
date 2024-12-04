@@ -31,7 +31,7 @@ export const PortfolioCard = ({
           <Link className={styles.cardImg} to={portFolioUrl}>
             <img
               alt={`${username}의 프로필 이미지`}
-              src={memberImageUrl || profileImg} // 이미지가 없을 경우 기본 이미지 사용
+              src={memberImageUrl || profileImg}
             />
           </Link>
           <ContactBtn userName = {username}/>

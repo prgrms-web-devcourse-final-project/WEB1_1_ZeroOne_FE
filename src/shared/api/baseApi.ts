@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useAuth } from '@/app/AuthProvider';
 
 const api = axios.create({
-  baseURL: ``, // Backend API Domain 주소
+  baseURL: `https://api.palettee.site`,
   timeout: 10_000,
   withCredentials: true,
 });
