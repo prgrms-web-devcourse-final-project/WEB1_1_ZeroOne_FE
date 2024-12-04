@@ -12,7 +12,7 @@ export interface CreateGatheringRequest {
   sort: string;
   subject: string;
   contact: string;
-  personnel: string;
+  personnel: number;
   period: string;
   position: string[];
   title: string;
@@ -64,18 +64,18 @@ interface CreateGatheringContent {
   gatheringId: number;
 }
 
-export interface GatheringListParams {
-  sort?: GatheringSortType;
-  period?: GatheringPeriod;
-  position?: GatheringPosition;
-  status?: '모집중' | '모집완료' | '기간만료';
-  gatheringId?: number;
-  pageable: {
-    page: number;
-    size: number;
-    sort: string[];
-  };
-}
+// export interface GatheringListParams {
+//   sort?: GatheringSortType;
+//   period?: GatheringPeriod;
+//   position?: GatheringPosition;
+//   status?: '모집중' | '모집완료' | '기간만료';
+//   gatheringId?: number;
+//   pageable: {
+//     page: number;
+//     size: number;
+//     sort: string[];
+//   };
+// }
 
 export type CreateGatheringResponse = ApiResponse<CreateGatheringContent>;
 export type GatheringDetailResponse = ApiResponse<GatheringDetailContent>;

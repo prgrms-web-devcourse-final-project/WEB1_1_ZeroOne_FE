@@ -4,11 +4,16 @@ export type SelectOption = {
   label: string;
 };
 
+export type SelectOptNum = {
+  value: number;
+  label: string;
+};
+
 export interface GatheringFilterOptions {
   contact: SelectOption[];
   sort: SelectOption[];
   period: SelectOption[];
-  personnel: SelectOption[];
+  personnel: SelectOptNum[];
   position: SelectOption[];
   subject: {
     project: SelectOption[];
