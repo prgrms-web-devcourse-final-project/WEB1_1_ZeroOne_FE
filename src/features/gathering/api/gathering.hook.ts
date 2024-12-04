@@ -41,6 +41,7 @@ export const useGatheringList = (
       };
     },
     9,
+    'gathering',
     true,
   );
 };

@@ -25,13 +25,13 @@ export const WriteStep = ({
 
   const handleTagAddition = () => {
     if (tag.trim()) {
-      updateArchiveData('tags', [...archiveData.tags, { content: tag }]);
+      updateArchiveData('tags', [...archiveData.tags, { tag: tag }]);
       setTag('');
     }
   };
 
   const handleTagRemoval = (tagContent: string) => {
-    const updatedTags = archiveData.tags.filter(t => t.content !== tagContent);
+    const updatedTags = archiveData.tags.filter(t => t.tag !== tagContent);
     updateArchiveData('tags', updatedTags);
   };
 
@@ -117,7 +117,7 @@ export const WriteStep = ({
         <label>태그</label>
         <div className={styles.tags}>
           {archiveData.tags.map(tag => (
-            <Tag key={tag.content} onRemove={handleTagRemoval} tag={tag} />
+            <Tag key={tag.tag} onRemove={handleTagRemoval} tag={tag} />
           ))}
         </div>
         <div className={styles.inputBox}>

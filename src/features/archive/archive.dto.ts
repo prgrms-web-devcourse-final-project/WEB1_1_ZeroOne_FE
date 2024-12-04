@@ -8,7 +8,7 @@ export interface BaseArchiveDTO {
   introduction: string;
   type: Color;
   canComment: boolean;
-  tags: { content: string }[];
+  tags: { tag: string }[];
   imageUrls: { url: string }[];
 }
 
