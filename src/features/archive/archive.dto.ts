@@ -51,7 +51,7 @@ export interface PostArchiveResponseDTO {
 }
 
 export interface PatchArchiveOrderDTO {
-  orderRequest: { archiveId: number; order: number }[];
+  orderRequest: Record<number, number>;
 }
 
 export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;

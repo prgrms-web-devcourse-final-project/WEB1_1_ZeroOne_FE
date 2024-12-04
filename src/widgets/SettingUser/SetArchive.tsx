@@ -2,11 +2,17 @@ import { useState, useEffect } from 'react';
 
 import styles from './SetArchive.module.scss';
 
-import { ArchiveCard, useMyArchiveList, type ArchiveCardDTO } from '@/features';
+import {
+  ArchiveCard,
+  useMyArchiveList,
+  useUpdateArchiveOrder,
+  type ArchiveCardDTO,
+} from '@/features';
 import { Button, Loader } from '@/shared/ui';
 
 export const SetArchive = () => {
   const { data: myArchives, isLoading } = useMyArchiveList();
+  const { mutate: updateArchiveOrder } = useUpdateArchiveOrder();
 
   const [archives, setArchives] = useState<ArchiveCardDTO[]>([]);
 
@@ -41,6 +47,20 @@ export const SetArchive = () => {
     setDraggedItemId(null);
   };
 
+  const handleUpdateOrder = () => {
+    const orderRequest: Record<number, number> = archives.reduce(
+      (acc: Record<number, number>, archive, index) => {
+        acc[archive.archiveId] = index + 1;
+        return acc;
+      },
+      {},
+    );
+
+    console.log(orderRequest);
+
+    updateArchiveOrder({ orderRequest });
+  };
+
   if (!myArchives?.data || isLoading) {
     return <Loader />;
   }
@@ -65,7 +85,9 @@ export const SetArchive = () => {
           </div>
         ))}
       </div>
-      <Button>드래그 앤 드롭으로 순서를 수정하고 이 버튼을 눌러주세요!</Button>
+      <Button onClick={handleUpdateOrder}>
+        드래그 앤 드롭으로 순서를 수정하고 이 버튼을 눌러주세요!
+      </Button>
     </>
   );
 };

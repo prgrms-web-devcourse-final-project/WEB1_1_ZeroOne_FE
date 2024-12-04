@@ -85,4 +85,4 @@ export const getMyArchiveList = () =>
   api.get<GetArchiveListApiResponse>('/archive/me').then(res => res.data);
 
 export const patchArchiveOrder = (data: PatchArchiveOrderDTO) =>
-  api.patch('/archive/order', { data });
+  api.patch('/archive/order', { orderRequest: data });
