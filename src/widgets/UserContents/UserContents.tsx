@@ -5,7 +5,7 @@ import { ContentsTab } from './ContentsTab';
 import { useUserTab } from './hook/useUserTab';
 
 import type { ArchiveCardDTO, Color } from '@/features';
-import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
+import type { GatheringItem } from '@/features/gathering/model/dto/gathering.dto';
 import { PieChart } from '@/shared/ui/Chart/PieChart';
 
 //더미 데이터
@@ -67,10 +67,10 @@ const ArchiveContent = () => (
   </div>
 );
 
-const dummyGatherings: GatheringItemDto<'프로젝트'>[] = Array.from({ length: 9 }, (_, i) => ({
-  gatheringId: i.toString(),
+const dummyGatherings: GatheringItem[] = Array.from({ length: 9 }, (_, i) => ({
+  gatheringId: i,
   title: `Sample Gathering ${i + 1}`,
-  userId: `user_${i}`,
+  userId: i,
   username: '홍길동',
   sort: '프로젝트',
   subject: '개발', // ProjectSubjectType만 허용
@@ -81,6 +81,7 @@ const dummyGatherings: GatheringItemDto<'프로젝트'>[] = Array.from({ length:
   period: '3개월',
   personnel: '3',
 }));
+
 const GatheringContent = () => <GatheringGrid items={dummyGatherings} />;
 
 const ContentComponents = {
