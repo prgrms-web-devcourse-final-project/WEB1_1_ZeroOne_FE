@@ -23,7 +23,7 @@ interface ContentLayoutProps {
 }
 
 export const ContentLayout = ({ activeTab }: ContentLayoutProps) => {
-  const { userData } = useAuthPage();
+  const { userData } = useAuthPage({});
   const ContentComponent = userData
     ? renderContentComponent(activeTab.path, userData.userId)
     : null;

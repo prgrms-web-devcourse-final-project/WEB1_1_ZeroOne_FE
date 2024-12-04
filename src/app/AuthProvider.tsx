@@ -11,7 +11,7 @@ import { customConfirm } from '@/shared/ui';
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const accessToken = getLocalAccessToken();
-  const { setUserData, clearUserData } = useUserStore(state => state.actions);
+  const { setUserData, clearUserData, done } = useUserStore(state => state.actions);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -33,9 +33,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
             });
           }
 
+          done();
           return userData;
         }
         clearUserData();
+        done();
       } catch (error) {
         console.error('유저 데이터를 불러오는 중 오류가 발생했습니다.', error);
       }
