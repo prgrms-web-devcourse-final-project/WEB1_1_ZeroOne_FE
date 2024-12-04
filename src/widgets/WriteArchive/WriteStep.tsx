@@ -18,6 +18,7 @@ export const WriteStep = ({
   isEdit?: boolean;
 }) => {
   const navigate = useNavigate();
+  const [isComposing, setIsComposing] = useState(false);
 
   const { archiveData, archiveId, resetArchiveData, setArchiveId, updateArchiveData } =
     useArchiveStore();
@@ -125,7 +126,14 @@ export const WriteStep = ({
             onChange={e => {
               setTag(e.target.value);
             }}
+            onCompositionEnd={() => {
+              setIsComposing(false);
+            }}
+            onCompositionStart={() => {
+              setIsComposing(true);
+            }}
             onKeyDown={e => {
+              if (isComposing) return;
               if (e.key === 'Enter') handleTagAddition();
             }}
             placeholder='태그'
