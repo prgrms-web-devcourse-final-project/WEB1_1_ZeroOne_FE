@@ -36,7 +36,7 @@ export const WriteGatheringPage = () => {
     <FormProvider {...methods}>
       <div className={styles.container}>
         <h1 className={styles.h1}>게더링 작성</h1>
-        <form className={styles.form} onSubmit={methods.handleSubmit(onSubmit)}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
           <section className={styles.section}>
             <h2 className={styles.h2}>1. 게더링 기본 정보를 등록해주세요.</h2>
             <WriteGatheringOpts control={methods.control} />
