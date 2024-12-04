@@ -12,7 +12,7 @@ import styles from './DetailHeader.module.scss';
 
 import type { Archive } from '@/features';
 import { ColorMap, useArchiveStore, useDeleteArchive } from '@/features';
-import { Button, Tag } from '@/shared/ui';
+import { Button, customToast, Tag } from '@/shared/ui';
 import { findCategoryName } from '@/shared/util';
 
 export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archiveId: number }) => {
@@ -77,6 +77,11 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
                     {
                       onSuccess: () => {
                         navigate(-1);
+                        customToast({
+                          text: '아카이브가 삭제되었습니다',
+                          timer: 3000,
+                          icon: 'success',
+                        }).catch(console.error);
                       },
                     },
                   );

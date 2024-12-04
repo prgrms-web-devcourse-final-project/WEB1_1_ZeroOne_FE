@@ -34,9 +34,6 @@ import { customToast } from '@/shared/ui';
 export const useCreateArchive = () =>
   useMutation({
     mutationFn: (data: BaseArchiveDTO) => postCreateArchive(data),
-    onSuccess: async () => {
-      await customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
-    },
     onError: async (err: AxiosError<{ status: number; reason: string; timeStamp: string }>) => {
       const message = err.response?.data?.reason || '아카이브 작성에 실패하였습니다.';
       await customToast({ text: message, timer: 3000, icon: 'error' });
@@ -46,9 +43,6 @@ export const useCreateArchive = () =>
 export const useUpdateArchive = (archiveId: number) =>
   useMutation({
     mutationFn: (data: BaseArchiveDTO) => putArchive(archiveId, data),
-    onSuccess: async () => {
-      await customToast({ text: '아카이브가 수정되었습니다', timer: 3000, icon: 'success' });
-    },
     onError: async () => {
       await customToast({ text: '아카이브 수정에 실패하였습니다', timer: 3000, icon: 'error' });
     },
@@ -57,9 +51,6 @@ export const useUpdateArchive = (archiveId: number) =>
 export const useDeleteArchive = () =>
   useMutation({
     mutationFn: ({ archiveId }: { archiveId: number }) => deleteArchive(archiveId),
-    onSuccess: async () => {
-      await customToast({ text: '아카이브가 삭제되었습니다', timer: 3000, icon: 'success' });
-    },
     onError: async () => {
       await customToast({ text: '아카이브 삭제에 실패하였습니다', timer: 3000, icon: 'error' });
     },

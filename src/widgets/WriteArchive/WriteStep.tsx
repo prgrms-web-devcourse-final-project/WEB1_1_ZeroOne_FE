@@ -7,7 +7,7 @@ import styles from './WriteStep.module.scss';
 
 import type { Color, PostArchiveApiResponse } from '@/features';
 import { ColorMap, useArchiveStore, useCreateArchive, useUpdateArchive } from '@/features';
-import { Button, MarkdownEditor, ScrollToTop, Switch, Tag } from '@/shared/ui';
+import { Button, customToast, MarkdownEditor, ScrollToTop, Switch, Tag } from '@/shared/ui';
 
 export const WriteStep = ({
   onClick,
@@ -44,6 +44,9 @@ export const WriteStep = ({
         resetArchiveData();
         navigate(`/archive/${archiveId}`);
         setArchiveId(0);
+        customToast({ text: '아카이브가 수정되었어요!', timer: 3000, icon: 'success' }).catch(
+          console.error,
+        );
       },
     });
   };
@@ -53,6 +56,9 @@ export const WriteStep = ({
       onSuccess: (data: PostArchiveApiResponse) => {
         resetArchiveData();
         navigate(`/archive/${data.data?.archiveId}`);
+        customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' }).catch(
+          console.error,
+        );
       },
     });
   };
