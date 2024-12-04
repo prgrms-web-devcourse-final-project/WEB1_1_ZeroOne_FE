@@ -1,16 +1,27 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/shallow';
 
 import { customConfirm } from '../ui';
 
 import { useUserStore } from '@/features/user/model/user.store';
 
-export const useAuthPage = () => {
-  const userData = useUserStore(state => state.userData);
+interface useAuthPageProps {
+  onAccessDenied?: () => void;
+}
+
+export const useAuthPage = ({ onAccessDenied }: useAuthPageProps) => {
+  const { userData, loading } = useUserStore(
+    useShallow(state => ({ userData: state.userData, loading: state.loading })),
+  );
+
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (!userData) {
-      void customConfirm({
+    if (loading) return;
+
+    const defaultDeniedHandler = async () => {
+      await customConfirm({
         title: '잘못된 접근',
         text: '유저 정보를 확인할 수 없습니다.\n로그인하고 다시 시도해주세요.',
         icon: 'warning',
@@ -21,8 +32,16 @@ export const useAuthPage = () => {
           return;
         }
       });
+    };
+
+    if (!userData) {
+      if (onAccessDenied) {
+        onAccessDenied();
+      } else {
+        void defaultDeniedHandler();
+      }
     }
-  }, []);
+  }, [onAccessDenied, navigate, userData, loading]);
 
   return { userData };
 };
