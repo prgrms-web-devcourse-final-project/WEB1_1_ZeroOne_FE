@@ -16,7 +16,7 @@ interface UserState {
 
 interface UserActions {
   actions: {
-    setUserData: (data: UserDataState) => void;
+    setUserData: (data: UserDataState | null) => void;
     updateUserData: (updatedData: Partial<UserDataState>) => void;
     clearUserData: () => void;
   };

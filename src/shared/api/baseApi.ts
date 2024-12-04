@@ -40,7 +40,7 @@ api.interceptors.response.use(
     console.log('에러 ㅣ ', error.response);
     if (error.response?.status === 401) {
       if (isRefreshing) {
-        return;
+        return Promise.reject(error instanceof Error ? error : new Error('Unknown Error'));
       }
 
       isRefreshing = true;
@@ -50,11 +50,11 @@ api.interceptors.response.use(
         const accessToken = getLocalAccessToken();
 
         if (accessToken && error.config) {
-          error.config.headers.Authorization = `Bearer ${accessToken}`;
+          error.config.headers.Authorization = `${accessToken}`;
           return api.request(error.config as AxiosRequestConfig);
         }
       } catch (reissueError) {
-        interceptorEvents['logout']();
+        interceptorEvents['logout']('토큰이 만료되었습니다.');
         console.error('토큰 재발급 실패:', reissueError);
       } finally {
         // eslint-disable-next-line require-atomic-updates

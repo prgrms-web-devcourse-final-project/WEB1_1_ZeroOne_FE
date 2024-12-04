@@ -29,7 +29,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     void getUserData();
-  }, [accessToken, setUserData, clearUserData]);
+  }, []);
 
   //인터셉터 함수 등록 effects
   useEffect(() => {
@@ -49,10 +49,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    setInterceptorEvents('logout', () => {
-      void logout('토큰이 유효하지 않습니다.');
+    setInterceptorEvents('logout', (text: string) => {
+      void logout(text);
     });
-  }, [clearUserData]);
+  }, []);
 
   return <>{children}</>;
 };
