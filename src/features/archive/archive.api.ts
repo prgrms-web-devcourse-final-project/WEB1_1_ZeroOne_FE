@@ -1,4 +1,4 @@
-import type { PostCommentApiResponse } from './archive.dto';
+import type { PatchArchiveOrderDTO, PostCommentApiResponse } from './archive.dto';
 import type { GetArchiveApiResponse, GetCommentsApiResponse } from './archive.dto';
 import type {
   PostArchiveApiResponse,
@@ -35,6 +35,11 @@ export const postCreateComment = (archiveId: number, content: string) =>
 
 export const deleteComment = (commentId: number) =>
   api.delete<PostCommentApiResponse>(`/archive/comment/${commentId}`).then(res => res.data);
+
+export const putComment = (commentId: number, content: string) =>
+  api
+    .put<PostCommentApiResponse>(`/archive/comment/${commentId}`, { content })
+    .then(res => res.data);
 
 export const getPopularlityArchiveList = (size: number) =>
   api
@@ -75,3 +80,9 @@ export const postLikeArchive = (archiveId: number) => api.post(`/archive/${archi
 
 export const getLikeArchiveList = () =>
   api.get<GetArchiveListApiResponse>('/archive/me/like').then(res => res.data);
+
+export const getMyArchiveList = () =>
+  api.get<GetArchiveListApiResponse>('/archive/me').then(res => res.data);
+
+export const patchArchiveOrder = (data: PatchArchiveOrderDTO) =>
+  api.patch('/archive/order', { data });

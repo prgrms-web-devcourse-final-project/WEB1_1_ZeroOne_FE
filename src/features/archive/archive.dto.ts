@@ -29,7 +29,7 @@ export interface ArchiveCardDTO {
   type: Color;
   likeCount: number;
   username: string;
-  thumbnail: string;
+  imageUrl: string;
   createDate: string;
   isLiked: boolean;
 }
@@ -48,6 +48,10 @@ export interface PostCommentResponseDTO {
 
 export interface PostArchiveResponseDTO {
   archiveId: number;
+}
+
+export interface PatchArchiveOrderDTO {
+  orderRequest: { archiveId: number; order: number }[];
 }
 
 export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;

@@ -51,8 +51,8 @@ const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   username: '홍길동',
   likeCount: Math.floor(Math.random() * 100),
   isLiked: Math.random() > 0.5,
-  thumbnail: 'https://picsum.photos/300/200',
-  createDate: new Date(),
+  imageUrl: 'https://picsum.photos/300/200',
+  createDate: '2024-12-03',
 }));
 
 const ArchiveContent = () => (

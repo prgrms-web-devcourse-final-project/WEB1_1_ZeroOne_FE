@@ -13,8 +13,8 @@ export const ArchiveCard = ({ archive }: { archive: ArchiveCardDTO }) => {
       <article className={styles.card}>
         <img
           alt='archive-thumbnail'
-          className={archive.thumbnail ? styles.thumbnail : styles.noThumbnail}
-          src={archive.thumbnail || ColorChipLogo}
+          className={archive.imageUrl ? styles.thumbnail : styles.noThumbnail}
+          src={archive.imageUrl || ColorChipLogo}
         />
         {<div className={cn(styles.color, styles[archive.type])} />}
         <div className={styles.contents}>

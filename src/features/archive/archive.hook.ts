@@ -13,6 +13,9 @@ import {
   postLikeArchive,
   getLikeArchiveList,
   getSearchArchive,
+  putComment,
+  getMyArchiveList,
+  patchArchiveOrder,
 } from './archive.api';
 import type {
   BaseArchiveDTO,
@@ -20,6 +23,7 @@ import type {
   GetCommentsApiResponse,
   GetArchiveListApiResponse,
   ArchiveCardDTO,
+  PatchArchiveOrderDTO,
 } from './archive.dto';
 import type { Color } from './colors.type';
 
@@ -88,6 +92,47 @@ export const useCreateComment = (archiveId: number) => {
           if (!old.data) return old;
 
           return [...old.data, optimisticComment];
+        },
+      );
+
+      return { previousComments };
+    },
+    onError: (err, _, context) => {
+      console.log(err);
+      if (context) {
+        queryClient.setQueryData(['/archive', archiveId, 'comment'], context.previousComments);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['/archive', archiveId, 'comment'] }).catch(err => {
+        console.error('Failed to invalidate queries:', err);
+      });
+    },
+  });
+};
+
+export const useUpdateComment = (archiveId: number, commentId: number, content: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ content }: { content: string; username: string; userProfile: string }) =>
+      putComment(archiveId, content),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['/archive', archiveId, 'comment'] });
+
+      const previousComments = queryClient.getQueryData(['/archive', archiveId, 'comment']);
+
+      queryClient.setQueryData(
+        ['/archive', archiveId, 'comment'],
+        (old: GetCommentsApiResponse) => {
+          if (!old.data) return old;
+
+          return {
+            ...old,
+            data: old.data.map(comment =>
+              comment.commentId === commentId ? { ...comment, content: content } : comment,
+            ),
+          };
         },
       );
 
@@ -216,6 +261,28 @@ export const useLikeArchive = (archiveId: number) => {
         .catch(err => {
           console.error('Failed to invalidate queries:', err);
         });
+    },
+  });
+};
+
+export const useMyArchiveList = () =>
+  useQuery({
+    queryKey: ['/archive/me'],
+    queryFn: getMyArchiveList,
+  });
+
+export const useUpdateArchiveOrder = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: PatchArchiveOrderDTO) => patchArchiveOrder(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/archive/me'] }).catch(error => {
+        console.error('Error invalidating queries:', error);
+      });
+    },
+    onError: error => {
+      console.error('Error updating post:', error);
     },
   });
 };
