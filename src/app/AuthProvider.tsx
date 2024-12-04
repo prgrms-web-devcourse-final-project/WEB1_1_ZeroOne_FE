@@ -20,6 +20,19 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           const userData = await getMyProfile().then(res => res.data);
           if (!userData) throw new Error('유저 정보를 찾을 수가 없습니다.');
           setUserData(userData);
+
+          if (userData.role === 'REAL_NEWBIE') {
+            await customConfirm({
+              title: '유저 등록',
+              text: '아직 등록된 유저 프로필이 없습니다!\n프로필을 등록해주세요.',
+              icon: 'info',
+            }).then(result => {
+              if (result.isConfirmed) {
+                navigate('/register');
+              }
+            });
+          }
+
           return userData;
         }
         clearUserData();
