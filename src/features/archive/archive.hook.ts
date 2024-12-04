@@ -28,20 +28,39 @@ import type {
 import type { Color } from './colors.type';
 
 import { useCustomInfiniteQuery } from '@/shared/hook';
+import { customToast } from '@/shared/ui';
 
 export const useCreateArchive = () =>
   useMutation({
     mutationFn: (data: BaseArchiveDTO) => postCreateArchive(data),
+    onSuccess: async () => {
+      await customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
+    },
+    onError: async () => {
+      await customToast({ text: '아카이브 작성에 실패하였습니다.', timer: 3000, icon: 'error' });
+    },
   });
 
 export const useUpdateArchive = (archiveId: number) =>
   useMutation({
     mutationFn: (data: BaseArchiveDTO) => putArchive(archiveId, data),
+    onSuccess: async () => {
+      await customToast({ text: '아카이브가 수정되었습니다', timer: 3000, icon: 'success' });
+    },
+    onError: async () => {
+      await customToast({ text: '아카이브 수정에 실패하였습니다', timer: 3000, icon: 'error' });
+    },
   });
 
 export const useDeleteArchive = () =>
   useMutation({
     mutationFn: ({ archiveId }: { archiveId: number }) => deleteArchive(archiveId),
+    onSuccess: async () => {
+      await customToast({ text: '아카이브가 삭제되었습니다', timer: 3000, icon: 'success' });
+    },
+    onError: async () => {
+      await customToast({ text: '아카이브 삭제에 실패하였습니다', timer: 3000, icon: 'error' });
+    },
   });
 
 export const useArchive = (archiveId: number) =>
@@ -97,8 +116,11 @@ export const useCreateComment = (archiveId: number) => {
 
       return { previousComments };
     },
-    onError: (err, _, context) => {
-      console.log(err);
+    onSuccess: async () => {
+      await customToast({ text: '댓글이 작성되었습니다.', timer: 3000, icon: 'success' });
+    },
+    onError: async (err, _, context) => {
+      await customToast({ text: '댓글 작성에 실패하였습니다', timer: 3000, icon: 'error' });
       if (context) {
         queryClient.setQueryData(['/archive', archiveId, 'comment'], context.previousComments);
       }
@@ -138,8 +160,11 @@ export const useUpdateComment = (archiveId: number, commentId: number, content: 
 
       return { previousComments };
     },
-    onError: (err, _, context) => {
-      console.log(err);
+    onSuccess: async () => {
+      await customToast({ text: '댓글이 수정되었습니다', timer: 3000, icon: 'success' });
+    },
+    onError: async (err, _, context) => {
+      await customToast({ text: '댓글 수정에 실패하였습니다', timer: 3000, icon: 'error' });
       if (context) {
         queryClient.setQueryData(['/archive', archiveId, 'comment'], context.previousComments);
       }
@@ -174,8 +199,11 @@ export const useDeleteComment = (archiveId: number) => {
 
       return { previousComments };
     },
-    onError: (err, _, context) => {
-      console.log(err);
+    onSuccess: async () => {
+      await customToast({ text: '댓글이 삭제되었습니다', timer: 3000, icon: 'success' });
+    },
+    onError: async (err, _, context) => {
+      await customToast({ text: '댓글 삭제에 실패하였습니다', timer: 3000, icon: 'error' });
       if (context) {
         queryClient.setQueryData(['/archive', archiveId, 'comment'], context.previousComments);
       }
@@ -276,13 +304,19 @@ export const useUpdateArchiveOrder = () => {
 
   return useMutation({
     mutationFn: (data: PatchArchiveOrderDTO) => patchArchiveOrder(data),
-    onSuccess: () => {
+    onSuccess: async () => {
+      await customToast({ text: '아카이브 순서가 변경되었습니다', timer: 3000, icon: 'success' });
+
       queryClient.invalidateQueries({ queryKey: ['/archive/me'] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
     },
-    onError: error => {
-      console.error('Error updating post:', error);
+    onError: async () => {
+      await customToast({
+        text: '아카이브 순서 변경에 실패하였습니다',
+        timer: 3000,
+        icon: 'error',
+      });
     },
   });
 };

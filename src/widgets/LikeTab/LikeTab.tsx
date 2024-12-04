@@ -3,8 +3,9 @@ import { ArchiveGrid } from '../ArchiveGrid';
 import { GatheringGrid } from '../GatheringGrid';
 import { PortFolioGrid } from '../PortfolioGrid/PortFolioGrid';
 
-import type { ArchiveCardDTO, Color } from '@/features';
+import { useLikeArchiveList, type ArchiveCardDTO, type Color } from '@/features';
 import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
+import { Loader } from '@/shared/ui';
 
 const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
   archiveId: i,
@@ -33,16 +34,6 @@ const dummyGatherings: GatheringItemDto[] = Array.from({ length: 9 }, (_, i) => 
   tags: ['tag1', 'tag2'],
 }));
 
-const renderingLikeTap = (activeTab: string) => {
-  if (activeTab === '포트폴리오') {
-    return <PortFolioGrid />;
-  } else if (activeTab === '아카이브') {
-    return <ArchiveGrid archives={dummyArchives} />;
-  } else if (activeTab === '게더링') {
-    return <GatheringGrid items={dummyGatherings} />;
-  }
-};
-
 export const LikeTab = ({
   activeTab,
   setActiveTab,
@@ -51,6 +42,21 @@ export const LikeTab = ({
   setActiveTab: (t: string) => void;
 }) => {
   const tabs = ['포트폴리오', '아카이브', '게더링'];
+
+  const { data: likeArchives, isLoading: isArchiveLoading } = useLikeArchiveList();
+
+  const renderingLikeTap = (activeTab: string) => {
+    if (activeTab === '포트폴리오') {
+      return <PortFolioGrid />;
+    } else if (activeTab === '아카이브') {
+      if (!likeArchives?.data || isArchiveLoading) {
+        return <Loader />;
+      }
+      return <ArchiveGrid archives={likeArchives?.data?.archives} />;
+    } else if (activeTab === '게더링') {
+      return <GatheringGrid items={dummyGatherings} />;
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
