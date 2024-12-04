@@ -9,7 +9,7 @@ import type { ActionMeta, MultiValue, SingleValue } from 'react-select';
 //styles
 import styles from './FormInputs.module.scss';
 //types
-import type { FormValues, InputFieldProps, Option } from '../form.types';
+import type { InputFieldProps, Option } from '../form.types';
 
 //components
 import { Input, Radio, TextArea } from '@/shared/ui';
@@ -167,7 +167,7 @@ export const RenderInput = ({
   type,
   ...restProps
 }: Omit<InputFieldProps, 'name'> & {
-  field: ControllerRenderProps<FormValues>;
+  field: ControllerRenderProps;
 }) => {
   switch (type) {
     case 'radio':
@@ -200,7 +200,6 @@ export const RenderInput = ({
       );
     case 'image':
       return <ImageInput />;
-    case 'array':
     default:
       return (
         <DefaultInput

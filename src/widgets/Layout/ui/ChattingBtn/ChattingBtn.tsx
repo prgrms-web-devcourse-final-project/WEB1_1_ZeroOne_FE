@@ -9,9 +9,12 @@ interface ChattingBtnProps {
 
 export const ChattingBtn = ({ hasNotification = true }: ChattingBtnProps) => {
   const open = useModalStore(state => state.actions.open);
+  const close = useModalStore(state => state.actions.close);
+  const isOpen = useModalStore(state => state.isOpen);
+
   const onOpenModal = () => {
-    console.log('openChattingModal');
-    open('chatting');
+    if (!isOpen) open('chatting');
+    else close();
   };
   return (
     <div className={styles.wrapper}>

@@ -1,3 +1,11 @@
+.userContentSection {
+  flex: 1;
+
+  @media (width <= 768px) {
+    transform: translateY(-8rem);
+  }
+}
+
 .sectionContents {
   width: 100%;
 }
@@ -24,13 +32,17 @@
   & > h2 {
     font-size: 1.5rem;
     font-weight: 600;
+
+    @media (width <= 768px) {
+      font-size: 1.2rem;
+    }
   }
 
   & > div {
     width: 50%;
-  }
-}
 
-.userContentSection {
-  flex: 1;
+    @media (width <= 768px) {
+      width: 100%;
+    }
+  }
 }

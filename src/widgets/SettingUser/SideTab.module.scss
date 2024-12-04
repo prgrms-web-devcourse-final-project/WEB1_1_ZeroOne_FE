@@ -1,0 +1,36 @@
+.tabListWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: center;
+  font-weight: 500;
+
+  & > li:first-of-type {
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    & .divider {
+      padding-top: 1rem;
+    }
+  }
+
+  .tabItemWrapper {
+    & a {
+      display: inline-block;
+      padding: 0.75rem 0;
+      color: $third-color;
+      border-radius: 0.5rem;
+      transition: 0.2s;
+
+      &:hover {
+        font-size: 1.125rem;
+      }
+    }
+
+    &.active a {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: $primary-color;
+    }
+  }
+}

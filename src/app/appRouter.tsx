@@ -9,6 +9,7 @@ import {
   PortfolioListPage,
   RegisterPage,
   SearchPage,
+  MyPage,
   UserPage,
   WriteArchivePage,
   WriteGatheringPage,
@@ -64,6 +65,10 @@ const AppRouter = () => {
         {
           path: '/register',
           element: <RegisterPage />,
+        },
+        {
+          path: '/my/*',
+          element: <MyPage />,
         },
         {
           path: '/like',

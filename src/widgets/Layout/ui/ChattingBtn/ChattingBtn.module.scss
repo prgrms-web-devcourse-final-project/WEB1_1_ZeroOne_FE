@@ -14,7 +14,7 @@
   position: fixed;
   right: 2rem;
   bottom: 2rem;
-  z-index: 100;
+  z-index: 2000;
 
   @include mobile {
     right: 1rem;

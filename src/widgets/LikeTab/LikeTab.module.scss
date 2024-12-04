@@ -4,6 +4,10 @@
   flex-direction: column;
   gap: 2rem;
   width: 100%;
+
+  @media (width <= 768px) {
+    gap: 1.5rem;
+  }
 }
 
 .tabList {

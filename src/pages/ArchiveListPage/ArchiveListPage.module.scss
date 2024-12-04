@@ -5,6 +5,11 @@
   align-items: center;
   width: 100%;
   padding: 4rem 8rem;
+
+  @media (width <= 768px) {
+    gap: 2rem;
+    padding: 2rem;
+  }
 }
 
 .selectWrapper {
@@ -13,6 +18,10 @@
   gap: 2rem;
   align-items: center;
   width: 100%;
+
+  @media (width <= 768px) {
+    gap: 1rem;
+  }
 
   h2 {
     font-size: 1.5rem;

@@ -2,24 +2,25 @@
 @import 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css';
 
 // Sweetalert2 폰트 & 스타일링
+/* stylelint-disable selector-class-pattern */
 .swal2-popup {
+  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
   background-color: variables.$secondary-color !important;
   border-radius: 1rem !important;
-  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
 }
 
 .swal2-title,
 .swal2-content,
 .swal2-html-container {
-  color: variables.$primary-color !important;
   font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+  color: variables.$primary-color !important;
 }
 
 .swal2-confirm {
-  background-color: variables.$deep-black !important;
-  color: variables.$secondary-color !important;
-  border-radius: 0.5rem !important;
   font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+  color: variables.$secondary-color !important;
+  background-color: variables.$deep-black !important;
+  border-radius: 0.5rem !important;
 
   &:focus {
     box-shadow: 0 0 0 3px rgba(variables.$deep-black, 0.3) !important;
@@ -27,10 +28,10 @@
 }
 
 .swal2-cancel {
-  background-color: variables.$third-color !important;
-  color: variables.$secondary-color !important;
-  border-radius: 0.5rem !important;
   font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
+  color: variables.$secondary-color !important;
+  background-color: variables.$third-color !important;
+  border-radius: 0.5rem !important;
 
   &:focus {
     box-shadow: 0 0 0 3px rgba(variables.$third-color, 0.3) !important;
@@ -43,23 +44,23 @@
   border-color: rgba(variables.$primary-color, 0.2) !important;
 
   &:focus {
-    box-shadow: 0 0 0 3px rgba(variables.$deep-black, 0.1) !important;
     border-color: rgba(variables.$deep-black, 0.4) !important;
+    box-shadow: 0 0 0 3px rgba(variables.$deep-black, 0.1) !important;
   }
 }
 
 // 토스트 메시지 스타일링
 .swal2-toast {
+  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
   background-color: rgba(variables.$secondary-color, 0.95) !important;
   box-shadow: 0 0 1rem rgba(variables.$primary-color, 0.1) !important;
-  font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
 }
 
 // 아이콘 색상 커스텀
 .swal2-icon {
   &.swal2-success {
-    border-color: variables.$green !important;
     color: variables.$green !important;
+    border-color: variables.$green !important;
 
     .swal2-success-line-tip,
     .swal2-success-line-long {
@@ -72,8 +73,8 @@
   }
 
   &.swal2-error {
-    border-color: variables.$red !important;
     color: variables.$red !important;
+    border-color: variables.$red !important;
 
     .swal2-x-mark-line-left,
     .swal2-x-mark-line-right {
@@ -82,18 +83,18 @@
   }
 
   &.swal2-warning {
-    border-color: variables.$yellow !important;
     color: variables.$yellow !important;
+    border-color: variables.$yellow !important;
   }
 
   &.swal2-info {
-    border-color: variables.$blue !important;
     color: variables.$blue !important;
+    border-color: variables.$blue !important;
   }
 
   &.swal2-question {
-    border-color: variables.$purple !important;
     color: variables.$purple !important;
+    border-color: variables.$purple !important;
   }
 }
 
@@ -268,6 +269,10 @@ input:focus {
   outline: none;
 }
 
+textarea {
+  font: inherit;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -310,4 +315,13 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
   gap: 1.5625rem;
+}
+
+#modal {
+  z-index: 9999;
+}
+
+body.modal-open {
+  height: 100svh;
+  overflow: hidden;
 }

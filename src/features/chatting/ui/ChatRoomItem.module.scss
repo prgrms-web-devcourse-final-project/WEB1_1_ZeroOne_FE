@@ -1,0 +1,52 @@
+.chatRoom {
+  display: flex;
+  padding: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 5%);
+  }
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  margin-right: 1rem;
+  overflow: hidden;
+  border-radius: 50%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.chatInfo {
+  flex: 1;
+}
+
+.chatHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+
+  .name {
+    font-weight: 500;
+    color: white;
+  }
+
+  .time {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 60%);
+  }
+}
+
+.lastMessage {
+  margin: 0;
+  overflow: hidden;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 80%);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -13,3 +13,4 @@ export { Switch } from './Switch/Switch';
 export { Tag } from './Tag/Tag';
 export { TextArea } from './TextArea/TextArea';
 export { TripleDot } from './TripleDot/TripleDot';
+export { ScrollToTop } from './ScrollToTop/ScrollToTop';

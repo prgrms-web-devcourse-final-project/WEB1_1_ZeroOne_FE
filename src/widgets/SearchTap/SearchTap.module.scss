@@ -12,6 +12,10 @@
   width: 100%;
   padding: 1.12rem 1.36rem;
 
+  @media (width <= 768px) {
+    justify-content: center;
+  }
+
   li {
     position: relative;
     padding: 0.8rem;

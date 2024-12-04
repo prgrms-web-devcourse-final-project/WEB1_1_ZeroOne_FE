@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import { ContactBtn } from './ContactBtn';
 import styles from './PortfolioCard.module.scss';
 
 import profileImg from '@/shared/assets/paletteLogo.svg';
@@ -33,7 +34,7 @@ export const PortfolioCard = ({
               src={memberImageUrl || profileImg} // 이미지가 없을 경우 기본 이미지 사용
             />
           </Link>
-          <button className={styles.contactBtn}>연락하기</button>
+          <ContactBtn userName = {username}/>
         </div>
         <div className={styles.cardFooter}>
           <div className={styles.firstInfo}>

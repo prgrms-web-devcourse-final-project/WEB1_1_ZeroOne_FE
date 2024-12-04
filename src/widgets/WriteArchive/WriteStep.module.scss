@@ -10,6 +10,10 @@
     font-weight: 700;
     line-height: normal;
     color: $primary-color;
+
+    @media (width <= 768px) {
+      font-size: 1rem;
+    }
   }
 
   .inputBox {
@@ -21,6 +25,10 @@
     padding: 1rem;
     background: #ededed;
     border-radius: 8px;
+
+    @media (width <= 768px) {
+      padding: 0.5rem;
+    }
   }
 
   input {
@@ -30,6 +38,10 @@
     font-weight: 400;
     line-height: normal;
     color: $primary-color;
+
+    @media (width <= 768px) {
+      font-size: 0.875rem;
+    }
   }
 }
 
@@ -37,7 +49,6 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
-  padding: 1.1875rem 0;
 
   .color {
     width: 1.25rem;
@@ -53,6 +64,10 @@
     color: $primary-color;
     text-align: center;
     letter-spacing: -0.04rem;
+
+    @media (width <= 768px) {
+      font-size: 0.875rem;
+    }
   }
 }
 

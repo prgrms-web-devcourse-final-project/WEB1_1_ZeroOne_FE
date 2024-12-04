@@ -4,7 +4,6 @@ import styles from './SearchTap.module.scss';
 import { SearchAll } from '../SearchAll/SearchAll';
 
 import type { ArchiveCardDTO, Color } from '@/features';
-// import type { GatheringCardProps } from '@/features/gathering/ui/GatheringCard/GatheringCard';
 import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
 
 const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({

@@ -4,6 +4,10 @@
   justify-content: center;
   width: 100%;
   padding: 2rem;
+
+  @media (width <= 768px) {
+    padding: 2rem 0;
+  }
 }
 
 .color {
