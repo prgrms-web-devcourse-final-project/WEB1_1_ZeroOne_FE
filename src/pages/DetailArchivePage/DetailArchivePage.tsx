@@ -1,24 +1,23 @@
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import styles from './DetailArchivePage.module.scss';
 
 import { MarkdownPreview, WriteComment, CommentItem, useArchive, useComments } from '@/features';
-import { TripleDot } from '@/shared/ui';
+import { Loader, TripleDot } from '@/shared/ui';
 import { DetailHeader } from '@/widgets';
 
 export const DetailArchivePage = () => {
   const { archiveId } = useParams();
 
-  const { data: archive, refetch: fetchArchive } = useArchive(Number(archiveId));
-  const { items, isFetchingNextPage, ref, fetchNextPage } = useComments(Number(archiveId));
+  const { data: archive, isLoading: isArchiveLoading } = useArchive(Number(archiveId));
+  const {
+    items,
+    isFetchingNextPage,
+    ref,
+    isLoading: isCommentsLoading,
+  } = useComments(Number(archiveId));
 
-  useEffect(() => {
-    if (archiveId) {
-      fetchArchive().catch(console.error);
-      fetchNextPage().catch(console.error);
-    }
-  }, [archiveId]);
+  if (isArchiveLoading || isCommentsLoading) return <Loader />;
 
   return (
     <div className={styles.wrapper}>

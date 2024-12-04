@@ -5,7 +5,7 @@ import styles from './ArchiveListPage.module.scss';
 
 import type { Color } from '@/features';
 import { ColorSelect, useArchiveList } from '@/features';
-import { Button, SelectBtn, TripleDot } from '@/shared/ui';
+import { Button, Loader, SelectBtn, TripleDot } from '@/shared/ui';
 import { ArchiveGrid } from '@/widgets';
 
 export const ArchiveListPage = () => {
@@ -13,11 +13,13 @@ export const ArchiveListPage = () => {
   const [sort, setSort] = useState({ label: '최신순', value: 'latest' });
   const [color, setColor] = useState<Color>('DEFAULT');
 
-  const { items: archives, isFetchingNextPage, ref } = useArchiveList(sort.value, color);
+  const { items: archives, isFetchingNextPage, ref, isLoading } = useArchiveList(sort.value, color);
 
   useEffect(() => {
     console.log(archives);
   }, [archives]);
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className={styles.wrapper}>

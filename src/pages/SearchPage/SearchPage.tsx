@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import styles from './SearchPage.module.scss';
 
 import { useSearchArchive } from '@/features';
-import { TripleDot } from '@/shared/ui';
+import { Loader, TripleDot } from '@/shared/ui';
 import { ArchiveGrid } from '@/widgets';
 
 export const SearchPage = () => {
@@ -13,7 +13,14 @@ export const SearchPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const searchText = searchParams.get('searchText');
 
-  const { items: archives, ref, isFetchingNextPage } = useSearchArchive(searchText ?? '');
+  const {
+    items: archives,
+    ref,
+    isFetchingNextPage,
+    isLoading,
+  } = useSearchArchive(searchText ?? '');
+
+  if (isLoading) return <Loader />;
 
   return (
     <div className={styles.wrapper}>
