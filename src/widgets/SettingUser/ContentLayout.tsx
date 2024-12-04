@@ -3,14 +3,16 @@ import { SetArchive } from './SetArchive';
 import { SetBadge } from './SetBadge';
 import { SetProfile } from './SetProfile';
 
-const renderContentComponent = (path: string) => {
+import { useAuthPage } from '@/shared/hook/useAuthPage';
+
+const renderContentComponent = (path: string, userId: number) => {
   if (path === '/my/badge') {
     return <SetBadge />;
   }
   if (path === '/my/archive') {
     return <SetArchive />;
   }
-  return <SetProfile />;
+  return <SetProfile userId={userId} />;
 };
 
 interface ContentLayoutProps {
@@ -21,7 +23,10 @@ interface ContentLayoutProps {
 }
 
 export const ContentLayout = ({ activeTab }: ContentLayoutProps) => {
-  const ContentComponent = renderContentComponent(activeTab.path);
+  const { userData } = useAuthPage();
+  const ContentComponent = userData
+    ? renderContentComponent(activeTab.path, userData.userId)
+    : null;
 
   return (
     <div className={styles.sectionWrapper}>
