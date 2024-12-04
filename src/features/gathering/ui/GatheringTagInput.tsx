@@ -62,6 +62,21 @@ export const GatheringTagInput = ({
         name={name}
         render={({ field: { onChange, value = [] }, fieldState: { error } }) => (
           <div>
+            <input
+              className={cn(styles.input, {
+                [styles.error]: error,
+              })}
+              disabled={value.length >= 3}
+              onChange={e => {
+                setInputValue(e.target.value);
+              }}
+              onKeyDown={e => {
+                handleKeyDown(e, onChange, value || []);
+              }}
+              placeholder={value.length >= 3 ? '태그는 최대 3개까지 입력 가능합니다' : placeholder}
+              type='text'
+              value={inputValue}
+            />
             <div className={styles.tagsContainer}>
               {Array.isArray(value) &&
                 value.map((tag: string) => (
@@ -80,21 +95,6 @@ export const GatheringTagInput = ({
                   </span>
                 ))}
             </div>
-            <input
-              className={cn(styles.input, {
-                [styles.error]: error,
-              })}
-              disabled={value.length >= 3}
-              onChange={e => {
-                setInputValue(e.target.value);
-              }}
-              onKeyDown={e => {
-                handleKeyDown(e, onChange, value || []);
-              }}
-              placeholder={value.length >= 3 ? '태그는 최대 3개까지 입력 가능합니다' : placeholder}
-              type='text'
-              value={inputValue}
-            />
             <div className={styles.bottom}>
               <p className={styles.hint}>{`태그 ${value.length}/3`}</p>
               {error && <p className={styles.errorMessage}>{error.message}</p>}
