@@ -1,83 +1,60 @@
-import axios from 'axios';
 import type { ReactNode } from 'react';
-import { createContext, useContext, useRef, useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import api from '@/shared/api/baseApi';
+import { getLocalAccessToken, removeLocalAccessToken } from '@/features/auth/auth.api';
+import { useUserStore } from '@/features/user/model/user.store';
+import { getMyProfile } from '@/features/user/user.api';
+import { setInterceptorEvents } from '@/shared/api/baseApi';
 import { customConfirm } from '@/shared/ui';
 
-interface AuthContextType {
-  accessToken: string | null;
-  setAccessToken: (token: string | null) => void;
-  reissueToken: () => Promise<void>;
-  logout: () => Promise<void>;
-  removeToken: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem('accessToken'),
-  );
-  const isRefreshing = useRef(false);
+  const navigate = useNavigate();
+  const accessToken = getLocalAccessToken();
+  const { setUserData, clearUserData } = useUserStore(state => state.actions);
 
-  const reissueToken = async () => {
-    if (isRefreshing.current) return;
-
-    isRefreshing.current = true;
-
-    try {
-      const response = await axios.post('/token/reissue', {}, { withCredentials: true });
-
-      const newAccessToken = (response.headers['authorization'] as string)?.split(' ')[1];
-
-      if (newAccessToken) {
-        setAccessToken(newAccessToken);
-        localStorage.setItem('accessToken', newAccessToken);
-      } else {
-        throw new Error('accessToken이 헤더에 포함되어 있지 않습니다.');
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        if (accessToken) {
+          const userData = await getMyProfile().then(res => res.data);
+          if (!userData) throw new Error('유저 정보를 찾을 수가 없습니다.');
+          setUserData(userData);
+          return userData;
+        }
+        clearUserData();
+      } catch (error) {
+        console.error('유저 데이터를 불러오는 중 오류가 발생했습니다.', error);
       }
-    } catch (error) {
-      console.error('토큰 재발급 실패:', error);
-      removeToken();
-    } finally {
-      // eslint-disable-next-line require-atomic-updates
-      isRefreshing.current = false;
-    }
-  };
+    };
 
-  const removeToken = () => {
-    setAccessToken(null);
-    localStorage.removeItem('accessToken');
-    customConfirm({ title: '로그인', text: '로그인 페이지로 이동합니다.', icon: 'info' });
-  };
+    void getUserData();
+  }, []);
 
-  const logout = async () => {
-    try {
-      await api.post('/user/logout');
+  //인터셉터 함수 등록 effects
+  useEffect(() => {
+    const logout = async (text: string) => {
+      try {
+        await customConfirm({
+          title: '로그아웃',
+          text,
+          icon: 'error',
+          showCancelButton: false,
+        });
+        removeLocalAccessToken();
+        clearUserData();
+        navigate('/');
+      } catch (error) {
+        console.error('로그아웃 실패:', error);
+      }
+    };
 
-      setAccessToken(null);
-      localStorage.removeItem('accessToken');
-    } catch (error) {
-      console.error('로그아웃 실패:', error);
-    }
-  };
+    setInterceptorEvents('logout', (text: string) => {
+      void logout(text);
+    });
+  }, []);
 
-  return (
-    <AuthContext.Provider
-      value={{ accessToken, setAccessToken, reissueToken, logout, removeToken }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('AuthProvider Error');
-  }
-  return context;
+  return <>{children}</>;
 };
 
 export default AuthProvider;

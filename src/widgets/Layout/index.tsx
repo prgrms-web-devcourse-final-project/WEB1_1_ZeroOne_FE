@@ -10,6 +10,7 @@ import { ChattingBtn } from './ui/ChattingBtn/ChattingBtn';
 import { Footer } from './ui/Footer/Footer';
 import { Header } from './ui/Header/Header';
 
+import AuthProvider from '@/app/AuthProvider';
 import { useArchiveStore } from '@/features';
 import { usePageLifecycle } from '@/shared/hook';
 
@@ -26,14 +27,14 @@ export const Layout = () => {
   });
 
   return (
-    <>
+    <AuthProvider>
       <Header />
       <main className={cn({ [styles.noPadding]: isNoPadHeader })}>
         <Outlet />
         <ChattingBtn />
       </main>
       <Footer />
-    </>
+    </AuthProvider>
   );
 };
 

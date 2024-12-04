@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 
+import { LoginLoading } from '@/features/auth/ui/LoginLoading';
 import {
   ArchiveListPage,
   DetailArchivePage,
@@ -72,6 +73,10 @@ const AppRouter = () => {
         {
           path: '/like',
           element: <LikeListPage />,
+        },
+        {
+          path: '/login',
+          element: <LoginLoading />,
         },
       ],
     },
