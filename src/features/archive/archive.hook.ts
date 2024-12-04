@@ -139,8 +139,7 @@ export const useUpdateComment = (archiveId: number, commentId: number, content: 
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ content }: { content: string; username: string; userProfile: string }) =>
-      putComment(archiveId, content),
+    mutationFn: ({ content }: { content: string }) => putComment(archiveId, content),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['/archive', archiveId, 'comment'] });
 

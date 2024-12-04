@@ -62,6 +62,7 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
       </div>
       <div className={styles.row}>
         <div className={styles.itemWrapper}>
+          <img alt='user profile' className={styles.profile} src={archive.userProfile} />
           <p>{archive.username}</p>
           <span>{findCategoryName(archive.job)}</span>
         </div>

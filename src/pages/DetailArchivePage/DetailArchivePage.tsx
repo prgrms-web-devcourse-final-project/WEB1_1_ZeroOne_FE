@@ -17,6 +17,14 @@ export const DetailArchivePage = () => {
     isLoading: isCommentsLoading,
   } = useComments(Number(archiveId));
 
+  // const dummyComments: Comment[] = Array.from({ length: 10 }, (_, i) => ({
+  //   commentId: i,
+  //   content: 'dummy',
+  //   username: 'dummy user',
+  //   isMine: true,
+  //   userProfile: 'dummy',
+  // }));
+
   if (isArchiveLoading || isCommentsLoading) return <Loader />;
 
   return (
