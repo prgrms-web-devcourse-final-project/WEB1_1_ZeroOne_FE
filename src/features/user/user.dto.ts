@@ -13,7 +13,6 @@ export interface UserDefaultInfo {
 
 export interface BaseUserDTO {
   name: string;
-  email: string;
   briefIntro: string;
   imageUrl: string;
   majorJobGroup: string;
@@ -28,11 +27,13 @@ export interface PostUserDTO extends BaseUserDTO {
 }
 
 export interface PutUserDTO extends BaseUserDTO {
+  email: string;
   portfolioLink: string;
   socials: string[];
 }
 
 export interface User extends BaseUserDTO {
+  email: string;
   socials: string[];
   role: UserRole;
   color: Color;
