@@ -17,12 +17,12 @@ type SelectBtnProps = {
   ) => void;
   className?: string;
   isMulti?: boolean;
-  isDisabled?: boolean; // Select 전체 비활성화
-  isSearchable?: boolean; // 검색 기능 활성화/비활성화
-  isClearable?: boolean; // clear 버튼 표시 여부
-  maxMenuHeight?: number; // 드롭다운 메뉴 최대 높이
-  menuPlacement?: 'auto' | 'bottom' | 'top'; // 메뉴 위치
-  noOptionsMessage?: string; // 옵션이 없을 때 메시지
+  isDisabled?: boolean;
+  isSearchable?: boolean;
+  isClearable?: boolean;
+  maxMenuHeight?: number;
+  menuPlacement?: 'auto' | 'bottom' | 'top';
+  noOptionsMessage?: string;
 };
 
 export const SelectBtn = ({
@@ -47,11 +47,7 @@ export const SelectBtn = ({
     newValue: MultiValue<Option> | SingleValue<Option>,
     actionMeta: ActionMeta<Option>,
   ) => {
-    if (isMulti) {
-      setSelectedValue(newValue as MultiValue<Option>);
-    } else {
-      setSelectedValue(newValue as SingleValue<Option>);
-    }
+    setSelectedValue(newValue);
     onChange?.(newValue, actionMeta);
   };
 

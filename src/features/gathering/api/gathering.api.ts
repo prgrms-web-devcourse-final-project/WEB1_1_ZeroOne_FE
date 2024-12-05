@@ -1,13 +1,9 @@
-import type { GatheringPageResponse } from '../model/dto/gathering.dto';
+import type { GatheringPageResponse, GatheringListParams } from '../model/dto/gathering.dto';
 import type {
-  // GetGatheringsParams,
-  // GatheringListResponse,
   GatheringDetailResponse,
   CreateGatheringRequest,
   CreateGatheringResponse,
-  GatheringListParams,
 } from '../model/dto/request.dto';
-//게더링 관련 모든 API 호출을 담당하는 파일
 
 import api from '@/shared/api/baseApi';
 
@@ -17,13 +13,16 @@ export const gatheringApi = {
     return data;
   },
 
-  getGatheringById: async (id: string): Promise<GatheringDetailResponse> => {
+  getGatheringDetail: async (id: string): Promise<GatheringDetailResponse> => {
     const { data } = await api.get<GatheringDetailResponse>(`/gathering/${id}`);
     return data;
   },
 
-  create: async (data: CreateGatheringRequest): Promise<CreateGatheringResponse> => {
-    const { data: response } = await api.post<CreateGatheringResponse>('/gathering', data);
-    return response;
+  create: async (requestData: CreateGatheringRequest): Promise<CreateGatheringResponse> => {
+    const { data } = await api.post<CreateGatheringResponse>('/gathering', {
+      ...requestData,
+      gatheringImages: [], // 빈 배열로 설정
+    });
+    return data;
   },
 };

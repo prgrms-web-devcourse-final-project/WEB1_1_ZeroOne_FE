@@ -14,7 +14,7 @@ export interface GatheringFilterOptions {
   sort: SelectOption[];
   period: SelectOption[];
   personnel: SelectOptNum[];
-  position: SelectOption[];
+  positions: SelectOption[];
   subject: {
     project: SelectOption[];
     study: SelectOption[];

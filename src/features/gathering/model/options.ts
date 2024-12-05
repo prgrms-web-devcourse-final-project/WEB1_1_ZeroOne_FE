@@ -30,7 +30,7 @@ export const gatheringFilterOptions: GatheringFilterOptions = {
     { value: 9, label: '9' },
     { value: 10, label: '10명 이상' },
   ],
-  position: [
+  positions: [
     { value: '개발자', label: '개발자' },
     { value: '디자이너', label: '디자이너' },
     { value: '기획자', label: '기획자' },

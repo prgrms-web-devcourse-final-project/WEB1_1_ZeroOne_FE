@@ -8,6 +8,8 @@ import type {
   GatheringPeriod,
   GatheringPosition,
   GatheringItem,
+  GatheringPersonnel,
+  GatheringContactType,
 } from '../../model/dto/gathering.dto';
 
 interface UseInfiniteGatheringIdProps {
@@ -15,8 +17,10 @@ interface UseInfiniteGatheringIdProps {
   sort?: GatheringSortType;
   subject?: string;
   period?: GatheringPeriod;
-  position?: GatheringPosition;
+  positions?: GatheringPosition[];
   status?: '모집중' | '모집완료' | '기간만료';
+  personnel?: GatheringPersonnel;
+  contact?: GatheringContactType;
 }
 
 export const useInfiniteGatheringId = ({
@@ -24,11 +28,13 @@ export const useInfiniteGatheringId = ({
   sort,
   subject,
   period,
-  position,
+  positions,
   status,
+  personnel,
+  contact,
 }: UseInfiniteGatheringIdProps = {}) => {
   const query = useInfiniteQuery({
-    queryKey: ['gatheringList', size, sort, subject, period, position, status],
+    queryKey: ['gatheringList'],
     queryFn: async ({ pageParam }) => {
       const params: GatheringListParams = {
         page: 0,
@@ -36,20 +42,24 @@ export const useInfiniteGatheringId = ({
         sort,
         subject,
         period,
-        position,
+        positions,
         status,
+        personnel,
+        contact,
+
         ...(pageParam ? { gatheringId: pageParam } : {}),
       };
+      console.log('API Request:', params);
 
       const response = await gatheringApi.getGatherings(params);
       console.log('API Response:', response);
       return response;
     },
     getNextPageParam: (lastPage: GatheringPageResponse) => {
-      console.log('Getting next page param:', {
-        hasNext: lastPage.data.hasNext,
-        nextLikeId: lastPage.data.nextLikeId,
-      });
+      // console.log('Getting next page param:', {
+      //   hasNext: lastPage.data.hasNext,
+      //   nextLikeId: lastPage.data.nextLikeId,
+      // });
 
       if (!lastPage.data.hasNext) return undefined;
       return lastPage.data.nextLikeId ?? undefined;

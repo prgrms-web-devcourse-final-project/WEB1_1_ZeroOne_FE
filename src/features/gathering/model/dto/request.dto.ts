@@ -14,7 +14,7 @@ export interface CreateGatheringRequest {
   contact: string;
   personnel: number;
   period: string;
-  position: string[];
+  positions: string[];
   title: string;
   deadLine: string;
   gatheringTag: string[];
@@ -42,8 +42,9 @@ export interface GetGatheringsParams {
 }
 
 // 게더링 상세 조회 응답
-interface GatheringDetailContent {
+export interface GatheringDetailContent {
   sort: GatheringSortType;
+  userId: number;
   username: string;
   createTime: string;
   subject: string;
@@ -63,19 +64,6 @@ interface GatheringDetailContent {
 interface CreateGatheringContent {
   gatheringId: number;
 }
-
-// export interface GatheringListParams {
-//   sort?: GatheringSortType;
-//   period?: GatheringPeriod;
-//   position?: GatheringPosition;
-//   status?: '모집중' | '모집완료' | '기간만료';
-//   gatheringId?: number;
-//   pageable: {
-//     page: number;
-//     size: number;
-//     sort: string[];
-//   };
-// }
 
 export type CreateGatheringResponse = ApiResponse<CreateGatheringContent>;
 export type GatheringDetailResponse = ApiResponse<GatheringDetailContent>;

@@ -1,9 +1,8 @@
 export type GatheringContactType = '온라인' | '오프라인' | '온라인&오프라인';
 export type GatheringSortType = '스터디' | '프로젝트' | '동아리' | '기타';
 export type GatheringPeriod = '1개월' | '3개월' | '6개월' | '6개월 이상';
-// export type GatheringPersonnel = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10명 이상';
 export type GatheringPosition = '개발자' | '디자이너' | '기획자' | '마케터';
-
+export type GatheringPersonnel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export type StudySubjectType = '개발' | '디자인' | '어학' | '기타';
 export type ProjectSubjectType = '개발' | '디자인' | '기획' | '마케팅' | '기타';
 export type ClubSubjectType = '취미' | '운동' | '음악' | '기타';
@@ -22,19 +21,13 @@ export interface CreateGatheringRequest {
   contact: string;
   personnel: number;
   period: string;
-  position: string[];
+  positions: string[];
   title: string;
   deadLine: string;
   gatheringTag: string[];
   url: string;
   content: string;
   gatheringImages: string[];
-}
-
-export interface PageableSort {
-  empty: boolean;
-  sorted: boolean;
-  unsorted: boolean;
 }
 
 //확정
@@ -61,8 +54,10 @@ export interface GatheringListParams {
   sort?: GatheringSortType;
   subject?: string;
   period?: GatheringPeriod;
-  position?: GatheringPosition;
+  positions?: GatheringPosition[];
   status?: '모집중' | '모집완료' | '기간만료';
   gatheringId?: number;
+  personnel?: GatheringPersonnel;
+  contact?: GatheringContactType;
 }
 //

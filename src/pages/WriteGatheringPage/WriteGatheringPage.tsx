@@ -15,7 +15,7 @@ export const WriteGatheringPage = () => {
       contact: '',
       personnel: 1,
       period: '',
-      position: [],
+      positions: [],
       title: '',
       deadLine: '',
       gatheringTag: [],
