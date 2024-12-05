@@ -105,7 +105,6 @@ export const useMarkdown = ({
               ...archiveData.imageUrls,
               { url: res.data.data?.imgUrls[0].imgUrl ?? '' },
             ]);
-            console.log(archiveData);
 
             return res.data.data?.imgUrls;
           });

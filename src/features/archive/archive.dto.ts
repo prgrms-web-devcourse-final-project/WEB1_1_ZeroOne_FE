@@ -61,18 +61,28 @@ export type Meta = {
   hasNext: boolean;
 };
 
-export type PageData = {
+export type CommentPageData = {
   comments: Comment[];
   meta: Meta;
 };
 
-export type Page = {
-  data: PageData;
+export type ArchivePageData = {
+  archives: ArchiveCardDTO[];
+  meta: Meta;
+};
+
+export type Page<T> = {
+  data: T;
   timeStamp: string;
 };
 
 export type CommentsPageDTO = {
-  pages: Page[];
+  pages: Page<CommentPageData>[];
+  pageParams: number[];
+};
+
+export type ArchivePageDTO = {
+  pages: Page<ArchivePageData>[];
   pageParams: number[];
 };
 
@@ -82,5 +92,5 @@ export type GetCommentsApiResponse = ApiResponse<Comment[]>;
 export type PostCommentApiResponse = ApiResponse<PostCommentResponseDTO>;
 export type GetArchiveListApiResponse = ApiResponse<{
   archives: ArchiveCardDTO[];
-  slice: { currentPage: number; size: number; hasNext: boolean };
+  slice: Meta;
 }>;

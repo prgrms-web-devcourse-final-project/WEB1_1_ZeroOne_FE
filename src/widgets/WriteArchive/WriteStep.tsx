@@ -45,21 +45,20 @@ export const WriteStep = ({
         resetArchiveData();
         navigate(`/archive/${archiveId}`);
         setArchiveId(0);
-        customToast({ text: '아카이브가 수정되었어요!', timer: 3000, icon: 'success' }).catch(
-          console.error,
-        );
+        customToast({ text: '아카이브가 수정되었어요!', timer: 3000, icon: 'success' });
       },
     });
   };
 
   const handleCreate = () => {
+    if (archiveData.imageUrls.length === 0) {
+      updateArchiveData('imageUrls', [{ url: 'https://via.placeholder.com/150' }]);
+    }
     createArchive(archiveData, {
       onSuccess: (data: PostArchiveApiResponse) => {
         resetArchiveData();
         navigate(`/archive/${data.data?.archiveId}`);
-        customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' }).catch(
-          console.error,
-        );
+        customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
       },
     });
   };

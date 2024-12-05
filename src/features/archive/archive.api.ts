@@ -48,7 +48,6 @@ export const getPopularlityArchiveList = (size: number) =>
         sort: 'popularlity',
         page: 0,
         size,
-        color: 'DEFAULT',
       },
     })
     .then(res => res.data);
@@ -78,11 +77,12 @@ export const getSearchArchive = (searchKeyword: string, page: number) =>
 
 export const postLikeArchive = (archiveId: number) => api.post(`/archive/${archiveId}`);
 
-export const getLikeArchiveList = () =>
-  api.get<GetArchiveListApiResponse>('/archive/me/like').then(res => res.data);
+export const getLikeArchiveList = (page: number) =>
+  api
+    .get<GetArchiveListApiResponse>('/archive/me/like', { params: { page, size: 9 } })
+    .then(res => res.data);
 
 export const getMyArchiveList = () =>
   api.get<GetArchiveListApiResponse>('/archive/me').then(res => res.data);
 
-export const patchArchiveOrder = (data: PatchArchiveOrderDTO) =>
-  api.patch('/archive/order', { orderRequest: data });
+export const patchArchiveOrder = (data: PatchArchiveOrderDTO) => api.patch('/archive', data);

@@ -5,7 +5,7 @@ import { PortFolioGrid } from '../PortfolioGrid/PortFolioGrid';
 
 import { useLikeArchiveList } from '@/features';
 import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
-import { Loader } from '@/shared/ui';
+import { Loader, TripleDot } from '@/shared/ui';
 
 const dummyGatherings: GatheringItemDto[] = Array.from({ length: 9 }, (_, i) => ({
   gatheringId: i.toString(),
@@ -31,16 +31,28 @@ export const LikeTab = ({
 }) => {
   const tabs = ['포트폴리오', '아카이브', '게더링'];
 
-  const { data: likeArchives, isLoading: isArchiveLoading } = useLikeArchiveList();
+  const {
+    items: likeArchives,
+    isLoading: isArchiveLoading,
+    isFetchingNextPage,
+    ref,
+  } = useLikeArchiveList();
 
   const renderingLikeTap = (activeTab: string) => {
     if (activeTab === '포트폴리오') {
       return <PortFolioGrid />;
     } else if (activeTab === '아카이브') {
-      if (!likeArchives?.data || isArchiveLoading) {
+      if (!likeArchives || isArchiveLoading) {
         return <Loader />;
       }
-      return <ArchiveGrid archives={likeArchives?.data?.archives} />;
+      return (
+        <>
+          <ArchiveGrid archives={likeArchives} />
+          <div className={styles.loading} ref={ref}>
+            {isFetchingNextPage && <TripleDot />}
+          </div>
+        </>
+      );
     } else if (activeTab === '게더링') {
       return <GatheringGrid items={dummyGatherings} />;
     }

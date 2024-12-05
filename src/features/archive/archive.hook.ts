@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import {
   deleteArchive,
@@ -26,6 +27,7 @@ import type {
   ArchiveCardDTO,
   PatchArchiveOrderDTO,
   CommentsPageDTO,
+  ArchivePageDTO,
 } from './archive.dto';
 import type { Color } from './colors.type';
 
@@ -49,13 +51,27 @@ export const useUpdateArchive = (archiveId: number) =>
     },
   });
 
-export const useDeleteArchive = () =>
-  useMutation({
+export const useDeleteArchive = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  return useMutation({
     mutationFn: ({ archiveId }: { archiveId: number }) => deleteArchive(archiveId),
-    onError: async () => {
-      await customToast({ text: '아카이브 삭제에 실패하였습니다', timer: 3000, icon: 'error' });
+    onSuccess: () => {
+      navigate(-1);
+      queryClient
+        .invalidateQueries({
+          predicate: query => {
+            const [key0, key1] = query.queryKey as (string | undefined)[];
+            return key0 === '/archive' && key1 === 'list';
+          },
+        })
+        .catch(err => {
+          console.error('Failed to invalidate queries:', err);
+        });
     },
   });
+};
 
 export const useArchive = (archiveId: number) =>
   useQuery({
@@ -121,9 +137,30 @@ export const useCreateComment = (archiveId: number) => {
         };
       });
 
-      return { previousComments };
+      return { previousComments, optimisticComment };
     },
-    onSuccess: async () => {
+    onSuccess: async (newComment, _, context) => {
+      queryClient.setQueryData(['/archive', archiveId, 'comment'], (old: CommentsPageDTO) => {
+        if (!old) return old;
+
+        const updatedPages = old.pages.map(page => ({
+          ...page,
+          data: {
+            ...page.data,
+            comments: page.data.comments.map(comment =>
+              comment.commentId === context?.optimisticComment.commentId
+                ? { ...comment, commentId: newComment.data?.commentId }
+                : comment,
+            ),
+          },
+        }));
+
+        return {
+          ...old,
+          pages: updatedPages,
+        };
+      });
+
       await customToast({ text: '댓글이 작성되었습니다.', timer: 3000, icon: 'success' });
     },
     onError: async (err, _, context) => {
@@ -245,7 +282,7 @@ export const usePopularArchiveList = (size: number) =>
 
 export const useArchiveList = (sort: string, color: Color) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
-    ['/archive', sort, color],
+    ['/archive', 'list', sort, color],
     ({ pageParam }) => getArchiveList(sort, pageParam, color === 'DEFAULT' ? null : color),
     9,
     'archives',
@@ -254,7 +291,7 @@ export const useArchiveList = (sort: string, color: Color) => {
 
 export const useSearchArchive = (searchKeyword: string, enabled: boolean = false) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
-    ['/archive', 'search', searchKeyword],
+    ['/archive', 'list', 'search', searchKeyword],
     ({ pageParam }) => getSearchArchive(searchKeyword, pageParam),
     9,
     'archives',
@@ -262,61 +299,61 @@ export const useSearchArchive = (searchKeyword: string, enabled: boolean = false
   );
 };
 
-export const useLikeArchiveList = () =>
-  useQuery({
-    queryKey: ['/archive', 'me', 'like'],
-    queryFn: getLikeArchiveList,
-  });
+export const useLikeArchiveList = () => {
+  return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
+    ['/archive', 'list', 'me', 'like'],
+    ({ pageParam }) => getLikeArchiveList(pageParam),
+    9,
+    'archives',
+  );
+};
 
 export const useLikeArchive = (archiveId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () => postLikeArchive(archiveId),
-    onMutate: () => {
-      const prevData = queryClient
-        .getQueryCache()
-        .findAll({ predicate: query => query.queryKey[0] === '/archive' });
+    onMutate: async () => {
+      // TODO : isLiked optimistic update
+      await queryClient.cancelQueries({ queryKey: ['/archive', 'list', 'me', 'like'] });
 
-      prevData.forEach(query => {
-        queryClient.setQueryData(query.queryKey, (oldData: GetArchiveListApiResponse) => {
-          if (!oldData.data) return oldData;
+      const prevArchiveList = queryClient.getQueryData(['/archive', 'list', 'me', 'like']);
 
-          return oldData.data.archives.map((archive: ArchiveCardDTO) =>
-            archive.archiveId === archiveId
-              ? {
-                  ...archive,
-                  isLiked: !archive.isLiked,
-                }
-              : archive,
-          );
-        });
+      queryClient.setQueryData(['/archive', 'list', 'me', 'like'], (old: ArchivePageDTO) => {
+        if (!old) return old;
+
+        const updatedPages = old.pages.map(page => ({
+          ...page,
+          data: {
+            ...page.data,
+            archives: page.data.archives.filter(
+              (archive: ArchiveCardDTO) => archive.archiveId !== archiveId,
+            ),
+          },
+        }));
+
+        return {
+          ...old,
+          pages: updatedPages,
+        };
       });
 
-      return { prevData };
+      return { prevArchiveList };
     },
-    onError: (_, __, context) => {
+    onError: (err, _, context) => {
       if (context) {
-        context.prevData.forEach(query => {
-          queryClient.invalidateQueries({ queryKey: query.queryKey }).catch(err => {
-            console.error('Failed to invalidate query:', err);
-          });
-        });
+        queryClient.setQueryData(['/archive', archiveId, 'comment'], context.prevArchiveList);
       }
     },
-    onSettled: () => {
-      queryClient
-        .invalidateQueries({ predicate: query => query.queryKey[0] === '/archive' })
-        .catch(err => {
-          console.error('Failed to invalidate queries:', err);
-        });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['/archive', 'list', 'me', 'like'] });
     },
   });
 };
 
 export const useMyArchiveList = () =>
   useQuery({
-    queryKey: ['/archive/me'],
+    queryKey: ['/archive', 'list', 'me'],
     queryFn: getMyArchiveList,
   });
 
@@ -328,7 +365,7 @@ export const useUpdateArchiveOrder = () => {
     onSuccess: async () => {
       await customToast({ text: '아카이브 순서가 변경되었습니다', timer: 3000, icon: 'success' });
 
-      queryClient.invalidateQueries({ queryKey: ['/archive/me'] }).catch(error => {
+      queryClient.invalidateQueries({ queryKey: ['/archive', 'list', 'me'] }).catch(error => {
         console.error('Error invalidating queries:', error);
       });
     },

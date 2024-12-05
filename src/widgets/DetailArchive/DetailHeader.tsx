@@ -67,30 +67,27 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
           <span>{findCategoryName(archive.job)}</span>
         </div>
         <div className={styles.itemWrapper}>
-          {archive.isMine && (
-            <>
-              <Button onClick={handleEditArchive}>수정하기</Button>
-              <Button
-                onClick={() => {
-                  deleteArchive(
-                    { archiveId: Number(archiveId) },
-                    {
-                      onSuccess: () => {
-                        navigate(-1);
-                        customToast({
-                          text: '아카이브가 삭제되었습니다',
-                          timer: 3000,
-                          icon: 'success',
-                        }).catch(console.error);
-                      },
+          <>
+            <Button onClick={handleEditArchive}>수정하기</Button>
+            <Button
+              onClick={() => {
+                deleteArchive(
+                  { archiveId: Number(archiveId) },
+                  {
+                    onSuccess: () => {
+                      customToast({
+                        text: '아카이브가 삭제되었습니다',
+                        timer: 3000,
+                        icon: 'success',
+                      });
                     },
-                  );
-                }}
-              >
-                삭제하기
-              </Button>
-            </>
-          )}
+                  },
+                );
+              }}
+            >
+              삭제하기
+            </Button>
+          </>
         </div>
       </div>
       <div className={styles.tags}>
