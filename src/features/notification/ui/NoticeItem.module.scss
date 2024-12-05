@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+  flex: 1;
+  gap: 1.3rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 10%);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  aspect-ratio: 1/1;
+  font-size: 0.75rem;
+  color: $secondary-color;
+  background-color: $primary-color;
+  border-radius: 50%;
+}
+
+.description {
+  flex: 1;
+  font-size: 0.875rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.75rem;
+
+  .button {
+    cursor: pointer;
+  }
+}
+
+.check {
+  color: $green;
+}
+
+.cancel {
+  color: rgba($red, 0.8);
+}
+
+.like {
+  background-color: #ecbce7;
+}
+
+.feedback {
+  background-color: #fef194;
+}
+
+.gathering {
+  background-color: #bce7e7;
+}
+
+.coffee {
+  background-color: #c9b693;
+}

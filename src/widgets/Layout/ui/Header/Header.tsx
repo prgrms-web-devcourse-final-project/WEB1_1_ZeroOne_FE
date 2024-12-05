@@ -17,6 +17,7 @@ import Logo from '@/shared/assets/paletteLogo.svg?react';
 import { useModalStore } from '@/shared/model/modalStore';
 import { Button, customConfirm } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
+import { NoticeContainer } from '@/widgets/NoticeContainer/NoticeContainer';
 
 export const Header = () => {
   const { pathname } = useLocation();
@@ -192,6 +193,7 @@ export const Header = () => {
           )}
         </>
       )}
+      <NoticeContainer />
     </header>
   );
 };
