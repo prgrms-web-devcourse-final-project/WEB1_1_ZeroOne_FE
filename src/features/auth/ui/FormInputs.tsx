@@ -1,7 +1,7 @@
 //library
 
 import cn from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { ControllerRenderProps } from 'react-hook-form';
 import Select from 'react-select';
 import type { ActionMeta, MultiValue, SingleValue } from 'react-select';
@@ -9,14 +9,14 @@ import type { ActionMeta, MultiValue, SingleValue } from 'react-select';
 //styles
 import styles from './FormInputs.module.scss';
 //types
-import type { CommonInputAttribute, InputFieldProps, Option } from '../form.types';
+import type { CommonInputAttribute, ImageField, InputFieldProps, Option } from '../form.types';
 
 //components
 import { Input, Radio, TextArea } from '@/shared/ui';
 
-interface InputProps<T = string, Element = HTMLInputElement> extends CommonInputAttribute {
+interface InputProps<T = string> extends CommonInputAttribute {
   value: T;
-  onChange: (e: React.ChangeEvent<Element>) => void;
+  onChange: (e: T) => void;
   name: string;
 }
 
@@ -42,7 +42,9 @@ const RadioGroup: React.FC<RadioGroupProps> = ({ name, value, onChange, options 
             id={`${name}${idx}`}
             labelText={option.label}
             name={name}
-            onChange={onChange}
+            onChange={e => {
+              onChange(e.target.value);
+            }}
             value={option.value}
           />
         </React.Fragment>
@@ -56,7 +58,9 @@ const DefaultInput: React.FC<InputProps> = ({ name, value, onChange, ...restProp
     <Input
       className={styles.input}
       id={name}
-      onChange={onChange}
+      onChange={e => {
+        onChange(e.target.value);
+      }}
       spellCheck='false'
       value={value}
       {...restProps}
@@ -83,7 +87,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
   );
 };
 
-const TextInput: React.FC<InputProps<string, HTMLTextAreaElement>> = ({
+const TextInput: React.FC<InputProps<string>> = ({
   name,
   value,
   onChange,
@@ -109,7 +113,7 @@ const TextInput: React.FC<InputProps<string, HTMLTextAreaElement>> = ({
           validateAreaLength(e.target);
           resizeAreaSize(e.target);
 
-          onChange(e);
+          onChange(e.target.value);
         }}
         placeholder={placeholder}
         spellCheck='false'
@@ -120,14 +124,15 @@ const TextInput: React.FC<InputProps<string, HTMLTextAreaElement>> = ({
   );
 };
 
-const ImageInput = () => {
+const ImageInput: React.FC<InputProps<ImageField>> = ({ name, value, onChange }) => {
   const [preview, setPreview] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    setPreview(value.url);
+  }, [value.url]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
-
-    console.log(file);
 
     if (selectedFile) {
       // 로컬 이미지 미리 보기 설정
@@ -138,12 +143,13 @@ const ImageInput = () => {
       reader.readAsDataURL(selectedFile);
 
       // 업로드할 파일 설정
-      setFile(selectedFile);
+      onChange({ ...value, file: selectedFile });
     }
   };
 
   const deleteProfileImage = () => {
-    setPreview(null);
+    onChange({ ...value, file: null });
+    setPreview(value.url);
   };
 
   const previewImage = preview ?? 'defaultImage';
@@ -152,7 +158,7 @@ const ImageInput = () => {
     <div className={cn(styles.imageInputWrapper)}>
       <img alt='profile-img' src={previewImage} />
       <div className={styles.inputBtns}>
-        <input id='profile-upload' onChange={handleFileChange} type='file' />
+        <input id='profile-upload' name={name} onChange={handleFileChange} type='file' />
         <label htmlFor='profile-upload'>Upload</label>
         <span onClick={deleteProfileImage}>Delete</span>
       </div>
@@ -197,7 +203,7 @@ export const RenderInput = ({
         />
       );
     case 'image':
-      return <ImageInput />;
+      return <ImageInput name={field.name} onChange={field.onChange} value={field.value} />;
     default:
       return (
         <DefaultInput

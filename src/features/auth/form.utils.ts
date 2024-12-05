@@ -5,7 +5,10 @@ import { JOB_CATEGORIES, JOB_DIVISION } from './form.types';
 
 export const formValidation = yup.object({
   name: yup.string().required('이름을 입력해주세요.'),
-  briefIntro: yup.string().defined().max(100, '100글자 이하로 소개 글을 작성해주세요.'),
+  briefIntro: yup
+    .string()
+    .required('자기소개를 입력해주세요.')
+    .max(100, '100글자 이하로 소개 글을 작성해주세요.'),
   majorJobGroup: yup
     .object()
     .shape({
@@ -36,7 +39,13 @@ export const formValidation = yup.object({
     )
     .max(5, 'URL은 최대 5개 까지 작성 가능합니다.')
     .defined(),
-  imageUrl: yup.string().defined(), //.required('프로필 이미지를 등록해주세요.'),
+  imageUrl: yup
+    .object()
+    .shape({
+      url: yup.string().defined(),
+      file: yup.mixed().nullable(),
+    })
+    .defined(), //.required('프로필 이미지를 등록해주세요.'),
 });
 
 export const formConfig: FormConfigType<FormValues> = {
@@ -118,7 +127,10 @@ export const formConfig: FormConfigType<FormValues> = {
     jobTitle: '',
     division: 'student',
     url: [],
-    imageUrl: '',
+    imageUrl: {
+      url: '',
+      file: null,
+    },
   },
 };
 
@@ -186,7 +198,10 @@ export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
     jobTitle: '',
     division: 'student',
     url: [],
-    imageUrl: '',
+    imageUrl: {
+      url: '',
+      file: null,
+    },
     portfolioLink: '',
     email: 'csk9908@naver.com',
   },

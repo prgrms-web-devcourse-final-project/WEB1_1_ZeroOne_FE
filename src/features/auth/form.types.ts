@@ -6,6 +6,11 @@ export type Option = {
   label: string;
 };
 
+export type ImageField = {
+  url: string;
+  file: File | null;
+};
+
 export interface FormValues {
   name: string;
   briefIntro: string;
@@ -14,7 +19,7 @@ export interface FormValues {
   jobTitle: string;
   division: string;
   url: { value: string }[];
-  imageUrl: string;
+  imageUrl: ImageField;
 }
 
 export interface PortfolioFormValues extends FormValues {
