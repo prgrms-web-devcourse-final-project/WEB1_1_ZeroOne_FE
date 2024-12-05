@@ -43,4 +43,6 @@ export const useRoleGuard = ({ requiredRoles, onAccessDenied }: UseRoleGuardProp
       }
     }
   }, [userData, loading, requiredRoles, onAccessDenied, navigate]);
+
+  return { userData };
 };
