@@ -1,4 +1,4 @@
-import type { PostCommentApiResponse } from './archive.dto';
+import type { PatchArchiveOrderDTO, PostCommentApiResponse } from './archive.dto';
 import type { GetArchiveApiResponse, GetCommentsApiResponse } from './archive.dto';
 import type {
   PostArchiveApiResponse,
@@ -36,13 +36,18 @@ export const postCreateComment = (archiveId: number, content: string) =>
 export const deleteComment = (commentId: number) =>
   api.delete<PostCommentApiResponse>(`/archive/comment/${commentId}`).then(res => res.data);
 
-export const getPopularlityArchiveList = () =>
+export const putComment = (commentId: number, content: string) =>
+  api
+    .put<PostCommentApiResponse>(`/archive/comment/${commentId}`, { content })
+    .then(res => res.data);
+
+export const getPopularlityArchiveList = (size: number) =>
   api
     .get<GetArchiveListApiResponse>('/archive', {
       params: {
         sort: 'popularlity',
         page: 0,
-        size: 5,
+        size,
       },
     })
     .then(res => res.data);
@@ -72,5 +77,12 @@ export const getSearchArchive = (searchKeyword: string, page: number) =>
 
 export const postLikeArchive = (archiveId: number) => api.post(`/archive/${archiveId}`);
 
-export const getLikeArchiveList = () =>
-  api.get<GetArchiveListApiResponse>('/archive/me/like').then(res => res.data);
+export const getLikeArchiveList = (page: number) =>
+  api
+    .get<GetArchiveListApiResponse>('/archive/me/like', { params: { page, size: 9 } })
+    .then(res => res.data);
+
+export const getMyArchiveList = () =>
+  api.get<GetArchiveListApiResponse>('/archive/me').then(res => res.data);
+
+export const patchArchiveOrder = (data: PatchArchiveOrderDTO) => api.patch('/archive', data);

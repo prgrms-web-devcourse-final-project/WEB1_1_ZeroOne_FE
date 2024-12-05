@@ -7,7 +7,7 @@ import styles from './WriteStep.module.scss';
 
 import type { Color, PostArchiveApiResponse } from '@/features';
 import { ColorMap, useArchiveStore, useCreateArchive, useUpdateArchive } from '@/features';
-import { Button, MarkdownEditor, ScrollToTop, Switch, Tag } from '@/shared/ui';
+import { Button, customToast, MarkdownEditor, ScrollToTop, Switch, Tag } from '@/shared/ui';
 
 export const WriteStep = ({
   onClick,
@@ -18,6 +18,7 @@ export const WriteStep = ({
   isEdit?: boolean;
 }) => {
   const navigate = useNavigate();
+  const [isComposing, setIsComposing] = useState(false);
 
   const { archiveData, archiveId, resetArchiveData, setArchiveId, updateArchiveData } =
     useArchiveStore();
@@ -25,13 +26,18 @@ export const WriteStep = ({
 
   const handleTagAddition = () => {
     if (tag.trim()) {
-      updateArchiveData('tags', [...archiveData.tags, { content: tag }]);
-      setTag('');
+      const isDuplicate = archiveData.tags.some(existingTag => existingTag.tag === tag.trim());
+      if (!isDuplicate) {
+        updateArchiveData('tags', [...archiveData.tags, { tag: tag.trim() }]);
+        setTag('');
+      } else {
+        customToast({ text: '이미 추가된 태그입니다.', timer: 3000, icon: 'info' });
+      }
     }
   };
 
   const handleTagRemoval = (tagContent: string) => {
-    const updatedTags = archiveData.tags.filter(t => t.content !== tagContent);
+    const updatedTags = archiveData.tags.filter(t => t.tag !== tagContent);
     updateArchiveData('tags', updatedTags);
   };
 
@@ -44,9 +50,7 @@ export const WriteStep = ({
         resetArchiveData();
         navigate(`/archive/${archiveId}`);
         setArchiveId(0);
-      },
-      onError: err => {
-        console.error(err);
+        customToast({ text: '아카이브가 수정되었어요!', timer: 3000, icon: 'success' });
       },
     });
   };
@@ -56,9 +60,7 @@ export const WriteStep = ({
       onSuccess: (data: PostArchiveApiResponse) => {
         resetArchiveData();
         navigate(`/archive/${data.data?.archiveId}`);
-      },
-      onError: err => {
-        console.error(err);
+        customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
       },
     });
   };
@@ -71,9 +73,9 @@ export const WriteStep = ({
           <FontAwesomeIcon icon={faChevronLeft} onClick={onClick} />
           <div
             className={styles.color}
-            style={{ backgroundColor: `${ColorMap[archiveData.type].hex}` }}
+            style={{ backgroundColor: `${ColorMap[archiveData.colorType].hex}` }}
           />
-          <span>{ColorMap[archiveData.type].name}</span>
+          <span>{ColorMap[archiveData.colorType].name}</span>
         </div>
         <div className={styles.settingWrapper}>
           <span>댓글 허용</span>
@@ -112,12 +114,12 @@ export const WriteStep = ({
           />
         </div>
       </div>
-      <MarkdownEditor data={archiveData} onUpdate={updateArchiveData} updateKey='description' />
+      <MarkdownEditor data={archiveData} onUpdate={updateArchiveData} updateKey={'description'} />
       <div className={styles.inputContainer}>
         <label>태그</label>
         <div className={styles.tags}>
           {archiveData.tags.map(tag => (
-            <Tag key={tag.content} onRemove={handleTagRemoval} tag={tag} />
+            <Tag key={tag.tag} onRemove={handleTagRemoval} tag={tag} />
           ))}
         </div>
         <div className={styles.inputBox}>
@@ -125,7 +127,14 @@ export const WriteStep = ({
             onChange={e => {
               setTag(e.target.value);
             }}
+            onCompositionEnd={() => {
+              setIsComposing(false);
+            }}
+            onCompositionStart={() => {
+              setIsComposing(true);
+            }}
             onKeyDown={e => {
+              if (isComposing) return;
               if (e.key === 'Enter') handleTagAddition();
             }}
             placeholder='태그'

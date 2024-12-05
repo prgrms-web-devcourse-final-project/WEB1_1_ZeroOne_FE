@@ -5,15 +5,17 @@ import styles from './ArchiveListPage.module.scss';
 
 import type { Color } from '@/features';
 import { ColorSelect, useArchiveList } from '@/features';
-import { Button, SelectBtn, TripleDot } from '@/shared/ui';
+import { Button, Loader, SelectBtn, TripleDot } from '@/shared/ui';
 import { ArchiveGrid } from '@/widgets';
 
 export const ArchiveListPage = () => {
   const navigate = useNavigate();
   const [sort, setSort] = useState({ label: '최신순', value: 'latest' });
-  const [color, setColor] = useState<Color | 'default'>('default');
+  const [color, setColor] = useState<Color>('DEFAULT');
 
-  const { items: archives, isFetchingNextPage, ref } = useArchiveList(sort.value, color);
+  const { items: archives, isFetchingNextPage, ref, isPending } = useArchiveList(sort.value, color);
+
+  if (isPending) return <Loader />;
 
   return (
     <div className={styles.wrapper}>

@@ -1,6 +1,8 @@
 import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 
+import { customConfirm } from '../ui';
+
 import { getLocalAccessToken, reissueToken } from '@/features/auth/auth.api';
 
 let isRefreshing = false;
@@ -59,6 +61,9 @@ api.interceptors.response.use(
       } finally {
         // eslint-disable-next-line require-atomic-updates
         isRefreshing = false;
+        customConfirm({ text: '로그인이 필요합니다.', title: '로그인', icon: 'info' }).catch(
+          console.error,
+        );
       }
     }
 

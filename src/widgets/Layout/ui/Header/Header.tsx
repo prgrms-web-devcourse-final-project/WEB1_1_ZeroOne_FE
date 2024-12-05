@@ -1,7 +1,7 @@
 import { faBars, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
@@ -10,13 +10,11 @@ import styles from './Header.module.scss';
 import { NAV_LINKS } from '../../constants';
 
 //assets
+import { SearchBar } from '@/features';
 import { logout } from '@/features/auth/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
 import Logo from '@/shared/assets/paletteLogo.svg?react';
-//model
 import { useModalStore } from '@/shared/model/modalStore';
-//component
-
 import { Button, customConfirm } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
 
@@ -43,6 +41,7 @@ export const Header = () => {
       showCancelButton: false,
     });
   };
+  const [isSearch, setIsSearch] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,6 +55,27 @@ export const Header = () => {
     };
   }, []);
 
+  const searchRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handler = (event: MouseEvent) => {
+      if (searchRef.current !== null && !searchRef.current.contains(event.target as Node)) {
+        setTimeout(() => {
+          setIsSearch(false);
+        }, 100);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+
+    return () => {
+      document.removeEventListener('mousedown', handler);
+    };
+  }, []);
+
+  const toggleSearch = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (!isSearch) setIsSearch(true);
+  };
+
   return (
     <header className={styles.header}>
       {/** Logo */}
@@ -63,18 +83,40 @@ export const Header = () => {
         <Link to='/'>
           <Logo height={36} />
         </Link>
-        <span>Palette</span>
+        <span>Palettee</span>
       </h1>
       {isMobile ? (
         <>
-          <FontAwesomeIcon
-            icon={faBars}
-            onClick={() => {
-              setMenuOpen(true);
-            }}
-            size='lg'
-          />
-          {menuOpen && <MenuModal isOpen={menuOpen} onClose={setMenuOpen} />}{' '}
+          <div className={styles.mobileBtns}>
+            <FontAwesomeIcon
+              className={cn(styles.button, styles.search)}
+              icon={faSearch}
+              onClick={toggleSearch}
+            />
+            <FontAwesomeIcon
+              icon={faBars}
+              onClick={() => {
+                setMenuOpen(true);
+              }}
+              size='lg'
+            />
+          </div>
+          {isSearch && (
+            <div
+              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
+              ref={searchRef}
+            >
+              <SearchBar isSearch setIsSearch={setIsSearch} />
+            </div>
+          )}
+          {menuOpen && (
+            <MenuModal
+              isOpen={menuOpen}
+              isUserData={userData ? true : false}
+              onClose={setMenuOpen}
+              onLogout={logoutHandler}
+            />
+          )}{' '}
         </>
       ) : (
         <>
@@ -96,9 +138,7 @@ export const Header = () => {
             <FontAwesomeIcon
               className={cn(styles.button, styles.search)}
               icon={faSearch}
-              onClick={() => {
-                navigate('/search');
-              }}
+              onClick={toggleSearch}
             />
             <FontAwesomeIcon
               className={cn(styles.button, styles.heart)}
@@ -107,24 +147,32 @@ export const Header = () => {
                 navigate('/like');
               }}
             />
-        {userData ? (
-          <Button
-            onClick={() => {
-              void logoutHandler();
-            }}
-          >
-            로그아웃
-          </Button>
-        ) : (
-          <Button
-            onClick={() => {
-              open('login');
-            }}
-          >
-            로그인
-          </Button>
-        )}
+            {userData ? (
+              <Button
+                onClick={() => {
+                  void logoutHandler();
+                }}
+              >
+                로그아웃
+              </Button>
+            ) : (
+              <Button
+                onClick={() => {
+                  open('login');
+                }}
+              >
+                로그인
+              </Button>
+            )}
           </div>{' '}
+          {isSearch && (
+            <div
+              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
+              ref={searchRef}
+            >
+              <SearchBar isSearch setIsSearch={setIsSearch} />
+            </div>
+          )}
         </>
       )}
     </header>

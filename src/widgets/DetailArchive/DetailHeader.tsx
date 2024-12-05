@@ -12,7 +12,8 @@ import styles from './DetailHeader.module.scss';
 
 import type { Archive } from '@/features';
 import { ColorMap, useArchiveStore, useDeleteArchive } from '@/features';
-import { Button, Tag } from '@/shared/ui';
+import { Button, customToast, Tag } from '@/shared/ui';
+import { findCategoryName } from '@/shared/util';
 
 export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archiveId: number }) => {
   const { mutate: deleteArchive } = useDeleteArchive();
@@ -25,7 +26,7 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
       title: archive.title,
       description: archive.description,
       introduction: archive.introduction,
-      type: archive.type,
+      colorType: archive.type,
       canComment: archive.canComment,
       tags: archive.tags,
       imageUrls: archive.imageUrls,
@@ -61,30 +62,40 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
       </div>
       <div className={styles.row}>
         <div className={styles.itemWrapper}>
+          <img alt='user profile' className={styles.profile} src={archive.userProfile} />
           <p>{archive.username}</p>
-          <span>{archive.job}</span>
+          <span>{findCategoryName(archive.job)}</span>
         </div>
         <div className={styles.itemWrapper}>
-          <Button onClick={handleEditArchive}>수정하기</Button>
-          <Button
-            onClick={() => {
-              deleteArchive(
-                { archiveId: Number(archiveId) },
-                {
-                  onSuccess: () => {
-                    navigate(-1);
-                  },
-                },
-              );
-            }}
-          >
-            삭제하기
-          </Button>
+          {archive.isMine && (
+            <>
+              <Button onClick={handleEditArchive}>수정하기</Button>
+              <Button
+                onClick={() => {
+                  deleteArchive(
+                    { archiveId: Number(archiveId) },
+                    {
+                      onSuccess: () => {
+                        navigate(-1);
+                        customToast({
+                          text: '아카이브가 삭제되었습니다',
+                          timer: 3000,
+                          icon: 'success',
+                        });
+                      },
+                    },
+                  );
+                }}
+              >
+                삭제하기
+              </Button>
+            </>
+          )}
         </div>
       </div>
       <div className={styles.tags}>
         {archive.tags.map(tag => (
-          <Tag isDeleteable={false} key={tag.content} tag={tag} />
+          <Tag isDeleteable={false} key={tag.tag} tag={tag} />
         ))}
       </div>
       <div className={styles.intro}>
