@@ -1,21 +1,19 @@
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useShallow } from 'zustand/shallow';
 
 import { getLocalAccessToken, removeLocalAccessToken } from '@/features/auth/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
 import { getMyProfile } from '@/features/user/user.api';
 import { setInterceptorEvents } from '@/shared/api/baseApi';
+import { useRegistAlarm } from '@/shared/hook/useRegistAlarm';
 import { customConfirm } from '@/shared/ui';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const accessToken = getLocalAccessToken();
-  const {
-    userData,
-    actions: { setUserData, clearUserData, done },
-  } = useUserStore(useShallow(state => ({ userData: state.userData, actions: state.actions })));
+  const { setUserData, clearUserData, done } = useUserStore(state => state.actions);
+  useRegistAlarm();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -38,21 +36,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     void getUserData();
   }, []);
-
-  useEffect(() => {
-    if (!userData) return;
-    if (userData.role === 'REAL_NEWBIE') {
-      void customConfirm({
-        title: '유저 등록',
-        text: '아직 등록된 유저 프로필이 없습니다!\n프로필을 등록해주세요.',
-        icon: 'info',
-      }).then(result => {
-        if (result.isConfirmed) {
-          navigate('/register');
-        }
-      });
-    }
-  }, [userData, navigate]);
 
   //인터셉터 함수 등록 effects
   useEffect(() => {
