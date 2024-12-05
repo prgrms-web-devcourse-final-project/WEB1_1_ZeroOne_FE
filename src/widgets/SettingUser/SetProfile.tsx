@@ -33,7 +33,10 @@ export const SetProfile = ({ userId }: SetProfileProps) => {
       name: rest.name || '',
       email: rest.email || '',
       briefIntro: rest.briefIntro || '',
-      imageUrl: rest.imageUrl || '',
+      imageUrl: {
+        url: rest.imageUrl || '',
+        file: null,
+      },
       portfolioLink: rest.portfolioLink || '',
       jobTitle: rest.jobTitle || '',
       division: rest.division || '',

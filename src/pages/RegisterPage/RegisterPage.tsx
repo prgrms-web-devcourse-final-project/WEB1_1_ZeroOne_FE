@@ -17,7 +17,7 @@ export const RegisterPage = () => {
       navigate('/');
     },
   });
-  const [stage, setStage] = useState<number>(2);
+  const [stage, setStage] = useState<number>(1);
 
   const StepComponent = StepComponentList[stage - 1];
 
