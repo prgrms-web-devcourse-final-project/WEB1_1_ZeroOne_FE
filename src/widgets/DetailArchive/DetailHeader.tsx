@@ -75,6 +75,7 @@ export const DetailHeader = ({ archive, archiveId }: { archive: Archive; archive
                   { archiveId: Number(archiveId) },
                   {
                     onSuccess: () => {
+                      navigate(-1);
                       customToast({
                         text: '아카이브가 삭제되었습니다',
                         timer: 3000,

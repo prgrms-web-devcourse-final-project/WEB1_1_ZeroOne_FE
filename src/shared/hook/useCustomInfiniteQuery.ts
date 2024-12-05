@@ -15,6 +15,7 @@ export const useCustomInfiniteQuery = <
   pageSize: number,
   dataKey: string,
   enabled: boolean = false,
+  staleTime: number = 0,
 ) => {
   const { data, fetchNextPage, isLoading, isError, isFetchingNextPage, refetch } = useInfiniteQuery<
     TData,
@@ -31,6 +32,9 @@ export const useCustomInfiniteQuery = <
     },
     initialPageParam: 0,
     enabled: enabled,
+    staleTime,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
   });
 
   const items = useMemo(() => {

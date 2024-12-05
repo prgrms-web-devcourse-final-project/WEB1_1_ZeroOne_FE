@@ -26,8 +26,13 @@ export const WriteStep = ({
 
   const handleTagAddition = () => {
     if (tag.trim()) {
-      updateArchiveData('tags', [...archiveData.tags, { tag: tag }]);
-      setTag('');
+      const isDuplicate = archiveData.tags.some(existingTag => existingTag.tag === tag.trim());
+      if (!isDuplicate) {
+        updateArchiveData('tags', [...archiveData.tags, { tag: tag.trim() }]);
+        setTag('');
+      } else {
+        customToast({ text: '이미 추가된 태그입니다.', timer: 3000, icon: 'info' });
+      }
     }
   };
 
@@ -51,9 +56,6 @@ export const WriteStep = ({
   };
 
   const handleCreate = () => {
-    if (archiveData.imageUrls.length === 0) {
-      updateArchiveData('imageUrls', [{ url: 'https://via.placeholder.com/150' }]);
-    }
     createArchive(archiveData, {
       onSuccess: (data: PostArchiveApiResponse) => {
         resetArchiveData();

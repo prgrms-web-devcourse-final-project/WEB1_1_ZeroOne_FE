@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 import {
   deleteArchive,
@@ -52,24 +51,8 @@ export const useUpdateArchive = (archiveId: number) =>
   });
 
 export const useDeleteArchive = () => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
   return useMutation({
     mutationFn: ({ archiveId }: { archiveId: number }) => deleteArchive(archiveId),
-    onSuccess: () => {
-      navigate(-1);
-      queryClient
-        .invalidateQueries({
-          predicate: query => {
-            const [key0, key1] = query.queryKey as (string | undefined)[];
-            return key0 === '/archive' && key1 === 'list';
-          },
-        })
-        .catch(err => {
-          console.error('Failed to invalidate queries:', err);
-        });
-    },
   });
 };
 
@@ -286,16 +269,17 @@ export const useArchiveList = (sort: string, color: Color) => {
     ({ pageParam }) => getArchiveList(sort, pageParam, color === 'DEFAULT' ? null : color),
     9,
     'archives',
+    true,
   );
 };
 
-export const useSearchArchive = (searchKeyword: string, enabled: boolean = false) => {
+export const useSearchArchive = (searchKeyword: string) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/archive', 'list', 'search', searchKeyword],
     ({ pageParam }) => getSearchArchive(searchKeyword, pageParam),
     9,
     'archives',
-    enabled,
+    true,
   );
 };
 
@@ -305,6 +289,7 @@ export const useLikeArchiveList = () => {
     ({ pageParam }) => getLikeArchiveList(pageParam),
     9,
     'archives',
+    true,
   );
 };
 
@@ -318,6 +303,9 @@ export const useLikeArchive = (archiveId: number) => {
       await queryClient.cancelQueries({ queryKey: ['/archive', 'list', 'me', 'like'] });
 
       const prevArchiveList = queryClient.getQueryData(['/archive', 'list', 'me', 'like']);
+      const prevLikedData = queryClient.getQueryCache().findAll({
+        predicate: query => query.queryKey[0] === '/archive' && query.queryKey[1] === 'list',
+      });
 
       queryClient.setQueryData(['/archive', 'list', 'me', 'like'], (old: ArchivePageDTO) => {
         if (!old) return old;
@@ -338,15 +326,54 @@ export const useLikeArchive = (archiveId: number) => {
         };
       });
 
-      return { prevArchiveList };
+      prevLikedData.forEach(query => {
+        queryClient.setQueryData(query.queryKey, (old: ArchivePageDTO) => {
+          if (!old) return old;
+
+          const updatedPages = old.pages.map(page => ({
+            ...page,
+            data: {
+              ...page.data,
+              archives: page.data.archives.map((archive: ArchiveCardDTO) => {
+                if (archive.archiveId === archiveId) {
+                  return {
+                    ...archive,
+                    isLiked: !archive.isLiked,
+                  };
+                }
+                return archive;
+              }),
+            },
+          }));
+
+          return {
+            ...old,
+            pages: updatedPages,
+          };
+        });
+      });
+
+      return { prevArchiveList, prevLikedData };
     },
     onError: (err, _, context) => {
       if (context) {
         queryClient.setQueryData(['/archive', archiveId, 'comment'], context.prevArchiveList);
+        context.prevLikedData.forEach(query => {
+          queryClient.invalidateQueries({ queryKey: query.queryKey }).catch(err => {
+            console.error('Failed to invalidate query:', err);
+          });
+        });
       }
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['/archive', 'list', 'me', 'like'] });
+      await queryClient
+        .invalidateQueries({
+          predicate: query => query.queryKey[0] === '/archive' && query.queryKey[1] === 'list',
+        })
+        .catch(err => {
+          console.error('Failed to invalidate queries:', err);
+        });
     },
   });
 };

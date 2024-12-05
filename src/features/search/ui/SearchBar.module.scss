@@ -1,11 +1,10 @@
 .container {
   position: absolute;
-  top: $header-height;
   right: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 30%;
+  width: 100%;
   min-width: 300px;
   padding: 0.8rem 1.3rem;
   color: $secondary-color;

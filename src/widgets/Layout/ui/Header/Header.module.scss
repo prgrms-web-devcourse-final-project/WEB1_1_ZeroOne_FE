@@ -114,3 +114,17 @@
   gap: 1rem;
   align-items: center;
 }
+
+.searchWrapper {
+  position: absolute;
+  top: $header-height;
+  right: 0;
+  display: flex;
+  width: 30%;
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+}

@@ -56,8 +56,6 @@ export const SetArchive = () => {
       {},
     );
 
-    console.log(orderRequest);
-
     updateArchiveOrder({ orderRequest });
   };
 

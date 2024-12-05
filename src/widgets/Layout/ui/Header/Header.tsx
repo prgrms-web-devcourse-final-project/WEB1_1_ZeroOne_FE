@@ -1,7 +1,7 @@
 import { faBars, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
@@ -10,16 +10,15 @@ import styles from './Header.module.scss';
 import { NAV_LINKS } from '../../constants';
 
 //assets
+import { SearchBar } from '@/features';
 import { logout } from '@/features/auth/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
-import { SearchBar } from '@/features';
 import Logo from '@/shared/assets/paletteLogo.svg?react';
-//model
 import { useModalStore } from '@/shared/model/modalStore';
-//component
-
 import { Button, customConfirm } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
+
+//model
 
 export const Header = () => {
   const { pathname } = useLocation();
@@ -58,6 +57,22 @@ export const Header = () => {
     };
   }, []);
 
+  const searchRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handler = (event: MouseEvent) => {
+      if (searchRef.current !== null && !searchRef.current.contains(event.target as Node)) {
+        setIsSearch(false);
+      }
+    };
+    if (isSearch) {
+      document.addEventListener('mousedown', handler);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handler);
+    };
+  }, [isSearch]);
+
   return (
     <header className={styles.header}>
       {/** Logo */}
@@ -85,7 +100,14 @@ export const Header = () => {
               size='lg'
             />
           </div>
-          {isSearch && <SearchBar isSearch setIsSearch={setIsSearch} />}
+          {isSearch && (
+            <div
+              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
+              ref={searchRef}
+            >
+              <SearchBar isSearch setIsSearch={setIsSearch} />
+            </div>
+          )}
           {menuOpen && <MenuModal isOpen={menuOpen} onClose={setMenuOpen} />}{' '}
         </>
       ) : (
@@ -137,7 +159,14 @@ export const Header = () => {
               </Button>
             )}
           </div>{' '}
-          {isSearch && <SearchBar isSearch setIsSearch={setIsSearch} />}
+          {isSearch && (
+            <div
+              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
+              ref={searchRef}
+            >
+              <SearchBar isSearch setIsSearch={setIsSearch} />
+            </div>
+          )}
         </>
       )}
     </header>
