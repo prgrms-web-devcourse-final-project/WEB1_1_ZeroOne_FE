@@ -13,8 +13,16 @@ export const NoticeItem = ({ type }: { type: NotificationType }) => {
       </div>
       <p className={styles.description}>{NotificationMap[type].description}</p>
       <div className={styles.buttons}>
-        <FontAwesomeIcon className={cn(styles.check, styles.button)} icon={faCircleCheck} />
-        <FontAwesomeIcon className={cn(styles.cancel, styles.button)} icon={faCircleXmark} />
+        <FontAwesomeIcon
+          className={cn(styles.check, styles.button)}
+          icon={faCircleCheck}
+          onClick={() => {}}
+        />
+        <FontAwesomeIcon
+          className={cn(styles.cancel, styles.button)}
+          icon={faCircleXmark}
+          onClick={() => {}}
+        />
       </div>
     </div>
   );

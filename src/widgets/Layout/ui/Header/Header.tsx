@@ -43,6 +43,7 @@ export const Header = () => {
     });
   };
   const [isSearch, setIsSearch] = useState(false);
+  const [isNotice, setIsNotice] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,11 +58,18 @@ export const Header = () => {
   }, []);
 
   const searchRef = useRef<HTMLDivElement>(null);
+  const notiRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handler = (event: MouseEvent) => {
       if (searchRef.current !== null && !searchRef.current.contains(event.target as Node)) {
         setTimeout(() => {
           setIsSearch(false);
+        }, 100);
+      }
+      if (notiRef.current !== null && !notiRef.current.contains(event.target as Node)) {
+        setTimeout(() => {
+          setIsNotice(false);
         }, 100);
       }
     };
@@ -72,9 +80,14 @@ export const Header = () => {
     };
   }, []);
 
-  const toggleSearch = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    if (!isSearch) setIsSearch(true);
+  const toggleSearch = () => {
+    if (!isSearch) setIsSearch(!isSearch);
+    if (isNotice) setIsNotice(false);
+  };
+
+  const toggleNoti = () => {
+    if (!isNotice) setIsNotice(!isNotice);
+    if (isSearch) setIsSearch(false);
   };
 
   return (
@@ -97,7 +110,7 @@ export const Header = () => {
             <FontAwesomeIcon
               className={cn(styles.button, styles.bell)}
               icon={faBell}
-              onClick={() => {}}
+              onClick={toggleNoti}
             />
             <FontAwesomeIcon
               icon={faBars}
@@ -149,7 +162,9 @@ export const Header = () => {
             <FontAwesomeIcon
               className={cn(styles.button, styles.bell)}
               icon={faBell}
-              onClick={() => {}}
+              onClick={() => {
+                setIsNotice(!isNotice);
+              }}
             />
             <FontAwesomeIcon
               className={cn(styles.button, styles.heart)}
@@ -193,7 +208,9 @@ export const Header = () => {
           )}
         </>
       )}
-      <NoticeContainer />
+      <div className={styles.notiWrapper} ref={notiRef}>
+        <NoticeContainer isNotice={isNotice} />
+      </div>
     </header>
   );
 };
