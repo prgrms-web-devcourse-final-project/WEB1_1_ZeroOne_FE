@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import styles from './GatheringListPage.module.scss';
 
 import type { GatheringSortType } from '@/features';
-import { useGatheringList } from '@/features';
+import { useInfiniteGatheringId } from '@/features/gathering/lib/hooks/useInfiniteGatheringId';
+import { useIntersectionObserver } from '@/shared/hook/useIntersectionObserver';
 import { SidebarFilter, PROJECT_CATEGORIES, MobileSidebarFilter, TripleDot } from '@/shared/ui';
 import { GatheringSelectCon, GatheringGrid } from '@/widgets';
 
@@ -43,7 +44,6 @@ export const GatheringListPage = () => {
   });
 
   const handleFilterChange = (categoryId: string, subItemId: string | null) => {
-    // 전체 카테고리 선택시
     if (categoryId === 'all') {
       setFilters({
         sort: undefined,
@@ -52,15 +52,13 @@ export const GatheringListPage = () => {
       return;
     }
 
-    // 메인 카테고리 선택시 (프로젝트, 스터디, 동아리, 기타)
     if (categoryId in mapCategoryToSort) {
       setFilters(prev => ({
         sort: mapCategoryToSort[categoryId],
-        subject: undefined, // 메인 카테고리 변경시 서브 카테고리 초기화
+        subject: undefined,
       }));
     }
 
-    // 서브 카테고리 선택시
     if (subItemId && subItemId in mapSubItemToSubject) {
       setFilters(prev => ({
         ...prev,
@@ -69,10 +67,18 @@ export const GatheringListPage = () => {
     }
   };
 
-  const { items, isLoading, isError, ref, isFetchingNextPage } = useGatheringList({
+  const {
+    items, // data 대신 items 사용
+    isLoading,
+    isError,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useInfiniteGatheringId({
+    size: 12,
     status: '모집중',
-    pageSize: 12,
-    ...filters,
+    sort: filters.sort,
+    subject: filters.subject,
   });
 
   useEffect(() => {
@@ -87,8 +93,21 @@ export const GatheringListPage = () => {
     };
   }, []);
 
+  const onIntersect = async () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      console.log('Fetching next page...');
+      await fetchNextPage();
+      console.log('Fetched next page');
+    }
+  };
+
+  const observerRef = useIntersectionObserver(onIntersect, {
+    threshold: 0.5,
+    rootMargin: '50px',
+  });
+
   if (isLoading) return <TripleDot />;
-  if (isError) return <div>Error loading gatherings</div>;
+  if (isError) return <div>데이터를 불러오는데 실패했습니다.</div>;
 
   return (
     <div className={styles.pageWrapper}>
@@ -135,7 +154,15 @@ export const GatheringListPage = () => {
         <div className={styles.mainContent}>
           <GatheringSelectCon />
           <GatheringGrid items={items} />
-          <div className={styles.loading} ref={ref}>
+          <div
+            ref={observerRef}
+            style={{
+              height: '20px',
+              width: '100%',
+              marginTop: '20px',
+              visibility: hasNextPage ? 'visible' : 'hidden',
+            }}
+          >
             {isFetchingNextPage && <TripleDot />}
           </div>
         </div>

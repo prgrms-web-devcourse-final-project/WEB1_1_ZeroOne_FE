@@ -37,14 +37,6 @@ export interface PageableSort {
   unsorted: boolean;
 }
 
-export interface Pageable {
-  offset: number;
-  sort: PageableSort;
-  paged: boolean;
-  pageNumber: number;
-  pageSize: number;
-  unpaged: boolean;
-}
 //확정
 export interface GatheringItem {
   gatheringId: number;
@@ -63,19 +55,6 @@ export interface GatheringPageResponse {
   };
   timeStamp: string;
 }
-// export interface GatheringListParams {
-//   pageable: {
-//     page: number;
-//     size: number;
-//     sort: string[];
-//   };
-//   sort?: string;
-//   subject?: string;
-//   period?: string;
-//   position?: string;
-//   status?: string;
-//   gatheringId?: number;
-// }
 export interface GatheringListParams {
   page: number;
   size: number;
@@ -84,5 +63,6 @@ export interface GatheringListParams {
   period?: GatheringPeriod;
   position?: GatheringPosition;
   status?: '모집중' | '모집완료' | '기간만료';
+  gatheringId?: number;
 }
 //
