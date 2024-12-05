@@ -15,9 +15,13 @@ import { Button } from '@/shared/ui';
 export const MenuModal = ({
   isOpen,
   onClose,
+  isUserData,
+  onLogout,
 }: {
   isOpen: boolean;
   onClose: (f: boolean) => void;
+  isUserData: boolean;
+  onLogout: () => Promise<void>;
 }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -78,14 +82,24 @@ export const MenuModal = ({
             onClose(false);
           }}
         />
-        <Button
-          onClick={() => {
-            open('login');
-            onClose(false);
-          }}
-        >
-          로그인
-        </Button>
+        {isUserData ? (
+          <Button
+            onClick={() => {
+              void onLogout();
+            }}
+          >
+            로그아웃
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              open('login');
+              onClose(false);
+            }}
+          >
+            로그인
+          </Button>
+        )}
       </div>{' '}
     </div>
   );

@@ -18,8 +18,6 @@ import { useModalStore } from '@/shared/model/modalStore';
 import { Button, customConfirm } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
 
-//model
-
 export const Header = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -61,17 +59,22 @@ export const Header = () => {
   useEffect(() => {
     const handler = (event: MouseEvent) => {
       if (searchRef.current !== null && !searchRef.current.contains(event.target as Node)) {
-        setIsSearch(false);
+        setTimeout(() => {
+          setIsSearch(false);
+        }, 100);
       }
     };
-    if (isSearch) {
-      document.addEventListener('mousedown', handler);
-    }
+    document.addEventListener('mousedown', handler);
 
     return () => {
       document.removeEventListener('mousedown', handler);
     };
-  }, [isSearch]);
+  }, []);
+
+  const toggleSearch = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    if (!isSearch) setIsSearch(true);
+  };
 
   return (
     <header className={styles.header}>
@@ -80,7 +83,7 @@ export const Header = () => {
         <Link to='/'>
           <Logo height={36} />
         </Link>
-        <span>Palette</span>
+        <span>Palettee</span>
       </h1>
       {isMobile ? (
         <>
@@ -88,9 +91,7 @@ export const Header = () => {
             <FontAwesomeIcon
               className={cn(styles.button, styles.search)}
               icon={faSearch}
-              onClick={() => {
-                setIsSearch(!isSearch);
-              }}
+              onClick={toggleSearch}
             />
             <FontAwesomeIcon
               icon={faBars}
@@ -108,7 +109,14 @@ export const Header = () => {
               <SearchBar isSearch setIsSearch={setIsSearch} />
             </div>
           )}
-          {menuOpen && <MenuModal isOpen={menuOpen} onClose={setMenuOpen} />}{' '}
+          {menuOpen && (
+            <MenuModal
+              isOpen={menuOpen}
+              isUserData={userData ? true : false}
+              onClose={setMenuOpen}
+              onLogout={logoutHandler}
+            />
+          )}{' '}
         </>
       ) : (
         <>
@@ -130,9 +138,7 @@ export const Header = () => {
             <FontAwesomeIcon
               className={cn(styles.button, styles.search)}
               icon={faSearch}
-              onClick={() => {
-                setIsSearch(!isSearch);
-              }}
+              onClick={toggleSearch}
             />
             <FontAwesomeIcon
               className={cn(styles.button, styles.heart)}

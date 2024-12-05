@@ -1,7 +1,7 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './SearchBar.module.scss';
@@ -15,6 +15,13 @@ export const SearchBar = ({
 }) => {
   const [searchText, setSearchText] = useState('');
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isSearch && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isSearch]);
 
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -31,6 +38,7 @@ export const SearchBar = ({
         }}
         onKeyDown={handleEnter}
         placeholder='다양한 스토리의 아카이브를 검색해보세요!'
+        ref={inputRef}
         type='text'
         value={searchText}
       />
