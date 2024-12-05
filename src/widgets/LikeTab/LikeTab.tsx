@@ -33,7 +33,7 @@ export const LikeTab = ({
 
   const {
     items: likeArchives,
-    isLoading: isArchiveLoading,
+    isPending: isArchiveLoading,
     isFetchingNextPage,
     ref,
   } = useLikeArchiveList();

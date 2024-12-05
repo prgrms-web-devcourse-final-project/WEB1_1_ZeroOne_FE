@@ -17,25 +17,23 @@ export const useCustomInfiniteQuery = <
   enabled: boolean = false,
   staleTime: number = 0,
 ) => {
-  const { data, fetchNextPage, isLoading, isError, isFetchingNextPage, refetch } = useInfiniteQuery<
-    TData,
-    TError
-  >({
-    queryKey,
-    queryFn: ({ pageParam = 0 }) => queryFn({ pageParam: pageParam as number }),
-    getNextPageParam: (lastPage, allPages) => {
-      if (Array.isArray(lastPage.data[dataKey])) {
-        const isLastPage = lastPage.data[dataKey]?.length < pageSize;
-        return isLastPage ? null : allPages.length;
-      }
-      return null;
-    },
-    initialPageParam: 0,
-    enabled: enabled,
-    staleTime,
-    refetchOnMount: 'always',
-    refetchOnWindowFocus: true,
-  });
+  const { data, fetchNextPage, isLoading, isError, isFetchingNextPage, refetch, isPending } =
+    useInfiniteQuery<TData, TError>({
+      queryKey,
+      queryFn: ({ pageParam = 0 }) => queryFn({ pageParam: pageParam as number }),
+      getNextPageParam: (lastPage, allPages) => {
+        if (Array.isArray(lastPage.data[dataKey])) {
+          const isLastPage = lastPage.data[dataKey]?.length < pageSize;
+          return isLastPage ? null : allPages.length;
+        }
+        return null;
+      },
+      initialPageParam: 0,
+      enabled: enabled,
+      staleTime,
+      refetchOnMount: 'always',
+      refetchOnWindowFocus: true,
+    });
 
   const items = useMemo(() => {
     const temp: TItem[] = [];
@@ -67,5 +65,5 @@ export const useCustomInfiniteQuery = <
     { threshold: 1.0 },
   );
 
-  return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage, refetch };
+  return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage, refetch, isPending };
 };

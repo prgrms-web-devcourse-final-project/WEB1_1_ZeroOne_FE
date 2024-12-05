@@ -13,9 +13,9 @@ export const ArchiveListPage = () => {
   const [sort, setSort] = useState({ label: '최신순', value: 'latest' });
   const [color, setColor] = useState<Color>('DEFAULT');
 
-  const { items: archives, isFetchingNextPage, ref, isLoading } = useArchiveList(sort.value, color);
+  const { items: archives, isFetchingNextPage, ref, isPending } = useArchiveList(sort.value, color);
 
-  if (isLoading) return <Loader />;
+  if (isPending) return <Loader />;
 
   return (
     <div className={styles.wrapper}>

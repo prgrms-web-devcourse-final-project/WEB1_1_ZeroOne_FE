@@ -17,10 +17,10 @@ export const SearchPage = () => {
     items: archives,
     ref,
     isFetchingNextPage,
-    isLoading,
+    isPending,
   } = useSearchArchive(searchText ?? '');
 
-  if (isLoading) return <Loader />;
+  if (isPending) return <Loader />;
 
   return (
     <div className={styles.wrapper}>

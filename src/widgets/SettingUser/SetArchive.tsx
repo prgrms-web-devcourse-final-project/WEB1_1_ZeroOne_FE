@@ -11,7 +11,7 @@ import {
 import { Button, Loader } from '@/shared/ui';
 
 export const SetArchive = () => {
-  const { data: myArchives, isLoading } = useMyArchiveList();
+  const { data: myArchives, isPending } = useMyArchiveList();
   const { mutate: updateArchiveOrder } = useUpdateArchiveOrder();
 
   const [archives, setArchives] = useState<ArchiveCardDTO[]>([]);
@@ -59,7 +59,7 @@ export const SetArchive = () => {
     updateArchiveOrder({ orderRequest });
   };
 
-  if (!myArchives?.data || isLoading) {
+  if (!myArchives?.data || isPending) {
     return <Loader />;
   }
 

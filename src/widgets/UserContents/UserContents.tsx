@@ -44,9 +44,9 @@ const ARCHIVE_COLOR_DATA = [
 ];
 
 const ArchiveContent = () => {
-  const { data: myArchives, isLoading } = useMyArchiveList();
+  const { data: myArchives, isPending } = useMyArchiveList();
 
-  if (!myArchives?.data || isLoading) {
+  if (!myArchives?.data || isPending) {
     return <Loader />;
   }
   return (
