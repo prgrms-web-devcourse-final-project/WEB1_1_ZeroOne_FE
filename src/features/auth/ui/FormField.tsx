@@ -99,15 +99,15 @@ export const UrlInputField: React.FC<ArrayInputFieldProps> = ({ name, ...restPro
 };
 
 export const FormField: React.FC<FormFieldProps> = React.memo(
-  ({ label, required, ...restProps }) => {
+  ({ label, required, name, ...restProps }) => {
     return (
       <div className={styles.formFieldWrapper}>
         <div className={styles.formInput}>
           <span>{label}</span>
-          {restProps.name === 'url' ? (
-            <UrlInputField name={restProps.name} />
+          {name === 'url' ? (
+            <UrlInputField name={name} {...restProps} />
           ) : (
-            <InputField {...restProps} />
+            <InputField name={name} {...restProps} />
           )}
           {required && <FontAwesomeIcon className={styles.require} icon={faCircleExclamation} />}
         </div>
