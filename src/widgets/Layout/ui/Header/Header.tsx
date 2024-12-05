@@ -1,4 +1,4 @@
-import { faBars, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBell, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 import React, { useRef } from 'react';
@@ -94,6 +94,11 @@ export const Header = () => {
               onClick={toggleSearch}
             />
             <FontAwesomeIcon
+              className={cn(styles.button, styles.bell)}
+              icon={faBell}
+              onClick={() => {}}
+            />
+            <FontAwesomeIcon
               icon={faBars}
               onClick={() => {
                 setMenuOpen(true);
@@ -141,10 +146,22 @@ export const Header = () => {
               onClick={toggleSearch}
             />
             <FontAwesomeIcon
+              className={cn(styles.button, styles.bell)}
+              icon={faBell}
+              onClick={() => {}}
+            />
+            <FontAwesomeIcon
               className={cn(styles.button, styles.heart)}
               icon={faHeart}
               onClick={() => {
-                navigate('/like');
+                if (userData) navigate('/like');
+                else {
+                  customConfirm({
+                    text: '로그인이 필요합니다.',
+                    title: '로그인',
+                    icon: 'info',
+                  }).catch(console.error);
+                }
               }}
             />
             {userData ? (

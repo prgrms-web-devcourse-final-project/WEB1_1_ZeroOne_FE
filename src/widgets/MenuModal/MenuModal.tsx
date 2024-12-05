@@ -10,7 +10,7 @@ import styles from './MenuModal.module.scss';
 import { NAV_LINKS } from '../Layout/constants';
 
 import { useModalStore } from '@/shared/model/modalStore';
-import { Button } from '@/shared/ui';
+import { Button, customConfirm } from '@/shared/ui';
 
 export const MenuModal = ({
   isOpen,
@@ -78,8 +78,20 @@ export const MenuModal = ({
           className={cn(styles.button, styles.heart)}
           icon={faHeart}
           onClick={() => {
-            navigate('/like');
-            onClose(false);
+            if (isUserData) {
+              navigate('/like');
+              onClose(false);
+            } else {
+              customConfirm({
+                text: '로그인이 필요합니다.',
+                title: '로그인',
+                icon: 'info',
+              })
+                .then(() => {
+                  onClose(false);
+                })
+                .catch(console.error);
+            }
           }}
         />
         {isUserData ? (
