@@ -10,7 +10,10 @@ import { GatheringDetailBtnCon, GatheringDetailHeader, GatheringDetailGrid } fro
 export const GatheringDetailPage = () => {
   const { gatheringId } = useParams();
   const { data, isLoading, isError } = useGatheringDetail(gatheringId!);
-
+  console.log('gatheringId:', gatheringId);
+  console.log('isLoading:', isLoading);
+  console.log('isError:', isError);
+  console.log('data:', data);
   if (isLoading) {
     return <div>로딩 중...</div>;
   }
@@ -23,12 +26,24 @@ export const GatheringDetailPage = () => {
     return <div>게더링을 찾을 수 없습니다.</div>;
   }
 
-  const gatheringDetail = data.data;
+  const gatheringDetail = data?.data;
+  console.log('gatheringDetail:', gatheringDetail);
 
   return (
     <div className={styles.container}>
       <GatheringDetailHeader title={gatheringDetail.title} />
-      <GatheringDetailGrid />
+      <GatheringDetailGrid
+        contact={gatheringDetail.contact}
+        createTime={gatheringDetail.createTime}
+        deadLine={gatheringDetail.deadLine}
+        gatheringTag={gatheringDetail.gatheringTag}
+        period={gatheringDetail.period}
+        personnel={gatheringDetail.personnel}
+        position={gatheringDetail.position}
+        sort={gatheringDetail.sort}
+        subject={gatheringDetail.subject}
+        username={gatheringDetail.username}
+      />
 
       <section className={styles.detailSection}>
         <h3>상세소개</h3>
