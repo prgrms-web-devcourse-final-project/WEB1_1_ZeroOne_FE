@@ -17,3 +17,4 @@ export * from './SettingUser';
 export * from './MenuModal/MenuModal';
 export * from './MainBanner/MainBanner';
 export * from './MainContents/MainContents';
+export * from './NoticeContainer/NoticeContainer';

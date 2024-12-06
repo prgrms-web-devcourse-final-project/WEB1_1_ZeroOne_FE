@@ -50,7 +50,7 @@ export const SetArchive = () => {
   const handleUpdateOrder = () => {
     const orderRequest: Record<number, number> = archives.reduce(
       (acc: Record<number, number>, archive, index) => {
-        acc[archive.archiveId] = index + 1;
+        acc[archive.archiveId] = archives.length - index;
         return acc;
       },
       {},
