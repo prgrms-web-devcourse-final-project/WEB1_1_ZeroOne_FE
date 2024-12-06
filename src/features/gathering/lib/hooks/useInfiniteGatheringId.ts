@@ -39,13 +39,14 @@ export const useInfiniteGatheringId = ({
       const params: GatheringListParams = {
         page: 0,
         size,
-        sort,
-        subject,
-        period,
-        positions,
-        status,
-        personnel,
-        contact,
+        ...(sort && { sort }),
+        ...(subject && { subject }),
+        ...(period && { period }),
+        ...(positions && { positions }),
+        ...(status && { status }),
+        ...(personnel && { personnel }),
+        ...(contact && { contact }),
+        ...(pageParam && { gatheringId: pageParam }),
 
         ...(pageParam ? { gatheringId: pageParam } : {}),
       };
