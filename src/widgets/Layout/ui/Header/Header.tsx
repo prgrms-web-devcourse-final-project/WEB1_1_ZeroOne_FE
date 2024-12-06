@@ -1,7 +1,7 @@
 import { faBars, faBell, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
@@ -57,36 +57,13 @@ export const Header = () => {
     };
   }, []);
 
-  const searchRef = useRef<HTMLDivElement>(null);
-  const notiRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handler = (event: MouseEvent) => {
-      if (searchRef.current !== null && !searchRef.current.contains(event.target as Node)) {
-        setTimeout(() => {
-          setIsSearch(false);
-        }, 100);
-      }
-      if (notiRef.current !== null && !notiRef.current.contains(event.target as Node)) {
-        setTimeout(() => {
-          setIsNotice(false);
-        }, 100);
-      }
-    };
-    document.addEventListener('mousedown', handler);
-
-    return () => {
-      document.removeEventListener('mousedown', handler);
-    };
-  }, []);
-
   const toggleSearch = () => {
-    if (!isSearch) setIsSearch(!isSearch);
+    setIsSearch(!isSearch);
     if (isNotice) setIsNotice(false);
   };
 
   const toggleNoti = () => {
-    if (!isNotice) setIsNotice(!isNotice);
+    setIsNotice(!isNotice);
     if (isSearch) setIsSearch(false);
   };
 
@@ -121,10 +98,7 @@ export const Header = () => {
             />
           </div>
           {isSearch && (
-            <div
-              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
-              ref={searchRef}
-            >
+            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
               <SearchBar isSearch setIsSearch={setIsSearch} />
             </div>
           )}
@@ -162,9 +136,7 @@ export const Header = () => {
             <FontAwesomeIcon
               className={cn(styles.button, styles.bell)}
               icon={faBell}
-              onClick={() => {
-                setIsNotice(!isNotice);
-              }}
+              onClick={toggleNoti}
             />
             <FontAwesomeIcon
               className={cn(styles.button, styles.heart)}
@@ -199,16 +171,13 @@ export const Header = () => {
             )}
           </div>{' '}
           {isSearch && (
-            <div
-              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
-              ref={searchRef}
-            >
+            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
               <SearchBar isSearch setIsSearch={setIsSearch} />
             </div>
           )}
         </>
       )}
-      <div className={styles.notiWrapper} ref={notiRef}>
+      <div className={styles.notiWrapper}>
         <NoticeContainer isNotice={isNotice} />
       </div>
     </header>

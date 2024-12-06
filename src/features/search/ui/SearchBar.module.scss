@@ -19,6 +19,12 @@
     padding: 0.5rem;
     color: $secondary-color;
   }
+
+  @media (width <= 768px) {
+    right: 1rem;
+    min-width: 280px;
+    font-size: 0.75rem;
+  }
 }
 
 .visible {
