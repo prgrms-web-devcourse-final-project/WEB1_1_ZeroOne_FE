@@ -1,5 +1,6 @@
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import cn from 'classnames';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './MainGridItem.module.scss';
@@ -72,7 +73,7 @@ export const MainGridItem = ({ type }: { type: string }) => {
       <section className={styles.container}>
         <div className={styles.gridWrapper}>
           <h4
-            className={styles.title}
+            className={cn(styles.title, styles.transformMore)}
             onClick={() => {
               navigate('/archive');
             }}
@@ -95,7 +96,7 @@ export const MainGridItem = ({ type }: { type: string }) => {
       <section className={styles.container}>
         <div className={styles.gridWrapper}>
           <h4
-            className={styles.title}
+            className={cn(styles.title, styles.transformMore)}
             onClick={() => {
               navigate('/gathering');
             }}
