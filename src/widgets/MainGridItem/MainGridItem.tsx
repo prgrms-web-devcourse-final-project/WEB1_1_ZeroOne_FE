@@ -1,7 +1,8 @@
 import styles from './MainGridItem.module.scss';
 
 import type { ArchiveCardDTO } from '@/features';
-import { ArchiveCard } from '@/features';
+import { ArchiveCard, PortfolioCard } from '@/features';
+import { GatheringCard } from '@/shared/ui';
 
 const dummyArchive: ArchiveCardDTO = {
   archiveId: 1,
@@ -19,13 +20,45 @@ export const MainGridItem = ({ type }: { type: string }) => {
   if (type === 'portfolio') {
     return (
       <section className={styles.container}>
-        <h4>인기 포트폴리오 유저를 소개합니다</h4>
         <div className={styles.gridWrapper}>
+          <h4 className={styles.title}>인기 포트폴리오 유저를 소개합니다</h4>
           <div className={styles.grid}>
-            <ArchiveCard archive={dummyArchive} />
-            <ArchiveCard archive={dummyArchive} />
-            <ArchiveCard archive={dummyArchive} />
-            <ArchiveCard archive={dummyArchive} />
+            <PortfolioCard
+              introduction=''
+              majorJobGroup=''
+              memberImageUrl=''
+              minorJobGroup=''
+              portFolioId={1}
+              portFolioUrl=''
+              username=''
+            />
+            <PortfolioCard
+              introduction=''
+              majorJobGroup=''
+              memberImageUrl=''
+              minorJobGroup=''
+              portFolioId={2}
+              portFolioUrl=''
+              username=''
+            />
+            <PortfolioCard
+              introduction=''
+              majorJobGroup=''
+              memberImageUrl=''
+              minorJobGroup=''
+              portFolioId={3}
+              portFolioUrl=''
+              username=''
+            />
+            <PortfolioCard
+              introduction=''
+              majorJobGroup=''
+              memberImageUrl=''
+              minorJobGroup=''
+              portFolioId={4}
+              portFolioUrl=''
+              username=''
+            />
           </div>
         </div>
       </section>
@@ -35,8 +68,8 @@ export const MainGridItem = ({ type }: { type: string }) => {
   if (type === 'archive') {
     return (
       <section className={styles.container}>
-        <h4>인기 아카이빙을 소개합니다</h4>
         <div className={styles.gridWrapper}>
+          <h4 className={styles.title}>인기 아카이빙을 소개합니다</h4>
           <div className={styles.grid}>
             <ArchiveCard archive={dummyArchive} />
             <ArchiveCard archive={dummyArchive} />
@@ -51,13 +84,13 @@ export const MainGridItem = ({ type }: { type: string }) => {
   if (type === 'gathering') {
     return (
       <section className={styles.container}>
-        <h4>현재 모집 중인 게더링</h4>
         <div className={styles.gridWrapper}>
+          <h4 className={styles.title}>현재 모집 중인 게더링</h4>
           <div className={styles.grid}>
-            <ArchiveCard archive={dummyArchive} />
-            <ArchiveCard archive={dummyArchive} />
-            <ArchiveCard archive={dummyArchive} />
-            <ArchiveCard archive={dummyArchive} />
+            <GatheringCard title='' />
+            <GatheringCard title='' />
+            <GatheringCard title='' />
+            <GatheringCard title='' />
           </div>
         </div>
       </section>
