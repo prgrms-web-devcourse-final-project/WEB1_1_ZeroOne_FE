@@ -8,9 +8,13 @@
 }
 
 .title {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
   font-size: 1.5rem;
   font-weight: 500;
   color: $deep-black;
+  cursor: pointer;
   visibility: hidden;
   opacity: 0;
   transition: 0.3s ease;
