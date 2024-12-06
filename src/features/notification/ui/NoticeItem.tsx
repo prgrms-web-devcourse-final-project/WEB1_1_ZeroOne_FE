@@ -7,6 +7,8 @@ import type { Notification } from '../notification.dto';
 import { NotificationMap } from '../notification.type';
 
 export const NoticeItem = ({ notification }: { notification: Notification }) => {
+  // TODO : 각 알림 타입에 대한 핸들러 함수 작성
+
   return (
     <div className={styles.container}>
       <div className={cn(styles.icon, styles[NotificationMap[notification.type].label])}>
