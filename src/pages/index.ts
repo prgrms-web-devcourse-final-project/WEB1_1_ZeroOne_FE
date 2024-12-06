@@ -10,3 +10,4 @@ export { WriteArchivePage } from './WriteArchivePage/WriteArchivePage';
 export { WriteGatheringPage } from './WriteGatheringPage/WriteGatheringPage';
 export { MyPage } from './MyPage/MyPage';
 export { LikeListPage } from './LikeListPage/LikeListPage';
+export { MainPage } from './MainPage/MainPage';
