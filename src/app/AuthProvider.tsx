@@ -6,12 +6,14 @@ import { getLocalAccessToken, removeLocalAccessToken } from '@/features/auth/aut
 import { useUserStore } from '@/features/user/model/user.store';
 import { getMyProfile } from '@/features/user/user.api';
 import { setInterceptorEvents } from '@/shared/api/baseApi';
+import { useRegistAlarm } from '@/shared/hook/useRegistAlarm';
 import { customConfirm } from '@/shared/ui';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const accessToken = getLocalAccessToken();
-  const { setUserData, clearUserData } = useUserStore(state => state.actions);
+  const { setUserData, clearUserData, done } = useUserStore(state => state.actions);
+  useRegistAlarm();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -20,9 +22,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           const userData = await getMyProfile().then(res => res.data);
           if (!userData) throw new Error('유저 정보를 찾을 수가 없습니다.');
           setUserData(userData);
+
+          done();
           return userData;
         }
         clearUserData();
+        done();
       } catch (error) {
         console.error('유저 데이터를 불러오는 중 오류가 발생했습니다.', error);
       }

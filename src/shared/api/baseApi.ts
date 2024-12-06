@@ -40,6 +40,12 @@ api.interceptors.response.use(
   response => response,
   async error => {
     console.log('에러 ㅣ ', error.response);
+    if (error.response.status === 400) {
+      if (error.response.data.reason === '토큰이 유효하지 않습니다.') {
+        interceptorEvents['logout']('토큰이 유효하지 않습니다.');
+        return Promise.reject(error instanceof Error ? error : new Error('Unknown Error'));
+      }
+    }
     if (error.response?.status === 401) {
       if (isRefreshing) {
         return Promise.reject(error instanceof Error ? error : new Error('Unknown Error'));

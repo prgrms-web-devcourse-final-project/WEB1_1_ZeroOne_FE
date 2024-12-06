@@ -11,11 +11,13 @@ interface useProfileFormProps<T extends FormValues> {
 
 export const useProfileForm = <T extends FormValues>({ formConfig }: useProfileFormProps<T>) => {
   const [formStructure, setFormStructure] = useState([...formConfig.structure]);
+  const [isResetting, setIsResetting] = useState<boolean>(false);
   const method = useForm({
     resolver: yupResolver(formConfig.validation),
     mode: 'onChange',
     defaultValues: formConfig.defaultValues,
   });
+
   const majorJobGroup = method.watch('majorJobGroup');
 
   /**
@@ -25,6 +27,11 @@ export const useProfileForm = <T extends FormValues>({ formConfig }: useProfileF
    */
   useEffect(() => {
     if (!majorJobGroup) return;
+
+    if (isResetting) {
+      setIsResetting(false);
+      return;
+    }
 
     setFormStructure(prev => {
       const updatedStructure = [...prev];
@@ -41,7 +48,6 @@ export const useProfileForm = <T extends FormValues>({ formConfig }: useProfileF
           break;
         }
       }
-
       return updatedStructure;
     });
 
@@ -50,9 +56,15 @@ export const useProfileForm = <T extends FormValues>({ formConfig }: useProfileF
     });
   }, [majorJobGroup, method]);
 
+  const handleReset = (data: Partial<T>) => {
+    setIsResetting(true);
+    method.reset(data);
+  };
+
   return {
     formStructure,
     method,
+    handleReset,
   };
 };
 
@@ -71,7 +83,11 @@ export const usePortfolioInput = () => {
       return false;
     }
 
-    if (!(value.startsWith('https://') || value.startsWith('http://'))) {
+    if (
+      !value.match(
+        /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm,
+      )
+    ) {
       setError('URL 형식이 잘못됬습니다.');
       return false;
     }

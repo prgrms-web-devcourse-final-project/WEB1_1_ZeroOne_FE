@@ -15,6 +15,7 @@ import { logout } from '@/features/auth/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
 import Logo from '@/shared/assets/paletteLogo.svg?react';
 import { useModalStore } from '@/shared/model/modalStore';
+//componen
 import { Button, customConfirm } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
 import { NoticeContainer } from '@/widgets/NoticeContainer/NoticeContainer';
@@ -33,6 +34,7 @@ export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const logoutHandler = async () => {
+    navigate('/');
     await logout();
     actions.setUserData(null);
     await customConfirm({

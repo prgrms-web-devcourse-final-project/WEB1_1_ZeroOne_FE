@@ -9,7 +9,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = ({ className, ...restProps }: Props) => {
   return (
-    <div className={cn(className, styles.inputWrapper)}>
+    <div className={cn(className, styles.inputWrapper, { [styles.disabled]: restProps.disabled })}>
       <input {...restProps} />
     </div>
   );
