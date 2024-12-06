@@ -1,50 +1,53 @@
+import { useEffect, useState } from 'react';
+
 import styles from './UserContents.module.scss';
 import { ArchiveGrid } from '../ArchiveGrid';
 import { GatheringGrid } from '../GatheringGrid';
 import { ContentsTab } from './ContentsTab';
 import { useUserTab } from './hook/useUserTab';
 
-import { useMyArchiveList } from '@/features';
+import { ColorMap, useMyArchiveList } from '@/features';
 import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
 import { Loader } from '@/shared/ui';
 import { PieChart } from '@/shared/ui/Chart/PieChart';
 
-//더미 데이터
-const ARCHIVE_COLOR_DATA = [
-  {
-    id: 'red',
-    value: 23,
-    color: '#ff5e5e',
-    label: 'red',
-  },
-  {
-    id: 'yellow',
-    value: 12,
-    color: '#ffe66b',
-    label: 'yellow',
-  },
-  {
-    id: 'green',
-    value: 32,
-    color: '#b5d681',
-    label: 'green',
-  },
-  {
-    id: 'blue',
-    value: 21,
-    color: '#8ad0e2',
-    label: 'blue',
-  },
-  {
-    id: 'purple',
-    value: 32,
-    color: '#aa8abd',
-    label: 'purple',
-  },
-];
+interface dataType {
+  id: string;
+  label: string;
+  value: number;
+  color: string;
+}
 
 const ArchiveContent = () => {
   const { data: myArchives, isPending } = useMyArchiveList();
+  const [chartData, setChartData] = useState<dataType[]>([]);
+
+  useEffect(() => {
+    if (myArchives?.data) {
+      const colors = myArchives.data.archives.reduce(
+        (acc, cur) => {
+          if (acc[cur.type]) {
+            acc[cur.type] += 1;
+          } else {
+            acc[cur.type] = 1;
+          }
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
+
+      console.log(colors);
+
+      const data = Object.entries(colors).map(([color, value]) => ({
+        id: color,
+        value,
+        color: ColorMap[color as keyof typeof ColorMap].hex,
+        label: color,
+      }));
+
+      setChartData(data);
+    }
+  }, [myArchives]);
 
   if (!myArchives?.data || isPending) {
     return <Loader />;
@@ -54,7 +57,7 @@ const ArchiveContent = () => {
       <div className={styles.colorTrendContainer}>
         <h2>나의 아카이브 현황</h2>
         <div>
-          <PieChart data={ARCHIVE_COLOR_DATA} />
+          <PieChart data={chartData} />
         </div>
       </div>
       <ArchiveGrid archives={myArchives.data?.archives} isMine />
