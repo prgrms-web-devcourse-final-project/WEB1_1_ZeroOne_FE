@@ -1,10 +1,19 @@
+import { useNavigate } from 'react-router-dom';
+
 import styles from './MyPage.module.scss';
 
-import { useRegistAlarm } from '@/shared/hook/useRegistAlarm';
+import { useRoleGuard } from '@/shared/hook/useRoleGuard';
 import { ContentLayout, SideTab, useMyTab } from '@/widgets';
 
 export const MyPage = () => {
-  useRegistAlarm();
+  const navigate = useNavigate();
+  // REAL_NEWBIE면 register page로 redirect
+  useRoleGuard({
+    requiredRoles: ['JUST_NEWBIE', 'ADMIN', 'OLD_NEWBIE', 'USER'],
+    onAccessDenied: () => {
+      navigate('/register');
+    },
+  });
 
   const { activeTabItem, isActivePath } = useMyTab();
   return (
