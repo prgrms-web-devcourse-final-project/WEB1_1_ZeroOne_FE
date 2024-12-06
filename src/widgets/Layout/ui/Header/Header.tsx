@@ -1,7 +1,7 @@
-import { faBars, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBell, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
@@ -17,6 +17,7 @@ import Logo from '@/shared/assets/paletteLogo.svg?react';
 import { useModalStore } from '@/shared/model/modalStore';
 import { Button, customConfirm } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
+import { NoticeContainer } from '@/widgets/NoticeContainer/NoticeContainer';
 
 export const Header = () => {
   const { pathname } = useLocation();
@@ -42,6 +43,7 @@ export const Header = () => {
     });
   };
   const [isSearch, setIsSearch] = useState(false);
+  const [isNotice, setIsNotice] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,25 +57,14 @@ export const Header = () => {
     };
   }, []);
 
-  const searchRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const handler = (event: MouseEvent) => {
-      if (searchRef.current !== null && !searchRef.current.contains(event.target as Node)) {
-        setTimeout(() => {
-          setIsSearch(false);
-        }, 100);
-      }
-    };
-    document.addEventListener('mousedown', handler);
+  const toggleSearch = () => {
+    setIsSearch(!isSearch);
+    if (isNotice) setIsNotice(false);
+  };
 
-    return () => {
-      document.removeEventListener('mousedown', handler);
-    };
-  }, []);
-
-  const toggleSearch = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    if (!isSearch) setIsSearch(true);
+  const toggleNoti = () => {
+    setIsNotice(!isNotice);
+    if (isSearch) setIsSearch(false);
   };
 
   return (
@@ -94,6 +85,11 @@ export const Header = () => {
               onClick={toggleSearch}
             />
             <FontAwesomeIcon
+              className={cn(styles.button, styles.bell)}
+              icon={faBell}
+              onClick={toggleNoti}
+            />
+            <FontAwesomeIcon
               icon={faBars}
               onClick={() => {
                 setMenuOpen(true);
@@ -102,10 +98,7 @@ export const Header = () => {
             />
           </div>
           {isSearch && (
-            <div
-              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
-              ref={searchRef}
-            >
+            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
               <SearchBar isSearch setIsSearch={setIsSearch} />
             </div>
           )}
@@ -141,10 +134,22 @@ export const Header = () => {
               onClick={toggleSearch}
             />
             <FontAwesomeIcon
+              className={cn(styles.button, styles.bell)}
+              icon={faBell}
+              onClick={toggleNoti}
+            />
+            <FontAwesomeIcon
               className={cn(styles.button, styles.heart)}
               icon={faHeart}
               onClick={() => {
-                navigate('/like');
+                if (userData) navigate('/like');
+                else {
+                  customConfirm({
+                    text: '로그인이 필요합니다.',
+                    title: '로그인',
+                    icon: 'info',
+                  }).catch(console.error);
+                }
               }}
             />
             {userData ? (
@@ -166,15 +171,15 @@ export const Header = () => {
             )}
           </div>{' '}
           {isSearch && (
-            <div
-              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
-              ref={searchRef}
-            >
+            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
               <SearchBar isSearch setIsSearch={setIsSearch} />
             </div>
           )}
         </>
       )}
+      <div className={styles.notiWrapper}>
+        <NoticeContainer isNotice={isNotice} />
+      </div>
     </header>
   );
 };
