@@ -1,33 +1,15 @@
 .container {
-  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 6rem 0;
-  background-color: $primary-color;
-
-  h2,
-  span {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: $red;
-  }
-}
-
-.bannerSvg {
   width: 100%;
 }
 
-.description {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: 4rem;
-  font-style: italic;
-  font-weight: 800;
-  color: $secondary-color;
-  transform: translate(-50%, -50%);
+.sliderWrapper {
+  display: flex;
+  width: 100%;
+  height: auto;
+}
+
+.banner {
+  width: 100%;
+  height: auto;
 }
