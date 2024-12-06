@@ -22,7 +22,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           const userData = await getMyProfile().then(res => res.data);
           if (!userData) throw new Error('유저 정보를 찾을 수가 없습니다.');
           setUserData(userData);
-          console.log(userData);
 
           done();
           return userData;
