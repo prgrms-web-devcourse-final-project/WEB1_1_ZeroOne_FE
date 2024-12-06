@@ -22,11 +22,15 @@ export interface BaseUserDTO {
 }
 
 export interface PostUserDTO extends BaseUserDTO {
-  url: string[];
+  socials: string[];
   s3StoredImageUrls: string[];
 }
 
-export interface PutUserDTO extends BaseUserDTO {
+export interface PutUserDTO extends PostUserDTO {
+  portfolioLink: string;
+}
+
+export interface EditUserDTO extends BaseUserDTO {
   email: string;
   portfolioLink: string;
   socials: string[];
@@ -47,6 +51,6 @@ export interface PostUserResponseDTO {
 export type GetUserDefaultApiResponse = ApiResponse<UserDefaultInfo>;
 export type PostUserApiReponse = ApiResponse<PostUserResponseDTO>;
 export type GetUserProfileApiResponse = ApiResponse<User>;
-export type GetEditUserApiResponse = ApiResponse<PutUserDTO>;
+export type GetEditUserApiResponse = ApiResponse<EditUserDTO>;
 export type PutEditUserApiResponse = ApiResponse<PostUserResponseDTO>;
 export type GetMyProfileApiResponse = ApiResponse<UserDataState>;

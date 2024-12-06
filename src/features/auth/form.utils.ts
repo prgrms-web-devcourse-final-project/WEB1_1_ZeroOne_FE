@@ -1,7 +1,8 @@
 import * as yup from 'yup';
 
-import type { FormConfigType, FormValues, PortfolioFormValues } from './form.types';
+import type { FormConfigType, FormValues, ImageField, PortfolioFormValues } from './form.types';
 import { JOB_CATEGORIES, JOB_DIVISION } from './form.types';
+import { postImages } from '../image/image.api';
 
 export const formValidation = yup.object({
   name: yup.string().required('이름을 입력해주세요.'),
@@ -32,9 +33,11 @@ export const formValidation = yup.object({
       yup.object().shape({
         value: yup
           .string()
-          .defined()
           .required('URL을 입력해주세요.')
-          .url('URL 형식에 맞게 입력해주세요.'),
+          .matches(
+            /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm,
+            'URL 형식에 맞게 입력해주세요.',
+          ),
       }),
     )
     .max(5, 'URL은 최대 5개 까지 작성 가능합니다.')
@@ -136,7 +139,13 @@ export const formConfig: FormConfigType<FormValues> = {
 
 export const profileFormValidation = formValidation.shape({
   email: yup.string().defined(),
-  portfolioLink: yup.string().defined().url('URL 형식이 아닙니다.'),
+  portfolioLink: yup
+    .string()
+    .defined()
+    .matches(
+      /^\s*$|^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm,
+      'URL 형식에 맞게 입력해주세요.',
+    ),
 });
 
 export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
@@ -205,4 +214,24 @@ export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
     portfolioLink: '',
     email: 'csk9908@naver.com',
   },
+};
+
+export const handleImageUpload = async (imageUrl: ImageField) => {
+  let profileImageUrl = imageUrl.url;
+
+  //이미지 업로드 처리
+  if (imageUrl.file) {
+    try {
+      const imageData = new FormData();
+      imageData.append('files', imageUrl.file);
+      const image = await postImages(imageData).then(res => res.data);
+      if (image && image.imgUrls[0]) {
+        profileImageUrl = image.imgUrls[0].imgUrl;
+      }
+    } catch {
+      console.error('Failed to upload image');
+    }
+
+    return profileImageUrl;
+  }
 };

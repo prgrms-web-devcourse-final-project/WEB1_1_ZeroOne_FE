@@ -17,10 +17,10 @@ export const ProfileForm = <T extends FormValues>({
   formConfig,
   data,
 }: ProfileFormProps<T>) => {
-  const { method, formStructure } = useProfileForm({ formConfig });
+  const { method, formStructure, handleReset } = useProfileForm({ formConfig });
 
   useEffect(() => {
-    method.reset(data);
+    handleReset(data);
   }, []);
 
   return (

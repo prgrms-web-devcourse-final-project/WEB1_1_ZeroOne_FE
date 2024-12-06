@@ -1,19 +1,29 @@
 import styles from './SetProfile.module.scss';
 
 import type { PortfolioFormValues } from '@/features/auth';
-import { JOB_CATEGORIES, JOB_SUB_CATEGORY, ProfileForm, profileFormConfig } from '@/features/auth';
-import type { PutUserDTO } from '@/features/user/user.dto';
-import { useGetUserEdit } from '@/features/user/user.hook';
-import { Button } from '@/shared/ui';
+import {
+  handleImageUpload,
+  JOB_CATEGORIES,
+  JOB_SUB_CATEGORY,
+  ProfileForm,
+  profileFormConfig,
+} from '@/features/auth';
+import type { UserDataState } from '@/features/user/model/user.store';
+import { useUserStore } from '@/features/user/model/user.store';
+import type { EditUserDTO, PutUserDTO } from '@/features/user/user.dto';
+import { useEditUser, useGetUserEdit } from '@/features/user/user.hook';
+import { Button, customConfirm } from '@/shared/ui';
 
 interface SetProfileProps {
-  userId: number;
+  userData: UserDataState;
 }
 
-export const SetProfile = ({ userId }: SetProfileProps) => {
-  const { data, isLoading } = useGetUserEdit(userId);
-  // console.log('데이터', data);
-  const convertDataType = (data: PutUserDTO): PortfolioFormValues => {
+export const SetProfile = ({ userData }: SetProfileProps) => {
+  const { updateUserData } = useUserStore(state => state.actions);
+  const { data, isLoading } = useGetUserEdit(userData.userId);
+  const { mutate: editUser } = useEditUser(userData.userId);
+
+  const convertDataType = (data: EditUserDTO): PortfolioFormValues => {
     const { socials, majorJobGroup, minorJobGroup, ...rest } = data;
 
     const majorOption = {
@@ -46,6 +56,57 @@ export const SetProfile = ({ userId }: SetProfileProps) => {
     };
   };
 
+  const handleSubmit = async (data: PortfolioFormValues) => {
+    const profileImageUrl = (await handleImageUpload(data.imageUrl)) || data.imageUrl.url;
+
+    const putUserData: PutUserDTO = {
+      name: data.name,
+      briefIntro: data.briefIntro,
+      portfolioLink: data.portfolioLink,
+      jobTitle: data.jobTitle,
+      division: data.division,
+      imageUrl: profileImageUrl,
+      majorJobGroup: data.majorJobGroup?.value || '',
+      minorJobGroup: data.minorJobGroup?.value || '',
+      socials: data.url.map(link => link.value),
+      s3StoredImageUrls: [],
+    };
+
+    console.log(putUserData);
+
+    editUser(
+      {
+        data: putUserData,
+      },
+      {
+        onSuccess: () => {
+          if (userData.role === 'JUST_NEWBIE' && data.portfolioLink) {
+            updateUserData({
+              name: data.name,
+              imageUrl: profileImageUrl,
+              role: 'OLD_NEWBIE',
+            });
+          }
+
+          void customConfirm({
+            title: '성공',
+            text: '유저 프로필를 수정하였습니다.',
+            icon: 'success',
+            showCancelButton: false,
+          });
+        },
+        onError: () => {
+          void customConfirm({
+            title: '오류',
+            text: '유저 프로필 수정에 실패하였습니다. 다시 시도해주세요. ',
+            icon: 'error',
+            showCancelButton: false,
+          });
+        },
+      },
+    );
+  };
+
   return (
     <div className={styles.editProfileWrapper}>
       {isLoading ? (
@@ -53,11 +114,9 @@ export const SetProfile = ({ userId }: SetProfileProps) => {
       ) : (
         data && (
           <ProfileForm
-            data={convertDataType(data.data as PutUserDTO)}
+            data={convertDataType(data.data as EditUserDTO)}
             formConfig={profileFormConfig}
-            onSubmit={data => {
-              console.log(data);
-            }}
+            onSubmit={handleSubmit}
           />
         )
       )}

@@ -3,8 +3,7 @@ import type React from 'react';
 import styles from './ProfileStep.module.scss';
 
 import type { FormValues } from '@/features/auth';
-import { ProfileForm, formConfig } from '@/features/auth';
-import { postImages } from '@/features/image/image.api';
+import { ProfileForm, formConfig, handleImageUpload } from '@/features/auth';
 import { useUserStore } from '@/features/user/model/user.store';
 import type { PostUserDTO } from '@/features/user/user.dto';
 import { useCreateUser } from '@/features/user/user.hook';
@@ -46,31 +45,20 @@ export const ProfileStep = ({ setStage }: ProfileStepProps) => {
   };
 
   const handleSubmit = async (data: FormValues) => {
-    let profileImageUrl = data.imageUrl.url;
-
-    //이미지 업로드 처리
-    if (data.imageUrl.file) {
-      try {
-        const imageData = new FormData();
-        imageData.append('files', data.imageUrl.file);
-        const image = await postImages(imageData).then(res => res.data);
-        if (image && image.imgUrls[0]) {
-          profileImageUrl = image.imgUrls[0].imgUrl;
-        }
-      } catch {
-        console.error('Failed to upload image');
-        return;
-      }
-    }
+    const profileImageUrl = (await handleImageUpload(data.imageUrl)) || data.imageUrl.url;
 
     const postUserData: PostUserDTO = {
-      ...data,
+      name: data.name,
+      briefIntro: data.briefIntro,
+      jobTitle: data.jobTitle,
+      division: data.division,
       imageUrl: profileImageUrl,
       majorJobGroup: data.majorJobGroup?.value || '',
       minorJobGroup: data.minorJobGroup?.value || '',
-      url: data.url.map(link => link.value),
+      socials: data.url.map(link => link.value),
       s3StoredImageUrls: [],
     };
+    console.log(postUserData);
     createUser(
       {
         data: postUserData,
@@ -79,7 +67,7 @@ export const ProfileStep = ({ setStage }: ProfileStepProps) => {
         onSuccess: () => {
           updateUserData({
             name: data.name,
-            imageUrl: data.imageUrl.url,
+            imageUrl: profileImageUrl,
             role: 'JUST_NEWBIE',
           });
           setStage(stage => stage + 1);
