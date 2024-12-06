@@ -4,24 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './MainGridItem.module.scss';
 
-import type { ArchiveCardDTO } from '@/features';
-import { ArchiveCard, PortfolioCard } from '@/features';
+import { ArchiveCard, PortfolioCard, usePopularArchive } from '@/features';
 import { GatheringCard } from '@/shared/ui';
-
-const dummyArchive: ArchiveCardDTO = {
-  archiveId: 1,
-  title: 'string',
-  introduction: 'string',
-  type: 'RED',
-  likeCount: 2,
-  username: 'string',
-  imageUrl: 'string',
-  createDate: 'string',
-  isLiked: true,
-};
 
 export const MainGridItem = ({ type }: { type: string }) => {
   const navigate = useNavigate();
+  const { data: archiveData } = usePopularArchive();
+
   if (type === 'portfolio') {
     return (
       <section className={styles.container}>
@@ -92,10 +81,9 @@ export const MainGridItem = ({ type }: { type: string }) => {
             <FontAwesomeIcon icon={faChevronRight} size='xs' />
           </h4>
           <div className={styles.grid}>
-            <ArchiveCard archive={dummyArchive} />
-            <ArchiveCard archive={dummyArchive} />
-            <ArchiveCard archive={dummyArchive} />
-            <ArchiveCard archive={dummyArchive} />
+            {archiveData?.data?.archives?.map(archive => (
+              <ArchiveCard archive={archive} key={archive.archiveId} />
+            ))}
           </div>
         </div>
       </section>

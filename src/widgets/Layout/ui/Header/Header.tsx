@@ -155,13 +155,13 @@ export const Header = () => {
               }}
             />
             {userData ? (
-              <Button
+              <button
                 onClick={() => {
-                  void logoutHandler();
+                  navigate('/user');
                 }}
               >
-                로그아웃
-              </Button>
+                <img alt='user-profile' className={styles.userProfile} src={userData.imageUrl} />
+              </button>
             ) : (
               <Button
                 onClick={() => {

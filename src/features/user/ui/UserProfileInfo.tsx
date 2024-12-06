@@ -15,12 +15,7 @@ export const UserProfileInfo = () => {
       <div className={styles.userInfo}>
         <div className={styles.infoHeader}>
           <strong>채승규</strong>
-          <FontAwesomeIcon
-            icon={faGear}
-            onClick={() => {
-              // TODO : 내 정보일 경우 /my로 이동
-            }}
-          />
+          <FontAwesomeIcon icon={faGear} onClick={() => {}} />
         </div>
         <div className={styles.jobInfos}>
           <span>프론트엔드 개발자</span>

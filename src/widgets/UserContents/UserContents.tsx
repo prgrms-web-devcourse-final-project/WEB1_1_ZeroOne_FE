@@ -36,8 +36,6 @@ const ArchiveContent = () => {
         {} as Record<string, number>,
       );
 
-      console.log(colors);
-
       const data = Object.entries(colors).map(([color, value]) => ({
         id: color,
         value,
