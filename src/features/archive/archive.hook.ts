@@ -17,6 +17,7 @@ import {
   putComment,
   getMyArchiveList,
   patchArchiveOrder,
+  getPopularArchive,
 } from './archive.api';
 import type {
   BaseArchiveDTO,
@@ -60,6 +61,12 @@ export const useArchive = (archiveId: number) =>
   useQuery({
     queryKey: ['/archive', archiveId],
     queryFn: () => getArchive(archiveId),
+  });
+
+export const usePopularArchive = () =>
+  useQuery({
+    queryKey: ['/archive/main'],
+    queryFn: () => getPopularArchive(),
   });
 
 export const useComments = (archiveId: number) => {
