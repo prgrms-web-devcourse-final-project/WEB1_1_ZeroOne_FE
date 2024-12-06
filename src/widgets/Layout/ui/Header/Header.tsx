@@ -1,6 +1,7 @@
 import { faBars, faBell, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
+import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -47,13 +48,38 @@ export const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!userData) return;
+
+    const EventSource = EventSourcePolyfill || NativeEventSource;
+    const accessToken = localStorage.getItem('accessToken');
+
+    new EventSource(`https://api.palettee.site/notification/subscribe`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ContentType: 'text/event-stream',
+        CacheControl: 'no-cache',
+        Connection: 'keep-alive',
+      },
+      heartbeatTimeout: 86400000,
+    });
+  }, [userData]);
+
   const toggleSearch = () => {
     setIsSearch(!isSearch);
     if (isNotice) setIsNotice(false);
   };
 
   const toggleNoti = () => {
-    setIsNotice(!isNotice);
+    if (userData) {
+      setIsNotice(!isNotice);
+    } else {
+      customConfirm({
+        text: '로그인이 필요합니다.',
+        title: '로그인',
+        icon: 'info',
+      }).catch(console.error);
+    }
     if (isSearch) setIsSearch(false);
   };
 

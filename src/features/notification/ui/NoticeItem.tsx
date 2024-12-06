@@ -3,15 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 
 import styles from './NoticeItem.module.scss';
-import { NotificationMap, type NotificationType } from '../notification.type';
+import type { Notification } from '../notification.dto';
+import { NotificationMap } from '../notification.type';
 
-export const NoticeItem = ({ type }: { type: NotificationType }) => {
+export const NoticeItem = ({ notification }: { notification: Notification }) => {
   return (
     <div className={styles.container}>
-      <div className={cn(styles.icon, styles[NotificationMap[type].label])}>
-        <FontAwesomeIcon icon={NotificationMap[type].icon} />
+      <div className={cn(styles.icon, styles[NotificationMap[notification.type].label])}>
+        <FontAwesomeIcon icon={NotificationMap[notification.type].icon} />
       </div>
-      <p className={styles.description}>{NotificationMap[type].description}</p>
+      <p className={styles.description}>{notification.content}</p>
       <div className={styles.buttons}>
         <FontAwesomeIcon
           className={cn(styles.check, styles.button)}
