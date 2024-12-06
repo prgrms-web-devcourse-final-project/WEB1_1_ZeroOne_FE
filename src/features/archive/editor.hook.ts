@@ -3,6 +3,10 @@ import { EditorView } from '@codemirror/view';
 import { useCallback } from 'react';
 
 import type { EditorViewRef } from './editor.type';
+import { useArchiveStore } from './model';
+import type { PostImagesApiResponse } from '../image/image.dto';
+
+import api from '@/shared/api/baseApi';
 
 export const useMarkdown = ({
   editorViewRef,
@@ -82,18 +86,34 @@ export const useMarkdown = ({
   }, []);
 
   const handleImage = useCallback(
-    (imageFile: File, view: EditorView) => {
+    async (imageFile: File, view: EditorView) => {
       if (!/image\/(png|jpg|jpeg|gif)/.test(imageFile.type)) return;
 
       const formData = new FormData();
-      formData.append('image', imageFile);
+      formData.append('files', imageFile);
+      const { archiveData, updateArchiveData } = useArchiveStore.getState();
 
-      // TODO: 서버 API 호출 후 이미지 URL 반환
-      console.log('Uploading image:', imageFile);
+      try {
+        const imageUrls = await api
+          .post<PostImagesApiResponse>('/upload/images', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then(res => {
+            updateArchiveData('imageUrls', [
+              ...archiveData.imageUrls,
+              { url: res.data.data?.imgUrls[0].imgUrl ?? '' },
+            ]);
 
-      // Mock image URL
-      const mockImageUrl = 'https://example.com/uploaded-image.jpg';
-      insertImageAtCursor(view, `![Image](${mockImageUrl})`);
+            return res.data.data?.imgUrls;
+          });
+
+        insertImageAtCursor(view, `![Image](${imageUrls?.[0].imgUrl})`);
+      } catch {
+        console.error('Failed to upload image');
+        return;
+      }
     },
     [insertImageAtCursor],
   );
@@ -108,7 +128,7 @@ export const useMarkdown = ({
         if (item.kind === 'file') {
           const file = item.getAsFile();
           if (file) {
-            handleImage(file, view);
+            handleImage(file, view).catch(console.error);
           }
         }
       }
@@ -122,7 +142,7 @@ export const useMarkdown = ({
 
       const { files } = event.dataTransfer;
 
-      for (const file of files) handleImage(file, view);
+      for (const file of files) handleImage(file, view).catch(console.error);
     },
   });
 

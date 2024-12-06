@@ -9,8 +9,8 @@ export const ColorChoiceStep = ({
   onSelectColor,
 }: {
   onClick: () => void;
-  selectedColor: Color | null;
-  onSelectColor: ((color: Color | null) => void) | ((color: Color) => void);
+  selectedColor: Color;
+  onSelectColor: (color: Color) => void;
 }) => {
   return (
     <>

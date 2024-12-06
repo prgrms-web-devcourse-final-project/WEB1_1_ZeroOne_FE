@@ -3,10 +3,12 @@ import { useState } from 'react';
 import { useCreateComment } from '../archive.hook';
 import styles from './WriteComment.module.scss';
 
+import { useUserStore } from '@/features/user/model/user.store';
 import { Button } from '@/shared/ui';
 
 export const WriteComment = ({ archiveId }: { archiveId: number }) => {
   const { mutate: createComment } = useCreateComment(archiveId);
+  const { userData } = useUserStore();
 
   const [content, setContent] = useState('');
 
@@ -24,7 +26,11 @@ export const WriteComment = ({ archiveId }: { archiveId: number }) => {
         <Button
           className={styles.absolute}
           onClick={() => {
-            createComment({ content: content, username: '', userProfile: '' });
+            createComment({
+              content: content,
+              username: userData?.name ?? '',
+              userProfile: userData?.imageUrl ?? '',
+            });
             setContent('');
           }}
         >

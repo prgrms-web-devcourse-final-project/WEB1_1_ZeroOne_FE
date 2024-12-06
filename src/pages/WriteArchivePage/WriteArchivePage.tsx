@@ -54,7 +54,7 @@ export const WriteArchivePage = () => {
             onClick={() => {
               dispatch({ type: 'WRITE_FORM' });
             }}
-            selectedColor={color || 'red'}
+            selectedColor={color}
           />
         ),
       };

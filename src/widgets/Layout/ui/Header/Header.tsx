@@ -1,4 +1,4 @@
-import { faBars, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBell, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 import React from 'react';
@@ -10,14 +10,15 @@ import styles from './Header.module.scss';
 import { NAV_LINKS } from '../../constants';
 
 //assets
+import { SearchBar } from '@/features';
 import { logout } from '@/features/auth/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
 import Logo from '@/shared/assets/paletteLogo.svg?react';
-//model
 import { useModalStore } from '@/shared/model/modalStore';
-//component
+//componen
 import { Button, customConfirm } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
+import { NoticeContainer } from '@/widgets/NoticeContainer/NoticeContainer';
 
 export const Header = () => {
   const { pathname } = useLocation();
@@ -43,6 +44,8 @@ export const Header = () => {
       showCancelButton: false,
     });
   };
+  const [isSearch, setIsSearch] = useState(false);
+  const [isNotice, setIsNotice] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,6 +59,16 @@ export const Header = () => {
     };
   }, []);
 
+  const toggleSearch = () => {
+    setIsSearch(!isSearch);
+    if (isNotice) setIsNotice(false);
+  };
+
+  const toggleNoti = () => {
+    setIsNotice(!isNotice);
+    if (isSearch) setIsSearch(false);
+  };
+
   return (
     <header className={styles.header}>
       {/** Logo */}
@@ -63,18 +76,42 @@ export const Header = () => {
         <Link to='/'>
           <Logo height={36} />
         </Link>
-        <span>Palette</span>
+        <span>Palettee</span>
       </h1>
       {isMobile ? (
         <>
-          <FontAwesomeIcon
-            icon={faBars}
-            onClick={() => {
-              setMenuOpen(true);
-            }}
-            size='lg'
-          />
-          {menuOpen && <MenuModal isOpen={menuOpen} onClose={setMenuOpen} />}{' '}
+          <div className={styles.mobileBtns}>
+            <FontAwesomeIcon
+              className={cn(styles.button, styles.search)}
+              icon={faSearch}
+              onClick={toggleSearch}
+            />
+            <FontAwesomeIcon
+              className={cn(styles.button, styles.bell)}
+              icon={faBell}
+              onClick={toggleNoti}
+            />
+            <FontAwesomeIcon
+              icon={faBars}
+              onClick={() => {
+                setMenuOpen(true);
+              }}
+              size='lg'
+            />
+          </div>
+          {isSearch && (
+            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
+              <SearchBar isSearch setIsSearch={setIsSearch} />
+            </div>
+          )}
+          {menuOpen && (
+            <MenuModal
+              isOpen={menuOpen}
+              isUserData={userData ? true : false}
+              onClose={setMenuOpen}
+              onLogout={logoutHandler}
+            />
+          )}{' '}
         </>
       ) : (
         <>
@@ -96,15 +133,25 @@ export const Header = () => {
             <FontAwesomeIcon
               className={cn(styles.button, styles.search)}
               icon={faSearch}
-              onClick={() => {
-                navigate('/search');
-              }}
+              onClick={toggleSearch}
+            />
+            <FontAwesomeIcon
+              className={cn(styles.button, styles.bell)}
+              icon={faBell}
+              onClick={toggleNoti}
             />
             <FontAwesomeIcon
               className={cn(styles.button, styles.heart)}
               icon={faHeart}
               onClick={() => {
-                navigate('/like');
+                if (userData) navigate('/like');
+                else {
+                  customConfirm({
+                    text: '로그인이 필요합니다.',
+                    title: '로그인',
+                    icon: 'info',
+                  }).catch(console.error);
+                }
               }}
             />
             {userData ? (
@@ -125,8 +172,16 @@ export const Header = () => {
               </Button>
             )}
           </div>{' '}
+          {isSearch && (
+            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
+              <SearchBar isSearch setIsSearch={setIsSearch} />
+            </div>
+          )}
         </>
       )}
+      <div className={styles.notiWrapper}>
+        <NoticeContainer isNotice={isNotice} />
+      </div>
     </header>
   );
 };

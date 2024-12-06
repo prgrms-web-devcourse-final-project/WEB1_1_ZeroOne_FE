@@ -12,7 +12,7 @@ interface ArchiveStore {
   setArchiveData: (newData: BaseArchiveDTO) => void;
   updateArchiveData: <T extends keyof BaseArchiveDTO>(key: T, value: BaseArchiveDTO[T]) => void;
   resetArchiveData: () => void;
-  color: Color | null;
+  color: Color;
   setColor: (color: Color) => void;
   clearStorage: () => void;
 }
@@ -21,10 +21,10 @@ export const initialArchiveState: BaseArchiveDTO = {
   title: '',
   description: '',
   introduction: '',
-  type: 'red',
+  colorType: 'DEFAULT',
   canComment: false,
   tags: [],
-  imageUrls: [{ url: 'https://source.unsplash.com/random/800x600' }],
+  imageUrls: [],
 };
 
 export const useArchiveStore = create(
@@ -58,11 +58,11 @@ export const useArchiveStore = create(
         }));
       },
 
-      color: null,
+      color: 'DEFAULT',
       setColor: color => {
         set(
           produce((state: ArchiveStore) => {
-            state.archiveData.type = color;
+            state.archiveData.colorType = color;
           }),
         );
         set(() => ({
@@ -74,7 +74,7 @@ export const useArchiveStore = create(
         set(() => ({
           archiveId: 0,
           archiveData: initialArchiveState,
-          color: null,
+          color: 'DEFAULT',
         }));
         useArchiveStore.persist.clearStorage();
       },

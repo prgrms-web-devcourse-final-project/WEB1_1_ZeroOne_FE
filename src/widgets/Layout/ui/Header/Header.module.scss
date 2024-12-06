@@ -95,12 +95,41 @@
 }
 
 .button {
+  color: $primary-color;
   cursor: pointer;
   transition: 0.3s ease;
+
+  &:hover {
+    transform: scale(0.8);
+  }
 }
 
 .heart {
   &:hover {
     color: $red;
   }
+}
+
+.mobileBtns {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.searchWrapper {
+  position: absolute;
+  top: $header-height;
+  right: 0;
+  z-index: 2000;
+  display: flex;
+  width: 30%;
+}
+
+.notiWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2000;
+  display: flex;
+  min-width: 320px;
 }

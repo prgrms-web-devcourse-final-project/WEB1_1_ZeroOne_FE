@@ -1,4 +1,4 @@
-import { faHeart, faHome, faSearch, faX } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faHome, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 import React from 'react';
@@ -10,14 +10,18 @@ import styles from './MenuModal.module.scss';
 import { NAV_LINKS } from '../Layout/constants';
 
 import { useModalStore } from '@/shared/model/modalStore';
-import { Button } from '@/shared/ui';
+import { Button, customConfirm } from '@/shared/ui';
 
 export const MenuModal = ({
   isOpen,
   onClose,
+  isUserData,
+  onLogout,
 }: {
   isOpen: boolean;
   onClose: (f: boolean) => void;
+  isUserData: boolean;
+  onLogout: () => Promise<void>;
 }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -71,29 +75,43 @@ export const MenuModal = ({
       </nav>
       <div className={styles.userMenu}>
         <FontAwesomeIcon
-          className={cn(styles.button, styles.search)}
-          icon={faSearch}
-          onClick={() => {
-            navigate('/search');
-            onClose(false);
-          }}
-        />
-        <FontAwesomeIcon
           className={cn(styles.button, styles.heart)}
           icon={faHeart}
           onClick={() => {
-            navigate('/like');
-            onClose(false);
+            if (isUserData) {
+              navigate('/like');
+              onClose(false);
+            } else {
+              customConfirm({
+                text: '로그인이 필요합니다.',
+                title: '로그인',
+                icon: 'info',
+              })
+                .then(() => {
+                  onClose(false);
+                })
+                .catch(console.error);
+            }
           }}
         />
-        <Button
-          onClick={() => {
-            open('login');
-            onClose(false);
-          }}
-        >
-          로그인
-        </Button>
+        {isUserData ? (
+          <Button
+            onClick={() => {
+              void onLogout();
+            }}
+          >
+            로그아웃
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              open('login');
+              onClose(false);
+            }}
+          >
+            로그인
+          </Button>
+        )}
       </div>{' '}
     </div>
   );

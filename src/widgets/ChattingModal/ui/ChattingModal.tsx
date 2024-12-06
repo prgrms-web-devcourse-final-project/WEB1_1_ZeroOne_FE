@@ -2,7 +2,13 @@ import { useState } from 'react';
 
 import styles from './ChattingModal.module.scss';
 
-import { ChatInput, ChatRoomItem, ChatBottomNav, HomeHeader, ChatHeader } from '@/features';
+import {
+  ChatInput,
+  ChatRoomItem,
+  ChatBottomNav,
+  HomeHeader,
+  ChatHeader,
+} from '@/features/chatting';
 import { chatListDummyData } from '@/features/chatting/model/mock';
 import { Modal } from '@/shared/ui';
 

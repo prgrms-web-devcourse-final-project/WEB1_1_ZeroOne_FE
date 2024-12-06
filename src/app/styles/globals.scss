@@ -52,8 +52,12 @@
 // 토스트 메시지 스타일링
 .swal2-toast {
   font-family: 'Pretendard Variable', Pretendard, sans-serif !important;
-  background-color: rgba(variables.$secondary-color, 0.95) !important;
+  background-color: rgba(variables.$secondary-color, 1) !important;
   box-shadow: 0 0 1rem rgba(variables.$primary-color, 0.1) !important;
+
+  .swal2-container.swal2-backdrop-show {
+    background-color: transparent !important;
+  }
 }
 
 // 아이콘 색상 커스텀
@@ -96,11 +100,6 @@
     color: variables.$purple !important;
     border-color: variables.$purple !important;
   }
-}
-
-// 오버레이 배경 커스텀
-.swal2-container.swal2-backdrop-show {
-  background-color: variables.$modal-bg !important;
 }
 
 // 프로그레스 바 커스텀 (토스트용)

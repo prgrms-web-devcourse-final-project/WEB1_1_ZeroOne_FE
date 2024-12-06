@@ -6,9 +6,9 @@ export interface BaseArchiveDTO {
   title: string;
   description: string;
   introduction: string;
-  type: Color;
+  colorType: Color;
   canComment: boolean;
-  tags: { content: string }[];
+  tags: { tag: string }[];
   imageUrls: { url: string }[];
 }
 
@@ -20,6 +20,7 @@ export interface Archive extends BaseArchiveDTO {
   hits: number;
   isMine: boolean;
   userProfile: string;
+  type: Color;
 }
 
 export interface ArchiveCardDTO {
@@ -29,8 +30,8 @@ export interface ArchiveCardDTO {
   type: Color;
   likeCount: number;
   username: string;
-  thumbnail: string;
-  createDate: Date;
+  imageUrl: string;
+  createDate: string;
   isLiked: boolean;
 }
 
@@ -50,8 +51,46 @@ export interface PostArchiveResponseDTO {
   archiveId: number;
 }
 
+export interface PatchArchiveOrderDTO {
+  orderRequest: Record<number, number>;
+}
+
+export type Meta = {
+  currentPage: number;
+  size: number;
+  hasNext: boolean;
+};
+
+export type CommentPageData = {
+  comments: Comment[];
+  meta: Meta;
+};
+
+export type ArchivePageData = {
+  archives: ArchiveCardDTO[];
+  meta: Meta;
+};
+
+export type Page<T> = {
+  data: T;
+  timeStamp: string;
+};
+
+export type CommentsPageDTO = {
+  pages: Page<CommentPageData>[];
+  pageParams: number[];
+};
+
+export type ArchivePageDTO = {
+  pages: Page<ArchivePageData>[];
+  pageParams: number[];
+};
+
 export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;
 export type GetArchiveApiResponse = ApiResponse<Archive>;
 export type GetCommentsApiResponse = ApiResponse<Comment[]>;
 export type PostCommentApiResponse = ApiResponse<PostCommentResponseDTO>;
-export type GetArchiveListApiResponse = ApiResponse<ArchiveCardDTO[]>;
+export type GetArchiveListApiResponse = ApiResponse<{
+  archives: ArchiveCardDTO[];
+  slice: Meta;
+}>;
