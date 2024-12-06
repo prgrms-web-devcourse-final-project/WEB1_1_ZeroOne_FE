@@ -4,12 +4,10 @@ import { GatheringGrid } from '../GatheringGrid';
 import { ContentsTab } from './ContentsTab';
 import { useUserTab } from './hook/useUserTab';
 
-
 import type { ArchiveCardDTO, Color } from '@/features';
-import type { GatheringItem } from '@/features/gathering/model/dto/gathering.dto';
 import { useMyArchiveList } from '@/features';
+import type { GatheringItem } from '@/features/gathering/model/dto/gathering.dto';
 import { Loader } from '@/shared/ui';
-
 import { PieChart } from '@/shared/ui/Chart/PieChart';
 
 //더미 데이터
