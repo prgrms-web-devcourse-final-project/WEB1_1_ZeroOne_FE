@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  width: 100%;
+
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: $deep-black;
+  }
+}
+
+.gridWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-auto-rows: minmax(20rem, auto);
+  gap: 1rem;
+  width: 100rem;
+  height: 17rem;
+  overflow: hidden;
+}
