@@ -11,7 +11,6 @@ import { NAV_LINKS } from '../../constants';
 
 //assets
 import { SearchBar } from '@/features';
-import { logout } from '@/features/auth/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
 import Logo from '@/shared/assets/paletteLogo.svg?react';
 import { useModalStore } from '@/shared/model/modalStore';
@@ -24,7 +23,7 @@ export const Header = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const open = useModalStore(state => state.actions.open);
-  const { userData, actions } = useUserStore(
+  const { userData } = useUserStore(
     useShallow(state => ({
       userData: state.userData,
       actions: state.actions,
@@ -33,17 +32,6 @@ export const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const logoutHandler = async () => {
-    navigate('/');
-    await logout();
-    actions.setUserData(null);
-    await customConfirm({
-      title: '로그아웃',
-      text: '로그아웃 되었습니다.',
-      icon: 'info',
-      showCancelButton: false,
-    });
-  };
   const [isSearch, setIsSearch] = useState(false);
   const [isNotice, setIsNotice] = useState(false);
 
@@ -109,7 +97,6 @@ export const Header = () => {
               isOpen={menuOpen}
               isUserData={userData ? true : false}
               onClose={setMenuOpen}
-              onLogout={logoutHandler}
             />
           )}{' '}
         </>
@@ -155,13 +142,13 @@ export const Header = () => {
               }}
             />
             {userData ? (
-              <Button
+              <button
                 onClick={() => {
-                  void logoutHandler();
+                  navigate('/user');
                 }}
               >
-                로그아웃
-              </Button>
+                <img alt='user-profile' className={styles.userProfile} src={userData.imageUrl} />
+              </button>
             ) : (
               <Button
                 onClick={() => {

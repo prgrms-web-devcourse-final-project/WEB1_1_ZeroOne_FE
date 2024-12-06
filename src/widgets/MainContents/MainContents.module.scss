@@ -7,6 +7,8 @@
   margin-bottom: 2rem;
 
   @media (width <= 768px) {
+    gap: 2rem;
     padding: 2rem;
+    margin-bottom: 0;
   }
 }

@@ -53,3 +53,11 @@
     color: $red;
   }
 }
+
+.userProfile {
+  width: 2rem;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+}
