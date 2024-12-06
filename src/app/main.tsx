@@ -7,10 +7,11 @@ import App from './App';
 import { worker } from '../mocks/browser';
 import './styles/globals.scss';
 
-if (process.env.NODE_ENV === 'development') {
-  void worker.start({ onUnhandledRequest: 'warn' });
-}
-const queryClient = new QueryClient();
+
+// if (process.env.NODE_ENV === 'development') {
+//   void worker.start({ onUnhandledRequest: 'warn' });
+// }
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -14,3 +14,5 @@ export { Tag } from './Tag/Tag';
 export { TextArea } from './TextArea/TextArea';
 export { TripleDot } from './TripleDot/TripleDot';
 export { ScrollToTop } from './ScrollToTop/ScrollToTop';
+export { NoResult } from './NoResult/NoResult';
+export { Loader } from './Loader/Loader';

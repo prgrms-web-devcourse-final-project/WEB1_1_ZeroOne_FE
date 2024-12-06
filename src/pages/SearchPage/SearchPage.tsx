@@ -1,18 +1,36 @@
-import { useState } from 'react';
+import { faChevronRight, faHome } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useLocation } from 'react-router-dom';
 
 import styles from './SearchPage.module.scss';
 
-import { SearchBar } from '@/features';
-import { SearchTap } from '@/widgets';
+import { useSearchArchive } from '@/features';
+import { Loader, TripleDot } from '@/shared/ui';
+import { ArchiveGrid } from '@/widgets';
 
 export const SearchPage = () => {
-  const [searchText, setSearchText] = useState('');
-  const [activeTab, setActiveTab] = useState('전체');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchText = searchParams.get('searchText');
+
+  const {
+    items: archives,
+    ref,
+    isFetchingNextPage,
+    isPending,
+  } = useSearchArchive(searchText ?? '');
+
+  if (isPending) return <Loader />;
 
   return (
     <div className={styles.wrapper}>
-      <SearchBar searchText={searchText} setSearchText={setSearchText} />
-      <SearchTap activeTab={activeTab} setActiveTab={setActiveTab} />
+      <span className={styles.path}>
+        <FontAwesomeIcon icon={faHome} size='xs' />
+        <FontAwesomeIcon icon={faChevronRight} size='xs' />
+        Search
+      </span>
+      <ArchiveGrid archives={archives} />
+      <div ref={ref}>{isFetchingNextPage && <TripleDot />}</div>
     </div>
   );
 };

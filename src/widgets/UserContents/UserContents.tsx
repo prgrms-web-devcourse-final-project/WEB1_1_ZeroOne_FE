@@ -4,8 +4,12 @@ import { GatheringGrid } from '../GatheringGrid';
 import { ContentsTab } from './ContentsTab';
 import { useUserTab } from './hook/useUserTab';
 
+
 import type { ArchiveCardDTO, Color } from '@/features';
 import type { GatheringItem } from '@/features/gathering/model/dto/gathering.dto';
+import { useMyArchiveList } from '@/features';
+import { Loader } from '@/shared/ui';
+
 import { PieChart } from '@/shared/ui/Chart/PieChart';
 
 //더미 데이터
@@ -42,30 +46,24 @@ const ARCHIVE_COLOR_DATA = [
   },
 ];
 
-//더미 데이터
-const dummyArchives: ArchiveCardDTO[] = Array.from({ length: 9 }, (_, i) => ({
-  archiveId: i,
-  title: `Sample Archive`,
-  introduction: `Description for sample archive`,
-  type: ['red', 'blue', 'green', 'yellow', 'purple'][Math.floor(Math.random() * 4)] as Color,
-  username: '홍길동',
-  likeCount: Math.floor(Math.random() * 100),
-  isLiked: Math.random() > 0.5,
-  thumbnail: 'https://picsum.photos/300/200',
-  createDate: new Date(),
-}));
+const ArchiveContent = () => {
+  const { data: myArchives, isPending } = useMyArchiveList();
 
-const ArchiveContent = () => (
-  <div className={styles.colorTrendWrapper}>
-    <div className={styles.colorTrendContainer}>
-      <h2>나의 아카이브 현황</h2>
-      <div>
-        <PieChart data={ARCHIVE_COLOR_DATA} />
+  if (!myArchives?.data || isPending) {
+    return <Loader />;
+  }
+  return (
+    <div className={styles.colorTrendWrapper}>
+      <div className={styles.colorTrendContainer}>
+        <h2>나의 아카이브 현황</h2>
+        <div>
+          <PieChart data={ARCHIVE_COLOR_DATA} />
+        </div>
       </div>
+      <ArchiveGrid archives={myArchives.data?.archives} isMine />
     </div>
-    <ArchiveGrid archives={dummyArchives} />
-  </div>
-);
+  );
+};
 
 const dummyGatherings: GatheringItem[] = Array.from({ length: 9 }, (_, i) => ({
   gatheringId: i,
