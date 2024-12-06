@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.title {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: $deep-black;
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+.gridWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  &:hover {
+    .title {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(-1rem);
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-auto-rows: minmax(20rem, auto);
+  gap: 1rem;
+  width: 100rem;
+  overflow: hidden;
+}
