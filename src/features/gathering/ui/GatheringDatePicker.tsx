@@ -68,7 +68,7 @@ export const GatheringDatePicker = ({
         rules={{
           required: isRequired && '날짜를 선택해주세요',
           validate: {
-            futureDate: (value: string | string[]) => {
+            futureDate: (value: string | number | string[]) => {
               if (!value || Array.isArray(value)) return true;
               const date = new Date(value);
               const today = new Date();
