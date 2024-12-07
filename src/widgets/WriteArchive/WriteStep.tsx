@@ -40,9 +40,7 @@ export const WriteStep = ({
         updateArchiveData('tags', [...archiveData.tags, { tag: tag.trim() }]);
         setTag('');
       } else {
-        customToast({ text: '이미 추가된 태그입니다.', timer: 3000, icon: 'info' }).catch(
-          console.error,
-        );
+        void customToast({ text: '이미 추가된 태그입니다.', timer: 3000, icon: 'info' });
       }
     }
   };
@@ -70,7 +68,7 @@ export const WriteStep = ({
 
     if (missingFields.length > 0) {
       const missingMessage = `${missingFields.join(', ')}을(를) 입력해주세요.`;
-      customConfirm({ text: missingMessage, icon: 'warning' }).catch(console.error);
+      void customConfirm({ text: missingMessage, icon: 'warning' });
       return false;
     }
 
@@ -87,7 +85,7 @@ export const WriteStep = ({
         resetArchiveData();
         navigate(`/archive/${archiveId}`);
         setArchiveId(0);
-        customToast({ text: '아카이브가 수정되었어요!', timer: 3000, icon: 'success' });
+        void customToast({ text: '아카이브가 수정되었어요!', timer: 3000, icon: 'success' });
       },
       onSettled: () => {
         setIsLoading(false);
@@ -104,7 +102,7 @@ export const WriteStep = ({
       onSuccess: (data: PostArchiveApiResponse) => {
         resetArchiveData();
         navigate(`/archive/${data.data?.archiveId}`);
-        customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
+        void customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
       },
       onSettled: () => {
         setIsLoading(false);

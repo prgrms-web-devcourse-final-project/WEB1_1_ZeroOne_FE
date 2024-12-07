@@ -10,7 +10,6 @@ import {
   postCreateComment,
   putArchive,
   getArchiveList,
-  getPopularlityArchiveList,
   postLikeArchive,
   getLikeArchiveList,
   getSearchArchive,
@@ -264,12 +263,6 @@ export const useDeleteComment = (archiveId: number) => {
   });
 };
 
-export const usePopularArchiveList = (size: number) =>
-  useQuery({
-    queryKey: ['/archive', 'popularlity'],
-    queryFn: () => getPopularlityArchiveList(size),
-  });
-
 export const useArchiveList = (sort: string, color: Color) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/archive', 'list', sort, color],
@@ -306,13 +299,14 @@ export const useLikeArchive = (archiveId: number) => {
   return useMutation({
     mutationFn: () => postLikeArchive(archiveId),
     onMutate: async () => {
-      // TODO : isLiked optimistic update
       await queryClient.cancelQueries({ queryKey: ['/archive', 'list', 'me', 'like'] });
+      await queryClient.cancelQueries({ queryKey: ['/archive/main'] });
 
       const prevArchiveList = queryClient.getQueryData(['/archive', 'list', 'me', 'like']);
       const prevLikedData = queryClient.getQueryCache().findAll({
         predicate: query => query.queryKey[0] === '/archive' && query.queryKey[1] === 'list',
       });
+      const prevMainData = queryClient.getQueryData(['/archive/main']);
 
       queryClient.setQueryData(['/archive', 'list', 'me', 'like'], (old: ArchivePageDTO) => {
         if (!old) return old;
@@ -360,7 +354,29 @@ export const useLikeArchive = (archiveId: number) => {
         });
       });
 
-      return { prevArchiveList, prevLikedData };
+      queryClient.setQueryData(['/archive/main'], (old: GetArchiveListApiResponse) => {
+        if (!old) return old;
+
+        const updatedArchives = old.data?.archives.map((archive: ArchiveCardDTO) => {
+          if (archive.archiveId === archiveId) {
+            return {
+              ...archive,
+              isLiked: !archive.isLiked,
+            };
+          }
+          return archive;
+        });
+
+        return {
+          ...old,
+          data: {
+            ...old.data,
+            archives: updatedArchives,
+          },
+        };
+      });
+
+      return { prevArchiveList, prevLikedData, prevMainData };
     },
     onError: (err, _, context) => {
       if (context) {
@@ -370,6 +386,7 @@ export const useLikeArchive = (archiveId: number) => {
             console.error('Failed to invalidate query:', err);
           });
         });
+        queryClient.setQueryData(['/archive/main'], context.prevMainData);
       }
     },
     onSuccess: async () => {
@@ -381,6 +398,9 @@ export const useLikeArchive = (archiveId: number) => {
         .catch(err => {
           console.error('Failed to invalidate queries:', err);
         });
+      await queryClient.invalidateQueries({ queryKey: ['/archive/main'] }).catch(err => {
+        console.error('Failed to invalidate queries:', err);
+      });
     },
   });
 };

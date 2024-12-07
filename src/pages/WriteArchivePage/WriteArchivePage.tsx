@@ -34,7 +34,7 @@ export const WriteArchivePage = () => {
 
   const handleColorCheckAndDispatch = (action: StepAction) => {
     if (!color || color === 'DEFAULT') {
-      customConfirm({ text: '색상을 선택해주세요.', icon: 'warning' }).catch(console.error);
+      void customConfirm({ text: '색상을 선택해주세요.', icon: 'warning' });
     }
     dispatch(action);
   };

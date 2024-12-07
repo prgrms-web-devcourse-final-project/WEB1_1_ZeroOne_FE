@@ -101,11 +101,11 @@ export const Header = () => {
     if (userData) {
       setIsNotice(!isNotice);
     } else {
-      customConfirm({
+      void customConfirm({
         text: '로그인이 필요합니다.',
         title: '로그인',
         icon: 'info',
-      }).catch(console.error);
+      });
     }
     if (isSearch) setIsSearch(false);
   };
@@ -189,11 +189,11 @@ export const Header = () => {
               onClick={() => {
                 if (userData) navigate('/like');
                 else {
-                  customConfirm({
+                  void customConfirm({
                     text: '로그인이 필요합니다.',
                     title: '로그인',
                     icon: 'info',
-                  }).catch(console.error);
+                  });
                 }
               }}
             />
