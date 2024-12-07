@@ -129,26 +129,17 @@ export interface PortfolioResponse {
   empty: boolean;
 }
 export type PortfolioListApiResponse = ApiResponse<PortfolioResponse>;
-// "pageable": {
-//   "pageNumber": 0, // 현재 페이지 번호 (0부터 시작) -> 중요
-//   "pageSize": 10, // 한 페이지에 표시할 데이터 수   -> 중요
-//   "sort": {
-//       "empty": false, // 정렬 조건이 비어 있는지 여부
-//       "sorted": true, // 정렬이 활성화되어 있는지 여부
-//       "unsorted": false // 정렬이 비활성화되어 있는지 여부
-//   },
-//   "offset": 0, // 데이터 조회 시작점 (0번부터 시작)-> 중요
-//   "paged": true, // 페이징이 활성화되어 있는지 여부
-//   "unpaged": false // 페이징이 비활성화되어 있는지 여부
-// },
-// "size": 10, // 현재 페이지에서 가져온 데이터의 크기 (pageSize와 동일)
-// "number": 0, // 현재 페이지 번호 (pageable.pageNumber와 동일)
-// "sort": {
-//   "empty": false, // 정렬 조건이 비어 있는지 여부
-//   "sorted": true, // 정렬이 활성화되어 있는지 여부
-//   "unsorted": false // 정렬이 비활성화되어 있는지 여부
-// },
-// "first": true, // 현재 페이지가 첫 번째 페이지인지 여부 ->중요
-// "last": false, // 현재 페이지가 마지막 페이지인지 여부 -> 중요
-// "numberOfElements": 10, // 현재 페이지에서 조회된 데이터의 수
-// "empty": false // 조회된 데이터가 비어 있는지 여부
+
+//메인
+// MainPortfolio 인터페이스는 Portfolio를 확장하여 score 추가
+export interface MainPortfolio extends Portfolio {
+  score: number; // 가중치 추가
+}
+
+// 메인 포트폴리오 응답 컨텐츠 인터페이스
+export interface MainPortfolioContent {
+  portfolioResponses: MainPortfolio[];
+}
+
+// 메인 포트폴리오 API 응답 타입
+export type MainPortfolioResponse = ApiResponse<MainPortfolioContent>;

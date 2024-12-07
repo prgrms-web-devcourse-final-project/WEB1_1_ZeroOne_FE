@@ -1,4 +1,8 @@
-import type { PortfolioListApiResponse, PortfolioParams } from '../model/types';
+import type {
+  MainPortfolioResponse,
+  PortfolioListApiResponse,
+  PortfolioParams,
+} from '../model/types';
 
 import api from '@/shared/api/baseApi';
 
@@ -22,3 +26,7 @@ export const getPortfolioList = async (
   return response.data;
 };
 
+export const getMainPortfolioList = async (): Promise<MainPortfolioResponse> => {
+  const response = await api.get<MainPortfolioResponse>(`${PORTFOLIO_API_URL}/main`);
+  return response.data;
+};
