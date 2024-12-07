@@ -1,11 +1,15 @@
 import * as yup from 'yup';
 
-import type { FormConfigType, FormValues, PortfolioFormValues } from './form.types';
+import type { FormConfigType, FormValues, ImageField, PortfolioFormValues } from './form.types';
 import { JOB_CATEGORIES, JOB_DIVISION } from './form.types';
+import { postImages } from '../image/image.api';
 
 export const formValidation = yup.object({
   name: yup.string().required('이름을 입력해주세요.'),
-  briefIntro: yup.string().defined().max(100, '100글자 이하로 소개 글을 작성해주세요.'),
+  briefIntro: yup
+    .string()
+    .required('자기소개를 입력해주세요.')
+    .max(100, '100글자 이하로 소개 글을 작성해주세요.'),
   majorJobGroup: yup
     .object()
     .shape({
@@ -29,14 +33,22 @@ export const formValidation = yup.object({
       yup.object().shape({
         value: yup
           .string()
-          .defined()
           .required('URL을 입력해주세요.')
-          .url('URL 형식에 맞게 입력해주세요.'),
+          .matches(
+            /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm,
+            'URL 형식에 맞게 입력해주세요.',
+          ),
       }),
     )
     .max(5, 'URL은 최대 5개 까지 작성 가능합니다.')
     .defined(),
-  imageUrl: yup.string().defined(), //.required('프로필 이미지를 등록해주세요.'),
+  imageUrl: yup
+    .object()
+    .shape({
+      url: yup.string().defined(),
+      file: yup.mixed().nullable(),
+    })
+    .defined(), //.required('프로필 이미지를 등록해주세요.'),
 });
 
 export const formConfig: FormConfigType<FormValues> = {
@@ -118,17 +130,57 @@ export const formConfig: FormConfigType<FormValues> = {
     jobTitle: '',
     division: 'student',
     url: [],
-    imageUrl: '',
+    imageUrl: {
+      url: '',
+      file: null,
+    },
   },
 };
 
 export const profileFormValidation = formValidation.shape({
-  portfolioUrl: yup.string().defined().url('URL 형식이 아닙니다.'),
+  email: yup.string().defined(),
+  portfolioLink: yup
+    .string()
+    .defined()
+    .matches(
+      /^\s*$|^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm,
+      'URL 형식에 맞게 입력해주세요.',
+    ),
 });
 
 export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
   structure: [
-    ...formConfig.structure.slice(0, 2),
+    {
+      title: '기본 정보',
+      inputs: [
+        {
+          label: '프로필 사진',
+          type: 'image',
+          name: 'imageUrl',
+        },
+        {
+          label: '이메일',
+          type: 'default',
+          name: 'email',
+          disabled: true,
+        },
+        {
+          label: '이름',
+          type: 'default',
+          name: 'name',
+          required: true,
+          placeholder: '이름을 입력해주세요.',
+        },
+        {
+          label: '한 줄 소개',
+          type: 'textarea',
+          name: 'briefIntro',
+          maxLength: 100,
+          placeholder: '한 줄 소개를 입력해주세요.',
+        },
+      ],
+    },
+    ...formConfig.structure.slice(1, 2),
     {
       title: 'URL',
       inputs: [
@@ -140,7 +192,7 @@ export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
         {
           label: '포트폴리오 URL',
           type: 'default',
-          name: 'portfolioUrl',
+          name: 'portfolioLink',
           placeholder: 'https://',
         },
       ],
@@ -155,7 +207,31 @@ export const profileFormConfig: FormConfigType<PortfolioFormValues> = {
     jobTitle: '',
     division: 'student',
     url: [],
-    imageUrl: '',
-    portfolioUrl: '',
+    imageUrl: {
+      url: '',
+      file: null,
+    },
+    portfolioLink: '',
+    email: 'csk9908@naver.com',
   },
+};
+
+export const handleImageUpload = async (imageUrl: ImageField) => {
+  let profileImageUrl = imageUrl.url;
+
+  //이미지 업로드 처리
+  if (imageUrl.file) {
+    try {
+      const imageData = new FormData();
+      imageData.append('files', imageUrl.file);
+      const image = await postImages(imageData).then(res => res.data);
+      if (image && image.imgUrls[0]) {
+        profileImageUrl = image.imgUrls[0].imgUrl;
+      }
+    } catch {
+      console.error('Failed to upload image');
+    }
+
+    return profileImageUrl;
+  }
 };

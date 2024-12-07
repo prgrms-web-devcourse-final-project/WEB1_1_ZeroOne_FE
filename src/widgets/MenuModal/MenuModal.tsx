@@ -9,23 +9,24 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './MenuModal.module.scss';
 import { NAV_LINKS } from '../Layout/constants';
 
+import { useUserStore } from '@/features/user/model/user.store';
 import { useModalStore } from '@/shared/model/modalStore';
-import { Button } from '@/shared/ui';
+import { Button, customConfirm } from '@/shared/ui';
 
 export const MenuModal = ({
   isOpen,
   onClose,
   isUserData,
-  onLogout,
 }: {
   isOpen: boolean;
   onClose: (f: boolean) => void;
   isUserData: boolean;
-  onLogout: () => Promise<void>;
 }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const open = useModalStore(state => state.actions.open);
+
+  const { userData } = useUserStore();
 
   useEffect(() => {
     if (isOpen) {
@@ -78,18 +79,26 @@ export const MenuModal = ({
           className={cn(styles.button, styles.heart)}
           icon={faHeart}
           onClick={() => {
-            navigate('/like');
-            onClose(false);
+            if (isUserData) {
+              navigate('/like');
+              onClose(false);
+            } else {
+              customConfirm({
+                text: '로그인이 필요합니다.',
+                title: '로그인',
+                icon: 'info',
+              })
+                .then(() => {
+                  onClose(false);
+                })
+                .catch(console.error);
+            }
           }}
         />
         {isUserData ? (
-          <Button
-            onClick={() => {
-              void onLogout();
-            }}
-          >
-            로그아웃
-          </Button>
+          <button>
+            <img alt='user-profile' className={styles.userProfile} src={userData?.imageUrl} />
+          </button>
         ) : (
           <Button
             onClick={() => {

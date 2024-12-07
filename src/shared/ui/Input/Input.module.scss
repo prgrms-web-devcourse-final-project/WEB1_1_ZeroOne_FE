@@ -14,4 +14,8 @@
     border-color: $active-color;
     box-shadow: 0 0 0 1px $active-color;
   }
+
+  &.disabled {
+    background-color: #f0f0f0;
+  }
 }

@@ -12,6 +12,7 @@ export interface UserDataState {
 
 interface UserState {
   userData: UserDataState | null;
+  loading: boolean;
 }
 
 interface UserActions {
@@ -19,17 +20,19 @@ interface UserActions {
     setUserData: (data: UserDataState | null) => void;
     updateUserData: (updatedData: Partial<UserDataState>) => void;
     clearUserData: () => void;
+    load: () => void;
+    done: () => void;
   };
 }
 
 const initialState = {
-  userId: -1,
   userData: null,
+  loading: true,
 };
 
 export const useUserStore = create(
   immer<UserState & UserActions>(set => ({
-    userData: null,
+    ...initialState,
     actions: {
       setUserData: data => {
         set({ userData: data });
@@ -43,6 +46,12 @@ export const useUserStore = create(
       },
       clearUserData: () => {
         set(initialState);
+      },
+      load: () => {
+        set({ loading: true });
+      },
+      done: () => {
+        set({ loading: false });
       },
     },
   })),

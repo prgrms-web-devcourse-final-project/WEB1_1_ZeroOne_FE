@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { FormProvider } from 'react-hook-form';
 
 import { FormField } from './FormField';
@@ -8,13 +9,19 @@ import type { FormConfigType, FormValues } from '../form.types';
 interface ProfileFormProps<T extends FormValues> {
   formConfig: FormConfigType<T>;
   onSubmit: (data: T) => void;
+  data: Partial<T>;
 }
 
 export const ProfileForm = <T extends FormValues>({
   onSubmit,
   formConfig,
+  data,
 }: ProfileFormProps<T>) => {
-  const { method, formStructure } = useProfileForm({ formConfig });
+  const { method, formStructure, handleReset } = useProfileForm({ formConfig });
+
+  useEffect(() => {
+    handleReset(data);
+  }, []);
 
   return (
     <FormProvider {...method}>

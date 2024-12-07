@@ -46,6 +46,7 @@ $colors: (
   @media (width <= 768px) {
     flex-direction: column;
     row-gap: 2rem;
+    align-items: center;
     padding: 0 2rem;
   }
 

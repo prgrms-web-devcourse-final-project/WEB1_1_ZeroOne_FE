@@ -95,6 +95,7 @@
 }
 
 .button {
+  color: $primary-color;
   cursor: pointer;
   transition: 0.3s ease;
 
@@ -119,6 +120,24 @@
   position: absolute;
   top: $header-height;
   right: 0;
+  z-index: 2000;
   display: flex;
   width: 30%;
+}
+
+.notiWrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2000;
+  display: flex;
+  min-width: 320px;
+}
+
+.userProfile {
+  width: 2rem;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
 }

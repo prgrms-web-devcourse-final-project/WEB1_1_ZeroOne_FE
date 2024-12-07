@@ -1,7 +1,7 @@
-import { faBars, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBell, faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
@@ -11,18 +11,19 @@ import { NAV_LINKS } from '../../constants';
 
 //assets
 import { SearchBar } from '@/features';
-import { logout } from '@/features/auth/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
 import Logo from '@/shared/assets/paletteLogo.svg?react';
 import { useModalStore } from '@/shared/model/modalStore';
+//componen
 import { Button, customConfirm } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
+import { NoticeContainer } from '@/widgets/NoticeContainer/NoticeContainer';
 
 export const Header = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const open = useModalStore(state => state.actions.open);
-  const { userData, actions } = useUserStore(
+  const { userData } = useUserStore(
     useShallow(state => ({
       userData: state.userData,
       actions: state.actions,
@@ -31,17 +32,8 @@ export const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const logoutHandler = async () => {
-    await logout();
-    actions.setUserData(null);
-    await customConfirm({
-      title: '로그아웃',
-      text: '로그아웃 되었습니다.',
-      icon: 'info',
-      showCancelButton: false,
-    });
-  };
   const [isSearch, setIsSearch] = useState(false);
+  const [isNotice, setIsNotice] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,25 +47,14 @@ export const Header = () => {
     };
   }, []);
 
-  const searchRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const handler = (event: MouseEvent) => {
-      if (searchRef.current !== null && !searchRef.current.contains(event.target as Node)) {
-        setTimeout(() => {
-          setIsSearch(false);
-        }, 100);
-      }
-    };
-    document.addEventListener('mousedown', handler);
+  const toggleSearch = () => {
+    setIsSearch(!isSearch);
+    if (isNotice) setIsNotice(false);
+  };
 
-    return () => {
-      document.removeEventListener('mousedown', handler);
-    };
-  }, []);
-
-  const toggleSearch = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    if (!isSearch) setIsSearch(true);
+  const toggleNoti = () => {
+    setIsNotice(!isNotice);
+    if (isSearch) setIsSearch(false);
   };
 
   return (
@@ -94,6 +75,11 @@ export const Header = () => {
               onClick={toggleSearch}
             />
             <FontAwesomeIcon
+              className={cn(styles.button, styles.bell)}
+              icon={faBell}
+              onClick={toggleNoti}
+            />
+            <FontAwesomeIcon
               icon={faBars}
               onClick={() => {
                 setMenuOpen(true);
@@ -102,10 +88,7 @@ export const Header = () => {
             />
           </div>
           {isSearch && (
-            <div
-              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
-              ref={searchRef}
-            >
+            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
               <SearchBar isSearch setIsSearch={setIsSearch} />
             </div>
           )}
@@ -114,7 +97,6 @@ export const Header = () => {
               isOpen={menuOpen}
               isUserData={userData ? true : false}
               onClose={setMenuOpen}
-              onLogout={logoutHandler}
             />
           )}{' '}
         </>
@@ -141,20 +123,32 @@ export const Header = () => {
               onClick={toggleSearch}
             />
             <FontAwesomeIcon
+              className={cn(styles.button, styles.bell)}
+              icon={faBell}
+              onClick={toggleNoti}
+            />
+            <FontAwesomeIcon
               className={cn(styles.button, styles.heart)}
               icon={faHeart}
               onClick={() => {
-                navigate('/like');
+                if (userData) navigate('/like');
+                else {
+                  customConfirm({
+                    text: '로그인이 필요합니다.',
+                    title: '로그인',
+                    icon: 'info',
+                  }).catch(console.error);
+                }
               }}
             />
             {userData ? (
-              <Button
+              <button
                 onClick={() => {
-                  void logoutHandler();
+                  navigate('/user');
                 }}
               >
-                로그아웃
-              </Button>
+                <img alt='user-profile' className={styles.userProfile} src={userData.imageUrl} />
+              </button>
             ) : (
               <Button
                 onClick={() => {
@@ -166,15 +160,15 @@ export const Header = () => {
             )}
           </div>{' '}
           {isSearch && (
-            <div
-              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
-              ref={searchRef}
-            >
+            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
               <SearchBar isSearch setIsSearch={setIsSearch} />
             </div>
           )}
         </>
       )}
+      <div className={styles.notiWrapper}>
+        <NoticeContainer isNotice={isNotice} />
+      </div>
     </header>
   );
 };

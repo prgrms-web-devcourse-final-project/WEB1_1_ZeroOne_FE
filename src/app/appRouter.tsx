@@ -14,6 +14,7 @@ import {
   WriteArchivePage,
   WriteGatheringPage,
   LikeListPage,
+  MainPage,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -24,7 +25,7 @@ const AppRouter = () => {
       children: [
         {
           path: '/',
-          element: <>{/** mainPage */}</>,
+          element: <MainPage />,
         },
         {
           path: '/portfolio',
