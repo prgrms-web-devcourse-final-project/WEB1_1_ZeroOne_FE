@@ -1,0 +1,148 @@
+/**
+ * 컨테이너 스타일
+ */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  margin-bottom: 16px;
+
+  .label {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $primary-color;
+
+    span {
+      color: $red;
+    }
+
+    @media (width <= 768px) {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+/**
+ * 데이트피커 컴포넌트 스타일
+ */
+.datePickerWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.innerWrapper {
+  width: 100%;
+}
+
+.datePicker {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: #fff;
+  border: 2px solid $primary-color;
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #cbd5e1;
+  }
+
+  &:focus {
+    border-color: $blue;
+    box-shadow: 0 0 0 2px rgba($blue, 0.2);
+  }
+
+  &.error {
+    border-color: $red;
+
+    &:focus {
+      border-color: $red;
+      box-shadow: 0 0 0 2px rgba($red, 0.2);
+    }
+  }
+}
+
+/**
+ * DatePicker 커스텀 스타일
+ */
+:global {
+  .react-datepicker {
+    font-family: inherit;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 15%);
+
+    &__header {
+      padding: 12px;
+      background-color: #fff;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    &__current-month {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $primary-color;
+    }
+
+    &__navigation {
+      top: 12px;
+
+      &-icon {
+        &::before {
+          border-color: $primary-color;
+        }
+
+        &:hover::before {
+          border-color: $blue;
+        }
+      }
+    }
+
+    &__day {
+      font-size: 0.875rem;
+      color: $primary-color;
+
+      &:hover {
+        background-color: rgba($blue, 0.1);
+      }
+
+      &--selected {
+        color: #fff;
+        background-color: $blue;
+
+        &:hover {
+          background-color: darken($blue, 10%);
+        }
+      }
+
+      &--keyboard-selected {
+        color: $blue;
+        background-color: rgba($blue, 0.2);
+      }
+
+      &--disabled {
+        color: #cbd5e1;
+      }
+    }
+
+    &__day-name {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+  }
+}
+
+/**
+ * 에러 메시지 스타일
+ */
+.errorMessage {
+  min-height: 20px;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: $red;
+}

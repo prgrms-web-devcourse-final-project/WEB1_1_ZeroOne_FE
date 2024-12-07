@@ -6,7 +6,6 @@ import type { Category, FilterState } from '../types';
 import styles from './SidebarFilter.module.scss';
 
 import { TripleDot } from '@/shared/ui';
-
 export interface SidebarFilterProps {
   categories: Category[];
   defaultCategory?: string;

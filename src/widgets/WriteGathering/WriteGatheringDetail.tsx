@@ -2,11 +2,11 @@ import type { Control } from 'react-hook-form';
 
 import styles from './WriteGatheringDetail.module.scss';
 
+import type { CreateGatheringRequest } from '@/features';
 import { GatheringTitleInput, GatheringMarkdownEditor } from '@/features';
-import type { GatheringFormData } from '@/features/gathering/model/types';
 
 interface WriteGatheringDetailProps {
-  control: Control<GatheringFormData>;
+  control: Control<CreateGatheringRequest>;
 }
 
 export const WriteGatheringDetail = ({ control }: WriteGatheringDetailProps) => {

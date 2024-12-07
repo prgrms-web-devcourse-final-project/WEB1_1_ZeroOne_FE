@@ -1,3 +1,65 @@
+// import { useCallback, useState } from 'react';
+
+// import type { FilterState, Category } from './types';
+
+// interface UseSidebarFilterProps {
+//   categories: Category[];
+//   defaultCategory?: string;
+//   initialState?: Partial<FilterState>;
+//   onFilterChange?: (categoryId: string, subItemId: string | null) => void;
+// }
+
+// export const useSidebarFilter = ({
+//   // categories,
+//   defaultCategory = 'all',
+//   initialState = {},
+//   onFilterChange,
+// }: UseSidebarFilterProps) => {
+//   const [filterState, setFilterState] = useState<FilterState>({
+//     openCategoryId: null,
+//     selectedCategory: defaultCategory,
+//     selectedSubItem: null,
+//     ...initialState,
+//   });
+
+//   const handleCategoryClick = useCallback(
+//     (categoryId: string) => {
+//       setFilterState(prev => {
+//         const newState = {
+//           openCategoryId: prev.openCategoryId === categoryId ? null : categoryId,
+//           selectedCategory: categoryId,
+//           selectedSubItem: null,
+//         };
+
+//         onFilterChange?.(categoryId, null);
+//         return newState;
+//       });
+//     },
+//     [onFilterChange],
+//   );
+
+//   const handleSubItemClick = useCallback(
+//     (categoryId: string, subItemId: string) => {
+//       setFilterState(prev => {
+//         const newState = {
+//           ...prev,
+//           selectedCategory: categoryId,
+//           selectedSubItem: subItemId,
+//         };
+
+//         onFilterChange?.(categoryId, subItemId);
+//         return newState;
+//       });
+//     },
+//     [onFilterChange],
+//   );
+
+//   return {
+//     filterState,
+//     handleCategoryClick,
+//     handleSubItemClick,
+//   };
+// };
 import { useCallback, useState } from 'react';
 
 import type { FilterState, Category } from './types';
@@ -10,7 +72,6 @@ interface UseSidebarFilterProps {
 }
 
 export const useSidebarFilter = ({
-  // categories,
   defaultCategory = 'all',
   initialState = {},
   onFilterChange,
@@ -25,8 +86,10 @@ export const useSidebarFilter = ({
   const handleCategoryClick = useCallback(
     (categoryId: string) => {
       setFilterState(prev => {
+        const shouldToggle = prev.selectedCategory === categoryId && !prev.selectedSubItem;
+
         const newState = {
-          openCategoryId: prev.openCategoryId === categoryId ? null : categoryId,
+          openCategoryId: shouldToggle ? null : categoryId,
           selectedCategory: categoryId,
           selectedSubItem: null,
         };
@@ -42,12 +105,12 @@ export const useSidebarFilter = ({
     (categoryId: string, subItemId: string) => {
       setFilterState(prev => {
         const newState = {
-          ...prev,
+          openCategoryId: categoryId,
           selectedCategory: categoryId,
-          selectedSubItem: subItemId,
+          selectedSubItem: prev.selectedSubItem === subItemId ? null : subItemId,
         };
 
-        onFilterChange?.(categoryId, subItemId);
+        onFilterChange?.(categoryId, newState.selectedSubItem);
         return newState;
       });
     },

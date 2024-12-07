@@ -25,6 +25,7 @@
   position: sticky;
   display: flex; // grid 대신 flex 사용
   gap: 2rem;
+  min-height: 100vh;
   overflow: auto;
 
   @media screen and (width <= 1440px) {

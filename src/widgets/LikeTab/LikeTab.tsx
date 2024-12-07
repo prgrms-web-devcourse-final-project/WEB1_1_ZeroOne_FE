@@ -4,12 +4,12 @@ import { GatheringGrid } from '../GatheringGrid';
 import { PortFolioGrid } from '../PortfolioGrid/PortFolioGrid';
 
 import { useLikeArchiveList } from '@/features';
-import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
+import type { GatheringItem } from '@/features/gathering/model/gathering.dto';
 import { Loader, TripleDot } from '@/shared/ui';
 
-const dummyGatherings: GatheringItemDto[] = Array.from({ length: 9 }, (_, i) => ({
-  gatheringId: i.toString(),
-  userId: i.toString(),
+const dummyGatherings: GatheringItem[] = Array.from({ length: 9 }, (_, i) => ({
+  gatheringId: i,
+  userId: i,
   contactType: '온라인',
   sort: '스터디',
   subject: '개발',

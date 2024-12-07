@@ -11,7 +11,7 @@ export const GatheringDetailHeader = ({ title }: GatheringDetailHeaderProps) => 
   return (
     <section className={styles.container}>
       <Breadcrumb />
-      <h1 className={styles.title}>제목이요 ㅋㅋ{title}</h1>
+      <h1 className={styles.title}>{title}</h1>
       <GatheringDetailUserInfo position='string' profileImage='string' username='유저네임' />
     </section>
   );

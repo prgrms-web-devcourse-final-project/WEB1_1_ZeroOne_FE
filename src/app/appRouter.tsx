@@ -52,6 +52,10 @@ const AppRouter = () => {
           element: <WriteGatheringPage />,
         },
         {
+          path: '/gathering/edit/:gatheringId',
+          element: <WriteGatheringPage/>,
+        },
+        {
           path: '/gathering/:gatheringId',
           element: <GatheringDetailPage />,
         },

@@ -1,10 +1,10 @@
 import styles from './GatheringGrid.module.scss';
 
-import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
+import type { GatheringItem } from '@/features/gathering/model/dto/gathering.dto';
 import { GatheringCard } from '@/features/gathering/ui/GatheringCard';
 
 interface GatheringGridProps {
-  items: GatheringItemDto[];
+  items: GatheringItem[];
 }
 
 export const GatheringGrid = ({ items }: GatheringGridProps) => {
@@ -15,7 +15,7 @@ export const GatheringGrid = ({ items }: GatheringGridProps) => {
           <GatheringCard
             deadline={gathering.deadLine}
             gatheringId={gathering.gatheringId}
-            introduction={`${gathering.sort} · ${gathering.subject}`}
+            introduction={gathering.sort}
             key={gathering.gatheringId}
             name={gathering.username}
             tag={gathering.tags}

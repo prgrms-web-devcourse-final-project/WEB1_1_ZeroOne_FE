@@ -3,10 +3,10 @@ import { Controller } from 'react-hook-form';
 import type { Control } from 'react-hook-form';
 
 import styles from './GatheringTitleInput.module.scss';
-import type { GatheringFormData } from '../model/types';
+import type { CreateGatheringRequest } from '../model/dto/request.dto';
 
 export interface GatheringTitleInputProps {
-  control: Control<GatheringFormData>;
+  control: Control<CreateGatheringRequest>;
   name: 'title';
   label: string;
   isRequired?: boolean;
@@ -20,7 +20,7 @@ export const GatheringTitleInput = ({
   label,
   isRequired = false,
   placeholder = '제목을 입력해주세요',
-  maxLength = 50,
+  maxLength = 150,
 }: GatheringTitleInputProps) => {
   return (
     <div className={styles.container}>
