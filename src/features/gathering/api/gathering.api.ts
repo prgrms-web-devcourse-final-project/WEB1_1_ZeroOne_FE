@@ -41,9 +41,22 @@ export const gatheringApi = {
     });
     return data;
   },
+  update: async (
+    gatheringId: string,
+    data: CreateGatheringRequest,
+  ): Promise<CreateGatheringResponse> => {
+    const response = await api.put<CreateGatheringResponse>(`/gathering/${gatheringId}`, data);
+    return response.data;
+  },
 
   toggleLike: async (gatheringId: string): Promise<GatheringLikeResponse> => {
     const { data } = await api.post<GatheringLikeResponse>(`/gathering/${gatheringId}/like`);
     return data;
+  },
+  deleteGathering: async (gatheringId: string): Promise<void> => {
+    await api.delete(`/gathering/${gatheringId}`);
+  },
+  completeGathering: async (gatheringId: string): Promise<void> => {
+    await api.patch(`/gathering/${gatheringId}`);
   },
 };

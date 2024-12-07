@@ -79,7 +79,7 @@ export const GatheringDetailPage = () => {
           <span className={styles.likeCount}>{gatheringDetail.likeCounts}</span>
         </div>
         <GatheringDetailUserInfo username={gatheringDetail.username} />
-        <GatheringDetailBtnCon gatheringId={gatheringId} />
+        <GatheringDetailBtnCon gatheringId={gatheringId} userId={gatheringDetail.userId} />
       </div>
     </div>
   );
