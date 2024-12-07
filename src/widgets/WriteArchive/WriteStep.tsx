@@ -7,7 +7,15 @@ import styles from './WriteStep.module.scss';
 
 import type { Color, PostArchiveApiResponse } from '@/features';
 import { ColorMap, useArchiveStore, useCreateArchive, useUpdateArchive } from '@/features';
-import { Button, customToast, MarkdownEditor, ScrollToTop, Switch, Tag } from '@/shared/ui';
+import {
+  Button,
+  customConfirm,
+  customToast,
+  MarkdownEditor,
+  ScrollToTop,
+  Switch,
+  Tag,
+} from '@/shared/ui';
 
 export const WriteStep = ({
   onClick,
@@ -44,7 +52,31 @@ export const WriteStep = ({
   const { mutate: createArchive } = useCreateArchive();
   const { mutate: updateArchive } = useUpdateArchive(archiveId);
 
+  const handleValidate = () => {
+    const missingFields: string[] = [];
+
+    if (!archiveData.title) {
+      missingFields.push('제목');
+    }
+    if (!archiveData.introduction) {
+      missingFields.push('한 줄 소개');
+    }
+    if (!archiveData.description) {
+      missingFields.push('본문');
+    }
+
+    if (missingFields.length > 0) {
+      const missingMessage = `${missingFields.join(', ')}을(를) 입력해주세요.`;
+      customConfirm({ text: missingMessage, icon: 'warning' }).catch(console.error);
+      return false;
+    }
+
+    return true;
+  };
+
   const handleEdit = () => {
+    if (!handleValidate()) return;
+
     updateArchive(archiveData, {
       onSuccess: () => {
         resetArchiveData();
@@ -56,6 +88,8 @@ export const WriteStep = ({
   };
 
   const handleCreate = () => {
+    if (!handleValidate()) return;
+
     createArchive(archiveData, {
       onSuccess: (data: PostArchiveApiResponse) => {
         resetArchiveData();
