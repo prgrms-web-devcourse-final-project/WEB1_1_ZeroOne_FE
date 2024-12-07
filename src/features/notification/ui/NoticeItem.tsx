@@ -8,10 +8,12 @@ import { useDeleteNotification } from '../notification.hook';
 import { NotificationMap } from '../notification.type';
 
 import { useCreateChatRoom } from '@/features/chatting/api/chatting.hook';
+import { useModalStore } from '@/shared/model/modalStore';
 
 export const NoticeItem = ({ notification }: { notification: Notification }) => {
   const { mutate: deleteNotification } = useDeleteNotification(notification.id);
   const { mutate: createChatRoom } = useCreateChatRoom();
+  const open = useModalStore(state => state.actions.open);
 
   return (
     <div className={styles.container}>
@@ -29,6 +31,7 @@ export const NoticeItem = ({ notification }: { notification: Notification }) => 
                 { chatCategory: notification.type, targetId: Number(notification.acceptUrl) },
                 {
                   onSuccess: () => {
+                    open('chatting');
                     deleteNotification();
                   },
                 },
