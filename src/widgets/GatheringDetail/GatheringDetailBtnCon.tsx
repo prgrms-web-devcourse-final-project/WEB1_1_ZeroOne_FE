@@ -1,21 +1,21 @@
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import styles from './GatheringDetailBtnCon.module.scss';
 
 import { Button } from '@/shared/ui';
-// interface GatheringDetailBtnConProps {}
 
-export const GatheringDetailBtnCon = () =>
-  // {}: GatheringDetailBtnConProps
-  {
-    const navigate = useNavigate();
-    const handleGoBack = () => {
-      navigate(-1);
-    };
-    return (
-      <div className={styles.container}>
-        <Button onClick={handleGoBack}>뒤로 가기</Button>
-        <Button>연락하기</Button>
-      </div>
-    );
-  };
+interface GatheringDetailBtnConProps {
+  gatheringId?: string;
+}
+
+export const GatheringDetailBtnCon = ({ gatheringId }: GatheringDetailBtnConProps) => {
+  // const navigate = useNavigate();
+  console.log(gatheringId);
+  return (
+    <div className={styles.container}>
+      <Button>수정하기</Button>
+      <Button>삭제하기</Button>
+      <Button>연락하기</Button>
+    </div>
+  );
+};

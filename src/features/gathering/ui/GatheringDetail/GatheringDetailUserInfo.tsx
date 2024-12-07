@@ -13,7 +13,6 @@ export const GatheringDetailUserInfo = ({
   // profileImage = '/default-profile.png',
 }: GatheringDetailUserInfoProps) => {
   const userData = useUserStore(state => state.userData);
-  console.log(userData);
   return (
     <div className={styles.author}>
       <img alt={username} className={styles.profileImg} src={userData?.imageUrl} />

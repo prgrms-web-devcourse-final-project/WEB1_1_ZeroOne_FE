@@ -4,6 +4,7 @@ import { PortfolioCard } from '@/features';
 import { usePortfolioList } from '@/features/portfolio/hooks/usePortfolioList';
 import type { PortfolioParams } from '@/features/portfolio/model/types';
 import { useIntersectionObserver } from '@/shared/hook/useIntersectionObserver';
+import { TripleDot } from '@/shared/ui';
 
 export const PortFolioGrid = ({ params }: { params: PortfolioParams }) => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status, isError } =
@@ -24,7 +25,7 @@ export const PortFolioGrid = ({ params }: { params: PortfolioParams }) => {
   // 모든 페이지의 content를 하나의 배열로 합침
   const portfolios = data?.pages?.flatMap(page => page?.content ?? []) ?? [];
 
-  if (portfolios.length === 0) return <div>No portfolios found</div>;
+  if (portfolios.length === 0) return <div><TripleDot/> 검색된 내용이 없습니다.</div>;
 
   return (
     <div className={styles.container}>

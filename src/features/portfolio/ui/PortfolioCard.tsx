@@ -5,8 +5,8 @@ import styles from './PortfolioCard.module.scss';
 import { getJobGroupDisplayName } from '../utils/jobGroupConverter';
 
 import type { Portfolio } from '@/features';
+import Heart from '@/shared/assets/heart.svg';
 import profileImg from '@/shared/assets/paletteLogo.svg';
-
 type PortfolioCardProps = Portfolio;
 
 export const PortfolioCard = ({
@@ -17,6 +17,7 @@ export const PortfolioCard = ({
   minorJobGroup,
   memberImageUrl,
   jobTitle,
+  userId,
 }: PortfolioCardProps) => {
   return (
     <div className={styles.container}>
@@ -30,11 +31,19 @@ export const PortfolioCard = ({
         <div className={styles.cardFooter}>
           <div className={styles.firstInfo}>
             <span className={styles.name}>{username}</span>
-            <span className={styles.heart}>♥</span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <img alt='isLiked-icon' className={styles.heart} src={Heart} />
+            </button>
           </div>
           <div className={styles.job}>
             <div>
-              <span>{getJobGroupDisplayName(majorJobGroup)}</span>/
+              <Link to={`/user/${userId}`}>
+                <span>{getJobGroupDisplayName(majorJobGroup)}</span>/
+              </Link>
               <span>{getJobGroupDisplayName(minorJobGroup)}</span>
             </div>
             <span>@{jobTitle}</span>

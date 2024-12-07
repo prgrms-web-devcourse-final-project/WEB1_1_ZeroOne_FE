@@ -4,26 +4,44 @@ import styles from './GatheringDetailPage.module.scss';
 
 import { MarkdownPreview } from '@/features';
 import { GatheringDetailUserInfo } from '@/features/gathering';
-import { useGatheringDetail } from '@/features/gathering/lib/hooks';
+import { useGatheringDetail, useGatheringLike } from '@/features/gathering/lib/hooks';
+import { Loader, TripleDot } from '@/shared/ui';
+import { LikeBtn } from '@/shared/ui/LikeBtn/LikeBtn';
 import { GatheringDetailBtnCon, GatheringDetailHeader, GatheringDetailGrid } from '@/widgets';
 
 export const GatheringDetailPage = () => {
   const { gatheringId } = useParams();
   const { data, isLoading, isError } = useGatheringDetail(gatheringId!);
-  console.log('gatheringId:', gatheringId);
-  console.log('isLoading:', isLoading);
-  console.log('isError:', isError);
-  console.log('data:', data);
+
+  const { mutate: toggleLike, isPending } = useGatheringLike({
+    gatheringId: gatheringId!,
+    onSuccess: response => {
+      console.log('좋아요 성공:', response);
+    },
+    onError: error => {
+      console.error('좋아요 실패:', error);
+    },
+  });
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <Loader />;
   }
 
   if (isError) {
-    return <div>게더링 정보를 불러오는데 실패했습니다.</div>;
+    return (
+      <div>
+        <TripleDot />
+        게더링 정보를 불러오는데 실패했습니다.
+      </div>
+    );
   }
 
   if (!data?.data) {
-    return <div>게더링을 찾을 수 없습니다.</div>;
+    return (
+      <div>
+        <TripleDot />
+        게더링을 찾을 수 없습니다.
+      </div>
+    );
   }
 
   const gatheringDetail = data?.data;
@@ -39,7 +57,7 @@ export const GatheringDetailPage = () => {
         gatheringTag={gatheringDetail.gatheringTag}
         period={gatheringDetail.period}
         personnel={gatheringDetail.personnel}
-        position={gatheringDetail.position}
+        positions={gatheringDetail.positions}
         sort={gatheringDetail.sort}
         subject={gatheringDetail.subject}
         username={gatheringDetail.username}
@@ -53,18 +71,15 @@ export const GatheringDetailPage = () => {
       </section>
       <div className={styles.footer}>
         <div className={styles.stats}>
-          <span>
-            <i className='eye-icon'></i> 1.1K
-          </span>
-          <span>
-            <i className='heart-icon'></i> 1.1K
-          </span>
+          <LikeBtn
+            disabled={isPending}
+            likeCount={gatheringDetail.likeCounts}
+            onLikeClick={toggleLike}
+          />
+          <span className={styles.likeCount}>{gatheringDetail.likeCounts}</span>
         </div>
-        <GatheringDetailUserInfo
-          position={gatheringDetail.position}
-          username={gatheringDetail.username}
-        />
-        <GatheringDetailBtnCon />
+        <GatheringDetailUserInfo username={gatheringDetail.username} />
+        <GatheringDetailBtnCon gatheringId={gatheringId} />
       </div>
     </div>
   );

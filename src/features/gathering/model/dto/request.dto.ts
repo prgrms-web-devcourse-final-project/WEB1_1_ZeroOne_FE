@@ -30,13 +30,11 @@ interface GatheringListContent {
   nextLikeId: number;
 }
 
-export type GatheringListResponse = ApiResponse<GatheringListContent>;
-
 export interface GetGatheringsParams {
   sort?: GatheringSortType;
   period?: GatheringPeriod;
   position?: GatheringPosition;
-  status?: '모집중' | '모집완료';
+  status?: '모집중' | '모집완료' | '기간만료';
   size?: number;
   nextLikeId?: number;
 }
@@ -52,11 +50,13 @@ export interface GatheringDetailContent {
   personnel: number;
   period: GatheringPeriod;
   deadLine: string;
-  position: string;
+  positions: string[];
   gatheringTag: string[];
   contactUrl: string;
   title: string;
   content: string;
+  likeCounts: number;
+  status: '모집중' | '모집완료' | '기간만료';
 }
 
 // response
@@ -65,5 +65,7 @@ interface CreateGatheringContent {
   gatheringId: number;
 }
 
+export type GatheringListResponse = ApiResponse<GatheringListContent>;
+export type GatheringLikeResponse = ApiResponse<boolean>;
 export type CreateGatheringResponse = ApiResponse<CreateGatheringContent>;
 export type GatheringDetailResponse = ApiResponse<GatheringDetailContent>;

@@ -11,7 +11,7 @@ interface GatheringDetailGridProps {
   personnel: number;
   period: string;
   deadLine: string;
-  position: string;
+  positions: string[];
   gatheringTag: string[];
 }
 
@@ -24,7 +24,7 @@ export const GatheringDetailGrid = ({
   personnel,
   period,
   deadLine,
-  position,
+  positions,
   gatheringTag,
 }: GatheringDetailGridProps) => {
   return (
@@ -37,7 +37,7 @@ export const GatheringDetailGrid = ({
       <GatheringInfoItem label='모집하는 인원' value={personnel} />
       <GatheringInfoItem label='활동 기간' value={period} />
       <GatheringInfoItem label='마감일' value={deadLine} />
-      <GatheringInfoItem label='모집하는 직무' value={position} />
+      <GatheringInfoItem label='모집하는 직무' value={positions} />
       <GatheringInfoItem label='태그' value={gatheringTag} />
     </ul>
   );

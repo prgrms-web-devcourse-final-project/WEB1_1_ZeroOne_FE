@@ -16,7 +16,6 @@ import { MobileSidebarFilter, SidebarFilter } from '@/shared/ui';
 import { Button, SelectBtn } from '@/shared/ui';
 import { PortFolioGrid } from '@/widgets';
 
-// PortfolioListPage.tsx
 export const PortfolioListPage = () => {
   const navigate = useNavigate();
   const [sort, setSort] = useState({ label: '최신순', value: 'latest' });

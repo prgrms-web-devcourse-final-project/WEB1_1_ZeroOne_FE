@@ -83,8 +83,8 @@ export const WriteGatheringOpts = ({ control }: WriteGatheringOptsProps) => {
         isMulti
         isRequired
         label='모집 분야'
-        name='position'
-        options={gatheringFilterOptions.position}
+        name='positions'
+        options={gatheringFilterOptions.positions}
       />
       <GatheringTagInput
         control={control}

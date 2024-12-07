@@ -3,6 +3,7 @@ import type {
   GatheringDetailResponse,
   CreateGatheringRequest,
   CreateGatheringResponse,
+  GatheringLikeResponse,
 } from '../model/dto/request.dto';
 
 import api from '@/shared/api/baseApi';
@@ -36,8 +37,13 @@ export const gatheringApi = {
   create: async (requestData: CreateGatheringRequest): Promise<CreateGatheringResponse> => {
     const { data } = await api.post<CreateGatheringResponse>('/gathering', {
       ...requestData,
-      gatheringImages: [], 
+      gatheringImages: [],
     });
+    return data;
+  },
+
+  toggleLike: async (gatheringId: string): Promise<GatheringLikeResponse> => {
+    const { data } = await api.post<GatheringLikeResponse>(`/gathering/${gatheringId}/like`);
     return data;
   },
 };

@@ -13,10 +13,8 @@ export const useCreateGathering = () => {
     mutationFn: gatheringApi.create,
     onSuccess: async response => {
       try {
-        // gatherings 쿼리를 무효화하여 리스트가 새로고침되도록 함
         await queryClient.invalidateQueries({ queryKey: ['gathering'] });
 
-        // 생성된 게더링 상세 페이지로 이동
         const gatheringId = response.data?.gatheringId;
         if (gatheringId) {
           navigate(`/gathering/${gatheringId}`);

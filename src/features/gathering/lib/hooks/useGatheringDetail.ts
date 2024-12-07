@@ -6,7 +6,7 @@ import type { GatheringDetailResponse } from '../../model/dto/request.dto';
 
 export const useGatheringDetail = (gatheringId: string) => {
   return useQuery<GatheringDetailResponse, AxiosError>({
-    queryKey: ['/gathering', gatheringId],
+    queryKey: ['/gatheringDetail',gatheringId],
     queryFn: () => gatheringApi.getGatheringDetail(gatheringId),
     enabled: !!gatheringId,
   });
