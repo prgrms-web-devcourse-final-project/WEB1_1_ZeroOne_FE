@@ -27,6 +27,7 @@ export const WriteStep = ({
 }) => {
   const navigate = useNavigate();
   const [isComposing, setIsComposing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { archiveData, archiveId, resetArchiveData, setArchiveId, updateArchiveData } =
     useArchiveStore();
@@ -39,7 +40,9 @@ export const WriteStep = ({
         updateArchiveData('tags', [...archiveData.tags, { tag: tag.trim() }]);
         setTag('');
       } else {
-        customToast({ text: '이미 추가된 태그입니다.', timer: 3000, icon: 'info' });
+        customToast({ text: '이미 추가된 태그입니다.', timer: 3000, icon: 'info' }).catch(
+          console.error,
+        );
       }
     }
   };
@@ -75,8 +78,10 @@ export const WriteStep = ({
   };
 
   const handleEdit = () => {
+    if (isLoading) return;
     if (!handleValidate()) return;
 
+    setIsLoading(true);
     updateArchive(archiveData, {
       onSuccess: () => {
         resetArchiveData();
@@ -84,17 +89,25 @@ export const WriteStep = ({
         setArchiveId(0);
         customToast({ text: '아카이브가 수정되었어요!', timer: 3000, icon: 'success' });
       },
+      onSettled: () => {
+        setIsLoading(false);
+      },
     });
   };
 
   const handleCreate = () => {
+    if (isLoading) return;
     if (!handleValidate()) return;
 
+    setIsLoading(true);
     createArchive(archiveData, {
       onSuccess: (data: PostArchiveApiResponse) => {
         resetArchiveData();
         navigate(`/archive/${data.data?.archiveId}`);
         customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
+      },
+      onSettled: () => {
+        setIsLoading(false);
       },
     });
   };
