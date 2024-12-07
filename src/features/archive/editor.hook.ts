@@ -128,7 +128,7 @@ export const useMarkdown = ({
         if (item.kind === 'file') {
           const file = item.getAsFile();
           if (file) {
-            handleImage(file, view).catch(console.error);
+            void handleImage(file, view);
           }
         }
       }
@@ -142,7 +142,7 @@ export const useMarkdown = ({
 
       const { files } = event.dataTransfer;
 
-      for (const file of files) handleImage(file, view).catch(console.error);
+      for (const file of files) void handleImage(file, view);
     },
   });
 

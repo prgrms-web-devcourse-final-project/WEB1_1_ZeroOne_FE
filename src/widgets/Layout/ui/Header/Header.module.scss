@@ -118,7 +118,7 @@
 
 .searchWrapper {
   position: absolute;
-  top: $header-height;
+  top: calc($header-height + 1rem);
   right: 0;
   z-index: 2000;
   display: flex;
