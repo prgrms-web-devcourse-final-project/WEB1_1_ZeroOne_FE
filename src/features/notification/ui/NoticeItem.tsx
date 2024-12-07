@@ -4,10 +4,11 @@ import cn from 'classnames';
 
 import styles from './NoticeItem.module.scss';
 import type { Notification } from '../notification.dto';
+import { useDeleteNotification } from '../notification.hook';
 import { NotificationMap } from '../notification.type';
 
 export const NoticeItem = ({ notification }: { notification: Notification }) => {
-  // TODO : 각 알림 타입에 대한 핸들러 함수 작성
+  const { mutate: deleteNotification } = useDeleteNotification(notification.id);
 
   return (
     <div className={styles.container}>
@@ -16,15 +17,19 @@ export const NoticeItem = ({ notification }: { notification: Notification }) => 
       </div>
       <p className={styles.description}>{notification.content}</p>
       <div className={styles.buttons}>
-        <FontAwesomeIcon
-          className={cn(styles.check, styles.button)}
-          icon={faCircleCheck}
-          onClick={() => {}}
-        />
+        {notification.type !== 'LIKE' && (
+          <FontAwesomeIcon
+            className={cn(styles.check, styles.button)}
+            icon={faCircleCheck}
+            onClick={() => {}}
+          />
+        )}
         <FontAwesomeIcon
           className={cn(styles.cancel, styles.button)}
           icon={faCircleXmark}
-          onClick={() => {}}
+          onClick={() => {
+            deleteNotification();
+          }}
         />
       </div>
     </div>
