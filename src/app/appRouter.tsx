@@ -10,11 +10,11 @@ import {
   RegisterPage,
   SearchPage,
   MyPage,
-  UserPage,
   WriteArchivePage,
   WriteGatheringPage,
   LikeListPage,
   MainPage,
+  UserPageWrapper,
 } from '@/pages';
 import { Layout } from '@/widgets';
 
@@ -60,8 +60,8 @@ const AppRouter = () => {
           element: <SearchPage />,
         },
         {
-          path: '/user',
-          element: <UserPage />,
+          path: '/user/:userId',
+          element: <UserPageWrapper />,
         },
         {
           path: '/register',
