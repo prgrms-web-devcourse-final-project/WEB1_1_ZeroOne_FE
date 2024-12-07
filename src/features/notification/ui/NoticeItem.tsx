@@ -7,8 +7,14 @@ import type { Notification } from '../notification.dto';
 import { useDeleteNotification } from '../notification.hook';
 import { NotificationMap } from '../notification.type';
 
+import { useCreateChatRoom } from '@/features/chatting/api/chatting.hook';
+
 export const NoticeItem = ({ notification }: { notification: Notification }) => {
   const { mutate: deleteNotification } = useDeleteNotification(notification.id);
+  const { mutate: createChatRoom } = useCreateChatRoom(
+    notification.type,
+    Number(notification.acceptUrl),
+  );
 
   return (
     <div className={styles.container}>
@@ -21,7 +27,9 @@ export const NoticeItem = ({ notification }: { notification: Notification }) => 
           <FontAwesomeIcon
             className={cn(styles.check, styles.button)}
             icon={faCircleCheck}
-            onClick={() => {}}
+            onClick={() => {
+              createChatRoom();
+            }}
           />
         )}
         <FontAwesomeIcon
