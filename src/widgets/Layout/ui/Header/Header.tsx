@@ -2,7 +2,7 @@ import { faBars, faBell, faHeart, faSearch } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
@@ -33,6 +33,8 @@ export const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const searchRef = useRef<HTMLDivElement>(null);
+  const noticeRef = useRef<HTMLDivElement>(null);
   const [isSearch, setIsSearch] = useState(false);
   const [isNotice, setIsNotice] = useState(false);
 
@@ -64,6 +66,31 @@ export const Header = () => {
       heartbeatTimeout: 86400000,
     });
   }, [userData]);
+
+  useEffect(() => {
+    if (!isSearch && !isNotice) return;
+
+    const handleOutsideClick = (event: MouseEvent) => {
+      const searchNode = searchRef.current;
+      const noticeNode = noticeRef.current;
+
+      if (
+        (searchNode && !searchNode.contains(event.target as Node)) ||
+        (noticeNode && !noticeNode.contains(event.target as Node))
+      ) {
+        setTimeout(() => {
+          setIsSearch(false);
+          setIsNotice(false);
+        }, 100);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [searchRef, noticeRef, isSearch, isNotice]);
 
   const toggleSearch = () => {
     setIsSearch(!isSearch);
@@ -114,7 +141,10 @@ export const Header = () => {
             />
           </div>
           {isSearch && (
-            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
+            <div
+              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
+              ref={searchRef}
+            >
               <SearchBar isSearch setIsSearch={setIsSearch} />
             </div>
           )}
@@ -192,7 +222,7 @@ export const Header = () => {
           )}
         </>
       )}
-      <div className={styles.notiWrapper}>
+      <div className={styles.notiWrapper} ref={noticeRef}>
         <NoticeContainer isNotice={isNotice} />
       </div>
     </header>

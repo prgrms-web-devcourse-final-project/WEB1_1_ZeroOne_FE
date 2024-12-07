@@ -11,10 +11,7 @@ import { useCreateChatRoom } from '@/features/chatting/api/chatting.hook';
 
 export const NoticeItem = ({ notification }: { notification: Notification }) => {
   const { mutate: deleteNotification } = useDeleteNotification(notification.id);
-  const { mutate: createChatRoom } = useCreateChatRoom(
-    notification.type,
-    Number(notification.acceptUrl),
-  );
+  const { mutate: createChatRoom } = useCreateChatRoom();
 
   return (
     <div className={styles.container}>
@@ -28,7 +25,14 @@ export const NoticeItem = ({ notification }: { notification: Notification }) => 
             className={cn(styles.check, styles.button)}
             icon={faCircleCheck}
             onClick={() => {
-              createChatRoom();
+              createChatRoom(
+                { chatCategory: notification.type, targetId: Number(notification.acceptUrl) },
+                {
+                  onSuccess: () => {
+                    deleteNotification();
+                  },
+                },
+              );
             }}
           />
         )}

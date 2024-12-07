@@ -5,9 +5,15 @@ import { postCreateChatRoom } from './chatting.api';
 import type { NotificationType } from '@/features/notification/notification.type';
 import { customToast } from '@/shared/ui';
 
-export const useCreateChatRoom = (chatCategory: NotificationType, targetId: number) =>
+export const useCreateChatRoom = () =>
   useMutation({
-    mutationFn: () => postCreateChatRoom(chatCategory, targetId),
+    mutationFn: ({
+      chatCategory,
+      targetId,
+    }: {
+      chatCategory: NotificationType;
+      targetId: number;
+    }) => postCreateChatRoom(chatCategory, targetId),
     onSuccess: async () => {
       await customToast({ text: '채팅방이 생성되었습니다.', timer: 3000, icon: 'success' });
     },
