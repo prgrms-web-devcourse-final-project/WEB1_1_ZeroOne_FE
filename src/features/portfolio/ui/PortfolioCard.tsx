@@ -23,16 +23,16 @@ export const PortfolioCard = ({
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <Link className={styles.cardImg} to={portFolioUrl}>
+          <a className={styles.cardImg} href={portFolioUrl}>
             <img alt={`${username}의 프로필 이미지`} src={memberImageUrl || profileImg} />
-          </Link>
+          </a>
           <ContactBtn userName={username} />
         </div>
         <div className={styles.cardFooter}>
           <div className={styles.firstInfo}>
             <span className={styles.name}>{username}</span>
             <button
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
               }}
             >
