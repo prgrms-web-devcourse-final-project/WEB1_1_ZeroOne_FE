@@ -16,6 +16,7 @@ export interface GatheringCardProps {
   tag?: string[];
   deadline?: string;
   gatheringId: number;
+  username: string;
 }
 
 export const GatheringCard = ({
@@ -26,6 +27,7 @@ export const GatheringCard = ({
   tag,
   deadline,
   gatheringId,
+  username,
 }: GatheringCardProps) => {
   const handleButtonClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -58,7 +60,7 @@ export const GatheringCard = ({
               <FontAwesomeIcon icon={faPhone} />
             </button>
             <div onClick={handleButtonClick}>
-              <ContactBtn userName='' />
+              <ContactBtn userName={username} />
             </div>
           </div>
         </section>

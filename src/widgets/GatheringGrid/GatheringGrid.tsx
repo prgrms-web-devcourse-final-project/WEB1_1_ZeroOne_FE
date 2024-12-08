@@ -20,6 +20,7 @@ export const GatheringGrid = ({ items }: GatheringGridProps) => {
             name={gathering.username}
             tag={gathering.tags}
             title={gathering.title}
+            username={gathering.username}
           />
         ))}
       </ul>

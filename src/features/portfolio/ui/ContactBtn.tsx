@@ -12,7 +12,7 @@ export const ContactBtn = ({ userName }: ContactBtnProps) => {
   
   const onOpenModal = () => {
     console.log('openContModal');
-    open('contact', userName);  // userName을 두 번째 인자로 전달
+    open('contact', userName);  
   };
 
   return (
