@@ -1,0 +1,29 @@
+.contentsTab {
+  display: flex;
+  column-gap: 5rem;
+  padding: 2rem 0;
+  font-size: 1.125rem;
+  color: $primary-color;
+
+  @media (width <= 768px) {
+    column-gap: 2rem;
+    font-size: 1rem;
+  }
+
+  & button.activeTab {
+    font-weight: 600;
+  }
+
+  & button {
+    padding: 0;
+    margin-bottom: 0.375rem;
+    color: $primary-color;
+  }
+}
+
+.value {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}

@@ -1,0 +1,37 @@
+{
+  "Typescript React component with props": {
+    "scope": "typescriptreact",
+    "prefix": "rfc",
+    "body": [
+      "",
+      "import styles from './${1:${TM_FILENAME_BASE}}.module.scss'",
+      "interface ${1:${TM_FILENAME_BASE}}Props {",
+      "  $2",
+      "}",
+      "",
+      "export const ${1:${TM_FILENAME_BASE}} = ({ $2 }: ${1:${TM_FILENAME_BASE}}Props ) => {",
+      "  return (",
+      "   <div className={styles.container}>",
+      "      ${1:${TM_FILENAME_BASE}}",
+      "    </div>",
+      "  )",
+      "}",
+    ],
+    "description": "Creates a React Functional Component",
+  },
+  "Typescript React component with no props": {
+    "scope": "typescriptreact",
+    "prefix": "rfcn",
+    "body": [
+      "import styles from './${1:${TM_FILENAME_BASE}}.module.scss'",
+      "export const ${1:${TM_FILENAME_BASE}} = () => {",
+      "  return (",
+      "    <div className={styles.container}>",
+      "      ${1:${TM_FILENAME_BASE}}",
+      "    </div>",
+      "  )",
+      "}",
+    ],
+    "description": "Creates a React Functional Component",
+  },
+}

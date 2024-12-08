@@ -1,0 +1,19 @@
+.btn {
+  padding: 0.625rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+
+  &.primary {
+    color: $secondary-color;
+    background-color: $primary-color;
+  }
+
+  &.invert {
+    color: $primary-color;
+    background-color: $secondary-color;
+  }
+
+  @media (width <= 768px) {
+    font-size: 0.875rem;
+  }
+}

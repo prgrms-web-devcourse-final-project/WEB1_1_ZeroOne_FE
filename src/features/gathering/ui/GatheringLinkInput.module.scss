@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+
+  .label {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $primary-color;
+
+    span {
+      color: $red;
+    }
+
+    @media (width <= 768px) {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.input {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: #fff;
+  border: 2px solid $primary-color;
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #cbd5e1;
+  }
+
+  &:focus {
+    border-color: $blue;
+    box-shadow: 0 0 0 2px rgba($blue, 0.2);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #f5f5f5;
+  }
+
+  &.error {
+    border-color: $red;
+
+    &:focus {
+      border-color: $red;
+      box-shadow: 0 0 0 2px rgba($red, 0.2);
+    }
+  }
+}
+
+.errorMessage {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: $red;
+}

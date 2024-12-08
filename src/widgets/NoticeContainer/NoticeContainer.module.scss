@@ -1,0 +1,29 @@
+.container {
+  position: absolute;
+  top: $header-height;
+  right: -340px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 12rem;
+  padding: 1rem 2rem;
+  overflow-x: scroll;
+  background-color: $secondary-color;
+  border-radius: 0 0 0 20px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 10%);
+  transition: 0.3s ease;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ededed;
+    border-radius: 12px;
+  }
+}
+
+.visible {
+  right: 0;
+}

@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  align-items: center;
+  width: 100%;
+  padding: 4rem 8rem;
+
+  @media (width <= 768px) {
+    gap: 2rem;
+    padding: 2rem;
+  }
+}
+
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  width: 100%;
+
+  @media (width <= 768px) {
+    gap: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+}
+
+.orderWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  width: 100%;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}

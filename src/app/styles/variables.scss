@@ -1,0 +1,32 @@
+$primary-color: #333533;
+$secondary-color: #fff;
+$third-color: #999a99; // 회색 추가
+$deep-black: #0b0b0b;
+$red: #ff5e5e;
+$yellow: #ffe66b;
+$pink: #f19ec2;
+$blue: #8ad0e2;
+$green: #b5d681;
+$purple: #aa8abd;
+$chat-yellow: #fff462;
+$modal-bg: rgba(51, 53, 51, 50%);
+$active-color: #2672ff;
+
+/* header **/
+$header-height: 60px;
+$header-horizontal-padding: 4rem;
+
+/* form **/
+$form-gray-color: #d7d7d7;
+$form-section-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 25%);
+$form-input-color: #999a99;
+$form-input-disabled: #f0f0f0;
+
+// 그라데이션
+$palette-gradient: linear-gradient(151deg, $red 0%, $yellow 32%, $green 71%, $blue 100%);
+
+// 반응형 브레이크포인트
+$mobile: 480px;
+$tablet: 768px;
+$laptop: 1024px;
+$desktop: 1200px;

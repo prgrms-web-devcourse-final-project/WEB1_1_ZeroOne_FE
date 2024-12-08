@@ -1,0 +1,25 @@
+.myPageContainer {
+  display: flex;
+  column-gap: 4rem;
+  width: 100%;
+  padding: 4rem 8rem;
+
+  @media (width <= 768px) {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+  }
+}
+
+.tabContainer {
+  width: 12rem;
+  color: $primary-color;
+
+  @media (width <= 768px) {
+    width: 100%;
+  }
+}
+
+.contentContainer {
+  flex: 1;
+}

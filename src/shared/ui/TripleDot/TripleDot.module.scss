@@ -1,0 +1,49 @@
+.dot {
+  width: 0.325rem;
+  height: 0.325rem;
+  background-color: $primary-color;
+  border: 1px solid $primary-color;
+  border-radius: 50%;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-2px);
+  }
+
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+.container {
+  display: flex;
+  gap: 0.94rem;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  &:hover {
+    .dot {
+      animation: shake 0.3s ease-in-out infinite;
+
+      // 각 dot마다 살짝 다른 타이밍으로 진동
+      &:nth-child(1) {
+        animation-delay: 0s;
+      }
+
+      &:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+    }
+  }
+}

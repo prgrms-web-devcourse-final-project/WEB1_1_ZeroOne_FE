@@ -1,0 +1,215 @@
+name: Lighthouse CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Run server and Lighthouse CI
+        run: |
+          yarn dev & # 백그라운드에서 서버 시작
+          sleep 10 # 서버가 완전히 시작될 때까지 대기
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          urls: |
+            http://localhost:3000
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Format lighthouse score
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+
+            try {
+              if (!fs.existsSync('.lighthouseci/manifest.json')) {
+                console.error('Manifest file not found');
+                core.setFailed('manifest.json not found');
+                return;
+              }
+              
+              let rawData;
+              try {
+                rawData = fs.readFileSync('.lighthouseci/manifest.json', 'utf8');
+              } catch (readError) {
+                console.error('Error reading manifest:', readError);
+                core.setFailed('Failed to read manifest.json');
+                return;
+              }
+
+              if (!rawData || rawData.trim() === '') {
+                console.error('Manifest is empty');
+                core.setFailed('manifest.json is empty');
+                return;
+              }
+              
+              let results;
+              try {
+                results = JSON.parse(rawData);
+              } catch (parseError) {
+                console.error('Error parsing manifest:', parseError);
+                core.setFailed('Failed to parse manifest.json');
+                return;
+              }
+
+              if (!Array.isArray(results)) {
+                console.error('Results is not an array');
+                core.setFailed('Invalid manifest format');
+                return;
+              }
+
+              let comments = "";
+
+              results.forEach((result) => {
+                if (!result.summary || !result.url || !result.jsonPath) {
+                  console.warn('Missing required properties in result');
+                  return;
+                }
+
+                let details;
+                try {
+                  details = JSON.parse(fs.readFileSync(result.jsonPath, 'utf8'));
+                } catch (error) {
+                  console.warn(`Failed to read or parse ${result.jsonPath}`, error);
+                  return;
+                }
+
+                if (!details.audits) {
+                  console.warn('No audits found in details');
+                  return;
+                }
+
+                const { summary, url } = result;
+                const { audits } = details;
+                
+                const formatResult = (res) => {
+                  if (typeof res !== 'number') return 0;
+                  return Math.round(Math.max(0, Math.min(100, res * 100)));
+                };
+
+                Object.keys(summary).forEach(
+                  (key) => (summary[key] = formatResult(summary[key]))
+                );
+
+                const score = (res) => {
+                  const numRes = Number(res);
+                  return isNaN(numRes) ? "🔴" : (numRes >= 90 ? "🟢" : numRes >= 50 ? "🟠" : "🔴");
+                };
+
+                const comment = [
+                  `⚡ Lighthouse report for ${url}`,
+                  `| Category | Score |`,
+                  `| --- | --- |`,
+                  `| ${score(summary.performance)} Performance | ${summary.performance} |`,
+                  `| ${score(summary.accessibility)} Accessibility | ${summary.accessibility} |`,
+                  `| ${score(summary['best-practices'])} Best Practices | ${summary['best-practices']} |`,
+                  `| ${score(summary.seo)} SEO | ${summary.seo} |`
+                ].join("\n");
+
+                const detail = [
+                  `\n### Detailed Metrics`,
+                  `| Metric | Value |`,
+                  `| --- | --- |`
+                ];
+
+                const metrics = [
+                  ["first-contentful-paint", "First Contentful Paint"],
+                  ["largest-contentful-paint", "Largest Contentful Paint"],
+                  ["total-blocking-time", "Total Blocking Time"],
+                  ["cumulative-layout-shift", "Cumulative Layout Shift"],
+                  ["speed-index", "Speed Index"]
+                ];
+
+                metrics.forEach(([key, label]) => {
+                  if (audits[key] && typeof audits[key].score === 'number') {
+                    detail.push(
+                      `| ${score(audits[key].score * 100)} ${label} | ${audits[key].displayValue || 'N/A'} |`
+                    );
+                  }
+                });
+
+                comments += comment + "\n" + detail.join("\n") + "\n\n---\n\n";
+              });
+
+              const owner = context.repo.owner;
+              const repo = context.repo.repo;
+
+              if (!owner || !repo) {
+                core.setFailed('Missing repository information');
+                return;
+              }
+
+              try {
+                if (context.payload.pull_request) {
+                  const prNumber = context.payload.pull_request.number;
+                  if (!prNumber) {
+                    throw new Error('Missing pull request number');
+                  }
+
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: prNumber,
+                    body: comments
+                  });
+                } else {
+                  const sha = context.sha;
+                  if (!sha) {
+                    throw new Error('Missing commit SHA');
+                  }
+
+                  await github.rest.repos.createCommitComment({
+                    owner,
+                    repo,
+                    commit_sha: sha,
+                    body: comments
+                  });
+                }
+
+                core.setOutput('comments', comments);
+              } catch (apiError) {
+                console.error('API call failed:', apiError);
+                core.setFailed(`Failed to create comment: ${apiError.message}`);
+                return;
+              }
+              
+            } catch (error) {
+              console.error('Unexpected error:', error);
+              core.setFailed(`Unexpected error: ${error.message}`);
+              return;
+            }

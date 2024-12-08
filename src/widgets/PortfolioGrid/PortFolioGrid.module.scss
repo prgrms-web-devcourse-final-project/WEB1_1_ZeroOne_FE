@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column; // 변경
+  justify-content: flex-start; // 변경
+  width: 100%;
+  max-width: 1920px;
+  min-height: 100vh;
+  padding: 1.25rem;
+  margin: 0 auto;
+
+  @media (width <= 768px) {
+    padding: 0;
+  }
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+}

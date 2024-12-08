@@ -1,0 +1,106 @@
+.formFieldWrapper {
+  & > .formInput {
+    position: relative;
+    display: flex;
+    column-gap: 0.5rem;
+    width: 100%;
+
+    @media (width <= 768px) {
+      flex-direction: column;
+      row-gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    & > span {
+      width: 120px;
+      padding-top: 0.5rem;
+      font-weight: 500;
+    }
+
+    & > div {
+      width: 80%;
+    }
+
+    & > svg {
+      padding-top: 0.75rem;
+      color: $active-color;
+    }
+  }
+}
+
+.arrayInputWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  align-items: flex-end;
+  width: 100%;
+
+  & .iconBtn {
+    font-size: 1.5rem;
+    color: $primary-color;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+}
+
+.addBtn {
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent;
+
+  & > span:first-child {
+    line-height: 1.25rem;
+  }
+
+  & .iconBtn {
+    font-size: 1.25rem;
+  }
+
+  &:hover > .iconBtn {
+    color: $active-color;
+  }
+}
+
+.urlInputContainer {
+  width: 100%;
+
+  & .urlInputWrapper {
+    position: relative;
+    display: flex;
+    flex: 1;
+    column-gap: 0.5rem;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    & .iconBtn {
+      padding-top: 0.625rem;
+
+      &:hover {
+        color: $red;
+      }
+    }
+  }
+}
+
+.errorMessage {
+  display: flex;
+  column-gap: 0.25rem;
+  align-items: flex-start;
+  padding: 0.25rem 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $red;
+}
+
+.require {
+  @media (width <= 768px) {
+    display: none;
+  }
+}

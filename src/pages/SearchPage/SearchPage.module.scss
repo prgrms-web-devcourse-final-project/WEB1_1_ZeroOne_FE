@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+  padding: 4rem 8rem;
+
+  @media (width <= 768px) {
+    gap: 2rem;
+    padding: 2rem;
+  }
+}
+
+.path {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  color: #848484;
+}

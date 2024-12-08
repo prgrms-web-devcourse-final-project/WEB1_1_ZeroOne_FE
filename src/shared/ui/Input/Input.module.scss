@@ -1,0 +1,21 @@
+.inputWrapper {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid $form-input-color;
+  border-radius: 1rem;
+
+  & > input {
+    width: 100%;
+    padding: 0.625rem 1rem;
+  }
+
+  &:focus-within {
+    border-color: $active-color;
+    box-shadow: 0 0 0 1px $active-color;
+  }
+
+  &.disabled {
+    background-color: #f0f0f0;
+  }
+}

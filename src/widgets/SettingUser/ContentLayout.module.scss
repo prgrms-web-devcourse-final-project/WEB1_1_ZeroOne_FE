@@ -1,0 +1,10 @@
+.sectionWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+
+  & > h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+}

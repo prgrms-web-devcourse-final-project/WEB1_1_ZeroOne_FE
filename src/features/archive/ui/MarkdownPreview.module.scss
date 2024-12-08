@@ -1,0 +1,91 @@
+.mirror {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  overflow-y: auto;
+  line-height: 1.5;
+  background-color: #f9f9f9;
+
+  @media (width <= 768px) {
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #ededed;
+    border-radius: 12px;
+  }
+
+  p {
+    margin: 0.5rem 0;
+  }
+
+  br {
+    line-height: 2rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+
+    @media (width <= 768px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    @media (width <= 768px) {
+      font-size: 1.25rem;
+    }
+  }
+
+  h3 {
+    font-size: 1.17rem;
+    font-weight: 700;
+
+    @media (width <= 768px) {
+      font-size: 1rem;
+    }
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  blockquote {
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #555;
+    background-color: #f9f9f9;
+    border-left: 4px solid #ccc;
+  }
+
+  pre {
+    max-width: 100%;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 0.625rem;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+    object-fit: content;
+    border-radius: 8px;
+  }
+}

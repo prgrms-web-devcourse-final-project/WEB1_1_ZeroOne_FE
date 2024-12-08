@@ -1,0 +1,84 @@
+.input {
+  flex: 1;
+}
+
+.radioGroup {
+  display: flex;
+  column-gap: 1rem;
+}
+
+.textarea {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+  align-items: flex-end;
+
+  & textarea {
+    min-height: 120px;
+  }
+
+  & > span {
+    font-size: 0.75rem;
+  }
+}
+
+.imageInputWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 1rem;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  & .inputBtns {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1.5rem;
+    font-weight: 600;
+    background-color: rgba(37, 37, 37, 80%);
+    opacity: 0;
+    transition: 0.2s;
+
+    & > input {
+      display: none;
+    }
+
+    & > label {
+      color: $secondary-color;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    & > span {
+      color: $red;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    & > label:hover {
+      transform: scale(1.2);
+    }
+
+    & > span:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  &:hover .inputBtns {
+    opacity: 1;
+  }
+}

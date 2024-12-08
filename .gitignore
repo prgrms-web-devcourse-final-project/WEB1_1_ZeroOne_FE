@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+*storybook.log
+
+# Lighthouse CI
+# .lighthouseci 폴더의 모든 파일 무시
+.lighthouseci/*
+
+# 예외 처리: .lighthouseci 폴더 안에 manifest.json 포함
+!.lighthouseci/manifest.json
+
+# 예외 처리: .lighthouseci 폴더 자체 포함
+!.lighthouseci/
+lhci_reports/
+.lhci/
+.lighthouserc.local.json
+
+tsconfig.tsbuildinfo

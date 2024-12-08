@@ -1,0 +1,72 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  aspect-ratio: 1 / 0.8;
+  padding: 0.5rem;
+  font-family: inherit;
+  color: $secondary-color;
+  cursor: pointer;
+  background-color: $primary-color;
+  border-radius: 0.625rem;
+
+  &:hover {
+    background-color: $third-color;
+    transition: all 0.3s ease-in;
+    transform: scale(1.01);
+  }
+
+  &__title {
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: wrap;
+  }
+
+  &__name {
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  &__introduction {
+    display: -webkit-box; // 추가: Webkit 기반 브라우저 지원
+    display: -moz-box; // 추가: Firefox 지원
+    max-height: 2.4em; // 추가: line-height * 2
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    font-weight: 400;
+    line-height: 1.2; // 추가: 줄 높이 지정
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2; // 두 줄 말줄임
+    line-clamp: 2; // 두 줄 말줄임
+    word-break: break-word; // 긴 단어 처리
+    -webkit-box-orient: vertical;
+  }
+
+  &__tagCon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-bottom: 1.25rem;
+  }
+
+  &__deadlineCon {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    font-size: 0.875rem;
+  }
+}
+
+.actionBtn {
+  z-index: 999;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.625rem;
+}

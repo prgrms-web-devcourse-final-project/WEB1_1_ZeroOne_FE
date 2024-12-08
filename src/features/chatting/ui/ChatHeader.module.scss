@@ -1,0 +1,78 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 10%);
+
+  .backButton,
+  .menuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    background: none;
+    border: none;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 10%);
+      border-radius: 4px;
+    }
+  }
+
+  .title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: white;
+  }
+}
+
+.homeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.8rem;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255, 255, 255, 10%);
+
+  .closeBtn {
+    position: absolute;
+    right: 1.5rem;
+  }
+}
+
+.menuContainer {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  margin-top: 0.5rem;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 15%);
+
+  .dropdownItem {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: #333;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+    background: none;
+    border: none;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+}

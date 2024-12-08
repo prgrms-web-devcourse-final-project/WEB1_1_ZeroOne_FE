@@ -1,0 +1,48 @@
+.userContentSection {
+  flex: 1;
+
+  @media (width <= 768px) {
+    transform: translateY(-8rem);
+  }
+}
+
+.sectionContents {
+  width: 100%;
+}
+
+.colorTrendWrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.colorTrendContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;
+  color: $primary-color;
+  border-radius: 1rem;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 15%);
+
+  & > h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    @media (width <= 768px) {
+      font-size: 1.2rem;
+    }
+  }
+
+  & > div {
+    width: 50%;
+
+    @media (width <= 768px) {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.container {
+  width: 100%;
+}
+
+.userProfileContainer {
+  position: relative;
+  width: 20rem;
+  min-width: 20rem;
+
+  & > div {
+    top: 0;
+    transform: translateY(-8rem);
+  }
+}
+
+.userSectionWrapper {
+  display: flex;
+  column-gap: 4rem;
+  width: 100%;
+  padding: 0 4rem;
+
+  @media (width <= 768px) {
+    flex-direction: column;
+    row-gap: 2rem;
+    align-items: center;
+    padding: 0 2rem;
+  }
+
+  //  border: 1px solid blue;
+}
