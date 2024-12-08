@@ -1,3 +1,5 @@
+import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
 import { ContactBtn } from './ContactBtn';
@@ -20,6 +22,7 @@ export const PortfolioCard = ({
   memberImageUrl,
   jobTitle,
   userId,
+  relatedUrl,
 }: PortfolioCardProps) => {
   const { mutate: incrementView } = usePortfolioView({
     onSuccess: response => {
@@ -38,7 +41,7 @@ export const PortfolioCard = ({
       },
     });
   };
-
+  console.log('relatedUrl', relatedUrl);
   return (
     <div className={styles.container} onClick={handleClick}>
       <div className={styles.card}>
@@ -69,6 +72,13 @@ export const PortfolioCard = ({
             <span>@{jobTitle}</span>
           </div>
           <div className={styles.introduction}>{introduction}</div>
+          <div className={styles.userLinks}>
+            {relatedUrl?.map(link => (
+              <a href={link} key={link}>
+                <FontAwesomeIcon icon={faLink} />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </div>
