@@ -5,10 +5,10 @@ import { Controller } from 'react-hook-form';
 import type { Control } from 'react-hook-form';
 
 import styles from './GatheringTagInput.module.scss';
-import type { GatheringFormData } from '../model/types';
+import type { CreateGatheringRequest } from '../model/dto/request.dto';
 
 export interface GatheringTagInputProps {
-  control: Control<GatheringFormData>;
+  control: Control<CreateGatheringRequest>;
   name: 'gatheringTag';
   label: string;
   isRequired?: boolean;
@@ -31,7 +31,7 @@ export const GatheringTagInput = ({
     onChange: HandleChangeFunction,
     currentValue: string[],
   ) => {
-    if (e.key === 'Enter' && inputValue.trim()) {
+    if ((e.key === 'Enter' || (e.metaKey && e.key === 'Enter')) && inputValue.trim()) {
       e.preventDefault();
       if (currentValue.length >= 3) {
         return;
@@ -55,30 +55,13 @@ export const GatheringTagInput = ({
     <div className={styles.container}>
       <label className={styles.label}>
         {label}
-        {isRequired && <span className={styles.required}>*</span>}
+        {isRequired && <span> *</span>}
       </label>
       <Controller
         control={control}
         name={name}
         render={({ field: { onChange, value = [] }, fieldState: { error } }) => (
           <div>
-            <div className={styles.tagsContainer}>
-              {Array.isArray(value) &&
-                value.map((tag: string) => (
-                  <span className={styles.tag} key={tag}>
-                    {tag}
-                    <button
-                      className={styles.removeButton}
-                      onClick={() => {
-                        removeTag(tag, onChange, value);
-                      }}
-                      type='button'
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-            </div>
             <input
               className={cn(styles.input, {
                 [styles.error]: error,
@@ -94,8 +77,28 @@ export const GatheringTagInput = ({
               type='text'
               value={inputValue}
             />
-            <p className={styles.hint}>{`태그 ${value.length}/3`}</p>
-            {error && <p className={styles.errorMessage}>{error.message}</p>}
+            <div className={styles.tagsContainer}>
+              {Array.isArray(value) &&
+                value.map((tag: string) => (
+                  <span className={styles.tag} key={tag}>
+                    {tag}
+                    <button
+                      aria-label={`Remove ${tag} tag`}
+                      className={styles.removeButton}
+                      onClick={() => {
+                        removeTag(tag, onChange, value);
+                      }}
+                      type='button'
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+            </div>
+            <div className={styles.bottom}>
+              <p className={styles.hint}>{`태그 ${value.length}/3`}</p>
+              {error && <p className={styles.errorMessage}>{error.message}</p>}
+            </div>
           </div>
         )}
         rules={{ required: isRequired && '태그를 입력해주세요' }}

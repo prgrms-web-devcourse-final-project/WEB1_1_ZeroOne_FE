@@ -1,28 +1,20 @@
+// import type { GatheringSortType } from '../model/dto/gathering.dto';
 export type SelectOption = {
   value: string;
   label: string;
 };
 
-export interface GatheringFormData {
-  contact: string;
-  sort: string;
-  subject: string;
-  period: string;
-  personnel: string;
-  position: string[];
-  gatheringTag: string[];
-  title: string;
-  url: string;
-  content: string;
-  deadLine: string;
-}
+export type SelectOptNum = {
+  value: number;
+  label: string;
+};
 
 export interface GatheringFilterOptions {
   contact: SelectOption[];
   sort: SelectOption[];
   period: SelectOption[];
-  personnel: SelectOption[];
-  position: SelectOption[];
+  personnel: SelectOptNum[];
+  positions: SelectOption[];
   subject: {
     project: SelectOption[];
     study: SelectOption[];

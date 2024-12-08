@@ -33,6 +33,8 @@ api.interceptors.request.use(config => {
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
+  // const decodedUrl = decodeURIComponent(`${config.baseURL}${config.url}${config.params ? '?' + new URLSearchParams(config.params).toString() : ''}`);
+    // console.log('Decoded URL:', decodedUrl);
   return config;
 });
 

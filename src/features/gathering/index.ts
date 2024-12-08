@@ -7,4 +7,5 @@ export { GatheringMarkdownEditor } from './ui/GatheringMarkdownEditor';
 export { GatheringSelect } from './ui/GatheringSelect';
 export { GatheringTagInput } from './ui/GatheringTagInput';
 export { GatheringTitleInput } from './ui/GatheringTitIeInput';
-
+export * from './lib/hooks';
+export * from './model/index';

@@ -1,53 +1,62 @@
-import type { GatheringDetailResponse } from '../model/gathering.dto';
+import type { GatheringPageResponse, GatheringListParams } from '../model/dto/gathering.dto';
 import type {
-  GatheringItemDto,
-  GatheringSortType,
-  GatheringPeriod,
-  GatheringPosition,
-} from '../model/gathering.dto';
+  GatheringDetailResponse,
+  CreateGatheringRequest,
+  CreateGatheringResponse,
+  GatheringLikeResponse,
+} from '../model/dto/request.dto';
 
 import api from '@/shared/api/baseApi';
 
-interface GetGatheringsParams {
-  sort?: GatheringSortType;
-  period?: GatheringPeriod;
-  position?: GatheringPosition;
-  status?: '모집중' | '모집완료';
-  size?: number;
-  gatheringId?: number;
-}
+export const gatheringApi = {
+  getGatherings: async (params: GatheringListParams): Promise<GatheringPageResponse> => {
+    // params를 URLSearchParams로 변환
+    const queryString = new URLSearchParams();
 
-interface GetGatheringsParams {
-  sort?: GatheringSortType;
-  period?: GatheringPeriod;
-  position?: GatheringPosition;
-  status?: '모집중' | '모집완료';
-  size?: number;
-  nextLikeId?: number;
-}
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== 'undefined') {
+        if (key === 'positions' && Array.isArray(value)) {
+          value.forEach(pos => {
+            queryString.append('positions', pos);
+          });
+        } else {
+          queryString.append(key, value.toString());
+        }
+      }
+    });
 
-interface GatheringListResponse {
-  data: {
-    content: GatheringItemDto[];
-    hasNext: boolean;
-    nextLikeId: number;
-  };
-  timeStamp: string;
-}
-
-export const getGatheringList = {
-  getGatherings: async (params: GetGatheringsParams): Promise<GatheringListResponse> => {
-    const { data } = await api.get<GatheringListResponse>('/gathering', { params });
+    const { data } = await api.get<GatheringPageResponse>(`/gathering?${queryString.toString()}`);
     return data;
   },
-};
-interface GatheringDetailApi {
-  getGatheringById: (id: string) => Promise<GatheringDetailResponse>;
-}
 
-export const gatheringDetailApi: GatheringDetailApi = {
-  getGatheringById: async (id: string) => {
+  getGatheringDetail: async (id: string): Promise<GatheringDetailResponse> => {
     const { data } = await api.get<GatheringDetailResponse>(`/gathering/${id}`);
     return data;
+  },
+
+  create: async (requestData: CreateGatheringRequest): Promise<CreateGatheringResponse> => {
+    const { data } = await api.post<CreateGatheringResponse>('/gathering', {
+      ...requestData,
+      gatheringImages: [],
+    });
+    return data;
+  },
+  update: async (
+    gatheringId: string,
+    data: CreateGatheringRequest,
+  ): Promise<CreateGatheringResponse> => {
+    const response = await api.put<CreateGatheringResponse>(`/gathering/${gatheringId}`, data);
+    return response.data;
+  },
+
+  toggleLike: async (gatheringId: string): Promise<GatheringLikeResponse> => {
+    const { data } = await api.post<GatheringLikeResponse>(`/gathering/${gatheringId}/like`);
+    return data;
+  },
+  deleteGathering: async (gatheringId: string): Promise<void> => {
+    await api.delete(`/gathering/${gatheringId}`);
+  },
+  completeGathering: async (gatheringId: string): Promise<void> => {
+    await api.patch(`/gathering/${gatheringId}`);
   },
 };

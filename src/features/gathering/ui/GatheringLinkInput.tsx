@@ -3,10 +3,10 @@ import { Controller } from 'react-hook-form';
 import type { Control } from 'react-hook-form';
 
 import styles from './GatheringLinkInput.module.scss';
-import type { GatheringFormData } from '../model/types';
+import type { CreateGatheringRequest } from '../model/dto/request.dto';
 
 export interface GatheringLinkInputProps {
-  control: Control<GatheringFormData>;
+  control: Control<CreateGatheringRequest>;
   name: 'url';
   label: string;
   isRequired?: boolean;
@@ -34,7 +34,7 @@ export const GatheringLinkInput = ({
     <div className={styles.container}>
       <label className={styles.label}>
         {label}
-        {isRequired && <span className={styles.required}>*</span>}
+        {isRequired && <span> *</span>}
       </label>
       <Controller
         control={control}
