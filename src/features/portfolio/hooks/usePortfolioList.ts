@@ -12,28 +12,28 @@ export const usePortfolioList = ({
   return useInfiniteQuery({
     queryKey: ['portfolioList', { sort, majorJobGroup, minorJobGroup }],
     queryFn: async ({ pageParam = 0 }) => {
-      try {
-        const response = await getPortfolioList({
-          page: pageParam,
-          size,
-          sort,
-          majorJobGroup,
-          minorJobGroup,
-        });
-        // API 응답의 data 필드를 반환
-        return response.data;
-      } catch (error) {
-        console.error('Portfolio fetch error:', error);
-        throw error;
-      }
+      const response = await getPortfolioList({
+        page: pageParam,
+        size,
+        sort,
+        majorJobGroup,
+        minorJobGroup,
+      });
+      return response.data;
     },
+
     getNextPageParam: lastPage => {
-      if (!lastPage) return undefined;
-      // last가 true면 더 이상 페이지가 없음
-      if (lastPage?.last) return undefined;
-      // 다음 페이지 번호 반환
+      // 더 엄격한 조건 체크
+      if (!lastPage || !lastPage.content || lastPage.last) {
+        return undefined;
+      }
+      // 현재 페이지의 아이템이 size보다 적으면 마지막 페이지
+      if (lastPage.content.length < size) {
+        return undefined;
+      }
       return lastPage.number + 1;
     },
+
     initialPageParam: 0,
   });
 };
