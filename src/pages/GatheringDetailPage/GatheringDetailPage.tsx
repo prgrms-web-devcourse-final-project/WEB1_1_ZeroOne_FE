@@ -49,9 +49,10 @@ export const GatheringDetailPage = () => {
 
   return (
     <div className={styles.container}>
-      <GatheringDetailHeader title={gatheringDetail.title} />
+      <GatheringDetailHeader title={gatheringDetail.title} username={gatheringDetail.username} />
       <GatheringDetailGrid
         contact={gatheringDetail.contact}
+        contactUrl={gatheringDetail.contactUrl}
         createTime={gatheringDetail.createTime}
         deadLine={gatheringDetail.deadLine}
         gatheringTag={gatheringDetail.gatheringTag}
@@ -71,12 +72,7 @@ export const GatheringDetailPage = () => {
       </section>
       <div className={styles.footer}>
         <div className={styles.stats}>
-          <LikeBtn
-            disabled={isPending}
-            likeCount={gatheringDetail.likeCounts}
-            onLikeClick={toggleLike}
-          />
-          <span className={styles.likeCount}>{gatheringDetail.likeCounts}</span>
+          <LikeBtn disabled={isPending} onLikeClick={toggleLike} />
         </div>
         <GatheringDetailUserInfo username={gatheringDetail.username} />
         <GatheringDetailBtnCon gatheringId={gatheringId} userId={gatheringDetail.userId} />
