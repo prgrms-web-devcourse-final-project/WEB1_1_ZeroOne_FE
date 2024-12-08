@@ -22,8 +22,7 @@ export const PortFolioGrid = ({ params }: { params: PortfolioParams }) => {
   if (status === 'pending') return <div>Loading...</div>;
   if (isError) return <div>Error loading portfolios</div>;
 
-  const portfolios = data?.pages?.flatMap(page => page.content) ?? [];
-
+  const portfolios = data?.pages?.flatMap(page => page?.content ?? []).filter(Boolean) ?? [];
   if (portfolios.length === 0) {
     return (
       <div>
