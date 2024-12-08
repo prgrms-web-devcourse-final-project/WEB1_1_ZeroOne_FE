@@ -10,6 +10,7 @@ import type { Portfolio } from '@/features';
 import { usePortfolioView } from '@/features';
 import Heart from '@/shared/assets/heart.svg';
 import profileImg from '@/shared/assets/paletteLogo.svg';
+
 type PortfolioCardProps = Portfolio;
 
 export const PortfolioCard = ({
@@ -33,17 +34,34 @@ export const PortfolioCard = ({
     },
   });
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault(); // 우선 페이지 이동을 막습니다
+  const handleCardClick = (e: React.MouseEvent) => {
+    const clickedElement = e.target as HTMLElement;
+    if (
+      clickedElement.closest('button') ||
+      clickedElement.closest('a') ||
+      clickedElement.closest(`.${styles.userLinks}`)
+    ) {
+      e.stopPropagation();
+      return;
+    }
+
     incrementView(portFolioId, {
       onSuccess: () => {
         window.location.href = portFolioUrl;
       },
     });
   };
-  console.log('relatedUrl', relatedUrl);
+
+  const formatUrl = (url: string) => {
+    if (!url) return '';
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    return `https://${url}`;
+  };
+
   return (
-    <div className={styles.container} onClick={handleClick}>
+    <div className={styles.container} onClick={handleCardClick}>
       <div className={styles.card}>
         <div className={styles.cardHeader}>
           <Link className={styles.cardImg} to={portFolioUrl}>
@@ -53,7 +71,9 @@ export const PortfolioCard = ({
         </div>
         <div className={styles.cardFooter}>
           <div className={styles.firstInfo}>
-            <span className={styles.name}>{username}</span>
+            <Link to={`/user/${userId}`}>
+              <span className={styles.name}>{username}</span>
+            </Link>
             <button
               onClick={e => {
                 e.stopPropagation();
@@ -66,15 +86,23 @@ export const PortfolioCard = ({
             <div>
               <Link to={`/user/${userId}`}>
                 <span>{getJobGroupDisplayName(majorJobGroup)}</span>/
+                <span>{getJobGroupDisplayName(minorJobGroup)}</span>
               </Link>
-              <span>{getJobGroupDisplayName(minorJobGroup)}</span>
             </div>
             <span>@{jobTitle}</span>
           </div>
           <div className={styles.introduction}>{introduction}</div>
           <div className={styles.userLinks}>
             {relatedUrl?.map(link => (
-              <a href={link} key={link}>
+              <a
+                href={formatUrl(link)}
+                key={link}
+                onClick={e => {
+                  e.stopPropagation();
+                }}
+                rel='noopener noreferrer'
+                target='_blank'
+              >
                 <FontAwesomeIcon icon={faLink} />
               </a>
             ))}
