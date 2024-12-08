@@ -11,6 +11,7 @@
   color: $secondary-color;
   visibility: hidden;
   background-color: $primary-color;
+  border: 1px solid $secondary-color;
   border-radius: 20px;
   opacity: 0;
   transition: 0.8s ease;

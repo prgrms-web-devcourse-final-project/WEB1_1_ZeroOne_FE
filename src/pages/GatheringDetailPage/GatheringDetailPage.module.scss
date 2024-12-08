@@ -42,6 +42,12 @@
   .stats {
     display: flex;
     gap: 2rem;
-    color: #666;
+    color: $third-color;
+  }
+
+  .likeCount {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

@@ -5,11 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './MainGridItem.module.scss';
 
-import { ArchiveCard, PortfolioCard, usePopularArchive } from '@/features';
-import { GatheringCard } from '@/shared/ui';
+import { ArchiveCard, usePopularArchive } from '@/features';
+import { MainPortfolioGrid } from '@/widgets';
 
 export const MainGridItem = ({ type }: { type: string }) => {
   const navigate = useNavigate();
+
   const { data: archiveData } = usePopularArchive();
 
   if (type === 'portfolio') {
@@ -25,44 +26,7 @@ export const MainGridItem = ({ type }: { type: string }) => {
             인기 포트폴리오 유저를 소개합니다
             <FontAwesomeIcon icon={faChevronRight} size='xs' />
           </h4>
-          <div className={styles.grid}>
-            <PortfolioCard
-              introduction=''
-              majorJobGroup=''
-              memberImageUrl=''
-              minorJobGroup=''
-              portFolioId={1}
-              portFolioUrl=''
-              username=''
-            />
-            <PortfolioCard
-              introduction=''
-              majorJobGroup=''
-              memberImageUrl=''
-              minorJobGroup=''
-              portFolioId={2}
-              portFolioUrl=''
-              username=''
-            />
-            <PortfolioCard
-              introduction=''
-              majorJobGroup=''
-              memberImageUrl=''
-              minorJobGroup=''
-              portFolioId={3}
-              portFolioUrl=''
-              username=''
-            />
-            <PortfolioCard
-              introduction=''
-              majorJobGroup=''
-              memberImageUrl=''
-              minorJobGroup=''
-              portFolioId={4}
-              portFolioUrl=''
-              username=''
-            />
-          </div>
+          <MainPortfolioGrid />
         </div>
       </section>
     );
@@ -104,12 +68,7 @@ export const MainGridItem = ({ type }: { type: string }) => {
             현재 모집 중인 게더링
             <FontAwesomeIcon icon={faChevronRight} size='xs' />
           </h4>
-          <div className={styles.grid}>
-            <GatheringCard title='' />
-            <GatheringCard title='' />
-            <GatheringCard title='' />
-            <GatheringCard title='' />
-          </div>
+          <div className={styles.grid}></div>
         </div>
       </section>
     );

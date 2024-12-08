@@ -1,74 +1,36 @@
 import styles from './PortFolioGrid.module.scss';
 
 import { PortfolioCard } from '@/features';
-import type { Portfolio } from '@/features';
+import { usePortfolioList } from '@/features/portfolio/hooks/usePortfolioList';
+import type { PortfolioParams } from '@/features/portfolio/model/types';
+import { useIntersectionObserver } from '@/shared/hook/useIntersectionObserver';
+import { Loader } from '@/shared/ui';
 
-export const PortFolioGrid = () => {
-  const portfolios: Portfolio[] = [
-    {
-      portFolioId: 28,
-      portFolioUrl: 'https://example.com/portfolio/28',
-      username: '리성원',
-      introduction: '안녕하세요',
-      majorJobGroup: '개발',
-      minorJobGroup: '서버/백엔드 개발자',
-      memberImageUrl: 'fdsf',
+export const PortFolioGrid = ({ params }: { params: PortfolioParams }) => {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status, isError } =
+    usePortfolioList(params);
+
+  const ref = useIntersectionObserver(
+    () => {
+      if (hasNextPage && !isFetchingNextPage) {
+        fetchNextPage();
+      }
     },
-    {
-      portFolioId: 28,
-      portFolioUrl: 'https://example.com/portfolio/28',
-      username: '리성원',
-      introduction: '안녕하세요',
-      majorJobGroup: '개발',
-      minorJobGroup: '서버/백엔드 개발자',
-      memberImageUrl: 'fdsf',
-    },
-    {
-      portFolioId: 28,
-      portFolioUrl: 'https://example.com/portfolio/28',
-      username: '리성원',
-      introduction: '안녕하세요',
-      majorJobGroup: '개발',
-      minorJobGroup: '서버/백엔드 개발자',
-      memberImageUrl: 'fdsf',
-    },
-    {
-      portFolioId: 28,
-      portFolioUrl: 'https://example.com/portfolio/28',
-      username: '리성원',
-      introduction: '안녕하세요',
-      majorJobGroup: '개발',
-      minorJobGroup: '서버/백엔드 개발자',
-      memberImageUrl: 'fdsf',
-    },
-    {
-      portFolioId: 28,
-      portFolioUrl: 'https://example.com/portfolio/28',
-      username: '리성원',
-      introduction: '안녕하세요',
-      majorJobGroup: '개발',
-      minorJobGroup: '서버/백엔드 개발자',
-      memberImageUrl: 'fdsf',
-    },
-    {
-      portFolioId: 28,
-      portFolioUrl: 'https://example.com/portfolio/28',
-      username: '리성원',
-      introduction: '안녕하세요',
-      majorJobGroup: '개발',
-      minorJobGroup: '서버/백엔드 개발자',
-      memberImageUrl: 'fdsf',
-    },
-    {
-      portFolioId: 28,
-      portFolioUrl: 'https://example.com/portfolio/28',
-      username: '리성원',
-      introduction: '안녕하세요',
-      majorJobGroup: '개발',
-      minorJobGroup: '서버/백엔드 개발자',
-      memberImageUrl: 'fdsf',
-    },
-  ];
+    { threshold: 1 },
+  );
+
+  if (status === 'pending') return <div>Loading...</div>;
+  if (isError) return <div>Error loading portfolios</div>;
+
+  const portfolios = data?.pages?.flatMap(page => page?.content ?? []).filter(Boolean) ?? [];
+  if (portfolios.length === 0) {
+    return (
+      <div>
+        <Loader />
+        검색된 내용이 없습니다.
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -76,6 +38,25 @@ export const PortFolioGrid = () => {
         {portfolios.map(portfolio => (
           <PortfolioCard key={portfolio.portFolioId} {...portfolio} />
         ))}
+      </div>
+      <div
+        ref={ref}
+        style={{
+          width: '100%',
+          height: '100px',
+          marginTop: '20px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {isFetchingNextPage ? (
+          <div>
+            <Loader />
+          </div>
+        ) : hasNextPage ? (
+          <div style={{ visibility: 'hidden' }}>Intersection Observer Trigger</div>
+        ) : null}
       </div>
     </div>
   );

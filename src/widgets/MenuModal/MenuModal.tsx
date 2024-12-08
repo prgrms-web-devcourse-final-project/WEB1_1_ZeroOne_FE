@@ -83,15 +83,13 @@ export const MenuModal = ({
               navigate('/like');
               onClose(false);
             } else {
-              customConfirm({
+              void customConfirm({
                 text: '로그인이 필요합니다.',
                 title: '로그인',
                 icon: 'info',
-              })
-                .then(() => {
-                  onClose(false);
-                })
-                .catch(console.error);
+              }).then(() => {
+                onClose(false);
+              });
             }
           }}
         />

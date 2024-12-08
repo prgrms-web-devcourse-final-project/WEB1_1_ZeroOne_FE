@@ -22,8 +22,8 @@ export const useCustomInfiniteQuery = <
       queryKey,
       queryFn: ({ pageParam = 0 }) => queryFn({ pageParam: pageParam as number }),
       getNextPageParam: (lastPage, allPages) => {
-        if (Array.isArray(lastPage.data[dataKey])) {
-          const isLastPage = lastPage.data[dataKey]?.length < pageSize;
+        if (Array.isArray(lastPage.data[dataKey][dataKey])) {
+          const isLastPage = lastPage.data[dataKey][dataKey]?.length < pageSize;
           return isLastPage ? null : allPages.length;
         }
         return null;
@@ -65,5 +65,14 @@ export const useCustomInfiniteQuery = <
     { threshold: 1.0 },
   );
 
-  return { items, isFetchingNextPage, isLoading, isError, ref, fetchNextPage, refetch, isPending };
+  return {
+    items,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    ref,
+    fetchNextPage,
+    refetch,
+    isPending,
+  };
 };

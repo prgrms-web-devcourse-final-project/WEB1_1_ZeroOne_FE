@@ -7,7 +7,15 @@ import styles from './WriteStep.module.scss';
 
 import type { Color, PostArchiveApiResponse } from '@/features';
 import { ColorMap, useArchiveStore, useCreateArchive, useUpdateArchive } from '@/features';
-import { Button, customToast, MarkdownEditor, ScrollToTop, Switch, Tag } from '@/shared/ui';
+import {
+  Button,
+  customConfirm,
+  customToast,
+  MarkdownEditor,
+  ScrollToTop,
+  Switch,
+  Tag,
+} from '@/shared/ui';
 
 export const WriteStep = ({
   onClick,
@@ -19,6 +27,7 @@ export const WriteStep = ({
 }) => {
   const navigate = useNavigate();
   const [isComposing, setIsComposing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { archiveData, archiveId, resetArchiveData, setArchiveId, updateArchiveData } =
     useArchiveStore();
@@ -31,7 +40,7 @@ export const WriteStep = ({
         updateArchiveData('tags', [...archiveData.tags, { tag: tag.trim() }]);
         setTag('');
       } else {
-        customToast({ text: '이미 추가된 태그입니다.', timer: 3000, icon: 'info' });
+        void customToast({ text: '이미 추가된 태그입니다.', timer: 3000, icon: 'info' });
       }
     }
   };
@@ -44,23 +53,59 @@ export const WriteStep = ({
   const { mutate: createArchive } = useCreateArchive();
   const { mutate: updateArchive } = useUpdateArchive(archiveId);
 
+  const handleValidate = () => {
+    const missingFields: string[] = [];
+
+    if (!archiveData.title) {
+      missingFields.push('제목');
+    }
+    if (!archiveData.introduction) {
+      missingFields.push('한 줄 소개');
+    }
+    if (!archiveData.description) {
+      missingFields.push('본문');
+    }
+
+    if (missingFields.length > 0) {
+      const missingMessage = `${missingFields.join(', ')}을(를) 입력해주세요.`;
+      void customConfirm({ text: missingMessage, icon: 'warning' });
+      return false;
+    }
+
+    return true;
+  };
+
   const handleEdit = () => {
+    if (isLoading) return;
+    if (!handleValidate()) return;
+
+    setIsLoading(true);
     updateArchive(archiveData, {
       onSuccess: () => {
         resetArchiveData();
         navigate(`/archive/${archiveId}`);
         setArchiveId(0);
-        customToast({ text: '아카이브가 수정되었어요!', timer: 3000, icon: 'success' });
+        void customToast({ text: '아카이브가 수정되었어요!', timer: 3000, icon: 'success' });
+      },
+      onSettled: () => {
+        setIsLoading(false);
       },
     });
   };
 
   const handleCreate = () => {
+    if (isLoading) return;
+    if (!handleValidate()) return;
+
+    setIsLoading(true);
     createArchive(archiveData, {
       onSuccess: (data: PostArchiveApiResponse) => {
         resetArchiveData();
         navigate(`/archive/${data.data?.archiveId}`);
-        customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
+        void customToast({ text: '아카이브가 만들어졌어요!', timer: 3000, icon: 'success' });
+      },
+      onSettled: () => {
+        setIsLoading(false);
       },
     });
   };

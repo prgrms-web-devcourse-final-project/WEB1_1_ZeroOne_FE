@@ -1,33 +1,142 @@
-.select {
-  :global {
-    .select__control {
-      border-color: #e2e8f0;
+/**
+ * 컨테이너 스타일
+ */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  margin-bottom: 16px;
+
+  .label {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $primary-color;
+
+    span {
+      color: $red;
+    }
+
+    @media (width <= 768px) {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+/**
+ * 셀렉트 컴포넌트 스타일
+ */
+/* stylelint-disable selector-class-pattern */
+:global {
+  .react-select-container {
+    .react-select__control {
+      min-height: 42px;
+      font-family: inherit;
+      font-weight: 500;
+      border: 2px solid $primary-color;
+      border-radius: 4px;
       box-shadow: none;
 
       &:hover {
         border-color: #cbd5e1;
       }
 
-      &--error {
-        border-color: red;
+      &.error {
+        border-color: $red;
+      }
+
+      &.react-select__control--is-focused {
+        border-color: $blue;
+        box-shadow: 0 0 0 2px rgba($blue, 0.2);
+      }
+
+      &.react-select__control--is-disabled {
+        cursor: not-allowed;
+        background-color: #f5f5f5;
+      }
+    }
+
+    /* 구분선 제거 */
+    .react-select__indicator-separator {
+      display: none;
+    }
+
+    /* 드롭다운 화살표 색상 적용 */
+    .react-select__dropdown-indicator {
+      color: $primary-color;
+
+      &:hover {
+        color: #cbd5e1;
+      }
+    }
+
+    .react-select__control--is-focused .react-select__dropdown-indicator {
+      color: $blue;
+    }
+
+    .react-select__placeholder {
+      font-family: inherit;
+      font-weight: 500;
+      color: #bfbfbf;
+    }
+
+    .react-select__value-container {
+      padding: 8px 12px;
+    }
+
+    .react-select__multi-value {
+      background-color: rgba($blue, 0.1);
+      border-radius: 2px;
+
+      .react-select__multi-value__label {
+        padding: 2px 6px;
+        font-family: inherit;
+        font-weight: 500;
+        color: $blue;
+      }
+
+      .react-select__multi-value__remove {
+        padding: 0 4px;
+        margin-left: 4px;
+        color: $blue;
+        cursor: pointer;
+
+        &:hover {
+          color: $red;
+          background-color: rgba($red, 0.1);
+        }
+      }
+    }
+
+    .react-select__menu {
+      margin-top: 2px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 15%);
+
+      .react-select__option {
+        padding: 8px 12px;
+        font-family: inherit;
+        font-weight: 500;
+
+        &.react-select__option--is-focused {
+          background-color: rgba($blue, 0.1);
+        }
+
+        &.react-select__option--is-selected {
+          color: $blue;
+          background-color: rgba($blue, 0.2);
+        }
       }
     }
   }
 }
+/* stylelint-enable selector-class-pattern */
 
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  width: 100%;
-}
-
-.label {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: $primary-color;
-
-  @media (width <= 768px) {
-    font-size: 0.875rem;
-  }
+/**
+ * 에러 메시지 스타일
+ */
+.error {
+  min-height: 20px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: $red;
 }

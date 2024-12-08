@@ -8,7 +8,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import styles from './GatheringMarkdownEditor.module.scss';
 import { GatheringMarkdownPreview } from './GatheringMarkdownPreview';
 import { useGatheringMarkdown } from './useGatheringMarkdown';
-import type { GatheringFormData } from '../model/types';
+import type { CreateGatheringRequest } from '../model/dto/request.dto';
 
 interface GatheringMarkdownEditorProps {
   label: string;
@@ -20,7 +20,7 @@ export const GatheringMarkdownEditor = ({
   isRequired = false,
 }: GatheringMarkdownEditorProps) => {
   const editorViewRef = useRef<EditorView | null>(null);
-  const { control } = useFormContext<GatheringFormData>();
+  const { control } = useFormContext<CreateGatheringRequest>();
   const { insertStartToggle, handleImage } = useGatheringMarkdown({
     editorViewRef,
   });
@@ -92,10 +92,7 @@ export const GatheringMarkdownEditor = ({
                       onChange={e => {
                         const file = e.target.files?.[0];
                         if (file && editorViewRef.current) {
-                          handleImage(
-                            file,
-                            // ,editorViewRef.current
-                          );
+                          handleImage(file);
                           return;
                         }
                       }}
