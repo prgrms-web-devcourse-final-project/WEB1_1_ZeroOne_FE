@@ -44,10 +44,10 @@ const ArchiveContent = ({ userId }: ArchiveContentProps) => {
   );
 };
 
-const dummyGatherings: GatheringItemDto<'프로젝트'>[] = Array.from({ length: 9 }, (_, i) => ({
-  gatheringId: i.toString(),
+const dummyGatherings: GatheringItem[] = Array.from({ length: 9 }, (_, i) => ({
+  gatheringId: i,
   title: `Sample Gathering ${i + 1}`,
-  userId: `user_${i}`,
+  userId: i,
   username: '홍길동',
   sort: '프로젝트',
   subject: '개발', // ProjectSubjectType만 허용
@@ -58,6 +58,7 @@ const dummyGatherings: GatheringItemDto<'프로젝트'>[] = Array.from({ length:
   period: '3개월',
   personnel: '3',
 }));
+
 const GatheringContent = () => <GatheringGrid items={dummyGatherings} />;
 
 const ContentComponents = {

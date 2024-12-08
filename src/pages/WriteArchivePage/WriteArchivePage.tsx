@@ -2,6 +2,7 @@ import { useReducer } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useArchiveStore } from '@/features';
+import { customConfirm } from '@/shared/ui';
 import { WriteArchiveContainer, ColorChoiceStep, WriteStep } from '@/widgets';
 
 type StepState = 'selectColor' | 'writeForm' | 'editForm';
@@ -31,6 +32,13 @@ export const WriteArchivePage = () => {
     isEdit ? 'editForm' : 'selectColor',
   );
 
+  const handleColorCheckAndDispatch = (action: StepAction) => {
+    if (!color || color === 'DEFAULT') {
+      void customConfirm({ text: '색상을 선택해주세요.', icon: 'warning' });
+    }
+    dispatch(action);
+  };
+
   const getGuideAndChildren = () => {
     if (currentStep === 'selectColor') {
       return {
@@ -38,7 +46,7 @@ export const WriteArchivePage = () => {
         children: (
           <ColorChoiceStep
             onClick={() => {
-              dispatch({ type: 'SELECT_COLOR' });
+              handleColorCheckAndDispatch({ type: 'SELECT_COLOR' });
             }}
             onSelectColor={setColor}
             selectedColor={color}

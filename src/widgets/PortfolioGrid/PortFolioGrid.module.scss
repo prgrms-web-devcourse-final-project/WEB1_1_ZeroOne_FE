@@ -1,8 +1,10 @@
 .container {
   display: flex;
-  justify-content: center;
+  flex-direction: column; // 변경
+  justify-content: flex-start; // 변경
   width: 100%;
   max-width: 1920px;
+  min-height: 100vh;
   padding: 1.25rem;
   margin: 0 auto;
 

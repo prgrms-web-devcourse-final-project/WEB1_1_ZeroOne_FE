@@ -1,0 +1,34 @@
+.likeButton {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.heart {
+  width: 24px;
+  height: 24px;
+  transition: all 0.2s;
+
+  &.liked {
+    filter: invert(40%) sepia(100%) saturate(1000%) hue-rotate(340deg);
+  }
+}
+
+.count {
+  font-size: 14px;
+  color: $primary-color;
+}

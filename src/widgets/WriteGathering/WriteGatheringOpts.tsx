@@ -3,6 +3,7 @@ import { useWatch } from 'react-hook-form';
 
 import styles from './WriteGatheringOpts.module.scss';
 
+import type { CreateGatheringRequest } from '@/features';
 import {
   GatheringSelect,
   gatheringFilterOptions,
@@ -10,10 +11,10 @@ import {
   GatheringTagInput,
   GatheringLinkInput,
 } from '@/features';
-import type { GatheringFormData, SelectOption } from '@/features/gathering/model/types';
+import type { SelectOption } from '@/features/gathering/model/types';
 
 interface WriteGatheringOptsProps {
-  control: Control<GatheringFormData>;
+  control: Control<CreateGatheringRequest>;
 }
 
 export const WriteGatheringOpts = ({ control }: WriteGatheringOptsProps) => {
@@ -35,7 +36,6 @@ export const WriteGatheringOpts = ({ control }: WriteGatheringOptsProps) => {
     if (sortValue === '기타') {
       return gatheringFilterOptions.subject.etc;
     }
-
     return [];
   };
 
@@ -57,7 +57,6 @@ export const WriteGatheringOpts = ({ control }: WriteGatheringOptsProps) => {
         options={getSubjectOptions()}
         placeholder={!sortValue ? '모임 종류를 먼저 선택해주세요' : '주제를 선택해주세요'}
       />
-
       <GatheringSelect
         control={control}
         isRequired
@@ -65,7 +64,6 @@ export const WriteGatheringOpts = ({ control }: WriteGatheringOptsProps) => {
         name='contact'
         options={gatheringFilterOptions.contact}
       />
-
       <GatheringSelect
         control={control}
         isRequired
@@ -73,7 +71,6 @@ export const WriteGatheringOpts = ({ control }: WriteGatheringOptsProps) => {
         name='period'
         options={gatheringFilterOptions.period}
       />
-
       <GatheringSelect
         control={control}
         isRequired
@@ -81,14 +78,13 @@ export const WriteGatheringOpts = ({ control }: WriteGatheringOptsProps) => {
         name='personnel'
         options={gatheringFilterOptions.personnel}
       />
-
       <GatheringSelect
         control={control}
         isMulti
         isRequired
         label='모집 분야'
-        name='position'
-        options={gatheringFilterOptions.position}
+        name='positions'
+        options={gatheringFilterOptions.positions}
       />
       <GatheringTagInput
         control={control}
