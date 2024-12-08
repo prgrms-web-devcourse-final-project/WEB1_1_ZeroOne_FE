@@ -26,7 +26,7 @@ export const MainGridItem = ({ type }: { type: string }) => {
             인기 포트폴리오 유저를 소개합니다
             <FontAwesomeIcon icon={faChevronRight} size='xs' />
           </h4>
-          <MainPortfolioGrid/>
+          <MainPortfolioGrid />
         </div>
       </section>
     );

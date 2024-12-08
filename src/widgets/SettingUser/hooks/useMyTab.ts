@@ -28,6 +28,15 @@ export const MYPAGE_TAB: TabConfigType[] = [
       },
     ],
   },
+  {
+    title: '설정',
+    tabList: [
+      {
+        path: '/my/logout',
+        label: '로그아웃',
+      },
+    ],
+  },
 ];
 
 const tabList = MYPAGE_TAB.map(tabSec => tabSec.tabList).flat();

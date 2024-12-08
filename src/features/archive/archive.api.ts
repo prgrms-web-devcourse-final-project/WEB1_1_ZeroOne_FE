@@ -1,4 +1,8 @@
-import type { PatchArchiveOrderDTO, PostCommentApiResponse } from './archive.dto';
+import type {
+  getArchiveColorApiResponse,
+  PatchArchiveOrderDTO,
+  PostCommentApiResponse,
+} from './archive.dto';
 import type { GetArchiveApiResponse, GetCommentsApiResponse } from './archive.dto';
 import type {
   PostArchiveApiResponse,
@@ -78,3 +82,16 @@ export const patchArchiveOrder = (data: PatchArchiveOrderDTO) => api.patch('/arc
 
 export const getPopularArchive = () =>
   api.get<GetArchiveListApiResponse>('/archive/main').then(res => res.data);
+
+export const getUserArchiveList = (userId: number, page: number) =>
+  api
+    .get<GetArchiveListApiResponse>(`/user/${userId}/archives`, {
+      params: {
+        size: 8,
+        page,
+      },
+    })
+    .then(res => res.data);
+
+export const getUserArchiveColor = (userId: number) =>
+  api.get<getArchiveColorApiResponse>(`/user/${userId}/archive-colors`).then(res => res.data);

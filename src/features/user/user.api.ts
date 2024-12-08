@@ -17,7 +17,7 @@ export const postCreateUser = (data: PostUserDTO) =>
   api.post<PostUserApiReponse>('/profile', data).then(res => res.data);
 
 export const getUserProfile = (userId: number) =>
-  api.get<GetUserProfileApiResponse>(`/user/${userId}/profile`);
+  api.get<GetUserProfileApiResponse>(`/user/${userId}/profile`).then(res => res.data);
 
 export const getUserEdit = (userId: number) =>
   api.get<GetEditUserApiResponse>(`/user/${userId}/edit`).then(res => res.data);

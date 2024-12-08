@@ -86,6 +86,10 @@ export type ArchivePageDTO = {
   pageParams: number[];
 };
 
+export type ColorCountDTO = {
+  [key in Exclude<Color, 'DEFAULT'>]: number;
+};
+
 export type PostArchiveApiResponse = ApiResponse<PostArchiveResponseDTO>;
 export type GetArchiveApiResponse = ApiResponse<Archive>;
 export type GetCommentsApiResponse = ApiResponse<Comment[]>;
@@ -94,3 +98,4 @@ export type GetArchiveListApiResponse = ApiResponse<{
   archives: ArchiveCardDTO[];
   slice: Meta;
 }>;
+export type getArchiveColorApiResponse = ApiResponse<ColorCountDTO>;

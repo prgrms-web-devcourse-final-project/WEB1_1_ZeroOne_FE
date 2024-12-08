@@ -40,7 +40,11 @@ export const formValidation = yup.object({
           ),
       }),
     )
-    .max(5, 'URL은 최대 5개 까지 작성 가능합니다.')
+    .test('unique-urls', 'URL이 중복되었습니다.', urls => {
+      if (!urls) return true; // 비어있으면 유효
+      const uniqueUrls = new Set(urls.map(item => item.value));
+      return uniqueUrls.size === urls.length; // 중복 없으면 유효
+    })
     .defined(),
   imageUrl: yup
     .object()
