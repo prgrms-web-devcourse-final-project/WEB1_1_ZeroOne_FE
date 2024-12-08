@@ -41,17 +41,6 @@ export const putComment = (commentId: number, content: string) =>
     .put<PostCommentApiResponse>(`/archive/comment/${commentId}`, { content })
     .then(res => res.data);
 
-export const getPopularlityArchiveList = (size: number) =>
-  api
-    .get<GetArchiveListApiResponse>('/archive', {
-      params: {
-        sort: 'popularlity',
-        page: 0,
-        size,
-      },
-    })
-    .then(res => res.data);
-
 export const getArchiveList = (sort: string, page: number, color?: Color | null) =>
   api
     .get<GetArchiveListApiResponse>('/archive', {

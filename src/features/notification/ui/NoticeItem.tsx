@@ -3,25 +3,48 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 
 import styles from './NoticeItem.module.scss';
-import { NotificationMap, type NotificationType } from '../notification.type';
+import type { Notification } from '../notification.dto';
+import { useDeleteNotification } from '../notification.hook';
+import { NotificationMap } from '../notification.type';
 
-export const NoticeItem = ({ type }: { type: NotificationType }) => {
+import { useCreateChatRoom } from '@/features/chatting/api/chatting.hook';
+import { useModalStore } from '@/shared/model/modalStore';
+
+export const NoticeItem = ({ notification }: { notification: Notification }) => {
+  const { mutate: deleteNotification } = useDeleteNotification(notification.id);
+  const { mutate: createChatRoom } = useCreateChatRoom();
+  const open = useModalStore(state => state.actions.open);
+
   return (
     <div className={styles.container}>
-      <div className={cn(styles.icon, styles[NotificationMap[type].label])}>
-        <FontAwesomeIcon icon={NotificationMap[type].icon} />
+      <div className={cn(styles.icon, styles[NotificationMap[notification.type].label])}>
+        <FontAwesomeIcon icon={NotificationMap[notification.type].icon} />
       </div>
-      <p className={styles.description}>{NotificationMap[type].description}</p>
+      <p className={styles.description}>{notification.content}</p>
       <div className={styles.buttons}>
-        <FontAwesomeIcon
-          className={cn(styles.check, styles.button)}
-          icon={faCircleCheck}
-          onClick={() => {}}
-        />
+        {notification.type !== 'LIKE' && (
+          <FontAwesomeIcon
+            className={cn(styles.check, styles.button)}
+            icon={faCircleCheck}
+            onClick={() => {
+              createChatRoom(
+                { chatCategory: notification.type, targetId: Number(notification.acceptUrl) },
+                {
+                  onSuccess: () => {
+                    open('chatting');
+                    deleteNotification();
+                  },
+                },
+              );
+            }}
+          />
+        )}
         <FontAwesomeIcon
           className={cn(styles.cancel, styles.button)}
           icon={faCircleXmark}
-          onClick={() => {}}
+          onClick={() => {
+            deleteNotification();
+          }}
         />
       </div>
     </div>
