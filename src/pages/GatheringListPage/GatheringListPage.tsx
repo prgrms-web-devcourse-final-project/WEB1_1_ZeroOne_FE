@@ -5,17 +5,17 @@ import { useEffect, useState } from 'react';
 import styles from './GatheringListPage.module.scss';
 
 import type {
-  GatheringSortType,
-  GatheringPeriod,
-  GatheringPosition,
-  GatheringPersonnel,
   GatheringContactType,
+  GatheringPeriod,
+  GatheringPersonnel,
+  GatheringPosition,
+  GatheringSortType,
 } from '@/features';
 import { useInfiniteGatheringId } from '@/features/gathering/lib/hooks/useInfiniteGatheringId';
 import { useIntersectionObserver } from '@/shared/hook/useIntersectionObserver';
-import { SidebarFilter, PROJECT_CATEGORIES, MobileSidebarFilter, TripleDot } from '@/shared/ui';
+import { Loader, MobileSidebarFilter, PROJECT_CATEGORIES, SidebarFilter } from '@/shared/ui';
 import type { FilterState } from '@/shared/ui/SidebarFilter/types';
-import { GatheringSelectCon, GatheringGrid } from '@/widgets';
+import { GatheringGrid, GatheringSelectCon } from '@/widgets';
 
 interface Filters {
   sort?: GatheringSortType;
@@ -126,8 +126,14 @@ export const GatheringListPage = () => {
     rootMargin: '50px',
   });
 
-  if (isLoading) return <TripleDot />;
-  if (isError) return <div>데이터를 불러오는데 실패했습니다.</div>;
+  if (isLoading) return <Loader />;
+  if (isError)
+    return (
+      <div>
+        <Loader />
+        데이터를 불러오는데 실패했습니다.
+      </div>
+    );
 
   const getCurrentCategoryName = () => {
     if (initialFilterState.selectedCategory === 'all') return '전체';
@@ -198,7 +204,7 @@ export const GatheringListPage = () => {
               visibility: hasNextPage ? 'visible' : 'hidden',
             }}
           >
-            {isFetchingNextPage && <TripleDot />}
+            {isFetchingNextPage && <Loader />}
           </div>
         </div>
       </div>
