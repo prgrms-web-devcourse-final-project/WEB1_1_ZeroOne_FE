@@ -2,6 +2,7 @@ import type {
   MainPortfolioResponse,
   PortfolioListApiResponse,
   PortfolioParams,
+  PortfolioViewResponse, 
 } from '../model/types';
 
 import api from '@/shared/api/baseApi';
@@ -28,5 +29,12 @@ export const getPortfolioList = async (
 
 export const getMainPortfolioList = async (): Promise<MainPortfolioResponse> => {
   const response = await api.get<MainPortfolioResponse>(`${PORTFOLIO_API_URL}/main`);
+  return response.data;
+};
+
+export const incrementViewCount = async (
+  portfolioId: string | number,
+): Promise<PortfolioViewResponse> => {
+  const response = await api.get<PortfolioViewResponse>(`${PORTFOLIO_API_URL}/${portfolioId}`);
   return response.data;
 };

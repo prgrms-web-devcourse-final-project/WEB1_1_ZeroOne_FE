@@ -143,3 +143,6 @@ export interface MainPortfolioContent {
 
 // 메인 포트폴리오 API 응답 타입
 export type MainPortfolioResponse = ApiResponse<MainPortfolioContent>;
+
+//포트폴리오 조회수 증가 API 응답 타입
+export type PortfolioViewResponse = ApiResponse<boolean>;
