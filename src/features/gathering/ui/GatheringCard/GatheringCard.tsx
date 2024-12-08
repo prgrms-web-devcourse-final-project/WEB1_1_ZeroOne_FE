@@ -27,10 +27,9 @@ export const GatheringCard = ({
   deadline,
   gatheringId,
 }: GatheringCardProps) => {
-  
   const handleButtonClick = (e: React.MouseEvent) => {
-    e.preventDefault(); 
-    e.stopPropagation(); 
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   return (
@@ -52,16 +51,10 @@ export const GatheringCard = ({
         <section className={styles.card__deadlineCon}>
           <div>마감일 {deadline}</div>
           <div className={styles.buttons}>
-            <button 
-              className={styles.actionBtn} 
-              onClick={handleButtonClick}
-            >
+            <button className={styles.actionBtn} onClick={handleButtonClick}>
               <FontAwesomeIcon icon={faHeart} />
             </button>
-            <button 
-              className={styles.actionBtn}
-              onClick={handleButtonClick}
-            >
+            <button className={styles.actionBtn} onClick={handleButtonClick}>
               <FontAwesomeIcon icon={faPhone} />
             </button>
             <div onClick={handleButtonClick}>

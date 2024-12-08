@@ -87,9 +87,11 @@ export const UrlInputField: React.FC<ArrayInputFieldProps> = ({ name, ...restPro
               }}
             />
           </div>
-          {errors[name]?.message && <ErrorMessage message={errors[name].message as string} />}
         </div>
       ))}
+      {errors[name]?.root?.message && (
+        <ErrorMessage message={errors[name].root?.message as string} />
+      )}
       <button className={styles.addBtn} onClick={appendUrlInput} type='button'>
         <span>추가</span>
         <FontAwesomeIcon className={styles.iconBtn} icon={faCirclePlus} />

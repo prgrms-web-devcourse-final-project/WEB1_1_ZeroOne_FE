@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import styles from './ContentLayout.module.scss';
+import { Logout } from './Logout';
 import { SetArchive } from './SetArchive';
 import { SetBadge } from './SetBadge';
 import { SetProfile } from './SetProfile';
@@ -15,6 +16,9 @@ const renderContentComponent = (path: string, userData: UserDataState) => {
   }
   if (path === '/my/archive') {
     return <SetArchive />;
+  }
+  if (path === '/my/logout') {
+    return <Logout />;
   }
   return <SetProfile userData={userData} />;
 };

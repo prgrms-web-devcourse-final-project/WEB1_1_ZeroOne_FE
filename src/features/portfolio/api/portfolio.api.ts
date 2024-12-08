@@ -2,7 +2,7 @@ import type {
   MainPortfolioResponse,
   PortfolioListApiResponse,
   PortfolioParams,
-  PortfolioViewResponse, 
+  PortfolioViewResponse,
 } from '../model/types';
 
 import api from '@/shared/api/baseApi';

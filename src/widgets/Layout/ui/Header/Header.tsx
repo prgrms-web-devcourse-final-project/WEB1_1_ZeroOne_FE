@@ -200,7 +200,7 @@ export const Header = () => {
             {userData ? (
               <button
                 onClick={() => {
-                  navigate('/user');
+                  navigate(`/user/${userData.userId}`);
                 }}
               >
                 <img alt='user-profile' className={styles.userProfile} src={userData.imageUrl} />
