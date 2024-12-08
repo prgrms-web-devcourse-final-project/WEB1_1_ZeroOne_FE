@@ -63,7 +63,7 @@ export const useInfiniteGatheringId = ({
       // });
 
       if (!lastPage.data.hasNext) return undefined;
-      return lastPage.data.nextLikeId ?? undefined;
+      return lastPage.data.nextId ?? undefined;
     },
     initialPageParam: undefined,
   });

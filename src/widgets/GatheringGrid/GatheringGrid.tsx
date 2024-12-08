@@ -15,10 +15,11 @@ export const GatheringGrid = ({ items }: GatheringGridProps) => {
           <GatheringCard
             deadline={gathering.deadLine}
             gatheringId={gathering.gatheringId}
-            introduction={gathering.sort}
             key={gathering.gatheringId}
             name={gathering.username}
-            tag={gathering.tags}
+            position={gathering.positions}
+            sort={gathering.sort}
+            subject={gathering.subject}
             title={gathering.title}
             username={gathering.username}
           />
