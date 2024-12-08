@@ -1,64 +1,45 @@
-import { useEffect, useState } from 'react';
-
 import styles from './UserContents.module.scss';
 import { ArchiveGrid } from '../ArchiveGrid';
 import { GatheringGrid } from '../GatheringGrid';
 import { ContentsTab } from './ContentsTab';
 import { useUserTab } from './hook/useUserTab';
 
-import { ColorMap, useMyArchiveList } from '@/features';
+import type { ColorCountDTO } from '@/features';
+import { ColorMap, useUserArchiveColors, useUserArchiveList } from '@/features';
 import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
 import { Loader } from '@/shared/ui';
 import { PieChart } from '@/shared/ui/Chart/PieChart';
 
-interface dataType {
-  id: string;
-  label: string;
-  value: number;
-  color: string;
+interface ArchiveContentProps {
+  userId: number;
 }
 
-const ArchiveContent = () => {
-  const { data: myArchives, isPending } = useMyArchiveList();
-  const [chartData, setChartData] = useState<dataType[]>([]);
+const ArchiveContent = ({ userId }: ArchiveContentProps) => {
+  const { items: archives, isFetchingNextPage, isPending, ref } = useUserArchiveList(userId);
+  const { data: colorData, isPending: isColorPending } = useUserArchiveColors(userId);
 
-  useEffect(() => {
-    if (myArchives?.data) {
-      const colors = myArchives.data.archives.reduce(
-        (acc, cur) => {
-          if (acc[cur.type]) {
-            acc[cur.type] += 1;
-          } else {
-            acc[cur.type] = 1;
-          }
-          return acc;
-        },
-        {} as Record<string, number>,
-      );
-
-      const data = Object.entries(colors).map(([color, value]) => ({
-        id: color,
-        value,
-        color: ColorMap[color as keyof typeof ColorMap].hex,
-        label: color,
-      }));
-
-      setChartData(data);
-    }
-  }, [myArchives]);
-
-  if (!myArchives?.data || isPending) {
+  if (!colorData?.data || isColorPending || isPending) {
     return <Loader />;
   }
+
+  const convertToChartData = (data: ColorCountDTO) =>
+    Object.entries(data).map(([color, value]) => ({
+      id: color,
+      value,
+      label: color.toLocaleLowerCase(),
+      color: ColorMap[color as keyof typeof ColorMap].hex,
+    }));
+
   return (
     <div className={styles.colorTrendWrapper}>
       <div className={styles.colorTrendContainer}>
         <h2>나의 아카이브 현황</h2>
         <div>
-          <PieChart data={chartData} />
+          <PieChart data={convertToChartData(colorData.data)} />
         </div>
       </div>
-      <ArchiveGrid archives={myArchives.data?.archives} isMine />
+      <ArchiveGrid archives={archives} isMine />
+      <div ref={ref}>{isFetchingNextPage && <Loader />}</div>
     </div>
   );
 };
@@ -84,7 +65,11 @@ const ContentComponents = {
   archive: ArchiveContent,
 };
 
-export const UserContents = () => {
+interface UserContentsProps {
+  userId: number;
+}
+
+export const UserContents = ({ userId }: UserContentsProps) => {
   const { activeTab, isActive, setActiveTab } = useUserTab();
 
   const ContentComponent = ContentComponents[activeTab];
@@ -94,7 +79,7 @@ export const UserContents = () => {
       <ContentsTab isActive={isActive} setActiveTab={setActiveTab} />
 
       <div className={styles.sectionContents}>
-        <ContentComponent />
+        <ContentComponent userId={userId} />
       </div>
     </section>
   );

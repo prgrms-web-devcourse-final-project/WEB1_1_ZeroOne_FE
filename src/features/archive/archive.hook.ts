@@ -18,6 +18,8 @@ import {
   getMyArchiveList,
   patchArchiveOrder,
   getPopularArchive,
+  getUserArchiveList,
+  getUserArchiveColor,
 } from './archive.api';
 import type {
   BaseArchiveDTO,
@@ -292,7 +294,7 @@ export const useSearchArchive = (searchKeyword: string) => {
 
 export const useLikeArchiveList = () => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
-    ['/archive', 'list', 'me', 'like'],
+    ['/user', 'list', 'me', 'like'],
     ({ pageParam }) => getLikeArchiveList(pageParam),
     9,
     'archives',
@@ -412,3 +414,18 @@ export const useUpdateArchiveOrder = () => {
     },
   });
 };
+
+export const useUserArchiveList = (userId: number) =>
+  useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
+    ['/user', userId, 'archive', 'list'],
+    ({ pageParam }) => getUserArchiveList(userId, pageParam),
+    8,
+    'archives',
+    true,
+  );
+
+export const useUserArchiveColors = (userId: number) =>
+  useQuery({
+    queryKey: ['/user', userId, 'archive', 'colors'],
+    queryFn: () => getUserArchiveColor(userId),
+  });

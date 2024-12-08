@@ -26,7 +26,7 @@ interface UserPageProps {
 export const UserPage = ({ userId }: UserPageProps) => {
   const { data, isLoading } = useGetUserProfile(userId);
   const userData = useUserStore(state => state.userData);
-  console.log(data);
+
   const isMyPage = userData ? userData.userId === userId : false;
 
   return (
@@ -39,7 +39,7 @@ export const UserPage = ({ userId }: UserPageProps) => {
             <UserProfileInfo data={data.data} isMyPage={isMyPage} />
           ) : null}
         </div>
-        <UserContents />
+        <UserContents userId={userId} />
       </div>
     </div>
   );
