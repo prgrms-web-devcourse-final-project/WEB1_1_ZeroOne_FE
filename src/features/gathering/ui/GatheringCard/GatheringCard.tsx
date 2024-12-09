@@ -16,7 +16,7 @@ export interface GatheringCardProps {
   deadline?: string;
   gatheringId: number;
   username: string;
-  position: string[];
+  positions: string[];
   subject: string;
 }
 
@@ -28,7 +28,7 @@ export const GatheringCard = ({
   deadline,
   gatheringId,
   username,
-  position,
+  positions,
   subject,
 }: GatheringCardProps) => {
   const handleButtonClick = (e: React.MouseEvent) => {
@@ -54,7 +54,7 @@ export const GatheringCard = ({
           {sort} / {subject}
         </article>
         <ul className={styles.card__tagCon}>
-          {position?.map((e, i) => <JobTag job={e} key={i} />)}
+          {positions?.map((e, i) => <JobTag job={e} key={i} />)}
         </ul>
         <section className={styles.card__deadlineCon}>
           <div>마감일 {deadline}</div>

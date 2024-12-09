@@ -8,6 +8,7 @@ import type {
 
 import api from '@/shared/api/baseApi';
 
+// 기본 게더링 API
 export const gatheringApi = {
   getGatherings: async (params: GatheringListParams): Promise<GatheringPageResponse> => {
     // params를 URLSearchParams로 변환
@@ -41,6 +42,7 @@ export const gatheringApi = {
     });
     return data;
   },
+
   update: async (
     gatheringId: string,
     data: CreateGatheringRequest,
@@ -53,10 +55,41 @@ export const gatheringApi = {
     const { data } = await api.post<GatheringLikeResponse>(`/gathering/${gatheringId}/like`);
     return data;
   },
+
   deleteGathering: async (gatheringId: string): Promise<void> => {
     await api.delete(`/gathering/${gatheringId}`);
   },
+
   completeGathering: async (gatheringId: string): Promise<void> => {
     await api.patch(`/gathering/${gatheringId}`);
   },
+};
+
+// 메인 페이지용 게더링 API
+export const mainGatheringApi = {
+  // 메인 페이지용 게더링 목록 조회 (최신 4개)
+  getMainGatherings: async (): Promise<GatheringPageResponse> => {
+    const params: GatheringListParams = {
+      page: 1,
+      size: 4,
+      status: '모집중', // 활성화된 게더링만 표시
+    };
+
+    // params를 URLSearchParams로 변환
+    const queryString = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== 'undefined') {
+        queryString.append(key, value.toString());
+      }
+    });
+
+    const { data } = await api.get<GatheringPageResponse>(`/gathering?${queryString.toString()}`);
+    return data;
+  },
+};
+
+// 두 API 객체를 모두 export
+export default {
+  ...gatheringApi,
+  ...mainGatheringApi,
 };
