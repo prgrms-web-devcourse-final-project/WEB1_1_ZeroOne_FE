@@ -72,7 +72,11 @@ export const GatheringDetailPage = () => {
       </section>
       <div className={styles.footer}>
         <div className={styles.stats}>
-          <LikeBtn disabled={isPending} onLikeClick={toggleLike} />
+          <LikeBtn
+            disabled={isPending}
+            isLiked={gatheringDetail.isLiked}
+            onLikeClick={toggleLike}
+          />
         </div>
         <GatheringDetailUserInfo username={gatheringDetail.username} />
         <GatheringDetailBtnCon gatheringId={gatheringId} userId={gatheringDetail.userId} />

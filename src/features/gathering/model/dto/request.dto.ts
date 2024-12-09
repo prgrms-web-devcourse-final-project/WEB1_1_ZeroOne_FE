@@ -56,6 +56,7 @@ export interface GatheringDetailContent {
   title: string;
   content: string;
   likeCounts: number;
+  isLiked: boolean;
   status: '모집중' | '모집완료' | '기간만료';
 }
 

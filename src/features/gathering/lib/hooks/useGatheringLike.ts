@@ -20,14 +20,27 @@ export const useGatheringLike = ({ gatheringId, onSuccess, onError }: UseGatheri
     mutationFn: () => gatheringApi.toggleLike(gatheringId),
 
     onMutate: async () => {
+      // 진행 중인 쿼리 취소
       await queryClient.cancelQueries({
         queryKey: ['/gatheringDetail', gatheringId],
       });
 
+      
       const previousDetail = queryClient.getQueryData<GatheringDetailResponse>([
         '/gatheringDetail',
         gatheringId,
       ]);
+
+      
+      if (previousDetail?.data) {
+        queryClient.setQueryData<GatheringDetailResponse>(['/gatheringDetail', gatheringId], {
+          ...previousDetail,
+          data: {
+            ...previousDetail.data,
+            isLiked: !previousDetail.data.isLiked,
+          },
+        });
+      }
 
       return { previousDetail };
     },
@@ -48,6 +61,7 @@ export const useGatheringLike = ({ gatheringId, onSuccess, onError }: UseGatheri
           data: {
             ...currentDetail.data,
             likeCounts: newLikeCounts,
+            isLiked: !!response.data,
           },
         });
       }
@@ -56,6 +70,7 @@ export const useGatheringLike = ({ gatheringId, onSuccess, onError }: UseGatheri
     },
 
     onError: (error, _, context) => {
+    
       if (context?.previousDetail) {
         queryClient.setQueryData(['/gatheringDetail', gatheringId], context.previousDetail);
       }
