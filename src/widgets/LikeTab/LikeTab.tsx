@@ -1,25 +1,8 @@
 import { ArchiveGrid } from '../ArchiveGrid';
-import { GatheringGrid } from '../GatheringGrid';
 import styles from './LikeTab.module.scss';
 
-import type { GatheringItem } from '@/features';
-import { useLikeArchiveList } from '@/features';
+import { GatheringCard, PortfolioCard, useGatheringLikeList, useInfinitePortfolioLikeList, useLikeArchiveList } from '@/features';
 import { Loader, TripleDot } from '@/shared/ui';
-
-const dummyGatherings: GatheringItem[] = Array.from({ length: 9 }, (_, i) => ({
-  gatheringId: i,
-  userId: i,
-  contactType: '온라인',
-  sort: '스터디',
-  subject: '개발',
-  period: '1개월',
-  personnel: '1',
-  position: ['개발자'],
-  title: `Sample Gathering`,
-  deadLine: '2022-12-31',
-  username: '홍길동',
-  tags: ['tag1', 'tag2'],
-}));
 
 export const LikeTab = ({
   activeTab,
@@ -30,16 +13,48 @@ export const LikeTab = ({
 }) => {
   const tabs = ['포트폴리오', '아카이브', '게더링'];
 
+  // 아카이브 좋아요 목록
   const {
     items: likeArchives,
     isPending: isArchiveLoading,
-    isFetchingNextPage,
-    ref,
+    isFetchingNextPage: isArchiveFetchingNext,
+    ref: archiveRef,
   } = useLikeArchiveList();
+
+  // 포트폴리오 좋아요 목록
+  const {
+    portfolios,
+    isLoading: isPortfolioLoading,
+    isFetchingNextPage: isPortfolioFetchingNext,
+    ref: portfolioRef,
+  } = useInfinitePortfolioLikeList();
+
+  // 게더링 좋아요 목록
+  const {
+    gatherings,
+    isLoading: isGatheringLoading,
+    isFetchingNextPage: isGatheringFetchingNext,
+    hasNextPage: hasGatheringNextPage,
+    fetchNextPage: fetchGatheringNextPage,
+  } = useGatheringLikeList();
 
   const renderingLikeTap = (activeTab: string) => {
     if (activeTab === '포트폴리오') {
-      // return <PortFolioGrid />;
+      if (!portfolios || isPortfolioLoading) {
+        return <Loader />;
+      }
+      return (
+        <>
+          <div className={styles.portfolioGrid}>
+            {portfolios.map(portfolio => (
+              <PortfolioCard key={portfolio.portFolioId} {...portfolio} />
+            ))}
+          </div>
+          <div className={styles.loading} ref={portfolioRef}>
+            {isPortfolioFetchingNext && <TripleDot />}
+          </div>
+        </>
+      );
     } else if (activeTab === '아카이브') {
       if (!likeArchives || isArchiveLoading) {
         return <Loader />;
@@ -47,13 +62,29 @@ export const LikeTab = ({
       return (
         <>
           <ArchiveGrid archives={likeArchives} />
-          <div className={styles.loading} ref={ref}>
-            {isFetchingNextPage && <TripleDot />}
+          <div className={styles.loading} ref={archiveRef}>
+            {isArchiveFetchingNext && <TripleDot />}
           </div>
         </>
       );
     } else if (activeTab === '게더링') {
-      return <GatheringGrid items={dummyGatherings} />;
+      if (!gatherings || isGatheringLoading) {
+        return <Loader />;
+      }
+      return (
+        <>
+          <div className={styles.gatheringGrid}>
+            {gatherings.map(gathering => (
+              <GatheringCard key={gathering.gatheringId} {...gathering} />
+            ))}
+          </div>
+          {hasGatheringNextPage && (
+            <div className={styles.loading} onClick={() => fetchGatheringNextPage()}>
+              {isGatheringFetchingNext && <TripleDot />}
+            </div>
+          )}
+        </>
+      );
     }
   };
 

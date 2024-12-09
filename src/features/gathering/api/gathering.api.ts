@@ -63,6 +63,25 @@ export const gatheringApi = {
   completeGathering: async (gatheringId: string): Promise<void> => {
     await api.patch(`/gathering/${gatheringId}`);
   },
+
+  // 좋아요한 게더링 목록 조회 추가
+  getGatheringLikeList: async (params: {
+    size: number;
+    gatheringId?: number;
+  }): Promise<GatheringPageResponse> => {
+    const queryString = new URLSearchParams();
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        queryString.append(key, value.toString());
+      }
+    });
+
+    const { data } = await api.get<GatheringPageResponse>(
+      `/gathering/my-page?${queryString.toString()}`,
+    );
+    return data;
+  },
 };
 
 // 메인 페이지용 게더링 API
