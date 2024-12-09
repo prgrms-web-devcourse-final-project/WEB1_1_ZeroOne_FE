@@ -3,6 +3,7 @@ import type {
   PortfolioListApiResponse,
   PortfolioParams,
   PortfolioViewResponse,
+  PortfolioLikeResponse,
 } from '../model/types';
 
 import api from '@/shared/api/baseApi';
@@ -36,5 +37,13 @@ export const incrementViewCount = async (
   portfolioId: string | number,
 ): Promise<PortfolioViewResponse> => {
   const response = await api.get<PortfolioViewResponse>(`${PORTFOLIO_API_URL}/${portfolioId}`);
+  return response.data;
+};
+export const togglePortfolioLike = async (
+  portFolioId: string | number,
+): Promise<PortfolioLikeResponse> => {
+  const response = await api.post<PortfolioLikeResponse>(
+    `${PORTFOLIO_API_URL}/${portFolioId}/likes`,
+  );
   return response.data;
 };

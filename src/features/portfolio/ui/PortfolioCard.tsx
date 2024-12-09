@@ -7,9 +7,9 @@ import styles from './PortfolioCard.module.scss';
 import { getJobGroupDisplayName } from '../utils/jobGroupConverter';
 
 import type { Portfolio } from '@/features';
-import { usePortfolioView } from '@/features';
-import Heart from '@/shared/assets/heart.svg';
+import { usePortfolioView, usePortfolioLike } from '@/features';
 import profileImg from '@/shared/assets/paletteLogo.svg';
+import { LikeBtn } from '@/shared/ui/LikeBtn/LikeBtn';
 
 type PortfolioCardProps = Portfolio;
 
@@ -32,6 +32,10 @@ export const PortfolioCard = ({
     onError: error => {
       console.error('조회수 증가 실패:', error);
     },
+  });
+
+  const { isLiked, toggleLike, isPending } = usePortfolioLike({
+    portFolioId,
   });
 
   const handleCardClick = (e: React.MouseEvent) => {
@@ -74,13 +78,14 @@ export const PortfolioCard = ({
             <Link to={`/user/${userId}`}>
               <span className={styles.name}>{username}</span>
             </Link>
-            <button
-              onClick={e => {
-                e.stopPropagation();
+            <LikeBtn
+              disabled={isPending}
+              heartClassName={styles.heart}
+              isLiked={isLiked}
+              onLikeClick={() => {
+                toggleLike();
               }}
-            >
-              <img alt='isLiked-icon' className={styles.heart} src={Heart} />
-            </button>
+            />
           </div>
           <div className={styles.job}>
             <div>

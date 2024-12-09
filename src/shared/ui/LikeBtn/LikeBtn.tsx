@@ -2,18 +2,21 @@ import cn from 'classnames';
 
 import styles from './LikeBtn.module.scss';
 
+import EmptyHeart from '@/shared/assets/empty-heart.svg';
 import Heart from '@/shared/assets/heart.svg';
 
 interface LikeBtnProps {
   className?: string;
-  isLiked?: boolean; // 현재 좋아요 상태
-  onLikeClick?: () => void; // 좋아요 클릭 핸들러
-  likeCount?: number; // 좋아요 수 (선택적)
-  disabled?: boolean; // 버튼 비활성화 상태
+  heartClassName?: string;
+  isLiked?: boolean;
+  onLikeClick?: () => void;
+  likeCount?: number;
+  disabled?: boolean;
 }
 
 export const LikeBtn = ({
   className,
+  heartClassName,
   isLiked = false,
   onLikeClick,
   likeCount,
@@ -30,8 +33,8 @@ export const LikeBtn = ({
     >
       <img
         alt={isLiked ? '좋아요 취소' : '좋아요'}
-        className={`${styles.heart} ${isLiked ? styles.liked : ''}`}
-        src={Heart}
+        className={cn(styles.heart, heartClassName)}
+        src={isLiked ? Heart : EmptyHeart}
       />
       {likeCount !== undefined && <span className={styles.count}>{likeCount}</span>}
     </button>
