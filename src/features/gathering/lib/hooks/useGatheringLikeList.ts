@@ -18,7 +18,7 @@ export const useGatheringLikeList = ({ size = 10 }: UseGatheringLikeListProps = 
     queryFn: async ({ pageParam }) => {
       const params: GatheringLikeListParams = {
         size,
-        likeId: pageParam,
+        likeId: pageParam as number,
       };
 
       return gatheringApi.getGatheringLikeList(params);

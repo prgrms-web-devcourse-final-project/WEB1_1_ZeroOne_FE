@@ -6,6 +6,7 @@ import { MarkdownPreview } from '@/features';
 import { GatheringDetailUserInfo } from '@/features/gathering';
 import { useGatheringDetail, useGatheringLike } from '@/features/gathering/lib/hooks';
 import { Loader, TripleDot } from '@/shared/ui';
+import { customToast, errorAlert } from '@/shared/ui';
 import { LikeBtn } from '@/shared/ui/LikeBtn/LikeBtn';
 import { GatheringDetailBtnCon, GatheringDetailHeader, GatheringDetailGrid } from '@/widgets';
 
@@ -15,11 +16,11 @@ export const GatheringDetailPage = () => {
 
   const { mutate: toggleLike, isPending } = useGatheringLike({
     gatheringId: gatheringId!,
-    onSuccess: response => {
-      console.log('좋아요 성공:', response);
+    onSuccess: () => {
+      customToast({ text: '이 게시물에 좋아요를 눌렀습니다.', timer: 3000, icon: 'success' });
     },
-    onError: error => {
-      console.error('좋아요 실패:', error);
+    onError: () => {
+      errorAlert({ title: '좋아요 실패', text: '좋아요를 누르는데 실패했습니다.' });
     },
   });
   if (isLoading) {
@@ -45,7 +46,6 @@ export const GatheringDetailPage = () => {
   }
 
   const gatheringDetail = data?.data;
-  console.log('gatheringDetail:', gatheringDetail);
 
   return (
     <div className={styles.container}>

@@ -26,12 +26,8 @@ export const PortfolioCard = ({
   relatedUrl,
 }: PortfolioCardProps) => {
   const { mutate: incrementView } = usePortfolioView({
-    onSuccess: response => {
-      console.log('조회수 증가 성공:', response.data);
-    },
-    onError: error => {
-      console.error('조회수 증가 실패:', error);
-    },
+    onSuccess: () => {},
+    onError: () => {},
   });
 
   const { isLiked, toggleLike, isPending } = usePortfolioLike({

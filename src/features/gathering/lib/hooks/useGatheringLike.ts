@@ -29,13 +29,10 @@ export const useGatheringLike = ({ gatheringId, onSuccess, onError }: UseGatheri
         gatheringId,
       ]);
 
-      console.log('이전 상태:', previousDetail);
       return { previousDetail };
     },
 
     onSuccess: response => {
-      console.log('좋아요 API 응답:', response);
-
       const currentDetail = queryClient.getQueryData<GatheringDetailResponse>([
         '/gatheringDetail',
         gatheringId,
@@ -53,16 +50,12 @@ export const useGatheringLike = ({ gatheringId, onSuccess, onError }: UseGatheri
             likeCounts: newLikeCounts,
           },
         });
-
-        console.log('캐시 업데이트 완료, 새로운 좋아요 수:', newLikeCounts);
       }
 
       onSuccess?.(response);
     },
 
     onError: (error, _, context) => {
-      console.log('에러 발생:', error);
-
       if (context?.previousDetail) {
         queryClient.setQueryData(['/gatheringDetail', gatheringId], context.previousDetail);
       }

@@ -1,7 +1,13 @@
 import { ArchiveGrid } from '../ArchiveGrid';
 import styles from './LikeTab.module.scss';
 
-import { GatheringCard, PortfolioCard, useGatheringLikeList, useInfinitePortfolioLikeList, useLikeArchiveList } from '@/features';
+import {
+  GatheringCard,
+  PortfolioCard,
+  useGatheringLikeList,
+  useInfinitePortfolioLikeList,
+  useLikeArchiveList,
+} from '@/features';
 import { Loader, TripleDot } from '@/shared/ui';
 
 export const LikeTab = ({
@@ -26,7 +32,7 @@ export const LikeTab = ({
     portfolios,
     isLoading: isPortfolioLoading,
     isFetchingNextPage: isPortfolioFetchingNext,
-    ref: portfolioRef,
+    // ref: portfolioRef,
   } = useInfinitePortfolioLikeList();
 
   // 게더링 좋아요 목록
@@ -50,9 +56,7 @@ export const LikeTab = ({
               <PortfolioCard key={portfolio.portFolioId} {...portfolio} />
             ))}
           </div>
-          <div className={styles.loading} ref={portfolioRef}>
-            {isPortfolioFetchingNext && <TripleDot />}
-          </div>
+          <div className={styles.loading}>{isPortfolioFetchingNext && <TripleDot />}</div>
         </>
       );
     } else if (activeTab === '아카이브') {

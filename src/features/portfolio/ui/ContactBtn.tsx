@@ -11,7 +11,6 @@ export const ContactBtn = ({ userName }: ContactBtnProps) => {
   const open = useModalStore(state => state.actions.open);
   
   const onOpenModal = () => {
-    console.log('openContModal');
     open('contact', userName);  
   };
 

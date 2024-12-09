@@ -47,7 +47,7 @@ export const useGatheringMarkdown = ({ editorViewRef }: UseGatheringMarkdownProp
     ) => {
       try {
         // TODO: 이미지 업로드 로직 구현 필요
-        console.log('이미지 업로드 기능 준비중', { file });
+        // console.log('이미지 업로드 기능 준비중', { file });
       } catch (error) {
         console.error('이미지 업로드 실패:', error);
       }
