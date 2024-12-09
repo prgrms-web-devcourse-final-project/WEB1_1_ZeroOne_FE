@@ -23,7 +23,7 @@ export const ContactModal = ({ isOpen, onClose, username }: ContactModalProps) =
   ];
 
   const handleChatOptionClick = (content: string) => {
-    // console.log(`Selected option: ${content}`);
+    console.log(`Selected option: ${content}`);
     // 채팅 시작 로직 구현
   };
 

@@ -8,7 +8,7 @@
 
 <p>자신만의 경험을 색상과 함께 공유하고,<br>네트워킹을 통해 팔레트를 채워주세요!</p>
 
-https://www.palettee.site/
+https://www.palette.site/
 
 <br>
 
