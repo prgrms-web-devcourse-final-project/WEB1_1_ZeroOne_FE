@@ -146,3 +146,17 @@ export type MainPortfolioResponse = ApiResponse<MainPortfolioContent>;
 
 //포트폴리오 조회수 증가 API 응답 타입
 export type PortfolioViewResponse = ApiResponse<boolean>;
+
+//포트폴리오 좋아요 토글 API 응답 타입
+export type PortfolioLikeResponse = ApiResponse<boolean>;
+
+interface PortfolioLikeList {
+  content: Portfolio[];
+  hasNext: boolean;
+  nextId: number;
+}
+export type PortfolioLikeListApiResponse = ApiResponse<PortfolioLikeList>;
+export interface GetPortfolioLikeListParams {
+  size?: number;
+  portFolioId?: number | undefined;
+}

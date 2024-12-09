@@ -10,6 +10,7 @@ export * from './LikeTab/LikeTab';
 export * from './LoginModal/ui/LoginModal';
 export * from './MainBanner/MainBanner';
 export * from './MainContents/MainContents';
+export * from './MainGatheringGrid/MainGatheringGrid';
 export * from './MainPortfolioGrid/MainPortfolioGrid';
 export * from './MenuModal/MenuModal';
 export * from './NoticeContainer/NoticeContainer';
@@ -19,3 +20,4 @@ export * from './UserContents/UserContents';
 export * from './WriteArchive';
 export * from './WriteGathering/WriteGatheringDetail';
 export * from './WriteGathering/WriteGatheringOpts';
+

@@ -44,3 +44,24 @@
     }
   }
 }
+
+.portfolioGrid,
+.gatheringGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+
+  @media (width <= 768px) {
+    gap: 1.5rem;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+  margin-top: 1rem;
+}

@@ -1,5 +1,5 @@
-import { faHeart, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faHeart, faPhone } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
@@ -12,20 +12,24 @@ export interface GatheringCardProps {
   title: string;
   className?: string;
   name?: string;
-  introduction?: string;
-  tag?: string[];
+  sort?: string;
   deadline?: string;
   gatheringId: number;
+  username: string;
+  positions: string[];
+  subject: string;
 }
 
 export const GatheringCard = ({
   title,
   className,
   name,
-  introduction,
-  tag,
+  sort,
   deadline,
   gatheringId,
+  username,
+  positions,
+  subject,
 }: GatheringCardProps) => {
   const handleButtonClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -46,19 +50,20 @@ export const GatheringCard = ({
       <li>
         <h2 className={cn(styles.card__title)}>{title}</h2>
         <h3 className={styles.card__name}>{name}</h3>
-        <article className={styles.card__introduction}>{introduction}</article>
-        <ul className={styles.card__tagCon}>{tag?.map((e, i) => <JobTag job={e} key={i} />)}</ul>
+        <article className={styles.card__sort}>
+          {sort} / {subject}
+        </article>
+        <ul className={styles.card__tagCon}>
+          {positions?.map((e, i) => <JobTag job={e} key={i} />)}
+        </ul>
         <section className={styles.card__deadlineCon}>
           <div>마감일 {deadline}</div>
           <div className={styles.buttons}>
-            <button className={styles.actionBtn} onClick={handleButtonClick}>
+            {/* <button className={styles.actionBtn} onClick={handleButtonClick}>
               <FontAwesomeIcon icon={faHeart} />
-            </button>
-            <button className={styles.actionBtn} onClick={handleButtonClick}>
-              <FontAwesomeIcon icon={faPhone} />
-            </button>
+            </button> */}
             <div onClick={handleButtonClick}>
-              <ContactBtn userName='' />
+              <ContactBtn userName={username} />
             </div>
           </div>
         </section>

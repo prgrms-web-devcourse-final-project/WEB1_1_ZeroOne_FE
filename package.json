@@ -1,7 +1,7 @@
 {
-  "name": "palettee",
+  "name": "palette",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -20,6 +20,7 @@
   "dependencies": {
     "@codemirror/basic-setup": "^0.20.0",
     "@codemirror/lang-markdown": "^6.3.1",
+    "@codemirror/state": "^6.4.1",
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@fortawesome/react-fontawesome": "^0.2.2",
@@ -134,5 +135,8 @@
     "workerDirectory": [
       "public"
     ]
+  },
+  "resolutions": {
+    "@codemirror/state": "^6.4.1"
   }
 }

@@ -58,7 +58,7 @@ export const ProfileStep = ({ setStage }: ProfileStepProps) => {
       socials: data.url.map(link => link.value),
       s3StoredImageUrls: [],
     };
-    console.log(postUserData);
+    // console.log(postUserData);
     createUser(
       {
         data: postUserData,

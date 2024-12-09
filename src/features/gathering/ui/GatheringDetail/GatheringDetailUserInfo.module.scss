@@ -6,7 +6,10 @@
   .profileImg {
     width: 2rem;
     height: 2rem;
+    padding: 0.5rem;
+    background-color: $primary-color;
     border-radius: 50%;
+    fill: $secondary-color;
   }
 
   .name {

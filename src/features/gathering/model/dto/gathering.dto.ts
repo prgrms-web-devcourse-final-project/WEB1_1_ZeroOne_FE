@@ -39,12 +39,14 @@ export interface GatheringItem {
   deadLine: string;
   username: string;
   tags: string[];
+  positions: GatheringPosition[];
+  subject: string;
 }
 export interface GatheringPageResponse {
   data: {
     content: GatheringItem[];
     hasNext: boolean;
-    nextLikeId: number | null;
+    nextId: number | null;
   };
   timeStamp: string;
 }

@@ -16,6 +16,11 @@
   gap: 1rem;
 }
 
+.heart {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
 .cardHeader {
   position: relative;
   width: 100%;
@@ -57,9 +62,25 @@
 }
 
 .name {
+  position: relative;
   font-size: 1.25rem;
   font-weight: 600;
   color: $primary-color;
+
+  &::after {
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    content: '';
+    background-color: $primary-color;
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
 }
 
 .job {
@@ -87,4 +108,18 @@
 
 .container:hover .cardImg img {
   transform: scale(1.05);
+}
+
+.userLinks {
+  display: flex;
+  gap: 1rem;
+
+  a {
+    color: $primary-color;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $primary-color, 10%;
+    }
+  }
 }
