@@ -122,7 +122,7 @@ export const PortfolioListPage = () => {
             />
             <Button
               onClick={() => {
-                navigate('/');
+                navigate('/my');
               }}
             >
               포트폴리오 등록하기

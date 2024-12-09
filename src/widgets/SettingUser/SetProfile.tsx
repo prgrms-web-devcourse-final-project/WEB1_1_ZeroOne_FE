@@ -72,7 +72,7 @@ export const SetProfile = ({ userData }: SetProfileProps) => {
       s3StoredImageUrls: [],
     };
 
-    console.log(putUserData);
+    // console.log(putUserData);
 
     editUser(
       {

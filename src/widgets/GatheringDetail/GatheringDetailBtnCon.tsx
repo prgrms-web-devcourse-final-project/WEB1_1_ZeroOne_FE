@@ -54,8 +54,14 @@ export const GatheringDetailBtnCon = ({ gatheringId, userId }: GatheringDetailBt
     navigate(path);
   };
 
-  const handleEdit = () => {
-    handleNavigate(`/gathering/edit/${gatheringId}`);
+  const handleEdit = async () => {
+    const result = await customConfirm({
+      title: '게더링 수정',
+      text: '게더링을 수정하시겠습니까?',
+      confirmButtonText: '수정',
+      cancelButtonText: '취소',
+    });
+    if (result.isConfirmed && gatheringId) handleNavigate(`/gathering/edit/${gatheringId}`);
   };
 
   const handleDelete = async () => {
@@ -66,7 +72,7 @@ export const GatheringDetailBtnCon = ({ gatheringId, userId }: GatheringDetailBt
       cancelButtonText: '취소',
     });
 
-    if (result && gatheringId) {
+    if (result.isConfirmed && gatheringId) {
       deleteGathering(gatheringId);
     }
   };
@@ -83,7 +89,7 @@ export const GatheringDetailBtnCon = ({ gatheringId, userId }: GatheringDetailBt
       cancelButtonText: '취소',
     });
 
-    if (result && gatheringId) {
+    if (result.isConfirmed && gatheringId) {
       completeGathering(gatheringId);
     }
   };

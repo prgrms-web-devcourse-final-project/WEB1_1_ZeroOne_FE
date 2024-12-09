@@ -50,20 +50,17 @@ export const useInfiniteGatheringId = ({
 
         ...(pageParam ? { gatheringId: pageParam } : {}),
       };
-      console.log('API Request:', params);
+      
 
       const response = await gatheringApi.getGatherings(params);
-      console.log('API Response:', response);
+      
       return response;
     },
     getNextPageParam: (lastPage: GatheringPageResponse) => {
-      // console.log('Getting next page param:', {
-      //   hasNext: lastPage.data.hasNext,
-      //   nextLikeId: lastPage.data.nextLikeId,
-      // });
+      
 
       if (!lastPage.data.hasNext) return undefined;
-      return lastPage.data.nextLikeId ?? undefined;
+      return lastPage.data.nextId ?? undefined;
     },
     initialPageParam: undefined,
   });

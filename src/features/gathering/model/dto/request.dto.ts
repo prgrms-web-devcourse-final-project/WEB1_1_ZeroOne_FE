@@ -27,7 +27,7 @@ export interface CreateGatheringRequest {
 interface GatheringListContent {
   content: GatheringDetailContent[];
   hasNext: boolean;
-  nextLikeId: number;
+  nextId: number;
 }
 
 export interface GetGatheringsParams {
@@ -36,7 +36,7 @@ export interface GetGatheringsParams {
   position?: GatheringPosition;
   status?: '모집중' | '모집완료' | '기간만료';
   size?: number;
-  nextLikeId?: number;
+  nextId?: number;
 }
 
 // 게더링 상세 조회 응답
@@ -56,6 +56,7 @@ export interface GatheringDetailContent {
   title: string;
   content: string;
   likeCounts: number;
+  isLiked: boolean;
   status: '모집중' | '모집완료' | '기간만료';
 }
 
