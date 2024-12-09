@@ -1,3 +1,4 @@
+export { useInfinitePortfolioLikeList } from './hooks/useInfinitePortfolioLikeList';
 export { useMainPortfolioList } from './hooks/useMainPortfolioList';
 export { usePortfolioLike } from './hooks/usePortfolioLike';
 export { usePortfolioList } from './hooks/usePortfolioList';
