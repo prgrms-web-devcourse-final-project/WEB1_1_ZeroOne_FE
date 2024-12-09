@@ -4,7 +4,7 @@ export const gatheringFilterOptions: GatheringFilterOptions = {
   contact: [
     { value: '온라인', label: '온라인' },
     { value: '오프라인', label: '오프라인' },
-    { value: '온라인&오프라인', label: '온라인&오프라인' },
+    { value: '온라인 & 오프라인', label: '온라인 & 오프라인' },
   ],
   sort: [
     { value: '스터디', label: '스터디' },

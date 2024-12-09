@@ -11,6 +11,7 @@ import {
   useGatheringDetail,
   useUpdateGathering,
 } from '@/features/gathering/lib/hooks';
+import { customConfirm } from '@/shared/ui';
 import { Button } from '@/shared/ui';
 import { WriteGatheringOpts, WriteGatheringDetail } from '@/widgets';
 
@@ -63,11 +64,27 @@ export const WriteGatheringPage = () => {
     }
   }, [isEdit, detailData, methods]);
 
-  const onSubmit = (data: CreateGatheringRequest) => {
+  const onSubmit = async (data: CreateGatheringRequest) => {
     if (isEdit) {
-      updateGathering({ gatheringId: gatheringId, data });
+      const confirm = customConfirm({
+        title: '게더링 수정',
+        text: '게더링을 수정하시겠습니까?',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+      });
+      if ((await confirm).isConfirmed) {
+        updateGathering({ gatheringId: gatheringId, data });
+      }
     } else {
-      createGathering(data);
+      const confirm = customConfirm({
+        title: '게더링 등록',
+        text: '게더링을 등록하시겠습니까?',
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+      });
+      if ((await confirm).isConfirmed) {
+        createGathering(data);
+      }
     }
   };
 
