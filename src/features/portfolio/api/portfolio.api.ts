@@ -5,6 +5,7 @@ import type {
   PortfolioParams,
   PortfolioViewResponse,
   PortfolioLikeResponse,
+  GetPortfolioLikeListParams,
 } from '../model/types';
 
 import api from '@/shared/api/baseApi';
@@ -48,7 +49,12 @@ export const togglePortfolioLike = async (
   );
   return response.data;
 };
-export const getPorfolioLikeList = async (): Promise<PortfolioLikeListApiResponse> => {
-  const response = await api.get<PortfolioLikeListApiResponse>(`${PORTFOLIO_API_URL}/my-page`);
+
+export const getPorfolioLikeList = async (
+  params?: GetPortfolioLikeListParams,
+): Promise<PortfolioLikeListApiResponse> => {
+  const response = await api.get<PortfolioLikeListApiResponse>(`${PORTFOLIO_API_URL}/my-page`, {
+    params,
+  });
   return response.data;
 };

@@ -156,3 +156,7 @@ interface PortfolioLikeList {
   nextId: number;
 }
 export type PortfolioLikeListApiResponse = ApiResponse<PortfolioLikeList>;
+export interface GetPortfolioLikeListParams {
+  size?: number;
+  portFolioId?: number | undefined;
+}

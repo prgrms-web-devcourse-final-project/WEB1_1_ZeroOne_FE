@@ -15,20 +15,18 @@ export const useInfinitePortfolioLikeList = ({
     queryFn: async ({ pageParam }) => {
       const params = {
         size,
-        ...(pageParam ? { portFolioId: pageParam } : {}),
+        ...(pageParam !== undefined ? { portFolioId: pageParam as number } : {}),
       };
 
-      const response = await getPorfolioLikeList(params);
-      return response;
+      return getPorfolioLikeList(params);
     },
     getNextPageParam: lastPage => {
       if (!lastPage?.data?.hasNext) return undefined;
-      return lastPage?.data.nextId ?? undefined;
+      return lastPage?.data.nextId;
     },
     initialPageParam: undefined,
   });
 
-  // 중복 제거된 portfolios 반환
   const portfolios =
     query.data?.pages?.reduce<Portfolio[]>((acc, page) => {
       if (!page?.data?.content) return acc;
