@@ -22,8 +22,8 @@ export const useCustomInfiniteQuery = <
       queryKey,
       queryFn: ({ pageParam = 0 }) => queryFn({ pageParam: pageParam as number }),
       getNextPageParam: (lastPage, allPages) => {
-        if (Array.isArray(lastPage.data[dataKey][dataKey])) {
-          const isLastPage = lastPage.data[dataKey][dataKey]?.length < pageSize;
+        if (Array.isArray(lastPage.data[dataKey])) {
+          const isLastPage = lastPage.data[dataKey]?.length < pageSize;
           return isLastPage ? null : allPages.length;
         }
         return null;
