@@ -1,4 +1,4 @@
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -121,6 +121,10 @@ export const WriteStep = ({
             style={{ backgroundColor: `${ColorMap[archiveData.colorType].hex}` }}
           />
           <span>{ColorMap[archiveData.colorType].name}</span>
+          <div className={styles.guideWrapper}>
+            <div className={styles.guide}>{ColorMap[archiveData.colorType].guide}</div>
+            <FontAwesomeIcon className={styles.infoIcon} icon={faInfo} size='xs' />
+          </div>
         </div>
         <div className={styles.settingWrapper}>
           <span>댓글 허용</span>
@@ -134,10 +138,14 @@ export const WriteStep = ({
       </div>
 
       <div className={styles.inputContainer}>
-        <label>제목</label>
+        <div className={styles.label}>
+          <label>제목</label>
+          <span>{`(${archiveData.title.length}/30)`}</span>
+        </div>
         <div className={styles.inputBox}>
           <input
             onChange={e => {
+              if (e.target.value.length > 30) return;
               updateArchiveData('title', e.target.value);
             }}
             placeholder='스토리를 나타낼 제목을 입력해주세요'
@@ -147,16 +155,26 @@ export const WriteStep = ({
         </div>
       </div>
       <div className={styles.inputContainer}>
-        <label>한 줄 소개</label>
+        <div className={styles.label}>
+          <label>한 줄 소개</label>
+          <span>{`(${archiveData.introduction.length}/150)`}</span>
+        </div>
         <div className={styles.inputBox}>
           <input
             onChange={e => {
+              if (e.target.value.length > 150) return;
               updateArchiveData('introduction', e.target.value);
             }}
             placeholder='스토리를 나타낼 간단한 소개 글을 적어주세요'
             type='text'
             value={archiveData.introduction}
           />
+        </div>
+      </div>
+      <div className={styles.inputContainer}>
+        <div className={styles.label}>
+          <label>본문</label>
+          <span>{`(${archiveData.description.length}/2500)`}</span>
         </div>
       </div>
       <MarkdownEditor data={archiveData} onUpdate={updateArchiveData} updateKey={'description'} />

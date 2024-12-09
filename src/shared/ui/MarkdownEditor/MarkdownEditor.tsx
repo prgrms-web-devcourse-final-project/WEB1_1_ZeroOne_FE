@@ -75,6 +75,7 @@ export const MarkdownEditor = <T extends { [key: string]: any }>({
           eventHandler,
         ]}
         onChange={newValue => {
+          if (data[updateKey].length > 2500) return;
           onUpdate(updateKey, newValue as T[typeof updateKey]);
         }}
         onUpdate={update => {
