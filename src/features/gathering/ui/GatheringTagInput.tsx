@@ -25,13 +25,16 @@ export const GatheringTagInput = ({
   placeholder = '태그를 입력해주세요',
 }: GatheringTagInputProps) => {
   const [inputValue, setInputValue] = useState('');
+  const [isComposing, setIsComposing] = useState(false);
 
   const handleKeyDown = (
     e: KeyboardEvent<HTMLInputElement>,
     onChange: HandleChangeFunction,
     currentValue: string[],
   ) => {
-    if ((e.key === 'Enter' || (e.metaKey && e.key === 'Enter')) && inputValue.trim()) {
+    if (isComposing) return;
+
+    if (e.key === 'Enter' && inputValue.trim()) {
       e.preventDefault();
       if (currentValue.length >= 3) {
         return;
@@ -69,6 +72,12 @@ export const GatheringTagInput = ({
               disabled={value.length >= 3}
               onChange={e => {
                 setInputValue(e.target.value);
+              }}
+              onCompositionEnd={() => {
+                setIsComposing(false);
+              }}
+              onCompositionStart={() => {
+                setIsComposing(true);
               }}
               onKeyDown={e => {
                 handleKeyDown(e, onChange, value || []);
