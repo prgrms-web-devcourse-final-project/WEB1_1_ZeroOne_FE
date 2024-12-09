@@ -6,7 +6,7 @@ import { GatheringGrid } from '../GatheringGrid';
 import { useUserTab } from './hook/useUserTab';
 
 import type { ColorCountDTO } from '@/features';
-import { ColorMap, useMyArchiveList, useUserArchiveColors } from '@/features';
+import { ColorMap, useUserArchiveColors, useUserArchiveList } from '@/features';
 //import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
 import { useUserGathering } from '@/features/gathering/lib/hooks/useUserGathering';
 import { Loader } from '@/shared/ui';
@@ -20,7 +20,7 @@ const ArchiveContent = ({ userId }: ContentProps) => {
   const { items: archives, isFetchingNextPage, isPending, ref } = useUserArchiveList(userId);
   const { data: colorData, isPending: isColorPending } = useUserArchiveColors(userId);
 
-  if (!colorData?.data || isColorPending || isPending || !archives?.data) {
+  if (!colorData?.data || isColorPending || isPending) {
     return <Loader />;
   }
 
@@ -40,7 +40,8 @@ const ArchiveContent = ({ userId }: ContentProps) => {
           <PieChart data={convertToChartData(colorData.data)} />
         </div>
       </div>
-      <ArchiveGrid archives={archives?.data?.archives} />
+      <ArchiveGrid archives={archives} isMine />
+      <div ref={ref}>{isFetchingNextPage && <Loader />}</div>
     </div>
   );
 };
