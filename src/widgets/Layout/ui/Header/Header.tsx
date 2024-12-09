@@ -12,11 +12,12 @@ import { NAV_LINKS } from '../../constants';
 
 //assets
 import { SearchBar } from '@/features';
+import { useNotificationList } from '@/features/notification';
 import { useUserStore } from '@/features/user/model/user.store';
 import Logo from '@/shared/assets/paletteLogo.svg?react';
 import { useModalStore } from '@/shared/model/modalStore';
 //componen
-import { Button, customConfirm } from '@/shared/ui';
+import { Button, customConfirm, customToast } from '@/shared/ui';
 import { MenuModal } from '@/widgets/MenuModal/MenuModal';
 import { NoticeContainer } from '@/widgets/NoticeContainer/NoticeContainer';
 
@@ -37,6 +38,9 @@ export const Header = () => {
   const noticeRef = useRef<HTMLDivElement>(null);
   const [isSearch, setIsSearch] = useState(false);
   const [isNotice, setIsNotice] = useState(false);
+  const [isNewNotice, setIsNewNotice] = useState(false);
+
+  const { data: notifications, refetch: fetchNotifications } = useNotificationList();
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,7 +60,7 @@ export const Header = () => {
     const EventSource = EventSourcePolyfill || NativeEventSource;
     const accessToken = localStorage.getItem('accessToken');
 
-    new EventSource(`https://api.palettee.site/notification/subscribe`, {
+    const eventSource = new EventSource(`https://api.palettee.site/notification/subscribe`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         ContentType: 'text/event-stream',
@@ -65,6 +69,27 @@ export const Header = () => {
       },
       heartbeatTimeout: 86400000,
     });
+
+    eventSource.addEventListener('sse', event => {
+      const eventSource = event as MessageEvent;
+      if (eventSource.data.startsWith('연결되었습니다.')) return;
+
+      void customToast({ text: '새로운 알림이 도착했습니다.', icon: 'info' });
+      setIsNewNotice(true);
+    });
+
+    fetchNotifications()
+      .then(() => {
+        const unreadNoti = notifications?.data.notifications.filter(noti => !noti.isRead);
+        if (unreadNoti && unreadNoti.length > 0) setIsNewNotice(true);
+      })
+      .catch(() => {
+        void customToast({ text: '알림을 불러오는 중 오류가 발생했습니다.', icon: 'error' });
+      });
+
+    return () => {
+      eventSource.close();
+    };
   }, [userData]);
 
   useEffect(() => {
@@ -108,6 +133,7 @@ export const Header = () => {
       });
     }
     if (isSearch) setIsSearch(false);
+    setIsNewNotice(false);
   };
 
   return (
@@ -127,11 +153,13 @@ export const Header = () => {
               icon={faSearch}
               onClick={toggleSearch}
             />
-            <FontAwesomeIcon
-              className={cn(styles.button, styles.bell)}
-              icon={faBell}
-              onClick={toggleNoti}
-            />
+            <div className={cn(styles.bell, { [styles.isNewNotice]: isNewNotice })}>
+              <FontAwesomeIcon
+                className={cn(styles.button, styles.bell)}
+                icon={faBell}
+                onClick={toggleNoti}
+              />
+            </div>
             <FontAwesomeIcon
               icon={faBars}
               onClick={() => {
@@ -178,11 +206,13 @@ export const Header = () => {
               icon={faSearch}
               onClick={toggleSearch}
             />
-            <FontAwesomeIcon
-              className={cn(styles.button, styles.bell)}
-              icon={faBell}
-              onClick={toggleNoti}
-            />
+            <div className={cn(styles.bell, { [styles.isNewNotice]: isNewNotice })}>
+              <FontAwesomeIcon
+                className={cn(styles.button, styles.bell)}
+                icon={faBell}
+                onClick={toggleNoti}
+              />
+            </div>
             <FontAwesomeIcon
               className={cn(styles.button, styles.heart)}
               icon={faHeart}
