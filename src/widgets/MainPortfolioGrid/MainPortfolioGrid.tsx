@@ -5,7 +5,7 @@ import { Loader, TripleDot } from '@/shared/ui';
 
 export const MainPortfolioGrid = () => {
   const { data, isLoading, isError } = useMainPortfolioList();
-  console.log(data);
+  // console.log(data);
 
   if (isLoading) return <Loader />;
   if (isError)

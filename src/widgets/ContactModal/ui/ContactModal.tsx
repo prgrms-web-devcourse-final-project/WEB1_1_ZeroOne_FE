@@ -34,7 +34,7 @@ export const ContactModal = ({ isOpen, onClose, username }: ContactModalProps) =
           <div className={styles.logoWrapper}>
             <Logo className={styles.logo} />
           </div>
-          <h2 className={styles.profileName}>{username} 님에게 연락하기</h2>
+          <h2 className={styles.profileName}>{username}님에게 연락하기</h2>
         </div>
         <div className={styles.messageContainer}>
           {chatOptions.map(option => (

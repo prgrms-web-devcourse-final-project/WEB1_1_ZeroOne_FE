@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './MainGridItem.module.scss';
 
 import { ArchiveCard, usePopularArchive } from '@/features';
-import { MainPortfolioGrid } from '@/widgets';
+import { MainPortfolioGrid, MainGatheringGrid } from '@/widgets';
 
 export const MainGridItem = ({ type }: { type: string }) => {
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ export const MainGridItem = ({ type }: { type: string }) => {
             현재 모집 중인 게더링
             <FontAwesomeIcon icon={faChevronRight} size='xs' />
           </h4>
-          <div className={styles.grid}></div>
+          <MainGatheringGrid />
         </div>
       </section>
     );

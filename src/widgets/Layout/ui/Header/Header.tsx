@@ -143,7 +143,7 @@ export const Header = () => {
         <Link to='/'>
           <Logo height={36} />
         </Link>
-        <span>Palettee</span>
+        <span>Palette</span>
       </h1>
       {isMobile ? (
         <>

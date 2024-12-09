@@ -1,23 +1,19 @@
 import styles from './GatheringDetailUserInfo.module.scss';
 
+import Logo from '@/shared/assets/paletteLogo.svg?react';
 interface GatheringDetailUserInfoProps {
   username: string;
   position?: string;
   profileImage?: string;
 }
-import { useUserStore } from '@/features/user/model/user.store';
 
-export const GatheringDetailUserInfo = ({
-  username,
-  // position = 'Front Developer',
-  // profileImage = '/default-profile.png',
-}: GatheringDetailUserInfoProps) => {
-  const userData = useUserStore(state => state.userData);
+export const GatheringDetailUserInfo = ({ username }: GatheringDetailUserInfoProps) => {
   return (
     <div className={styles.author}>
-      <img alt={username} className={styles.profileImg} src={userData?.imageUrl} />
-      <span className={styles.name}>{userData?.name}</span>
-      <span className={styles.position}>{userData?.role}</span>
+      {/* <img alt={username} className={styles.profileImg} src={} /> */}
+      <Logo className={styles.profileImg} />
+      <span className={styles.name}>{username}</span>
+      {/* <span className={styles.position}>{userData?.role}</span> */}
     </div>
   );
 };

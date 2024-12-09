@@ -22,10 +22,6 @@
   width: 24px;
   height: 24px;
   transition: all 0.2s;
-
-  &.liked {
-    filter: invert(40%) sepia(100%) saturate(1000%) hue-rotate(340deg);
-  }
 }
 
 .count {
