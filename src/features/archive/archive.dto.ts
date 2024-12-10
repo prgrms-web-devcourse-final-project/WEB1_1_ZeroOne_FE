@@ -98,4 +98,9 @@ export type GetArchiveListApiResponse = ApiResponse<{
   archives: ArchiveCardDTO[];
   slice: Meta;
 }>;
+export type GetArchiveUserListApiResponse = ApiResponse<{
+  archives: ArchiveCardDTO[];
+  hasNext: boolean;
+  nextArchiveId: number | null;
+}>;
 export type getArchiveColorApiResponse = ApiResponse<ColorCountDTO>;

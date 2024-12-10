@@ -1,5 +1,6 @@
 import type {
   getArchiveColorApiResponse,
+  GetArchiveUserListApiResponse,
   PatchArchiveOrderDTO,
   PostCommentApiResponse,
 } from './archive.dto';
@@ -85,10 +86,10 @@ export const getPopularArchive = () =>
 
 export const getUserArchiveList = (userId: number, page: number) =>
   api
-    .get<GetArchiveListApiResponse>(`/user/${userId}/archives`, {
+    .get<GetArchiveUserListApiResponse>(`/user/${userId}/archives`, {
       params: {
         size: 8,
-        page,
+        nextArchiveId: page ? page : undefined,
       },
     })
     .then(res => res.data);

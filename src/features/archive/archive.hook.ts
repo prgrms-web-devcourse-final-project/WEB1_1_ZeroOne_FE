@@ -29,6 +29,7 @@ import type {
   PatchArchiveOrderDTO,
   CommentsPageDTO,
   ArchivePageDTO,
+  GetArchiveUserListApiResponse,
 } from './archive.dto';
 import type { Color } from './colors.type';
 
@@ -74,8 +75,14 @@ export const useComments = (archiveId: number) => {
   return useCustomInfiniteQuery<GetCommentsApiResponse, Comment, Error>(
     ['/archive', archiveId, 'comment'],
     ({ pageParam }) => getComments(archiveId, 10, pageParam),
-    10,
     'comments',
+    (lastPage, allPages) => {
+      if (Array.isArray(lastPage.data)) {
+        const isLastPage = lastPage.data.length < 9;
+        return isLastPage ? null : allPages.length;
+      }
+      return null;
+    },
   );
 };
 
@@ -269,8 +276,14 @@ export const useArchiveList = (sort: string, color: Color) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/archive', 'list', sort, color],
     ({ pageParam }) => getArchiveList(sort, pageParam, color === 'DEFAULT' ? null : color),
-    9,
     'archives',
+    (lastPage, allPages) => {
+      if (Array.isArray(lastPage.data!['archives'])) {
+        const isLastPage = lastPage.data!['archives']?.length < 9;
+        return isLastPage ? null : allPages.length;
+      }
+      return null;
+    },
     true,
   );
 };
@@ -279,8 +292,14 @@ export const useSearchArchive = (searchKeyword: string) => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/archive', 'list', 'search', searchKeyword],
     ({ pageParam }) => getSearchArchive(searchKeyword, pageParam),
-    9,
     'archives',
+    (lastPage, allPages) => {
+      if (Array.isArray(lastPage.data!['archives'])) {
+        const isLastPage = lastPage.data!['archives']?.length < 9;
+        return isLastPage ? null : allPages.length;
+      }
+      return null;
+    },
     true,
   );
 };
@@ -289,8 +308,14 @@ export const useLikeArchiveList = () => {
   return useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
     ['/user', 'list', 'me', 'like'],
     ({ pageParam }) => getLikeArchiveList(pageParam),
-    9,
     'archives',
+    (lastPage, allPages) => {
+      if (Array.isArray(lastPage.data!['archives'])) {
+        const isLastPage = lastPage.data!['archives']?.length < 9;
+        return isLastPage ? null : allPages.length;
+      }
+      return null;
+    },
     true,
   );
 };
@@ -436,11 +461,16 @@ export const useUpdateArchiveOrder = () => {
 };
 
 export const useUserArchiveList = (userId: number) =>
-  useCustomInfiniteQuery<GetArchiveListApiResponse, ArchiveCardDTO, Error>(
+  useCustomInfiniteQuery<GetArchiveUserListApiResponse, ArchiveCardDTO, Error>(
     ['/user', userId, 'archive', 'list'],
     ({ pageParam }) => getUserArchiveList(userId, pageParam),
-    8,
     'archives',
+    lastPage => {
+      if (!lastPage.data?.hasNext) {
+        return undefined;
+      }
+      return lastPage.data.nextArchiveId ?? undefined;
+    },
     true,
   );
 

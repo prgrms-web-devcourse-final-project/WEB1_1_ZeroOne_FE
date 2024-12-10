@@ -1,4 +1,8 @@
-import type { GatheringPageResponse, GatheringListParams } from '../model/dto/gathering.dto';
+import type {
+  GatheringPageResponse,
+  GatheringListParams,
+  UserGatheringPageResponse,
+} from '../model/dto/gathering.dto';
 import type {
   GatheringDetailResponse,
   CreateGatheringRequest,
@@ -63,7 +67,15 @@ export const gatheringApi = {
   completeGathering: async (gatheringId: string): Promise<void> => {
     await api.patch(`/gathering/${gatheringId}`);
   },
-
+  getUserGathering: (userId: number, nextGatheringId: number) =>
+    api
+      .get<UserGatheringPageResponse>(`/user/${userId}/gatherings`, {
+        params: {
+          ...(nextGatheringId && { nextGatheringId }),
+          size: 8,
+        },
+      })
+      .then(res => res.data),
   // 좋아요한 게더링 목록 조회 추가
   getGatheringLikeList: async (params: {
     size: number;

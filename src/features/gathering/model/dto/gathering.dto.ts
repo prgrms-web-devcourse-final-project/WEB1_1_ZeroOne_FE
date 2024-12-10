@@ -50,6 +50,7 @@ export interface GatheringPageResponse {
   };
   timeStamp: string;
 }
+
 export interface GatheringListParams {
   page: number;
   size: number;
@@ -63,3 +64,11 @@ export interface GatheringListParams {
   contact?: GatheringContactType;
 }
 //
+export interface UserGatheringPageResponse {
+  data: {
+    gatherings: GatheringItem[];
+    hasNext: boolean;
+    nextLikeId: number | null;
+  };
+  timeStamp: string;
+}

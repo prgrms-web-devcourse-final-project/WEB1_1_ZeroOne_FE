@@ -2,23 +2,25 @@ import styles from './UserContents.module.scss';
 import { ArchiveGrid } from '../ArchiveGrid';
 //import { GatheringGrid } from '../GatheringGrid';
 import { ContentsTab } from './ContentsTab';
+import { GatheringGrid } from '../GatheringGrid';
 import { useUserTab } from './hook/useUserTab';
 
 import type { ColorCountDTO } from '@/features';
-import { ColorMap, useMyArchiveList, useUserArchiveColors } from '@/features';
+import { ColorMap, useUserArchiveColors, useUserArchiveList } from '@/features';
 //import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
+import { useUserGathering } from '@/features/gathering/lib/hooks/useUserGathering';
 import { Loader } from '@/shared/ui';
 import { PieChart } from '@/shared/ui/Chart/PieChart';
 
-interface ArchiveContentProps {
+interface ContentProps {
   userId: number;
 }
 
-const ArchiveContent = ({ userId }: ArchiveContentProps) => {
-  const { data: archives, isPending } = useMyArchiveList();
+const ArchiveContent = ({ userId }: ContentProps) => {
+  const { items: archives, isFetchingNextPage, isPending, ref } = useUserArchiveList(userId);
   const { data: colorData, isPending: isColorPending } = useUserArchiveColors(userId);
 
-  if (!colorData?.data || isColorPending || isPending || !archives?.data) {
+  if (!colorData?.data || isColorPending || isPending) {
     return <Loader />;
   }
 
@@ -38,13 +40,29 @@ const ArchiveContent = ({ userId }: ArchiveContentProps) => {
           <PieChart data={convertToChartData(colorData.data)} />
         </div>
       </div>
-      <ArchiveGrid archives={archives?.data?.archives} />
+      <ArchiveGrid archives={archives} isMine />
+      <div ref={ref}>{isFetchingNextPage && <Loader />}</div>
+    </div>
+  );
+};
+
+const GatheringContent = ({ userId }: ContentProps) => {
+  const { items: gatherings, isFetchingNextPage, isPending, ref } = useUserGathering(userId);
+  console.log(gatherings);
+  if (isPending) {
+    return <Loader />;
+  }
+
+  return (
+    <div>
+      <GatheringGrid items={gatherings} />
+      <div ref={ref}>{isFetchingNextPage && <Loader />}</div>
     </div>
   );
 };
 
 const ContentComponents = {
-  gathering: ArchiveContent,
+  gathering: GatheringContent,
   archive: ArchiveContent,
 };
 
