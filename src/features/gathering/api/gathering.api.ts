@@ -89,7 +89,8 @@ export const mainGatheringApi = {
   // 메인 페이지용 게더링 목록 조회 (최신 4개)
   getMainGatherings: async (): Promise<GatheringPageResponse> => {
     const params: GatheringListParams = {
-      page: 1,
+      sort: '프로젝트',
+      page: 0,
       size: 4,
       status: '모집중', // 활성화된 게더링만 표시
     };
