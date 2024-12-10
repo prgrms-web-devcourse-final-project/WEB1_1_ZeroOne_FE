@@ -1,3 +1,4 @@
+import type { GetNextPageParamFunction } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import throttle from 'lodash-es/throttle';
 import { useMemo, useEffect } from 'react';
@@ -12,8 +13,8 @@ export const useCustomInfiniteQuery = <
 >(
   queryKey: (string | number)[],
   queryFn: (context: { pageParam: number }) => Promise<TData>,
-  pageSize: number,
   dataKey: string,
+  getNextPageParam: GetNextPageParamFunction<unknown, TData>,
   enabled: boolean = false,
   staleTime: number = 0,
 ) => {
@@ -21,13 +22,7 @@ export const useCustomInfiniteQuery = <
     useInfiniteQuery<TData, TError>({
       queryKey,
       queryFn: ({ pageParam = 0 }) => queryFn({ pageParam: pageParam as number }),
-      getNextPageParam: (lastPage, allPages) => {
-        if (Array.isArray(lastPage.data[dataKey])) {
-          const isLastPage = lastPage.data[dataKey]?.length < pageSize;
-          return isLastPage ? null : allPages.length;
-        }
-        return null;
-      },
+      getNextPageParam,
       initialPageParam: 0,
       enabled: enabled,
       staleTime,
