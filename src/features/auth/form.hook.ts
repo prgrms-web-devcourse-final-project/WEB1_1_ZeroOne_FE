@@ -28,11 +28,6 @@ export const useProfileForm = <T extends FormValues>({ formConfig }: useProfileF
   useEffect(() => {
     if (!majorJobGroup) return;
 
-    if (isResetting) {
-      setIsResetting(false);
-      return;
-    }
-
     setFormStructure(prev => {
       const updatedStructure = [...prev];
 
@@ -50,6 +45,11 @@ export const useProfileForm = <T extends FormValues>({ formConfig }: useProfileF
       }
       return updatedStructure;
     });
+
+    if (isResetting) {
+      setIsResetting(false);
+      return;
+    }
 
     method.setValue('minorJobGroup', null, {
       shouldValidate: true,
