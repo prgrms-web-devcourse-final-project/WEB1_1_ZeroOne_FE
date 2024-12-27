@@ -3,8 +3,8 @@ import { FormProvider } from 'react-hook-form';
 
 import { FormField } from './FormField';
 import styles from './ProfileForm.module.scss';
-import { useProfileForm } from '../form.hook';
-import type { FormConfigType, FormValues } from '../form.types';
+import { useProfileForm } from '../hook/form.hook';
+import type { FormConfigType, FormValues } from '../model/form.types';
 
 interface ProfileFormProps<T extends FormValues> {
   formConfig: FormConfigType<T>;

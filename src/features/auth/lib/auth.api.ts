@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 
-import type { TokenApiResponse } from './auth.dto';
-import type { PostUserResponseDTO } from '../user/user.dto';
+import type { PostUserResponseDTO } from '../../user/user.dto';
+import type { TokenApiResponse } from '../model/auth.dto';
 
 import api from '@/shared/api/baseApi';
 

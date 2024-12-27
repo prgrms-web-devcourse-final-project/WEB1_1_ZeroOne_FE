@@ -2,7 +2,7 @@ import cn from 'classnames';
 import React from 'react';
 
 import styles from './RegisterProgress.module.scss';
-import type { JoinProgressStage } from '../progress.type';
+import type { JoinProgressStage } from '../model/progress.type';
 
 interface ProgressBarProps {
   currentStage: number;

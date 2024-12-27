@@ -2,8 +2,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { FormConfigType } from './form.types';
-import { JOB_CATEGORIES, type FormValues } from './form.types';
+import type { FormConfigType } from '../model/form.types';
+import { JOB_CATEGORIES, type FormValues } from '../model/form.types';
 
 interface useProfileFormProps<T extends FormValues> {
   formConfig: FormConfigType<T>;
