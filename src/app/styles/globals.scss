@@ -320,7 +320,6 @@ main {
   z-index: 9999;
 }
 
-body.modal-open {
-  height: 100svh;
+html.modal-open {
   overflow: hidden;
 }
