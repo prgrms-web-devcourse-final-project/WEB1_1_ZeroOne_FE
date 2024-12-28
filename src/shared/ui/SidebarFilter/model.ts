@@ -85,8 +85,13 @@ export const useSidebarFilter = ({
 
   const handleCategoryClick = useCallback(
     (categoryId: string) => {
+      onFilterChange?.(categoryId, null);
       setFilterState(prev => {
-        const shouldToggle = prev.selectedCategory === categoryId && !prev.selectedSubItem;
+        const shouldToggle = prev.openCategoryId === categoryId;
+
+        if (prev.selectedCategory !== categoryId) {
+          window.scrollTo({ top: 0 });
+        }
 
         const newState = {
           openCategoryId: shouldToggle ? null : categoryId,
@@ -94,7 +99,6 @@ export const useSidebarFilter = ({
           selectedSubItem: null,
         };
 
-        onFilterChange?.(categoryId, null);
         return newState;
       });
     },
@@ -103,6 +107,8 @@ export const useSidebarFilter = ({
 
   const handleSubItemClick = useCallback(
     (categoryId: string, subItemId: string) => {
+      window.scrollTo({ top: 0 });
+      onFilterChange?.(categoryId, filterState.selectedSubItem === subItemId ? null : subItemId);
       setFilterState(prev => {
         const newState = {
           openCategoryId: categoryId,
@@ -110,7 +116,6 @@ export const useSidebarFilter = ({
           selectedSubItem: prev.selectedSubItem === subItemId ? null : subItemId,
         };
 
-        onFilterChange?.(categoryId, newState.selectedSubItem);
         return newState;
       });
     },
