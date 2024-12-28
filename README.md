@@ -13,8 +13,6 @@ https://www.palette.site/
 <br>
 
 <p align=center>
-  <a href="https://lime-mall-d34.notion.site/Road-to-friendly-2d8db233c6da4aaf8c3696a80ec83555?pvs=4">팀 노션</a>
-  &nbsp; | &nbsp; 
   <a href="https://www.figma.com/design/9Xf8cDM0jPx0oGNloEkfKa/Palettee?node-id=0-1&node-type=canvas&t=Sk30i83BB7LXRt0w-0">피그마</a>
   &nbsp; | &nbsp; 
   <a href="https://github.com/prgrms-web-devcourse-final-project/WEB1_1_ZeroOne_FE/wiki">위키</a>

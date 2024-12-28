@@ -2,19 +2,21 @@ import styles from './UserContents.module.scss';
 import { ArchiveGrid } from '../ArchiveGrid';
 //import { GatheringGrid } from '../GatheringGrid';
 import { ContentsTab } from './ContentsTab';
+import { GatheringGrid } from '../GatheringGrid';
 import { useUserTab } from './hook/useUserTab';
 
 import type { ColorCountDTO } from '@/features';
 import { ColorMap, useUserArchiveColors, useUserArchiveList } from '@/features';
 //import type { GatheringItemDto } from '@/features/gathering/model/gathering.dto';
+import { useUserGathering } from '@/features/gathering/lib/hooks/useUserGathering';
 import { Loader } from '@/shared/ui';
 import { PieChart } from '@/shared/ui/Chart/PieChart';
 
-interface ArchiveContentProps {
+interface ContentProps {
   userId: number;
 }
 
-const ArchiveContent = ({ userId }: ArchiveContentProps) => {
+const ArchiveContent = ({ userId }: ContentProps) => {
   const { items: archives, isFetchingNextPage, isPending, ref } = useUserArchiveList(userId);
   const { data: colorData, isPending: isColorPending } = useUserArchiveColors(userId);
 
@@ -44,24 +46,23 @@ const ArchiveContent = ({ userId }: ArchiveContentProps) => {
   );
 };
 
-// const dummyGatherings: GatheringItemDto<'프로젝트'>[] = Array.from({ length: 9 }, (_, i) => ({
-//   gatheringId: i.toString(),
-//   title: `Sample Gathering ${i + 1}`,
-//   userId: `user_${i}`,
-//   username: '홍길동',
-//   sort: '프로젝트',
-//   subject: '개발', // ProjectSubjectType만 허용
-//   tags: ['React', 'TypeScript', 'Next.js'],
-//   deadLine: '2024-11-28',
-//   position: ['개발자', '디자이너'], // 여러 포지션 가능
-//   contactType: '온라인',
-//   period: '3개월',
-//   personnel: '3',
-// }));
-// const GatheringContent = () => <GatheringGrid items={dummyGatherings} />;
+const GatheringContent = ({ userId }: ContentProps) => {
+  const { items: gatherings, isFetchingNextPage, isPending, ref } = useUserGathering(userId);
+  console.log(gatherings);
+  if (isPending) {
+    return <Loader />;
+  }
+
+  return (
+    <div>
+      <GatheringGrid items={gatherings} />
+      <div ref={ref}>{isFetchingNextPage && <Loader />}</div>
+    </div>
+  );
+};
 
 const ContentComponents = {
-  gathering: ArchiveContent,
+  gathering: GatheringContent,
   archive: ArchiveContent,
 };
 

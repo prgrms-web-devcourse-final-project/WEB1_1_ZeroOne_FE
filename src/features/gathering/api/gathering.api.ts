@@ -1,4 +1,8 @@
-import type { GatheringPageResponse, GatheringListParams } from '../model/dto/gathering.dto';
+import type {
+  GatheringPageResponse,
+  GatheringListParams,
+  UserGatheringPageResponse,
+} from '../model/dto/gathering.dto';
 import type {
   GatheringDetailResponse,
   CreateGatheringRequest,
