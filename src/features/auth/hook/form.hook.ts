@@ -2,8 +2,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { FormConfigType } from './form.types';
-import { JOB_CATEGORIES, type FormValues } from './form.types';
+import type { FormConfigType } from '../model/form.types';
+import { JOB_CATEGORIES, type FormValues } from '../model/form.types';
 
 interface useProfileFormProps<T extends FormValues> {
   formConfig: FormConfigType<T>;
@@ -28,11 +28,6 @@ export const useProfileForm = <T extends FormValues>({ formConfig }: useProfileF
   useEffect(() => {
     if (!majorJobGroup) return;
 
-    if (isResetting) {
-      setIsResetting(false);
-      return;
-    }
-
     setFormStructure(prev => {
       const updatedStructure = [...prev];
 
@@ -50,6 +45,11 @@ export const useProfileForm = <T extends FormValues>({ formConfig }: useProfileF
       }
       return updatedStructure;
     });
+
+    if (isResetting) {
+      setIsResetting(false);
+      return;
+    }
 
     method.setValue('minorJobGroup', null, {
       shouldValidate: true,

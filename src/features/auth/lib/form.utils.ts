@@ -1,8 +1,13 @@
 import * as yup from 'yup';
 
-import type { FormConfigType, FormValues, ImageField, PortfolioFormValues } from './form.types';
-import { JOB_CATEGORIES, JOB_DIVISION } from './form.types';
-import { postImages } from '../image/image.api';
+import { postImages } from '../../image/image.api';
+import type {
+  FormConfigType,
+  FormValues,
+  ImageField,
+  PortfolioFormValues,
+} from '../model/form.types';
+import { JOB_CATEGORIES, JOB_DIVISION } from '../model/form.types';
 
 export const formValidation = yup.object({
   name: yup.string().required('이름을 입력해주세요.'),

@@ -36,14 +36,16 @@ const ModalProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
+    const root = document.getElementsByTagName('html');
+    if (!root) return;
     if (isOpen) {
-      document.body.classList.add('modal-open');
+      root[0].classList.add('modal-open');
     } else {
-      document.body.classList.remove('modal-open');
+      root[0].classList.remove('modal-open');
     }
 
     return () => {
-      document.body.classList.remove('modal-open');
+      root[0].classList.remove('modal-open');
     };
   }, [isOpen]);
 

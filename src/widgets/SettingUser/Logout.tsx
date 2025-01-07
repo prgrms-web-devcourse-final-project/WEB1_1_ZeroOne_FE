@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './Logout.module.scss';
 
-import { logout } from '@/features/auth/auth.api';
+import { logout } from '@/features/auth/lib/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
 import { Button, customConfirm } from '@/shared/ui';
 export const Logout = () => {

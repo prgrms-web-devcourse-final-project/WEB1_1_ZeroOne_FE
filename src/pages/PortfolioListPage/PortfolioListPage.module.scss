@@ -22,10 +22,8 @@
 }
 
 .contentContainer {
-  position: sticky;
   display: flex; // grid 대신 flex 사용
   gap: 2rem;
-  overflow: auto;
 
   @media screen and (width <= 1440px) {
     gap: 2rem;
@@ -55,16 +53,19 @@
 }
 
 .sidebarContainer {
-  position: fixed;
-  top: 16.5rem;
+  position: sticky;
+  top: 0;
+  left: 0;
   width: inherit;
-  max-height: calc(100vh - 14.5rem);
-  overflow-y: auto;
+  height: 100vh;
+  padding: 5rem 0;
+  margin-top: -5rem;
 
   @media screen and (width <= 830px) {
     position: relative;
     top: 0;
     width: 100%;
+    height: auto;
     max-height: none;
   }
 }
