@@ -45,7 +45,10 @@ export const useUserStore = create(
         });
       },
       clearUserData: () => {
-        set(initialState);
+        set({
+          userData: null,
+          loading: false,
+        });
       },
       load: () => {
         set({ loading: true });
