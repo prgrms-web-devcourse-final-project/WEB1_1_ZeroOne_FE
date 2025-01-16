@@ -27,14 +27,14 @@ export const SetProfile = ({ userData }: SetProfileProps) => {
     const { socials, majorJobGroup, minorJobGroup, ...rest } = data;
 
     const majorOption = {
-      value: majorJobGroup,
+      value: majorJobGroup || '',
       label:
         JOB_CATEGORIES.find(majorCatergory => majorCatergory.value === majorJobGroup)?.label ??
         '알 수 없음',
     };
 
     const minorOption = {
-      value: minorJobGroup,
+      value: minorJobGroup || '',
       label:
         JOB_SUB_CATEGORY.find(minorCategory => minorCategory.value === minorJobGroup)?.label ??
         '알 수 없음',
