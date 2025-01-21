@@ -3,7 +3,7 @@ import { useState } from 'react';
 import styles from './ChattingModal.module.scss';
 
 import { ChatInput, ChatRoomItem, HomeHeader, ChatHeader } from '@/features/chatting';
-import { chatListDummyData } from '@/features/chatting/model/mock';
+import { useChattingList } from '@/features/chatting/api/chatting.hook';
 import { Modal } from '@/shared/ui';
 
 interface ChattingModalProps {
@@ -13,16 +13,18 @@ interface ChattingModalProps {
 
 type ChatRoom = {
   chatRoomId: number;
-  partnerProfileImg: string;
-  partnerName: string;
-  recentlyChat: string;
-  recentTime: string;
+  userId: number;
+  username: string;
+  profileImg: string;
 };
 
 export const ChattingModal = ({ isOpen, onClose }: ChattingModalProps) => {
   const [currentView, setCurrentView] = useState<'home' | 'chat'>('home');
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<ChatRoom | null>(null);
+
+  // 채팅방 목록 데이터 불러오기
+  const { data: chatRoomData, isLoading } = useChattingList();
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -33,33 +35,27 @@ export const ChattingModal = ({ isOpen, onClose }: ChattingModalProps) => {
     setCurrentView('home');
     setSelectedRoom(null);
   };
-  // 더미 데이터를 사용하여 채팅방 목록을 렌더링합니다.
-  const chatRooms = chatListDummyData.data.projects.map(room => ({
-    chatRoomId: room.chatRoomId,
-    partnerProfileImg: room.partnerProfileImg,
-    partnerName: room.partnerName,
-    recentlyChat: room.recentlyChat,
-    recentTime: room.recentTime,
-  }));
 
   const HomeView = () => (
     <>
       <HomeHeader title='채팅 목록' />
       <div className={styles.chatList}>
-        {chatRooms.map(room => (
-          <ChatRoomItem
-            chatRoomId={room.chatRoomId}
-            key={room.chatRoomId}
-            onClick={() => {
-              setCurrentView('chat');
-              setSelectedRoom(room);
-            }}
-            partnerName={room.partnerName}
-            partnerProfileImg={room.partnerProfileImg}
-            recentTime={room.recentTime}
-            recentlyChat={room.recentlyChat}
-          />
-        ))}
+        {isLoading ? (
+          <div>로딩 중...</div>
+        ) : (
+          chatRoomData?.data.ChatRooms.map(room => (
+            <ChatRoomItem
+              chatRoomId={room.chatRoomId}
+              key={room.chatRoomId}
+              onClick={() => {
+                setCurrentView('chat');
+                setSelectedRoom(room);
+              }}
+              profileImg={room.profileImg}
+              username={room.username}
+            />
+          ))
+        )}
       </div>
     </>
   );
@@ -73,12 +69,11 @@ export const ChattingModal = ({ isOpen, onClose }: ChattingModalProps) => {
         onLeaveChat={handleLeaveChat}
         onShowDropdown={toggleDropdown}
         showDropdown={showDropdown}
-        title={selectedRoom?.partnerName}
+        title={selectedRoom?.username}
       />
       <article className={styles.chatContent}>{/* 채팅 메시지들이 들어갈 영역 */}</article>
       <ChatInput
         onSendMessage={(message, files) => {
-          // 메시지 전송 로직 구현
           console.log('Message:', message);
           console.log('Files:', files);
         }}

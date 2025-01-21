@@ -1,9 +1,8 @@
 export interface ChatRoom {
   chatRoomId: number;
-  partnerProfileImg: string;
-  partnerName: string;
-  recentlyChat: string;
-  recentTime: string;
+  userId: number;
+  username: string;
+  profileImg: string;
 }
 
 export interface Meta {
@@ -14,8 +13,9 @@ export interface Meta {
 
 export interface ChatListResponse {
   data: {
-    projects: ChatRoom[];
+    ChatRooms: ChatRoom[];
     meta: Meta;
   };
   timeStamp: string;
 }
+export type ChatCategory = 'MENTORING' | 'FEEDBACK' | 'GATHERING' | 'COFFEE_CHAT' | 'ETC';

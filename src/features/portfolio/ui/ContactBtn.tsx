@@ -5,17 +5,18 @@ import { useModalStore } from '@/shared/model/modalStore';
 
 interface ContactBtnProps {
   userName: string;
+  userId: number; // targetId로 사용할 userId prop 추가
 }
 
-export const ContactBtn = ({ userName }: ContactBtnProps) => {
+export const ContactBtn = ({ userName, userId }: ContactBtnProps) => {
   const open = useModalStore(state => state.actions.open);
-  
+
   const onOpenModal = () => {
-    open('contact', userName);  
+    open('contact', userName, userId); // userId를 targetId로 전달
   };
 
   return (
-    <button aria-label='연락하기' className={styles.contactBtn} onClick={onOpenModal}>
+    <button className={styles.contactBtn} onClick={onOpenModal}>
       <Logo className={styles.logo} />
     </button>
   );
