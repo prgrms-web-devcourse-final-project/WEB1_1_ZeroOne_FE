@@ -5,15 +5,39 @@ import cn from 'classnames';
 import styles from './NoticeItem.module.scss';
 import type { Notification } from '../notification.dto';
 import { useDeleteNotification } from '../notification.hook';
+import type { NotificationType } from '../notification.type';
 import { NotificationMap } from '../notification.type';
 
-import { useCreateChatRoom } from '@/features/chatting/api/chatting.hook';
+import { useChatRoomParticipation } from '@/features/chatting/api/chatting.hook';
+import type { ChatCategory } from '@/features/chatting/api/types';
 import { useModalStore } from '@/shared/model/modalStore';
 
-export const NoticeItem = ({ notification }: { notification: Notification }) => {
+const isChatableNotification = (
+  type: NotificationType,
+): type is Exclude<NotificationType, 'LIKE'> => {
+  const chatCategories: ChatCategory[] = ['MENTORING', 'FEEDBACK', 'GATHERING', 'COFFEE_CHAT'];
+  return chatCategories.includes(type as ChatCategory);
+};
+
+interface NoticeItemProps {
+  notification: Notification;
+}
+
+export const NoticeItem = ({ notification }: NoticeItemProps) => {
   const { mutate: deleteNotification } = useDeleteNotification(notification.id);
-  const { mutate: createChatRoom } = useCreateChatRoom();
+  const { mutate: participateChat } = useChatRoomParticipation();
   const open = useModalStore(state => state.actions.open);
+
+  const handleParticipateChat = () => {
+    if (!isChatableNotification(notification.type)) return;
+
+    participateChat(Number(notification.acceptUrl), {
+      onSuccess: () => {
+        open('chatting');
+        deleteNotification();
+      },
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -22,21 +46,11 @@ export const NoticeItem = ({ notification }: { notification: Notification }) => 
       </div>
       <p className={styles.description}>{notification.content}</p>
       <div className={styles.buttons}>
-        {notification.type !== 'LIKE' && (
+        {isChatableNotification(notification.type) && (
           <FontAwesomeIcon
             className={cn(styles.check, styles.button)}
             icon={faCircleCheck}
-            onClick={() => {
-              createChatRoom(
-                { chatCategory: notification.type, targetId: Number(notification.acceptUrl) },
-                {
-                  onSuccess: () => {
-                    open('chatting');
-                    deleteNotification();
-                  },
-                },
-              );
-            }}
+            onClick={handleParticipateChat}
           />
         )}
         <FontAwesomeIcon

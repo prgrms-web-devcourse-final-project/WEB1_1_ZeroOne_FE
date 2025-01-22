@@ -18,3 +18,11 @@ export interface ChatListResponse {
   timeStamp: string;
 }
 export type ChatCategory = 'MENTORING' | 'FEEDBACK' | 'GATHERING' | 'COFFEE_CHAT' | 'ETC';
+export interface ChatMessage {
+  content: string;
+  imgUrls?: { imgUrl: string }[];
+  chatRoomId: number;
+  email: string;
+  profileImg: string;
+  sendAt: string;
+}

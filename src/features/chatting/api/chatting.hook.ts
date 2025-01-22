@@ -1,10 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { postCreateChatRoom } from './chatting.api';
-import { getChatRoomList } from './chatting.api';
-import type { ChatCategory } from './types';
-import type { ChatListResponse } from './types';
+import { getChatRoomList, participateChatRoom, postCreateChatRoom } from './chatting.api';
+import type { ChatCategory, ChatListResponse } from './types';
 
 import { customToast } from '@/shared/ui';
 
@@ -45,3 +42,15 @@ export const useChattingList = () => {
     },
   });
 };
+// 채팅방 참여 훅
+export const useChatRoomParticipation = () =>
+  useMutation({
+    mutationFn: (chatRoomId: number) => participateChatRoom(chatRoomId),
+    onSuccess: async response => {
+      console.log('채팅방 참여 결과:', response);
+      await customToast({ text: '채팅방에 참여하였습니다.', timer: 3000, icon: 'success' });
+    },
+    onError: async () => {
+      await customToast({ text: '채팅방 참여에 실패하였습니다', timer: 3000, icon: 'error' });
+    },
+  });

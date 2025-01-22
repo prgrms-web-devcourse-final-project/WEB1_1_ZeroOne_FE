@@ -1,3 +1,4 @@
+// ChattingModal.module.scss
 .modalDialogLayout {
   z-index: 999;
   width: 100%;
@@ -25,4 +26,50 @@
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
+
+  .message {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .messageContent {
+      flex: 1;
+
+      .messageHeader {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        margin-bottom: 0.25rem;
+
+        .sender {
+          font-weight: bold;
+        }
+
+        .time {
+          font-size: 0.8rem;
+          color: $primary-color;
+        }
+      }
+
+      .text {
+        padding: 0.75rem;
+        margin: 0;
+        background: $primary-color;
+        border-radius: 0.5rem;
+      }
+
+      .attachment {
+        max-width: 200px;
+        margin-top: 0.5rem;
+        border-radius: 0.5rem;
+      }
+    }
+  }
 }
