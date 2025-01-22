@@ -33,16 +33,33 @@ interface ContentLayoutProps {
 export const ContentLayout = ({ activeTab }: ContentLayoutProps) => {
   // 로그인한 유저만 접근 가능
   const { userData } = useRoleGuard({
-    requiredRoles: ['ADMIN', 'JUST_NEWBIE', 'OLD_NEWBIE', 'REAL_NEWBIE', 'USER'],
-    onAccessDenied: () => {
+    requiredRoles: ['ADMIN', 'JUST_NEWBIE', 'OLD_NEWBIE', 'USER'],
+    onAccessDenied: userData => {
+      if (!userData) {
+        void customConfirm({
+          title: '잘못된 접근',
+          text: '유저 정보를 확인할 수 없습니다.\n로그인하고 다시 시도해주세요.',
+          icon: 'warning',
+          showCancelButton: false,
+          allowOutsideClick: false,
+        }).then(result => {
+          if (result.isConfirmed) {
+            navigate('/');
+            return;
+          }
+        });
+        return;
+      }
+
       void customConfirm({
         title: '잘못된 접근',
-        text: '유저 정보를 확인할 수 없습니다.\n로그인하고 다시 시도해주세요.',
+        text: '유저 정보를 확인할 수 없습니다.\n회원 정보를 먼저 등록해주세요.',
         icon: 'warning',
         showCancelButton: false,
+        allowOutsideClick: false,
       }).then(result => {
         if (result.isConfirmed) {
-          navigate('/');
+          navigate('/register');
           return;
         }
       });

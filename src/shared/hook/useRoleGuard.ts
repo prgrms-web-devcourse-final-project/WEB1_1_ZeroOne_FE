@@ -4,12 +4,13 @@ import { useShallow } from 'zustand/shallow';
 
 import { customConfirm } from '../ui';
 
+import type { UserDataState } from '@/features/user/model/user.store';
 import { useUserStore } from '@/features/user/model/user.store';
 import type { UserRole } from '@/features/user/user.dto';
 
 interface UseRoleGuardProps {
   requiredRoles: UserRole[]; // 허용된 역할 목록
-  onAccessDenied?: () => void; // 접근 제한 시 실행할 이벤트
+  onAccessDenied?: (userData: UserDataState | null) => void; // 접근 제한 시 실행할 이벤트
 }
 
 export const useRoleGuard = ({ requiredRoles, onAccessDenied }: UseRoleGuardProps) => {
@@ -37,7 +38,7 @@ export const useRoleGuard = ({ requiredRoles, onAccessDenied }: UseRoleGuardProp
 
     if (!userData || !requiredRoles.includes(userData.role)) {
       if (onAccessDenied) {
-        onAccessDenied();
+        onAccessDenied(userData);
       } else {
         void defaultDeniedHandler();
       }

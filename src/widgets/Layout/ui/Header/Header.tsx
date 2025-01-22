@@ -25,10 +25,10 @@ export const Header = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const open = useModalStore(state => state.actions.open);
-  const { userData } = useUserStore(
+  const { userData, loading } = useUserStore(
     useShallow(state => ({
       userData: state.userData,
-      actions: state.actions,
+      loading: state.loading,
     })),
   );
   const [isMobile, setIsMobile] = useState(false);
@@ -200,51 +200,55 @@ export const Header = () => {
               ))}
             </ul>
           </nav>
-          <div className={styles.userMenu}>
-            <FontAwesomeIcon
-              className={cn(styles.button, styles.search)}
-              icon={faSearch}
-              onClick={toggleSearch}
-            />
-            <div className={cn(styles.bell, { [styles.isNewNotice]: isNewNotice })}>
+          {loading ? (
+            <div className={styles.userMenu}></div>
+          ) : (
+            <div className={styles.userMenu}>
               <FontAwesomeIcon
-                className={cn(styles.button, styles.bell)}
-                icon={faBell}
-                onClick={toggleNoti}
+                className={cn(styles.button, styles.search)}
+                icon={faSearch}
+                onClick={toggleSearch}
               />
+              <div className={cn(styles.bell, { [styles.isNewNotice]: isNewNotice })}>
+                <FontAwesomeIcon
+                  className={cn(styles.button, styles.bell)}
+                  icon={faBell}
+                  onClick={toggleNoti}
+                />
+              </div>
+              <FontAwesomeIcon
+                className={cn(styles.button, styles.heart)}
+                icon={faHeart}
+                onClick={() => {
+                  if (userData) navigate('/like');
+                  else {
+                    void customConfirm({
+                      text: '로그인이 필요합니다.',
+                      title: '로그인',
+                      icon: 'info',
+                    });
+                  }
+                }}
+              />
+              {userData ? (
+                <button
+                  onClick={() => {
+                    navigate(`/user/${userData.userId}`);
+                  }}
+                >
+                  <img alt='user-profile' className={styles.userProfile} src={userData.imageUrl} />
+                </button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    open('login');
+                  }}
+                >
+                  로그인
+                </Button>
+              )}
             </div>
-            <FontAwesomeIcon
-              className={cn(styles.button, styles.heart)}
-              icon={faHeart}
-              onClick={() => {
-                if (userData) navigate('/like');
-                else {
-                  void customConfirm({
-                    text: '로그인이 필요합니다.',
-                    title: '로그인',
-                    icon: 'info',
-                  });
-                }
-              }}
-            />
-            {userData ? (
-              <button
-                onClick={() => {
-                  navigate(`/user/${userData.userId}`);
-                }}
-              >
-                <img alt='user-profile' className={styles.userProfile} src={userData.imageUrl} />
-              </button>
-            ) : (
-              <Button
-                onClick={() => {
-                  open('login');
-                }}
-              >
-                로그인
-              </Button>
-            )}
-          </div>{' '}
+          )}
           {isSearch && (
             <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
               <SearchBar isSearch setIsSearch={setIsSearch} />

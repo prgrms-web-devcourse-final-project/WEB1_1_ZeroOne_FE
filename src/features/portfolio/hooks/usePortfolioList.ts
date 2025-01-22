@@ -23,15 +23,16 @@ export const usePortfolioList = ({
     },
 
     getNextPageParam: lastPage => {
+      console.log(lastPage);
       // 더 엄격한 조건 체크
-      if (!lastPage || !lastPage.content || lastPage.last) {
+      if (!lastPage || !lastPage.content) {
         return undefined;
       }
       // 현재 페이지의 아이템이 size보다 적으면 마지막 페이지
       if (lastPage.content.length < size) {
         return undefined;
       }
-      return lastPage.number + 1;
+      return lastPage.offset / size + 1;
     },
 
     initialPageParam: 0,

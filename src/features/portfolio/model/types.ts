@@ -119,14 +119,9 @@ export interface Sort {
 // API Response Interface
 export interface PortfolioResponse {
   content: Portfolio[];
-  pageable: Pageable;
-  size: number;
-  number: number;
-  sort: Sort;
-  numberOfElements: number;
-  first: boolean;
-  last: boolean;
-  empty: boolean;
+  hasNext: boolean;
+  offset: number;
+  pageSize: number;
 }
 export type PortfolioListApiResponse = ApiResponse<PortfolioResponse>;
 
