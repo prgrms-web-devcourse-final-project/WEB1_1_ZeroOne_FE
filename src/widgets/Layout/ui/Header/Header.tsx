@@ -75,7 +75,16 @@ export const Header = () => {
       if (eventSource.data.startsWith('연결되었습니다.')) return;
 
       void customToast({ text: '새로운 알림이 도착했습니다.', icon: 'info' });
-      setIsNewNotice(true);
+
+      // 알림창이 켜져있으면 newNotice X
+      if (!isNotice) {
+        setIsNewNotice(true);
+        return;
+      }
+
+      if (isNotice) {
+        void fetchNotifications();
+      }
     });
 
     fetchNotifications()
