@@ -17,9 +17,7 @@ export const ChatRoomItem = ({ username, profileImg, onClick }: ChatRoomItemProp
       <div className={styles.chatInfo}>
         <div className={styles.chatHeader}>
           <span className={styles.name}>{username}</span>
-          {/* <span className={styles.time}>{recentTime}</span> */}
         </div>
-        {/* <p className={styles.lastMessage}>{recentlyChat}</p> */}
       </div>
     </div>
   );

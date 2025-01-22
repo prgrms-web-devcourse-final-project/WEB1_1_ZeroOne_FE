@@ -23,7 +23,25 @@ export const useCreateChatRoom = () =>
 
 export const useChattingList = () => {
   return useQuery<ChatListResponse>({
-    queryKey: ['chatRooms'] as const,
-    queryFn: getChatRoomList,
+    queryKey: ['chatRooms'],
+    queryFn: async () => {
+      try {
+        const response = await getChatRoomList();
+        console.log('채팅방 목록 응답:', response); // 디버깅용
+        return response;
+      } catch (error) {
+        console.error('채팅방 목록 조회 실패:', error);
+        throw error;
+      }
+    },
+    // 실패 시 재시도 방지
+    retry: false,
+    // 빈 데이터 초기값 설정
+    initialData: {
+      data: {
+        chatRooms: [],
+      },
+      timeStamp: new Date().toISOString(),
+    },
   });
 };

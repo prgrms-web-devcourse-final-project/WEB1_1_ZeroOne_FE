@@ -13,8 +13,7 @@ export interface Meta {
 
 export interface ChatListResponse {
   data: {
-    ChatRooms: ChatRoom[];
-    meta: Meta;
+    chatRooms: ChatRoom[];
   };
   timeStamp: string;
 }
