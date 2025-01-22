@@ -4,8 +4,13 @@
   gap: 1.3rem;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 0;
+  padding: 1rem;
+  cursor: pointer;
   border-bottom: 1px solid rgba(0, 0, 0, 10%);
+
+  &:hover {
+    background-color: rgb(243, 243, 243);
+  }
 }
 
 .icon {

@@ -1,6 +1,7 @@
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cn from 'classnames';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './NoticeItem.module.scss';
 import type { Notification } from '../notification.dto';
@@ -14,9 +15,17 @@ export const NoticeItem = ({ notification }: { notification: Notification }) => 
   const { mutate: deleteNotification } = useDeleteNotification(notification.id);
   const { mutate: createChatRoom } = useCreateChatRoom();
   const open = useModalStore(state => state.actions.open);
+  const navigate = useNavigate();
+
+  const handleClickItem = () => {
+    if (notification.type === 'LIKE') {
+      navigate(`/${notification.likeType.toLowerCase()}/${notification.contentId}`);
+      return;
+    }
+  };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={handleClickItem}>
       <div className={cn(styles.icon, styles[NotificationMap[notification.type].label])}>
         <FontAwesomeIcon icon={NotificationMap[notification.type].icon} />
       </div>
@@ -42,7 +51,8 @@ export const NoticeItem = ({ notification }: { notification: Notification }) => 
         <FontAwesomeIcon
           className={cn(styles.cancel, styles.button)}
           icon={faCircleXmark}
-          onClick={() => {
+          onClick={e => {
+            e.stopPropagation();
             deleteNotification();
           }}
         />
