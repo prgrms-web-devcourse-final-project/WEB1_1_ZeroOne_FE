@@ -27,11 +27,17 @@
 
 .contents {
   flex: 1;
+  overflow: hidden;
   font-size: 0.75rem;
 
   .title {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
     font-size: 0.75rem;
     color: rgba(0, 0, 0, 50%);
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 

@@ -10,6 +10,7 @@ import { NotificationMap } from '../notification.type';
 
 import { useCreateChatRoom } from '@/features/chatting/api/chatting.hook';
 import { useModalStore } from '@/shared/model/modalStore';
+import { setTextEllipsis } from '@/shared/util/setTextEllipsis';
 
 export const NoticeItem = ({ notification }: { notification: Notification }) => {
   const { mutate: deleteNotification } = useDeleteNotification(notification.id);
@@ -31,7 +32,9 @@ export const NoticeItem = ({ notification }: { notification: Notification }) => 
       </div>
       <div className={styles.contents}>
         {notification.contentTitle && (
-          <p className={styles.title}>{`"${notification.contentTitle}"`}</p>
+          <span
+            className={styles.title}
+          >{`"${setTextEllipsis(notification.contentTitle, 13)}"`}</span>
         )}
         <p className={styles.description}>{notification.content}</p>
       </div>
