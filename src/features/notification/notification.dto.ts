@@ -8,7 +8,7 @@ export interface Notification {
   content: string;
   type: NotificationType;
   isRead: boolean;
-  userId: number;
+  contentTitle: string;
   contentId: number;
   likeType: ContentType;
   acceptUrl: string;

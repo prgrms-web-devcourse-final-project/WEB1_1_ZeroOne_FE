@@ -29,7 +29,12 @@ export const NoticeItem = ({ notification }: { notification: Notification }) => 
       <div className={cn(styles.icon, styles[NotificationMap[notification.type].label])}>
         <FontAwesomeIcon icon={NotificationMap[notification.type].icon} />
       </div>
-      <p className={styles.description}>{notification.content}</p>
+      <div className={styles.contents}>
+        {notification.contentTitle && (
+          <p className={styles.title}>{`"${notification.contentTitle}"`}</p>
+        )}
+        <p className={styles.description}>{notification.content}</p>
+      </div>
       <div className={styles.buttons}>
         {notification.type !== 'LIKE' && (
           <FontAwesomeIcon

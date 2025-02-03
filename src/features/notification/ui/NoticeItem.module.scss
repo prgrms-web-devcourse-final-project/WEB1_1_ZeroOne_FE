@@ -25,9 +25,14 @@
   border-radius: 50%;
 }
 
-.description {
+.contents {
   flex: 1;
   font-size: 0.75rem;
+
+  .title {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 50%);
+  }
 }
 
 .buttons {
