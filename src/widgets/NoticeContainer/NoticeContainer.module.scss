@@ -34,8 +34,16 @@
   }
 }
 
-.visible {
+.slideDown {
   top: 0;
+}
+
+.slideUp {
+  top: -14rem;
+}
+
+.hide {
+  display: none;
 }
 
 .empty {
