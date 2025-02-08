@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from './ChattingModal.module.scss';
 
@@ -9,7 +9,11 @@ import {
   ChatRoomItem,
   HomeHeader,
 } from '@/features/chatting';
-import { useChattingList } from '@/features/chatting/api/chatting.hook';
+import {
+  useChattingList,
+  useChatHistory,
+  useLeaveChatRoom,
+} from '@/features/chatting/api/chatting.hook';
 import { useChatWebSocket } from '@/features/chatting/api/chatting.socket';
 import type { ChatListResponse, ChatRoom } from '@/features/chatting/api/types';
 import { Modal } from '@/shared/ui';
@@ -73,7 +77,42 @@ const ChatView = ({
   showDropdown,
   onToggleDropdown,
 }: ChatViewProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const { messages, sendMessage } = useChatWebSocket(selectedRoom?.chatRoomId || 0);
+
+  const {
+    data: chatHistory,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useChatHistory(selectedRoom?.chatRoomId || 0);
+
+  const handleScroll = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    if (container.scrollTop < 100 && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => {
+        container.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, [handleScroll]);
+
+  const allMessages = useMemo(() => {
+    const historyMessages = chatHistory?.allChats || [];
+    const messageMap = new Map([...historyMessages, ...messages].map(msg => [msg.sendAt, msg]));
+    return Array.from(messageMap.values()).sort(
+      (a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime(),
+    );
+  }, [chatHistory?.allChats, messages]);
 
   return (
     <>
@@ -84,19 +123,23 @@ const ChatView = ({
         showDropdown={showDropdown}
         title={selectedRoom?.username}
       />
-      <article className={styles.chatContent}>
-        {messages.map((message, index) => (
-          <div className={styles.message} key={index}>
+      <article className={styles.chatContent} ref={containerRef}>
+        {isFetchingNextPage && <div className={styles.loadingMore}>이전 메시지 불러오는 중...</div>}
+        {allMessages.map(message => (
+          <div
+            className={`${styles.message} ${message.isMine ? styles.mine : ''}`}
+            key={`${message.sendAt}-${message.content}`}
+          >
             <img alt='profile' className={styles.avatar} src={message.profileImg} />
             <div className={styles.messageContent}>
               <div className={styles.messageHeader}>
-                <span className={styles.sender}>{message.userId}</span>
+                <span className={styles.sender}>{message.username}</span>
                 <span className={styles.time}>{new Date(message.sendAt).toLocaleTimeString()}</span>
               </div>
               <p className={styles.text}>{message.content}</p>
-              {message.imgUrls?.map((img, i) => (
+              {/* {message.imgUrls?.map((img, i) => (
                 <img alt='첨부 이미지' className={styles.attachment} key={i} src={img.imgUrl} />
-              ))}
+              ))} */}
             </div>
           </div>
         ))}
@@ -122,6 +165,7 @@ export const ChattingModal = ({ isOpen, onClose }: ChattingModalProps) => {
   const [selectedRoom, setSelectedRoom] = useState<ChatRoom | null>(null);
 
   const { data: chatRoomData, isLoading } = useChattingList();
+  const { mutate: leaveRoom } = useLeaveChatRoom();
 
   const handleRoomSelect = (room: ChatRoom) => {
     setCurrentView('chat');
@@ -137,9 +181,15 @@ export const ChattingModal = ({ isOpen, onClose }: ChattingModalProps) => {
   };
 
   const handleLeaveChat = () => {
-    setShowDropdown(false);
-    setCurrentView('home');
-    setSelectedRoom(null);
+    if (selectedRoom) {
+      leaveRoom(selectedRoom.chatRoomId, {
+        onSuccess: () => {
+          setShowDropdown(false);
+          setCurrentView('home');
+          setSelectedRoom(null);
+        },
+      });
+    }
   };
 
   return (

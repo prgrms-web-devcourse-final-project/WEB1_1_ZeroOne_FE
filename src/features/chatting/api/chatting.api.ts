@@ -17,3 +17,14 @@ export const participateChatRoom = (chatRoomId: number) =>
   api
     .post<PostCreateChatRoomResponse>(`/chat-room/participation/${chatRoomId}`)
     .then(res => res.data);
+
+export const getChatHistory = (chatRoomId: number, size: number = 3, lastSendAt?: string) => {
+  const params = new URLSearchParams({
+    size: size.toString(),
+    ...(lastSendAt && { lastSendAt }),
+  });
+
+  return api.get(`/chat-room/chats/${chatRoomId}?${params}`).then(res => res.data);
+};
+export const leaveChatRoom = (chatRoomId: number) =>
+  api.delete(`/chat-room/leave/${chatRoomId}`).then(res => res.data);
