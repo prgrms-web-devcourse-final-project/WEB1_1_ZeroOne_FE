@@ -25,7 +25,7 @@ export const MainGatheringGrid = () => {
       </div>
     );
   }
-
+  console.log(items);
   return (
     <div className={styles.grid}>
       {items.map(gathering => (

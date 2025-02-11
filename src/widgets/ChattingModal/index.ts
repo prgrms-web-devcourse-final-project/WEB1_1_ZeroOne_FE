@@ -1,1 +1,1 @@
-export * from './ChattingModal';
+export * from './ui/ChattingModal';

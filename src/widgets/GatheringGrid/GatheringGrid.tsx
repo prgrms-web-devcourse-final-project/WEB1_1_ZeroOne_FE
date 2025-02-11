@@ -21,6 +21,7 @@ export const GatheringGrid = ({ items }: GatheringGridProps) => {
             sort={gathering.sort}
             subject={gathering.subject}
             title={gathering.title}
+            userId={gathering.userId}
             username={gathering.username}
           />
         ))}

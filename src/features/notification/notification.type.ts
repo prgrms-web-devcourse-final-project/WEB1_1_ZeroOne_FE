@@ -1,7 +1,7 @@
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faCoffee, faComment, faHeart, faUsers } from '@fortawesome/free-solid-svg-icons';
 
-export type NotificationType = 'LIKE' | 'FEEDBACK' | 'GATHERING' | 'COFFEE_CHAT';
+export type NotificationType = 'LIKE' | 'MENTORING' | 'FEEDBACK' | 'GATHERING' | 'COFFEE_CHAT';
 
 export interface NotificationItem {
   icon: IconProp;
@@ -34,5 +34,12 @@ export const NotificationMap: { [key in NotificationType]: NotificationItem } = 
     label: 'coffee',
     title: '커피챗 알림',
     description: '커피챗 요청을 받았습니다.',
+  },
+  MENTORING: {
+    // 추가
+    icon: faComment, // 적절한 아이콘으로 변경 가능
+    label: 'mentoring',
+    title: '멘토링 알림',
+    description: '멘토링 요청을 받았습니다.',
   },
 };

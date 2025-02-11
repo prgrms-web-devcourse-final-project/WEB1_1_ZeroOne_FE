@@ -12,23 +12,40 @@ const MODAL_COMPONENTS = {
 } as const;
 
 const ModalProvider = ({ children }: PropsWithChildren) => {
-  const { isOpen, modalKey, selectedUser, close } = useModalStore(
+  const { isOpen, modalKey, selectedUser, targetId, close } = useModalStore(
     useShallow(state => ({
       modalKey: state.modalKey,
       isOpen: state.isOpen,
       selectedUser: state.selectedUser,
+      targetId: state.targetId,
       close: state.actions.close,
     })),
   );
+  const state = useModalStore.getState();
+  console.log('state:', state);
+
+  console.log('isOpen:', isOpen);
 
   const ModalComponent = modalKey ? MODAL_COMPONENTS[modalKey] : null;
-
+  console.log('selectedUser:', selectedUser);
+  console.log('targetId:', targetId);
   const renderModal = () => {
     if (!isOpen || !ModalComponent) return null;
 
-    // ContactModal인 경우 username props 전달
+    // ContactModal인 경우 username과 targetId props 전달
     if (modalKey === 'contact') {
-      return <ModalComponent isOpen={isOpen} onClose={close} username={selectedUser} />;
+      // if (!targetId) {
+      //   console.warn('targetId is required for ContactModal');
+      //   return null;
+      // }
+      return (
+        <ModalComponent
+          isOpen={isOpen}
+          onClose={close}
+          targetId={targetId}
+          username={selectedUser}
+        />
+      );
     }
 
     // 다른 모달의 경우 기존대로 렌더링
