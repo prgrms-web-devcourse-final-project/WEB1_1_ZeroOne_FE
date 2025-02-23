@@ -8,8 +8,8 @@ import React from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import styles from './FormField.module.scss';
-import type { InputFieldProps } from '../form.types';
 import { RenderInput } from './FormInputs';
+import type { InputFieldProps } from '../model/form.types';
 
 interface ArrayInputFieldProps extends InputFieldProps {
   name: 'url';

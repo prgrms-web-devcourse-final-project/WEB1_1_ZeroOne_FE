@@ -67,7 +67,7 @@ export const PortfolioCard = ({
           <Link className={styles.cardImg} to={portFolioUrl}>
             <img alt={`${username}의 프로필 이미지`} src={memberImageUrl || profileImg} />
           </Link>
-          <ContactBtn userName={username} />
+          <ContactBtn userName={username} userId = {userId}/>
         </div>
         <div className={styles.cardFooter}>
           <div className={styles.firstInfo}>

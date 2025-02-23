@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getLocalAccessToken, removeLocalAccessToken } from '@/features/auth/auth.api';
+import { getLocalAccessToken, removeLocalAccessToken } from '@/features/auth/lib/auth.api';
 import { useUserStore } from '@/features/user/model/user.store';
 import { getMyProfile } from '@/features/user/user.api';
 import { setInterceptorEvents } from '@/shared/api/baseApi';

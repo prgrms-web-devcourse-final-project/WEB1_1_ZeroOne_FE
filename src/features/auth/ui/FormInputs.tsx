@@ -9,7 +9,12 @@ import type { ActionMeta, MultiValue, SingleValue } from 'react-select';
 //styles
 import styles from './FormInputs.module.scss';
 //types
-import type { CommonInputAttribute, ImageField, InputFieldProps, Option } from '../form.types';
+import type {
+  CommonInputAttribute,
+  ImageField,
+  InputFieldProps,
+  Option,
+} from '../model/form.types';
 
 //components
 import { Input, Radio, TextArea } from '@/shared/ui';

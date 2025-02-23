@@ -283,8 +283,9 @@ body {
   min-width: 325px;
   max-width: 100dvw;
   min-height: 100svh;
+  padding: 0 !important;
   margin: 0 auto;
-  overflow-x: hidden;
+  overflow-x: clip;
   font-family: 'Pretendard Variable', Pretendard, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -320,7 +321,6 @@ main {
   z-index: 9999;
 }
 
-body.modal-open {
-  height: 100svh;
+html.modal-open {
   overflow: hidden;
 }

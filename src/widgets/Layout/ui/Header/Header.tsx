@@ -25,10 +25,10 @@ export const Header = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const open = useModalStore(state => state.actions.open);
-  const { userData } = useUserStore(
+  const { userData, loading } = useUserStore(
     useShallow(state => ({
       userData: state.userData,
-      actions: state.actions,
+      loading: state.loading,
     })),
   );
   const [isMobile, setIsMobile] = useState(false);
@@ -36,6 +36,8 @@ export const Header = () => {
 
   const searchRef = useRef<HTMLDivElement>(null);
   const noticeRef = useRef<HTMLDivElement>(null);
+  const isNoticeRef = useRef<boolean>(false);
+
   const [isSearch, setIsSearch] = useState(false);
   const [isNotice, setIsNotice] = useState(false);
   const [isNewNotice, setIsNewNotice] = useState(false);
@@ -44,7 +46,7 @@ export const Header = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1000);
+      setIsMobile(window.innerWidth <= 1024);
     };
 
     handleResize();
@@ -75,7 +77,16 @@ export const Header = () => {
       if (eventSource.data.startsWith('연결되었습니다.')) return;
 
       void customToast({ text: '새로운 알림이 도착했습니다.', icon: 'info' });
-      setIsNewNotice(true);
+
+      // 알림창이 켜져있으면 newNotice X
+      if (!isNoticeRef.current) {
+        setIsNewNotice(true);
+        return;
+      }
+
+      if (isNoticeRef.current) {
+        void fetchNotifications();
+      }
     });
 
     fetchNotifications()
@@ -93,27 +104,30 @@ export const Header = () => {
   }, [userData]);
 
   useEffect(() => {
-    if (!isSearch && !isNotice) return;
+    if (isNotice) {
+      void fetchNotifications();
+    }
+    isNoticeRef.current = isNotice;
+  }, [isNotice, fetchNotifications]);
 
+  useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
+      if (!isSearch && !isNotice) return;
+
       const searchNode = searchRef.current;
       const noticeNode = noticeRef.current;
 
-      if (
-        (searchNode && !searchNode.contains(event.target as Node)) ||
-        (noticeNode && !noticeNode.contains(event.target as Node))
-      ) {
-        setTimeout(() => {
-          setIsSearch(false);
-          setIsNotice(false);
-        }, 100);
-      }
+      if (searchNode && searchNode.contains(event.target as Node)) return;
+      if (noticeNode && noticeNode.contains(event.target as Node)) return;
+
+      setIsSearch(false);
+      setIsNotice(false);
     };
 
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('click', handleOutsideClick);
 
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('click', handleOutsideClick);
     };
   }, [searchRef, noticeRef, isSearch, isNotice]);
 
@@ -145,89 +159,76 @@ export const Header = () => {
         </Link>
         <span>Palette</span>
       </h1>
-      {isMobile ? (
-        <>
-          <div className={styles.mobileBtns}>
-            <FontAwesomeIcon
-              className={cn(styles.button, styles.search)}
-              icon={faSearch}
-              onClick={toggleSearch}
-            />
-            <div className={cn(styles.bell, { [styles.isNewNotice]: isNewNotice })}>
-              <FontAwesomeIcon
-                className={cn(styles.button, styles.bell)}
-                icon={faBell}
-                onClick={toggleNoti}
-              />
-            </div>
-            <FontAwesomeIcon
-              icon={faBars}
-              onClick={() => {
-                setMenuOpen(true);
-              }}
-              size='lg'
-            />
-          </div>
-          {isSearch && (
-            <div
-              className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}
-              ref={searchRef}
-            >
-              <SearchBar isSearch setIsSearch={setIsSearch} />
-            </div>
-          )}
-          {menuOpen && (
-            <MenuModal
-              isOpen={menuOpen}
-              isUserData={userData ? true : false}
-              onClose={setMenuOpen}
-            />
-          )}{' '}
-        </>
+      {/** Gnb */}
+      {!isMobile && (
+        <nav className={styles.gnbWrapper}>
+          <ul className={styles.gnb}>
+            {NAV_LINKS.map((link, idx) => (
+              <React.Fragment key={link.path}>
+                <li>
+                  <Link className={pathname === link.path ? styles.active : ''} to={link.path}>
+                    {link.title}
+                  </Link>
+                </li>
+                {idx < NAV_LINKS.length - 1 && <li className={styles.navDot} />}
+              </React.Fragment>
+            ))}
+          </ul>
+        </nav>
+      )}
+      {/** User Menu */}
+      {loading ? (
+        <div className={styles.userMenu}></div>
       ) : (
-        <>
-          <nav className={styles.gnbWrapper}>
-            <ul className={styles.gnb}>
-              {NAV_LINKS.map((link, idx) => (
-                <React.Fragment key={link.path}>
-                  <li>
-                    <Link className={pathname === link.path ? styles.active : ''} to={link.path}>
-                      {link.title}
-                    </Link>
-                  </li>
-                  {idx < NAV_LINKS.length - 1 && <li className={styles.navDot} />}
-                </React.Fragment>
-              ))}
-            </ul>
-          </nav>
-          <div className={styles.userMenu}>
+        <div className={styles.userMenu}>
+          <div ref={searchRef}>
             <FontAwesomeIcon
               className={cn(styles.button, styles.search)}
               icon={faSearch}
               onClick={toggleSearch}
             />
-            <div className={cn(styles.bell, { [styles.isNewNotice]: isNewNotice })}>
-              <FontAwesomeIcon
-                className={cn(styles.button, styles.bell)}
-                icon={faBell}
-                onClick={toggleNoti}
+            {isSearch && (
+              <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
+                <SearchBar isSearch setIsSearch={setIsSearch} />
+              </div>
+            )}
+          </div>
+          <div className={cn(styles.bell, { [styles.isNewNotice]: isNewNotice })} ref={noticeRef}>
+            <div className={cn(styles.button, styles.bell)} onClick={toggleNoti}>
+              <FontAwesomeIcon icon={faBell} />
+            </div>
+            <div className={styles.notiWrapper}>
+              <NoticeContainer
+                isNotice={isNotice}
+                notifications={notifications?.data.notifications ?? []}
               />
             </div>
-            <FontAwesomeIcon
-              className={cn(styles.button, styles.heart)}
-              icon={faHeart}
-              onClick={() => {
-                if (userData) navigate('/like');
-                else {
-                  void customConfirm({
-                    text: '로그인이 필요합니다.',
-                    title: '로그인',
-                    icon: 'info',
-                  });
-                }
-              }}
-            />
-            {userData ? (
+          </div>
+          <FontAwesomeIcon
+            className={cn(styles.button, styles.heart, { [styles.hidden]: isMobile })}
+            icon={faHeart}
+            onClick={() => {
+              if (userData) navigate('/like');
+              else {
+                void customConfirm({
+                  text: '로그인이 필요합니다.',
+                  title: '로그인',
+                  icon: 'info',
+                });
+              }
+            }}
+          />
+          <FontAwesomeIcon
+            className={cn({ [styles.hidden]: !isMobile })}
+            icon={faBars}
+            onClick={() => {
+              setMenuOpen(true);
+            }}
+            size='lg'
+          />
+
+          {!isMobile &&
+            (userData ? (
               <button
                 onClick={() => {
                   navigate(`/user/${userData.userId}`);
@@ -243,18 +244,12 @@ export const Header = () => {
               >
                 로그인
               </Button>
-            )}
-          </div>{' '}
-          {isSearch && (
-            <div className={cn(styles.searchWrapper, { [styles.visible]: isSearch })}>
-              <SearchBar isSearch setIsSearch={setIsSearch} />
-            </div>
-          )}
-        </>
+            ))}
+        </div>
       )}
-      <div className={styles.notiWrapper} ref={noticeRef}>
-        <NoticeContainer isNotice={isNotice} />
-      </div>
+      {menuOpen && (
+        <MenuModal isOpen={menuOpen} isUserData={userData ? true : false} onClose={setMenuOpen} />
+      )}{' '}
     </header>
   );
 };

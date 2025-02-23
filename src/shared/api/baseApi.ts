@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { customConfirm } from '../ui';
 
-import { getLocalAccessToken, reissueToken } from '@/features/auth/auth.api';
+import { getLocalAccessToken, reissueToken } from '@/features/auth/lib/auth.api';
 
 let isRefreshing = false;
 

@@ -20,9 +20,85 @@
   overflow-y: auto;
 }
 
+.messageContent {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-width: 70%;
+}
+
+.messageHeader {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.sender {
+  font-weight: bold;
+}
+
+.time {
+  font-size: 0.8rem;
+  color: $primary-color;
+}
+
+.text {
+  padding: 0.75rem;
+  margin: 0;
+  word-break: break-word;
+  background: $primary-color;
+  border-radius: 0.5rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.attachment {
+  max-width: 200px;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.loadingMore {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  color: $primary-color;
+  text-align: center;
+}
+
 .chatContent {
   z-index: 999;
+  display: flex;
   flex: 1;
+  flex-direction: column;
   padding: 1rem;
   overflow-y: auto;
+
+  .message {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    &.mine {
+      flex-direction: row-reverse;
+
+      .messageContent {
+        align-items: flex-end;
+      }
+
+      .messageHeader {
+        flex-direction: row-reverse;
+      }
+
+      .text {
+        color: white;
+        background: $primary-color, 10%;
+      }
+    }
+  }
 }

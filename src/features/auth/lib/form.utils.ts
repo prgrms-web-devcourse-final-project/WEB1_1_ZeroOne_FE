@@ -1,8 +1,13 @@
 import * as yup from 'yup';
 
-import type { FormConfigType, FormValues, ImageField, PortfolioFormValues } from './form.types';
-import { JOB_CATEGORIES, JOB_DIVISION } from './form.types';
-import { postImages } from '../image/image.api';
+import { postImages } from '../../image/image.api';
+import type {
+  FormConfigType,
+  FormValues,
+  ImageField,
+  PortfolioFormValues,
+} from '../model/form.types';
+import { JOB_CATEGORIES, JOB_DIVISION } from '../model/form.types';
 
 export const formValidation = yup.object({
   name: yup.string().required('이름을 입력해주세요.'),
@@ -149,7 +154,8 @@ export const profileFormValidation = formValidation.shape({
     .matches(
       /^\s*$|^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm,
       'URL 형식에 맞게 입력해주세요.',
-    ),
+    )
+    .required('포트폴리오 URL을 입력해주세요.'),
 });
 
 export const profileFormConfig: FormConfigType<PortfolioFormValues> = {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { loginWithToken, removeLocalAccessToken, setLocalAccessToken } from '../auth.api';
+import { loginWithToken, removeLocalAccessToken, setLocalAccessToken } from '../lib/auth.api';
 
 import type { UserDataState } from '@/features/user/model/user.store';
 import { useUserStore } from '@/features/user/model/user.store';

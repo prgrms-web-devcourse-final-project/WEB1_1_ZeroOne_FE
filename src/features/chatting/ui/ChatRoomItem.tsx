@@ -1,32 +1,23 @@
 import styles from './ChatRoomItem.module.scss';
 
 interface ChatRoomItemProps {
-  chatRoomId: number;
-  partnerProfileImg: string;
-  partnerName: string;
-  recentlyChat: string;
-  recentTime: string;
+  chatRoomId?: number;
+  userId?: number;
+  username: string;
+  profileImg: string;
   onClick: () => void;
 }
 
-export const ChatRoomItem = ({
-  partnerProfileImg,
-  partnerName,
-  recentlyChat,
-  recentTime,
-  onClick,
-}: ChatRoomItemProps) => {
+export const ChatRoomItem = ({ username, profileImg, onClick }: ChatRoomItemProps) => {
   return (
     <div className={styles.chatRoom} onClick={onClick}>
       <div className={styles.avatar}>
-        <img alt='' src={partnerProfileImg} />
+        <img alt='' src={profileImg} />
       </div>
       <div className={styles.chatInfo}>
         <div className={styles.chatHeader}>
-          <span className={styles.name}>{partnerName}</span>
-          <span className={styles.time}>{recentTime}</span>
+          <span className={styles.name}>{username}</span>
         </div>
-        <p className={styles.lastMessage}>{recentlyChat}</p>
       </div>
     </div>
   );
