@@ -40,3 +40,4 @@ export const GatheringMarkdownPreview = ({ markdownText }: MarkdownPreviewProps)
     />
   );
 };
+export default GatheringMarkdownPreview;
