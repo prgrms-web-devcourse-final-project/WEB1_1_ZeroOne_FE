@@ -1,4 +1,3 @@
-// GatheringDetailPage.tsx - 직접 임포트 방식
 import { lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -84,6 +83,7 @@ export const GatheringDetailPage = () => {
         <article className={styles.content}>
           {/* 마크다운 컴포넌트 지연 로딩 */}
           <Suspense fallback={<MarkdownLoadingFallback />}>
+
             <MarkdownPreview markdownText={gatheringDetail.content} />
           </Suspense>
         </article>

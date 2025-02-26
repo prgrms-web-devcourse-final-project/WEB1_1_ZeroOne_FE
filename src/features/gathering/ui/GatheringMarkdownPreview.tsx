@@ -29,7 +29,7 @@ marked.setOptions({
 interface MarkdownPreviewProps {
   markdownText: string;
 }
-
+{console.log('마크다운 컴포넌트 청크 로드 시작')}
 export const GatheringMarkdownPreview = ({ markdownText }: MarkdownPreviewProps) => {
   return (
     <div
@@ -37,6 +37,7 @@ export const GatheringMarkdownPreview = ({ markdownText }: MarkdownPreviewProps)
       dangerouslySetInnerHTML={{
         __html: marked(markdownText),
       }}
+      
     />
   );
 };
