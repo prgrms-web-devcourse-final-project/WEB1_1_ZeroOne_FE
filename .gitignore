@@ -39,4 +39,3 @@ lhci_reports/
 .lighthouserc.local.json
 
 tsconfig.tsbuildinfo
-/stats.html

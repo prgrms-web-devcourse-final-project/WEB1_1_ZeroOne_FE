@@ -1,27 +1,14 @@
-import { lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 
 import styles from './GatheringDetailPage.module.scss';
 
-// 마크다운 프리뷰 컴포넌트를 직접 경로에서 지연 로딩
-const MarkdownPreview = lazy(() => import('@/features/gathering/ui/GatheringMarkdownPreview'));
-
+import { MarkdownPreview } from '@/features';
 import { GatheringDetailUserInfo } from '@/features/gathering';
 import { useGatheringDetail, useGatheringLike } from '@/features/gathering/lib/hooks';
 import { Loader, TripleDot } from '@/shared/ui';
 import { customToast, errorAlert } from '@/shared/ui';
 import { LikeBtn } from '@/shared/ui/LikeBtn/LikeBtn';
 import { GatheringDetailBtnCon, GatheringDetailHeader, GatheringDetailGrid } from '@/widgets';
-
-// 마크다운 로딩 Fallback 컴포넌트
-const MarkdownLoadingFallback = () => (
-  <div className={styles.markdownLoading}>
-    <div className={styles.shimmer}></div>
-    <div className={styles.shimmer} style={{ width: '80%' }}></div>
-    <div className={styles.shimmer} style={{ width: '90%' }}></div>
-    <div className={styles.shimmer} style={{ width: '70%' }}></div>
-  </div>
-);
 
 export const GatheringDetailPage = () => {
   const { gatheringId } = useParams();
@@ -36,7 +23,6 @@ export const GatheringDetailPage = () => {
       errorAlert({ title: '좋아요 실패', text: '좋아요를 누르는데 실패했습니다.' });
     },
   });
-
   if (isLoading) {
     return <Loader />;
   }
@@ -81,11 +67,7 @@ export const GatheringDetailPage = () => {
       <section className={styles.detailSection}>
         <h3>상세소개</h3>
         <article className={styles.content}>
-          {/* 마크다운 컴포넌트 지연 로딩 */}
-          <Suspense fallback={<MarkdownLoadingFallback />}>
-
-            <MarkdownPreview markdownText={gatheringDetail.content} />
-          </Suspense>
+          <MarkdownPreview markdownText={gatheringDetail.content} />
         </article>
       </section>
       <div className={styles.footer}>
