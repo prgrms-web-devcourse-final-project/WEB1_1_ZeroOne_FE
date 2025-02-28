@@ -106,6 +106,7 @@
     "msw": "^2.6.5",
     "prettier": "^3.3.3",
     "puppeteer": "^23.9.0",
+    "rollup-plugin-visualizer": "^5.14.0",
     "storybook": "^8.4.5",
     "stylelint": "^16.10.0",
     "stylelint-config-prettier-scss": "^1.0.0",
