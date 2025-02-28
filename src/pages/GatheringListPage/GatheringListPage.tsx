@@ -51,7 +51,7 @@ export const GatheringListPage = () => {
   const [initialFilterState, setInitialFilterState] = useState<Partial<FilterState>>({});
 
   const [filters, setFilters] = useState<Filters>({
-    sort: '프로젝트',
+    sort: '',
   });
 
   const handleFilterChange = (categoryId: string, subItemId: string | null) => {

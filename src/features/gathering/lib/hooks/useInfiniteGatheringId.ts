@@ -25,7 +25,7 @@ interface UseInfiniteGatheringIdProps {
 
 export const useInfiniteGatheringId = ({
   size = 10,
-  sort,
+  sort = "",
   subject,
   period,
   positions,

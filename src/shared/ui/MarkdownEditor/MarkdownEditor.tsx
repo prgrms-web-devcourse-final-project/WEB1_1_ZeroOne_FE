@@ -90,7 +90,7 @@ export const MarkdownEditor = <T extends { [key: string]: any }>({
 
   const renderPreview = () =>
     preview && <MarkdownPreview markdownText={data[updateKey] as string} />;
-
+  console.log("아카이빙 마크다운 에디터 프리뷰 아님 컴포넌트 청크 로드 시작");
   return (
     <div className={styles.container}>
       {isMobile ? (
