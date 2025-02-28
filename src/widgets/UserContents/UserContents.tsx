@@ -14,6 +14,7 @@ import { PieChart } from '@/shared/ui/Chart/PieChart';
 
 interface ContentProps {
   userId: number;
+  nextGatheringId?: number;
 }
 
 const ArchiveContent = ({ userId }: ContentProps) => {
@@ -50,7 +51,7 @@ const GatheringContent = ({ userId }: ContentProps) => {
   const { items: gatherings, isFetchingNextPage, isPending, ref } = useUserGathering(userId);
   console.log(gatherings);
   if (isPending) {
-    return <Loader />;
+    return <></>; // <Loader />; 없애고 유저페이지 게더링 무한로딩 없애기
   }
 
   return (

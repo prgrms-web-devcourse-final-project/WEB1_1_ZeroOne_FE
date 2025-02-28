@@ -20,7 +20,6 @@ export default defineConfig({
       brotliSize: true, // brotli 압축 크기 표시
       template: 'treemap', // 시각화 템플릿 (treemap, sunburst, network)
       sourcemap: true, // 소스맵 사용
-      // detail: true, // 상세 정보 표시
       open: true, // 빌드 후 자동으로 브라우저 열기
 
     }),
