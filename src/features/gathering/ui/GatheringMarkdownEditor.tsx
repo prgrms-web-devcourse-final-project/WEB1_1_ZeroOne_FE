@@ -3,10 +3,11 @@ import { EditorView } from '@codemirror/view';
 import CodeMirror from '@uiw/react-codemirror';
 import cn from 'classnames';
 import { useRef } from 'react';
+import { lazy, Suspense } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 
 import styles from './GatheringMarkdownEditor.module.scss';
-import { GatheringMarkdownPreview } from './GatheringMarkdownPreview';
+const MarkdownPreview = lazy(() => import('@/features/gathering/ui/GatheringMarkdownPreview'));
 import { useGatheringMarkdown } from './useGatheringMarkdown';
 import type { CreateGatheringRequest } from '../model/dto/request.dto';
 
@@ -24,7 +25,14 @@ export const GatheringMarkdownEditor = ({
   const { insertStartToggle, handleImage } = useGatheringMarkdown({
     editorViewRef,
   });
-
+  const MarkdownLoadingFallback = () => (
+    <div className={styles.markdownLoading}>
+      <div className={styles.shimmer}></div>
+      <div className={styles.shimmer} style={{ width: '80%' }}></div>
+      <div className={styles.shimmer} style={{ width: '90%' }}></div>
+      <div className={styles.shimmer} style={{ width: '70%' }}></div>
+    </div>
+  );
   return (
     <div className={styles.container}>
       <label className={styles.label}>
@@ -136,9 +144,11 @@ export const GatheringMarkdownEditor = ({
               </div>
               <div className={styles.preview}>
                 <div className={styles.previewHeader}>미리보기</div>
-                <div className={styles.previewContent}>
-                  <GatheringMarkdownPreview markdownText={value || ''} />
-                </div>
+                <Suspense fallback={<MarkdownLoadingFallback />}>
+                  <div className={styles.previewContent}>
+                    <MarkdownPreview markdownText={value || ''} />
+                  </div>
+                </Suspense>
               </div>
             </div>
           );

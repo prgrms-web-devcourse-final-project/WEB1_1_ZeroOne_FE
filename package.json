@@ -15,7 +15,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "jest --passWithNoTests",
-    "lhci": "lhci autorun"
+    "lhci": "lhci autorun",
+    "dev:profile": "cross-env REACT_PROFILING=1 yarn dev",
+    "build:profile": "cross-env REACT_PROFILING=1 yarn build",
+    "analyze": "cross-env NODE_ENV=production yarn build --mode analyze"
   },
   "dependencies": {
     "@codemirror/basic-setup": "^0.20.0",
@@ -87,6 +90,7 @@
     "@typescript-eslint/parser": "^8.12.2",
     "@vitejs/plugin-react": "^4.3.3",
     "babel-jest": "^29.7.0",
+    "cross-env": "^7.0.3",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.3",
@@ -121,7 +125,8 @@
     "typescript-eslint": "^8.10.0",
     "vite": "^5.4.9",
     "vite-plugin-svgr": "^4.3.0",
-    "vite-tsconfig-paths": "^5.0.1"
+    "vite-tsconfig-paths": "^5.0.1",
+    "web-vitals": "^4.2.4"
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
