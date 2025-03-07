@@ -12,7 +12,7 @@ export const useMainGathering = () => {
   });
 
   // items 배열 추출
-  const items = query.data?.data.content ?? [];
+  const items = query.data?.data ?? [];
 
   return {
     ...query,

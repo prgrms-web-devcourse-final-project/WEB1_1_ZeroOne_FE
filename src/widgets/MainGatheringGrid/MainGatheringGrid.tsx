@@ -5,6 +5,7 @@ import { Loader, TripleDot } from '@/shared/ui';
 
 export const MainGatheringGrid = () => {
   const { items, isLoading, isError } = useMainGathering();
+  console.log('메인게더링', items);
 
   if (isLoading) return <Loader />;
   if (isError) {
@@ -21,11 +22,10 @@ export const MainGatheringGrid = () => {
     return (
       <div>
         <TripleDot />
-        검색된 내용이 없습니다.
+        충분한 데이터가 모일 때까지 잠시만 기다려 주세요.
       </div>
     );
   }
-  console.log(items);
   return (
     <div className={styles.grid}>
       {items.map(gathering => (

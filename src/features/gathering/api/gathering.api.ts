@@ -2,6 +2,7 @@ import type {
   GatheringPageResponse,
   GatheringListParams,
   UserGatheringPageResponse,
+  GatheringMainPageResponse,
 } from '../model/dto/gathering.dto';
 import type {
   GatheringDetailResponse,
@@ -99,23 +100,9 @@ export const gatheringApi = {
 // 메인 페이지용 게더링 API
 export const mainGatheringApi = {
   // 메인 페이지용 게더링 목록 조회 (최신 4개)
-  getMainGatherings: async (): Promise<GatheringPageResponse> => {
-    const params: GatheringListParams = {
-      sort: '프로젝트',
-      page: 0,
-      size: 4,
-      status: '모집중', // 활성화된 게더링만 표시
-    };
-
-    // params를 URLSearchParams로 변환
-    const queryString = new URLSearchParams();
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== 'undefined') {
-        queryString.append(key, value.toString());
-      }
-    });
-
-    const { data } = await api.get<GatheringPageResponse>(`/gathering?${queryString.toString()}`);
+  getMainGatherings: async (): Promise<GatheringMainPageResponse> => {
+    const { data } = await api.get<GatheringMainPageResponse>(`/gathering/main`);
+    console.log(data);
     return data;
   },
 };
