@@ -1,5 +1,4 @@
 import { lazy, Suspense } from 'react';
-import { lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 
 import styles from './GatheringDetailPage.module.scss';
