@@ -1,11 +1,23 @@
 import { markdown } from '@codemirror/lang-markdown';
 import { EditorView } from '@codemirror/view';
-import CodeMirror from '@uiw/react-codemirror';
-import { useRef, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 
 import styles from './MarkdownEditor.module.scss';
 
-import { MarkdownPreview, Toolbar, useMarkdown } from '@/features';
+import { useMarkdown } from '@/features';
+
+// 레이지 로딩으로 변경
+const LazyCodeMirror = lazy(() => import('@uiw/react-codemirror'));
+const LazyMarkdownPreview = lazy(() =>
+  import('@/features').then(module => ({
+    default: module.MarkdownPreview,
+  })),
+);
+const LazyToolbar = lazy(() =>
+  import('@/features').then(module => ({
+    default: module.Toolbar,
+  })),
+);
 
 export interface MarkdownEditorProps<T> {
   data: T;
@@ -14,7 +26,6 @@ export interface MarkdownEditorProps<T> {
   preview?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const MarkdownEditor = <T extends { [key: string]: any }>({
   data,
   updateKey,
@@ -53,44 +64,52 @@ export const MarkdownEditor = <T extends { [key: string]: any }>({
 
   const renderEditor = () => (
     <div className={styles.editor}>
-      <Toolbar
-        onCommand={insertStartToggle}
-        onInsertImage={file => {
-          if (editorViewRef.current) {
-            void handleImage(file, editorViewRef.current);
-          }
-        }}
-      />
-      <CodeMirror
-        extensions={[
-          markdown(),
-          EditorView.lineWrapping,
-          EditorView.theme({
-            '&': { backgroundColor: '#f9f9f9', fontSize: '1rem' },
-            '.cm-content': { padding: '1rem' },
-            '.cm-gutters': { display: 'none' },
-            '&.cm-focused': { outline: 'none' },
-            '.cm-activeLine': { backgroundColor: 'transparent' },
-          }),
-          eventHandler,
-        ]}
-        onChange={newValue => {
-          if (data[updateKey].length > 2500) return;
-          onUpdate(updateKey, newValue as T[typeof updateKey]);
-        }}
-        onUpdate={update => {
-          if (update.view) {
-            editorViewRef.current = update.view;
-          }
-        }}
-        value={data[updateKey] as string}
-      />
+      <Suspense fallback={<div>도구 모음 로딩중...</div>}>
+        <LazyToolbar
+          onCommand={insertStartToggle}
+          onInsertImage={file => {
+            if (editorViewRef.current) {
+              void handleImage(file, editorViewRef.current);
+            }
+          }}
+        />
+      </Suspense>
+      <Suspense fallback={<div>에디터 로딩중...</div>}>
+        <LazyCodeMirror
+          extensions={[
+            markdown(),
+            EditorView.lineWrapping,
+            EditorView.theme({
+              '&': { backgroundColor: '#f9f9f9', fontSize: '1rem' },
+              '.cm-content': { padding: '1rem' },
+              '.cm-gutters': { display: 'none' },
+              '&.cm-focused': { outline: 'none' },
+              '.cm-activeLine': { backgroundColor: 'transparent' },
+            }),
+            eventHandler,
+          ]}
+          onChange={newValue => {
+            if (data[updateKey].length > 2500) return;
+            onUpdate(updateKey, newValue as T[typeof updateKey]);
+          }}
+          onUpdate={update => {
+            if (update.view) {
+              editorViewRef.current = update.view;
+            }
+          }}
+          value={data[updateKey] as string}
+        />
+      </Suspense>
     </div>
   );
 
   const renderPreview = () =>
-    preview && <MarkdownPreview markdownText={data[updateKey] as string} />;
-  console.log("아카이빙 마크다운 에디터 프리뷰 아님 컴포넌트 청크 로드 시작");
+    preview && (
+      <Suspense fallback={<div>프리뷰 로딩중...</div>}>
+        <LazyMarkdownPreview markdownText={data[updateKey] as string} />
+      </Suspense>
+    );
+  console.log('아카이빙 마크다운 에디터 프리뷰 아님 컴포넌트 청크 로드 시작');
   return (
     <div className={styles.container}>
       {isMobile ? (
