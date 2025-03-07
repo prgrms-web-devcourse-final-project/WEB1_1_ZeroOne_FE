@@ -1,5 +1,6 @@
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ContactBtn } from './ContactBtn';
@@ -25,6 +26,7 @@ export const PortfolioCard = ({
   userId,
   relatedUrl,
 }: PortfolioCardProps) => {
+  const [imgSrc, setImgSrc] = useState(memberImageUrl || profileImg);
   const { mutate: incrementView } = usePortfolioView({
     onSuccess: () => {},
     onError: () => {},
@@ -60,14 +62,18 @@ export const PortfolioCard = ({
     return `https://${url}`;
   };
 
+  const handleImageError = () => {
+    setImgSrc(profileImg);
+  };
+
   return (
     <div className={styles.container} onClick={handleCardClick}>
       <div className={styles.card}>
         <div className={styles.cardHeader}>
           <Link className={styles.cardImg} to={portFolioUrl}>
-            <img alt={`${username}의 프로필 이미지`} src={memberImageUrl || profileImg} />
+            <img alt={`${username}의 프로필 이미지`} onError={handleImageError} src={imgSrc} />
           </Link>
-          <ContactBtn userName={username} userId = {userId}/>
+          <ContactBtn userId={userId} userName={username} />
         </div>
         <div className={styles.cardFooter}>
           <div className={styles.firstInfo}>
