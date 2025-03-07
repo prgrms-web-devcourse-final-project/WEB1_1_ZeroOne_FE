@@ -18,6 +18,7 @@ export default defineConfig({
     tsconfigPaths(),
     svgr(),
     visualizer({
+
       filename: './dist/stats.html',
       gzipSize: true, // gzip 크기 표시
       brotliSize: true, // brotli 압축 크기 표시
@@ -102,4 +103,5 @@ export default defineConfig({
       },
     },
   },
+
 });

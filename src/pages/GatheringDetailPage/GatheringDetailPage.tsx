@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 
 import styles from './GatheringDetailPage.module.scss';
@@ -83,6 +84,7 @@ export default function GatheringDetailPage() {
         <article className={styles.content}>
           {/* 마크다운 컴포넌트 지연 로딩 */}
           <Suspense fallback={<MarkdownLoadingFallback />}>
+
             <MarkdownPreview markdownText={gatheringDetail.content} />
           </Suspense>
         </article>
