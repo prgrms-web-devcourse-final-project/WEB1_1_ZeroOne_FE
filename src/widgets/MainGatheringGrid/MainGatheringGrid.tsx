@@ -5,7 +5,6 @@ import { Loader, TripleDot } from '@/shared/ui';
 
 export const MainGatheringGrid = () => {
   const { items, isLoading, isError } = useMainGathering();
-  console.log('메인게더링', items);
 
   if (isLoading) return <Loader />;
   if (isError) {
@@ -16,7 +15,7 @@ export const MainGatheringGrid = () => {
       </div>
     );
   }
-
+console.log(items);
   // 데이터가 없는 경우
   if (!items || items.length === 0) {
     return (
@@ -29,6 +28,8 @@ export const MainGatheringGrid = () => {
   return (
     <div className={styles.grid}>
       {items.map(gathering => (
+
+        console.log("g",gathering),
         <GatheringCard key={gathering.gatheringId} {...gathering} />
       ))}
     </div>

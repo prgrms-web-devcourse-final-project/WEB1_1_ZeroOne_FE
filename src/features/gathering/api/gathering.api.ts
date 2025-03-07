@@ -102,7 +102,6 @@ export const mainGatheringApi = {
   // 메인 페이지용 게더링 목록 조회 (최신 4개)
   getMainGatherings: async (): Promise<GatheringMainPageResponse> => {
     const { data } = await api.get<GatheringMainPageResponse>(`/gathering/main`);
-    console.log(data);
     return data;
   },
 };

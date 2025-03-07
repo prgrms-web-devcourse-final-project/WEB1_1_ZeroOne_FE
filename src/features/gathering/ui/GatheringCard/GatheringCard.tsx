@@ -14,6 +14,7 @@ export interface GatheringCardProps {
   name?: string;
   sort?: string;
   deadline?: string;
+  deadLine?: string;
   gatheringId: number;
   username: string;
   positions: string[];
@@ -27,6 +28,7 @@ export const GatheringCard = ({
   name,
   sort,
   deadline,
+  deadLine,
   gatheringId,
   username,
   positions,
@@ -59,7 +61,7 @@ export const GatheringCard = ({
           {positions?.map((e, i) => <JobTag job={e} key={i} />)}
         </ul>
         <section className={styles.card__deadlineCon}>
-          <div>마감일 {deadline}</div>
+          <div>마감일 {deadline || deadLine}</div>
           <div className={styles.buttons}>
             {/* <button className={styles.actionBtn} onClick={handleButtonClick}>
               <FontAwesomeIcon icon={faHeart} />
