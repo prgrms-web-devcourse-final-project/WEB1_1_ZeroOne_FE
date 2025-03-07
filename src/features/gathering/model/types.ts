@@ -20,5 +20,6 @@ export interface GatheringFilterOptions {
     study: SelectOption[];
     club: SelectOption[];
     etc: SelectOption[];
+    
   };
 }

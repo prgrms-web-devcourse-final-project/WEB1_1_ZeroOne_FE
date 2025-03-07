@@ -8,7 +8,7 @@ import { ColorSelect, useArchiveList } from '@/features';
 import { Button, Loader, SelectBtn, TripleDot } from '@/shared/ui';
 import { ArchiveGrid } from '@/widgets';
 
-export const ArchiveListPage = () => {
+export default function ArchiveListPage() {
   const navigate = useNavigate();
   const [sort, setSort] = useState({ label: '최신순', value: 'latest' });
   const [color, setColor] = useState<Color>('DEFAULT');
@@ -51,4 +51,4 @@ export const ArchiveListPage = () => {
       </div>
     </div>
   );
-};
+}

@@ -9,19 +9,21 @@ export default defineConfig({
     port: 3000,
     open: true,
   },
+  preview: {
+    port: 3000,
+    open: true,
+  },
   plugins: [
     react(),
     tsconfigPaths(),
     svgr(),
     visualizer({
-
       filename: './dist/stats.html',
       gzipSize: true, // gzip 크기 표시
       brotliSize: true, // brotli 압축 크기 표시
       template: 'treemap', // 시각화 템플릿 (treemap, sunburst, network)
       sourcemap: true, // 소스맵 사용
       open: true, // 빌드 후 자동으로 브라우저 열기
-
     }),
   ],
   css: {
@@ -49,6 +51,15 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
+          // 페이지 컴포넌트 청크
+          if (id.includes('/pages/')) {
+            const match = id.match(/\/pages\/([^/]+)/);
+            if (match) {
+              return `page-${match[1].toLowerCase()}`;
+            }
+          }
+
+          // 기존 청크 설정
           if (
             id.includes('node_modules/@codemirror') ||
             id.includes('node_modules/@lezer') ||

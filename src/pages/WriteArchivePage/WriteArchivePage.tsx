@@ -22,7 +22,7 @@ const stepReducer = (state: StepState, action: StepAction, isEdit: boolean): Ste
   }
 };
 
-export const WriteArchivePage = () => {
+export default function WriteArchivePage() {
   const [searchParams] = useSearchParams();
   const isEdit = searchParams.get('edit') === 'true';
   const { color, setColor } = useArchiveStore();
@@ -87,4 +87,4 @@ export const WriteArchivePage = () => {
   const { guide, children } = getGuideAndChildren();
 
   return <WriteArchiveContainer children={children} guide={guide} />;
-};
+}

@@ -15,7 +15,7 @@ import { customConfirm } from '@/shared/ui';
 import { Button } from '@/shared/ui';
 import { WriteGatheringOpts, WriteGatheringDetail } from '@/widgets';
 
-export const WriteGatheringPage = () => {
+export default function WriteGatheringPage() {
   const { gatheringId } = useParams(); // URL에서 gatheringId 가져오기
   const isEdit = !!gatheringId;
 
@@ -118,4 +118,4 @@ export const WriteGatheringPage = () => {
       </div>
     </FormProvider>
   );
-};
+}

@@ -45,7 +45,7 @@ const mapSubItemToSubject: Record<string, string> = {
   etc: '기타',
 };
 
-export const GatheringListPage = () => {
+export default function GatheringListPage() {
   const [isMobile, setIsMobile] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [initialFilterState, setInitialFilterState] = useState<Partial<FilterState>>({});
@@ -210,4 +210,4 @@ export const GatheringListPage = () => {
       </div>
     </div>
   );
-};
+}

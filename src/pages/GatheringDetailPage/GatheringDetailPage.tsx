@@ -23,7 +23,7 @@ const MarkdownLoadingFallback = () => (
   </div>
 );
 
-export const GatheringDetailPage = () => {
+export default function GatheringDetailPage() {
   const { gatheringId } = useParams();
   const { data, isLoading, isError } = useGatheringDetail(gatheringId!);
 
@@ -83,7 +83,6 @@ export const GatheringDetailPage = () => {
         <article className={styles.content}>
           {/* 마크다운 컴포넌트 지연 로딩 */}
           <Suspense fallback={<MarkdownLoadingFallback />}>
-
             <MarkdownPreview markdownText={gatheringDetail.content} />
           </Suspense>
         </article>
@@ -101,4 +100,4 @@ export const GatheringDetailPage = () => {
       </div>
     </div>
   );
-};
+}

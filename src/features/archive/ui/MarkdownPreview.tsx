@@ -28,3 +28,5 @@ export const MarkdownPreview = ({ markdownText }: MarkdownPreviewProps) => {
     />
   );
 };
+
+export default MarkdownPreview;

@@ -24,3 +24,27 @@
   align-items: center;
   width: 100%;
 }
+
+.markdownLoading {
+  padding: 1rem;
+
+  .shimmer {
+    height: 1rem;
+    margin: 0.5rem 0;
+    background: #f0f0f0;
+    background: linear-gradient(to right, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+    background-size: 1000px 100%;
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite linear;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}

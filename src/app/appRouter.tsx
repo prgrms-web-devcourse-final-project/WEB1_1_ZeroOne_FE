@@ -1,47 +1,49 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { MainPage, PortfolioListPage, ArchiveListPage } from '@/pages';
+// import { ArchiveListPage } from '@/pages/ArchiveListPage/ArchiveListPage';
+import { MainPage } from '@/pages/MainPage/MainPage';
+import { PortfolioListPage } from '@/pages/PortfolioListPage/PortfolioListPage';
 import { Layout } from '@/widgets';
 
-// 1. 핵심 페이지는 즉시 로드 (초기 번들에 포함)
+// 아카이브 관련 페이지 - 단순화된 지연 로딩
+const ArchiveListPage = lazy(() => import('@/pages/ArchiveListPage/ArchiveListPage'));
+const DetailArchivePage = lazy(() => import('@/pages/DetailArchivePage/DetailArchivePage'));
+const WriteArchivePage = lazy(() => import('@/pages/WriteArchivePage/WriteArchivePage'));
 
-// 2. 지연 로딩 페이지 컴포넌트
-// 네임드 익스포트를 처리하기 위한 방식 사용
-const DetailArchivePage = lazy(() =>
-  import('@/pages').then(module => ({ default: module.DetailArchivePage })),
+// 게더링 관련 페이지 - 단순화된 지연 로딩
+const GatheringListPage = lazy(() => import('@/pages/GatheringListPage/GatheringListPage'));
+const GatheringDetailPage = lazy(() => import('@/pages/GatheringDetailPage/GatheringDetailPage'));
+const WriteGatheringPage = lazy(() => import('@/pages/WriteGatheringPage/WriteGatheringPage'));
+
+const SearchPage = lazy(() =>
+  import('@/pages/SearchPage/SearchPage').then(module => ({
+    default: module.SearchPage,
+  })),
 );
-
-const WriteArchivePage = lazy(() =>
-  import('@/pages').then(module => ({ default: module.WriteArchivePage })),
-);
-
-const GatheringListPage = lazy(() =>
-  import('@/pages').then(module => ({ default: module.GatheringListPage })),
-);
-
-const GatheringDetailPage = lazy(() =>
-  import('@/pages').then(module => ({ default: module.GatheringDetailPage })),
-);
-
-const WriteGatheringPage = lazy(() =>
-  import('@/pages').then(module => ({ default: module.WriteGatheringPage })),
-);
-
-const SearchPage = lazy(() => import('@/pages').then(module => ({ default: module.SearchPage })));
 
 const UserPageWrapper = lazy(() =>
-  import('@/pages').then(module => ({ default: module.UserPageWrapper })),
+  import('@/pages/UserPage/UserPage').then(module => ({
+    default: module.UserPageWrapper,
+  })),
 );
 
-const MyPage = lazy(() => import('@/pages').then(module => ({ default: module.MyPage })));
+const MyPage = lazy(() =>
+  import('@/pages/MyPage/MyPage').then(module => ({
+    default: module.MyPage,
+  })),
+);
 
 const LikeListPage = lazy(() =>
-  import('@/pages').then(module => ({ default: module.LikeListPage })),
+  import('@/pages/LikeListPage/LikeListPage').then(module => ({
+    default: module.LikeListPage,
+  })),
 );
 
 const RegisterPage = lazy(() =>
-  import('@/pages').then(module => ({ default: module.RegisterPage })),
+  import('@/pages/RegisterPage/RegisterPage').then(module => ({
+    default: module.RegisterPage,
+  })),
 );
 
 // 네임드 익스포트 처리
@@ -50,6 +52,9 @@ const LoginLoading = lazy(() =>
     default: module.LoginLoading,
   })),
 );
+
+// 로딩 중 표시할 컴포넌트
+const LoadingFallback = () => <div>로딩중...</div>;
 
 const AppRouter = () => {
   return createBrowserRouter([
@@ -73,57 +78,105 @@ const AppRouter = () => {
         // Archive 관련 페이지 - 지연 로드
         {
           path: '/archive/write',
-          element: <WriteArchivePage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <WriteArchivePage />
+            </Suspense>
+          ),
         },
         {
           path: '/archive/:archiveId',
-          element: <DetailArchivePage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <DetailArchivePage />
+            </Suspense>
+          ),
         },
 
         // Gathering 관련 페이지 - 지연 로드
         {
           path: '/gathering',
-          element: <GatheringListPage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <GatheringListPage />
+            </Suspense>
+          ),
         },
         {
           path: '/gathering/write',
-          element: <WriteGatheringPage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <WriteGatheringPage />
+            </Suspense>
+          ),
         },
         {
           path: '/gathering/edit/:gatheringId',
-          element: <WriteGatheringPage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <WriteGatheringPage />
+            </Suspense>
+          ),
         },
         {
           path: '/gathering/:gatheringId',
-          element: <GatheringDetailPage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <GatheringDetailPage />
+            </Suspense>
+          ),
         },
 
         // 기타 기능 페이지 - 지연 로드
         {
           path: '/search',
-          element: <SearchPage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <SearchPage />
+            </Suspense>
+          ),
         },
 
         // 사용자 관련 페이지 - 지연 로드
         {
           path: '/user/:userId',
-          element: <UserPageWrapper />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <UserPageWrapper />
+            </Suspense>
+          ),
         },
         {
           path: '/register',
-          element: <RegisterPage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <RegisterPage />
+            </Suspense>
+          ),
         },
         {
           path: '/my/*',
-          element: <MyPage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <MyPage />
+            </Suspense>
+          ),
         },
         {
           path: '/like',
-          element: <LikeListPage />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <LikeListPage />
+            </Suspense>
+          ),
         },
         {
           path: '/login',
-          element: <LoginLoading />,
+          element: (
+            <Suspense fallback={<LoadingFallback />}>
+              <LoginLoading />
+            </Suspense>
+          ),
         },
       ],
     },
