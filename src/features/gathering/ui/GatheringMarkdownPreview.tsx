@@ -7,6 +7,10 @@ import { marked } from '@/shared/lib/mark';
 interface MarkdownPreviewProps {
   markdownText: string;
 }
+
+
+
+
 export const GatheringMarkdownPreview = ({ markdownText }: MarkdownPreviewProps) => {
   const [htmlContent, setHtmlContent] = useState('');
   {console.log('마크다운 컴포넌트 청크 로드 시작')}
