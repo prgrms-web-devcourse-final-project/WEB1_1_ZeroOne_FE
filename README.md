@@ -144,4 +144,3 @@ https://www.palette.site/
   </tr>
 </table>
 
-## 🖼️ 
