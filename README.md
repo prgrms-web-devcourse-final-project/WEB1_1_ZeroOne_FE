@@ -34,6 +34,14 @@ https://www.palette.site/
 **팔레트**는 유저가 포트폴리오를 외부 링크로 연결해 유저의 작업물을 공유할 수 있도록 하며, 협업과 네트워킹에도 최적화된 플랫폼입니다. 아카이브 기능을 통해 다른 사용자들의 이야기를 탐색하고, 게더링 기능을 통해 팀원을 모집하거나 프로젝트에 참여할 수 있습니다. 이러한 기능을 통해 팔레트는 자기계발을 시작하는 사람들이 혼자가 아닌 타인과 함께 성장할 수 있는 환경을 제공하고자 합니다. <br><br>
 **팔레트**에서 자신의 경험을 공유하고, 팔레트의 색상을 채워주세요!
 
+<table align="center">
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/9e84cb48-9942-4e3d-b818-c6583974c37b" width="300" ></td>
+    <td><img src="https://github.com/user-attachments/assets/6c8cf2c8-4ce8-41fb-a43e-4d7b8adc47c1" width="300" ></td>
+    <td><img src="https://github.com/user-attachments/assets/1001b619-706d-4da9-a80e-335c81122500" width="300"  ></td>
+  </tr>
+</table>
+
 <br>
  
 <!-- TOC --><a name="--1"></a>
@@ -61,6 +69,8 @@ https://www.palette.site/
 <br>
 
 <!-- TOC --><a name="--8"></a>
+
+
 
 ## ⚙️ 기술 스택
 
@@ -133,3 +143,5 @@ https://www.palette.site/
     <td>Frontend</td>
   </tr>
 </table>
+
+## 🖼️ 
