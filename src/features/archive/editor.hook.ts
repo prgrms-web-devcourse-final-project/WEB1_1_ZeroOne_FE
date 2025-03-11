@@ -37,23 +37,46 @@ export const useMarkdown = ({
 
       const { from, to } = editorView.state.selection.main;
       const selectedText = editorView.state.sliceDoc(from, to);
+      const symbolFrom = from - symbol.length;
+      const symbolTo = to + symbol.length;
 
       if (wrap) {
-        const hasExist = selectedText.startsWith(symbol) && selectedText.endsWith(symbol);
+        const hasExist =
+          editorView.state.sliceDoc(symbolFrom, from) === symbol &&
+          editorView.state.sliceDoc(to, symbolTo) === symbol;
+        const selectionHasExist = selectedText.startsWith(symbol) && selectedText.endsWith(symbol);
+        let insertText = '';
+        let selectionFrom = from;
+        let selectionTo = from;
 
-        editorView.dispatch({
-          changes: {
-            from,
-            to,
-            insert: hasExist
-              ? selectedText.slice(symbol.length, selectedText.length - symbol.length)
-              : `${symbol}${selectedText}${symbol}`,
-          },
-          selection: EditorSelection.range(
-            from + (hasExist ? -symbol.length : symbol.length),
-            to + (hasExist ? -symbol.length : symbol.length),
-          ),
-        });
+        if (hasExist) {
+          // 심볼 제거
+          insertText = selectedText;
+
+          editorView.dispatch({
+            changes: { from: symbolFrom, to: symbolTo, insert: insertText },
+            selection: EditorSelection.range(symbolFrom, symbolFrom + insertText.length),
+          });
+        } else if (selectionHasExist) {
+          // 심볼 제거 (selection이 symbol 포함)
+          insertText = selectedText.slice(symbol.length, selectedText.length - symbol.length);
+          selectionTo = from + insertText.length;
+
+          editorView.dispatch({
+            changes: { from, to, insert: insertText },
+            selection: EditorSelection.range(selectionFrom, selectionTo),
+          });
+        } else {
+          // 심볼 추가
+          insertText = `${symbol}${selectedText}${symbol}`;
+          selectionFrom = from + symbol.length;
+          selectionTo = selectionFrom + selectedText.length;
+
+          editorView.dispatch({
+            changes: { from, to, insert: insertText },
+            selection: EditorSelection.range(selectionFrom, selectionTo),
+          });
+        }
       } else if (symbol === '```') {
         editorView.dispatch({
           changes: {
@@ -61,13 +84,29 @@ export const useMarkdown = ({
             to,
             insert: `\`\`\`\n${selectedText}\n\`\`\``,
           },
-          selection: EditorSelection.cursor(to + 4),
+          selection: EditorSelection.cursor(from + 3),
         });
       } else {
-        editorView.dispatch({
-          changes: { from, to, insert: `${symbol}${selectedText}` },
-          selection: EditorSelection.cursor(to + symbol.length),
-        });
+        const selectionHasExist = selectedText.startsWith(symbol);
+        const hasExist = editorView.state.sliceDoc(symbolFrom, from) === symbol;
+
+        if (hasExist) {
+          editorView.dispatch({
+            changes: { from: symbolFrom, to, insert: selectedText },
+            selection: EditorSelection.range(symbolFrom, symbolFrom + selectedText.length),
+          });
+        } else if (selectionHasExist) {
+          const innerText = selectedText.slice(symbol.length);
+          editorView.dispatch({
+            changes: { from, to, insert: innerText },
+            selection: EditorSelection.range(from, from + innerText.length),
+          });
+        } else {
+          editorView.dispatch({
+            changes: { from, to, insert: `${symbol}${selectedText}` },
+            selection: EditorSelection.range(from + symbol.length, to + symbol.length),
+          });
+        }
       }
     },
     [editorViewRef],
